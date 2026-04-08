@@ -1,0 +1,15 @@
+:root {
+  --surble-background: var(--surble-palette-crust);
+  --surble-surface: var(--surble-palette-base);
+  --surble-surface-strong: var(--surble-palette-surface0);
+  --surble-text: var(--surble-palette-text);
+  --surble-text-muted: var(--surble-palette-subtext0);
+  --surble-muted: var(--surble-text-muted);
+  --surble-border: rgb(108 112 134 / 0.45);
+  --surble-border-strong: rgb(127 132 156 / 0.75);
+  --surble-accent: var(--surble-palette-blue);
+  --surble-focus-ring: var(--surble-palette-green);
+  --surble-link: var(--surble-palette-blue);
+  --surble-link-hover: var(--surble-palette-sky);
+  --surble-selection: rgb(137 180 250 / 0.22);
+}

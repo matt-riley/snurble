@@ -10,6 +10,10 @@
     "**/*.css"
   ],
   "exports": {
-    ".": "./src/index.css"
+    ".": "./src/index.css",
+    "./palette.css": "./src/palette.css",
+    "./semantic.css": "./src/semantic.css",
+    "./typography.json": "./src/typography.json",
+    "./spacing.json": "./src/spacing.json"
   }
 }

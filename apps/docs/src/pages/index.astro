@@ -1,62 +1,208 @@
 ---
-import { workspaceBaseline } from "@matt-riley/ui-astro";
+import spacing from "@matt-riley/design-tokens/spacing.json";
+import typography from "@matt-riley/design-tokens/typography.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const checkpoints = [
-  "pnpm workspace baseline",
-  "Astro 6 docs app",
-  "Tailwind 4 styling path",
-  "Public package exports",
-  "Root validation contract",
-  "Reusable CI entrypoint"
+const semanticSurfaces = [
+  {
+    name: "Background",
+    token: "--surble-background",
+    note: "Application canvas and the darkest shell surfaces.",
+  },
+  {
+    name: "Surface",
+    token: "--surble-surface",
+    note: "Default card and panel background for primary content.",
+  },
+  {
+    name: "Surface strong",
+    token: "--surble-surface-strong",
+    note: "Raised containers and stronger visual grouping.",
+  },
 ];
+
+const paletteHighlights = [
+  { name: "Accent", token: "--surble-accent" },
+  { name: "Focus ring", token: "--surble-focus-ring" },
+  { name: "Link hover", token: "--surble-link-hover" },
+];
+
+const typographyEntries = Object.entries(typography.styles);
+const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<BaseLayout title="Surble workspace baseline">
-  <main class="mx-auto flex min-h-screen max-w-4xl flex-col gap-8 px-6 py-16">
+<BaseLayout
+  title="Surble token layer"
+  description="Stage 02 token contract showcase for the Surble design system."
+>
+  <main class="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-16">
     <section class="space-y-4">
       <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-        Surble Stage 01
+        Surble Stage 02
       </p>
       <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">
-        Workspace baseline is live.
+        Token layer is live.
       </h1>
       <p class="max-w-2xl text-lg text-[var(--surble-muted)]">
-        This docs app resolves workspace packages through their public entrypoints, proving the repo is ready for token and component stages.
+        The default <code class="rounded bg-black/20 px-2 py-1 text-sm">@matt-riley/design-tokens</code>
+        import now delivers the Mocha-derived Surble foundation with palette, semantics, shared typography defaults,
+        and focus treatment. Typography and spacing metadata stay available through the public JSON exports.
       </p>
     </section>
 
-    <section class="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 sm:grid-cols-[2fr,1fr]">
-      <div class="space-y-3">
-        <h2 class="text-xl font-semibold">UI package placeholder</h2>
-        <p class="text-sm text-[var(--surble-muted)]">
-          <span class="font-medium text-[var(--surble-text)]">{workspaceBaseline.packageName}</span>
-          exports a real typed surface now and will grow into the component package in later stages.
+    <section class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
+      <article
+        class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
+        style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
+      >
+        <h2 class="text-2xl font-semibold">Public contract</h2>
+        <p class="text-sm text-[var(--surble-text-muted)]">
+          First-use adoption stays on the default stylesheet import. Subpath exports exist for metadata and narrow
+          contract checks.
         </p>
-      </div>
-      <dl class="space-y-2 text-sm">
-        <div>
-          <dt class="text-[var(--surble-muted)]">Status</dt>
-          <dd class="font-medium text-[var(--surble-text)]">{workspaceBaseline.status}</dd>
+        <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
+          <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+            <code class="font-medium text-[var(--surble-text)]">@matt-riley/design-tokens</code>
+            <p class="mt-2">Batteries-included stylesheet with palette, semantic aliases, spacing, and focus rules.</p>
+          </li>
+          <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+            <code class="font-medium text-[var(--surble-text)]">@matt-riley/design-tokens/palette.css</code>
+            <p class="mt-2">Raw Surble-owned palette values derived from the reference Mocha theme.</p>
+          </li>
+          <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+            <code class="font-medium text-[var(--surble-text)]">@matt-riley/design-tokens/semantic.css</code>
+            <p class="mt-2">Stable semantic aliases for surfaces, text, borders, links, selection, and focus.</p>
+          </li>
+          <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+            <code class="font-medium text-[var(--surble-text)]">typography.json + spacing.json</code>
+            <p class="mt-2">Docs and tooling metadata mirrors for the same public token scales.</p>
+          </li>
+        </ul>
+      </article>
+
+      <article
+        class="space-y-4 rounded-3xl border p-6"
+        style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
+      >
+        <h2 class="text-2xl font-semibold">Palette highlights</h2>
+        <div class="grid gap-3">
+          {
+            paletteHighlights.map((highlight) => (
+              <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                <div class="mb-3 h-12 rounded-xl" style={`background: var(${highlight.token});`}></div>
+                <div class="flex items-center justify-between gap-3">
+                  <span class="font-medium">{highlight.name}</span>
+                  <code class="text-xs text-[var(--surble-text-muted)]">{highlight.token}</code>
+                </div>
+              </div>
+            ))
+          }
         </div>
-        <div>
-          <dt class="text-[var(--surble-muted)]">Next stage</dt>
-          <dd class="font-medium text-[var(--surble-text)]">{workspaceBaseline.nextStage}</dd>
-        </div>
-      </dl>
+      </article>
     </section>
 
     <section class="space-y-4">
-      <h2 class="text-2xl font-semibold">Baseline checkpoints</h2>
-      <ul class="grid gap-3 sm:grid-cols-2">
+      <h2 class="text-2xl font-semibold">Semantic surfaces</h2>
+      <div class="grid gap-4 lg:grid-cols-3">
         {
-          checkpoints.map((checkpoint) => (
-            <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-[var(--surble-muted)]">
-              {checkpoint}
-            </li>
+          semanticSurfaces.map((surface) => (
+            <article
+              class="rounded-3xl border p-5"
+              style={`background: var(${surface.token}); border-color: var(--surble-border);`}
+            >
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--surble-text-muted)]">
+                {surface.name}
+              </p>
+              <p class="mt-3 text-sm text-[var(--surble-text-muted)]">{surface.note}</p>
+              <code class="mt-4 inline-flex rounded-full bg-black/25 px-3 py-1 text-xs text-[var(--surble-text)]">
+                {surface.token}
+              </code>
+            </article>
           ))
         }
-      </ul>
+      </div>
+    </section>
+
+    <section class="grid gap-4 lg:grid-cols-2">
+      <article
+        class="space-y-4 rounded-3xl border p-6"
+        style="background: rgb(30 30 46 / 0.84); border-color: var(--surble-border);"
+      >
+        <h2 class="text-2xl font-semibold">Typography scale</h2>
+        <div class="grid gap-4">
+          {
+            typographyEntries.map(([name, style]) => (
+              <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--surble-text-muted)]">
+                    {name}
+                  </span>
+                  <code class="text-xs text-[var(--surble-text-muted)]">{style.size}</code>
+                </div>
+                <p
+                  class="mt-3"
+                  style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
+                >
+                  Surble carries bold night-sky contrast without losing readability.
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article
+        class="space-y-4 rounded-3xl border p-6"
+        style="background: rgb(24 24 37 / 0.92); border-color: var(--surble-border);"
+      >
+        <h2 class="text-2xl font-semibold">Spacing scale</h2>
+        <div class="grid gap-3">
+          {
+            spacingEntries.map(([step, value]) => (
+              <div class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                <div class="flex items-center gap-4">
+                  <code class="min-w-14 text-xs text-[var(--surble-text-muted)]">{step}</code>
+                  <div
+                    class="h-3 rounded-full bg-[var(--surble-accent)]"
+                    style={`width: ${value}; min-width: ${value};`}
+                  ></div>
+                  <span class="text-sm text-[var(--surble-text-muted)]">{value}</span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+    </section>
+
+    <section
+      class="space-y-4 rounded-3xl border p-6"
+      style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
+    >
+      <h2 class="text-2xl font-semibold">Focus treatment</h2>
+      <p class="max-w-2xl text-sm text-[var(--surble-text-muted)]">
+        The shared token entrypoint exports a generic focus-visible rule so interactive elements stay legible without
+        bringing docs-only helper classes along for the ride.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <button
+          type="button"
+          class="rounded-full border px-5 py-3 font-medium"
+          style="border-color: var(--surble-border-strong); background: var(--surble-surface-strong);"
+        >
+          Tab to focus me
+        </button>
+        <a
+          href="#focus-note"
+          class="inline-flex items-center rounded-full border px-5 py-3 font-medium"
+          style="border-color: var(--surble-border-strong); background: var(--surble-surface);"
+        >
+          Then focus this link
+        </a>
+      </div>
+      <p id="focus-note" class="text-sm text-[var(--surble-text-muted)]">
+        The green ring comes from <code class="text-[var(--surble-text)]">--surble-focus-ring</code>.
+      </p>
     </section>
   </main>
 </BaseLayout>

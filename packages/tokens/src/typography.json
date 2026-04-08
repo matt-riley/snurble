@@ -1,0 +1,33 @@
+{
+  "families": {
+    "display": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
+    "body": "\"Montserrat\", \"Segoe UI\", sans-serif",
+    "code": "\"IBM Plex Mono\", \"SFMono-Regular\", monospace"
+  },
+  "styles": {
+    "display": {
+      "fontFamily": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
+      "size": "3rem",
+      "lineHeight": "1",
+      "weight": "400"
+    },
+    "title": {
+      "fontFamily": "\"Montserrat\", \"Segoe UI\", sans-serif",
+      "size": "1.5rem",
+      "lineHeight": "1.2",
+      "weight": "700"
+    },
+    "body": {
+      "fontFamily": "\"Montserrat\", \"Segoe UI\", sans-serif",
+      "size": "1rem",
+      "lineHeight": "1.6",
+      "weight": "400"
+    },
+    "code": {
+      "fontFamily": "\"IBM Plex Mono\", \"SFMono-Regular\", monospace",
+      "size": "0.95rem",
+      "lineHeight": "1.5",
+      "weight": "500"
+    }
+  }
+}

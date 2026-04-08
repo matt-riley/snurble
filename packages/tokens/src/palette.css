@@ -1,0 +1,29 @@
+:root {
+  color-scheme: dark;
+  --surble-palette-rosewater: #f5e0dc;
+  --surble-palette-flamingo: #f2cdcd;
+  --surble-palette-pink: #f5c2e7;
+  --surble-palette-mauve: #cba6f7;
+  --surble-palette-red: #f38ba8;
+  --surble-palette-maroon: #eba0ac;
+  --surble-palette-peach: #fab387;
+  --surble-palette-yellow: #f9e2af;
+  --surble-palette-green: #a6e3a1;
+  --surble-palette-teal: #94e2d5;
+  --surble-palette-sky: #89dceb;
+  --surble-palette-sapphire: #74c7ec;
+  --surble-palette-blue: #89b4fa;
+  --surble-palette-lavender: #b4befe;
+  --surble-palette-text: #cdd6f4;
+  --surble-palette-subtext1: #bac2de;
+  --surble-palette-subtext0: #a6adc8;
+  --surble-palette-overlay2: #9399b2;
+  --surble-palette-overlay1: #7f849c;
+  --surble-palette-overlay0: #6c7086;
+  --surble-palette-surface2: #585b70;
+  --surble-palette-surface1: #45475a;
+  --surble-palette-surface0: #313244;
+  --surble-palette-base: #1e1e2e;
+  --surble-palette-mantle: #181825;
+  --surble-palette-crust: #11111b;
+}

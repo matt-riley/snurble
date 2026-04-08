@@ -1,0 +1,9 @@
+:root {
+  color-scheme: dark;
+  --surble-background: #11111b;
+  --surble-surface: #1e1e2e;
+  --surble-surface-strong: #313244;
+  --surble-text: #cdd6f4;
+  --surble-muted: #a6adc8;
+  --surble-accent: #89b4fa;
+}

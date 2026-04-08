@@ -1,0 +1,19 @@
+{
+  "name": "@matt-riley/surble-docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@matt-riley/design-tokens": "workspace:*",
+    "@matt-riley/ui-astro": "workspace:*",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.1.5",
+    "tailwindcss": "^4.2.2"
+  }
+}

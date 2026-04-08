@@ -1,0 +1,62 @@
+---
+import { workspaceBaseline } from "@matt-riley/ui-astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const checkpoints = [
+  "pnpm workspace baseline",
+  "Astro 6 docs app",
+  "Tailwind 4 styling path",
+  "Public package exports",
+  "Root validation contract",
+  "Reusable CI entrypoint"
+];
+---
+
+<BaseLayout title="Surble workspace baseline">
+  <main class="mx-auto flex min-h-screen max-w-4xl flex-col gap-8 px-6 py-16">
+    <section class="space-y-4">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
+        Surble Stage 01
+      </p>
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">
+        Workspace baseline is live.
+      </h1>
+      <p class="max-w-2xl text-lg text-[var(--surble-muted)]">
+        This docs app resolves workspace packages through their public entrypoints, proving the repo is ready for token and component stages.
+      </p>
+    </section>
+
+    <section class="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 sm:grid-cols-[2fr,1fr]">
+      <div class="space-y-3">
+        <h2 class="text-xl font-semibold">UI package placeholder</h2>
+        <p class="text-sm text-[var(--surble-muted)]">
+          <span class="font-medium text-[var(--surble-text)]">{workspaceBaseline.packageName}</span>
+          exports a real typed surface now and will grow into the component package in later stages.
+        </p>
+      </div>
+      <dl class="space-y-2 text-sm">
+        <div>
+          <dt class="text-[var(--surble-muted)]">Status</dt>
+          <dd class="font-medium text-[var(--surble-text)]">{workspaceBaseline.status}</dd>
+        </div>
+        <div>
+          <dt class="text-[var(--surble-muted)]">Next stage</dt>
+          <dd class="font-medium text-[var(--surble-text)]">{workspaceBaseline.nextStage}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold">Baseline checkpoints</h2>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          checkpoints.map((checkpoint) => (
+            <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-[var(--surble-muted)]">
+              {checkpoint}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

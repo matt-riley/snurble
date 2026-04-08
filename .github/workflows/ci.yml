@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@main
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@v1
     with:
       node-version: "24"
       package-manager: pnpm
@@ -19,7 +19,7 @@ jobs:
       concurrency-suffix: validate
 
   typecheck:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@main
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@v1
     with:
       node-version: "24"
       package-manager: pnpm

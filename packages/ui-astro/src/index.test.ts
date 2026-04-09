@@ -15,6 +15,7 @@ describe("ui-astro package", () => {
 
     expect(indexTs).toContain('export { default as Layout } from "./Layout.astro";');
     expect(indexTs).toContain('export { default as PageShell } from "./PageShell.astro";');
+    expect(indexTs).toContain('export { default as Hero } from "./Hero.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -53,6 +54,21 @@ describe("ui-astro package", () => {
     expect(pageShellAstro).not.toContain("<main");
   });
 
+  it("implements a semantic Hero intro block with optional lede and trailing slot content", async () => {
+    const heroAstro = await readRepoFile("packages/ui-astro/src/Hero.astro");
+
+    expect(heroAstro).toContain("title: string;");
+    expect(heroAstro).toContain("lede?: string;");
+    expect(heroAstro).toContain("const { title, lede } = Astro.props;");
+    expect(heroAstro).toContain('<header class="surble-hero">');
+    expect(heroAstro).toContain('<h1 class="surble-hero__title">{title}</h1>');
+    expect(heroAstro).toContain('{lede && <p class="surble-hero__lede">{lede}</p>}');
+    expect(heroAstro).toContain("<slot />");
+    expect(heroAstro).toContain("max-width: 50rem;");
+    expect(heroAstro).not.toContain("class?: string;");
+    expect(heroAstro).not.toContain("eyebrow");
+  });
+
   it("adds the minimal Astro typing support for package exports", async () => {
     const envDts = await readRepoFile("packages/ui-astro/src/env.d.ts");
     const tsconfig = await readRepoFile("packages/ui-astro/tsconfig.json");
@@ -66,10 +82,17 @@ describe("ui-astro package", () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
-    expect(homepage).toContain('import { Layout, PageShell } from "@matt-riley/ui-astro";');
+    expect(homepage).toContain('import { Hero, Layout, PageShell } from "@matt-riley/ui-astro";');
     expect(homepage).toContain("<Layout");
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
+    expect(homepage).toContain("<Hero");
+    expect(homepage).toContain('title="Hero component is live."');
+    expect(homepage).toContain(
+      '<p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">',
+    );
+    expect(homepage).toContain('title="Detail-style hero"');
+    expect(homepage).toContain("Eyebrow stays outside Hero");
     expect(homepage).toContain('slot="head"');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");

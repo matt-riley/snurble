@@ -1,0 +1,54 @@
+---
+interface Props {
+  title: string;
+  lede?: string;
+}
+
+const { title, lede } = Astro.props;
+const hasSupportingContent = Astro.slots.has("default");
+---
+
+<header class="surble-hero">
+  <h1 class="surble-hero__title">{title}</h1>
+  {lede && <p class="surble-hero__lede">{lede}</p>}
+  {hasSupportingContent && (
+    <div class="surble-hero__supporting">
+      <slot />
+    </div>
+  )}
+</header>
+
+<style>
+  .surble-hero {
+    display: grid;
+    gap: var(--surble-space-3);
+    margin: 0 0 var(--surble-space-7);
+  }
+
+  .surble-hero__title {
+    margin: 0;
+    color: var(--surble-text);
+    font-family: var(--surble-font-display);
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+
+  .surble-hero__lede {
+    max-width: 50rem;
+    margin: 0;
+    color: var(--surble-text-muted);
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    line-height: 1.6;
+  }
+
+  .surble-hero__supporting {
+    display: grid;
+    gap: var(--surble-space-2);
+    color: var(--surble-text-muted);
+  }
+
+  .surble-hero__supporting :global(p) {
+    margin: 0;
+  }
+</style>

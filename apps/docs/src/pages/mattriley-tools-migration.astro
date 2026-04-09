@@ -1,0 +1,226 @@
+---
+import "../styles/global.css";
+import { CodeSnippet, DataTable, Hero, Layout, MetaList, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+const mappings = [
+  {
+    local: "src/layouts/Layout.astro + page-level <main>",
+    shared: "Layout + local wrapper",
+    notes:
+      "Compose Snurble Layout under a consumer-owned wrapper so title suffixes, favicons, head tags, app CSS, and <main> semantics stay local.",
+  },
+  {
+    local: "Homepage hero + section wrappers",
+    shared: "Hero + Section + PageShell + Stack",
+    notes:
+      "Keep the two catalog sections, their copy, and their independent sync timestamps while moving repeated shell and spacing structure into shared primitives.",
+  },
+  {
+    local: "Hand-written catalog tables",
+    shared: "DataTable",
+    notes:
+      "Preserve the tool table's four columns and the plugin table's three-column contract; keep the generated data source untouched.",
+  },
+  {
+    local: "Detail-page panels and grouped copy",
+    shared: "Panel + Stack + Section",
+    notes:
+      "Use shared surface and spacing primitives, but keep README rendering and route data flow in mattriley.tools.",
+  },
+  {
+    local: "Metadata dl + install command",
+    shared: "MetaList + CodeSnippet",
+    notes:
+      "Tool detail pages can move install content into shared snippet styling; plugin pages keep metadata + README only and still do not grow an install section.",
+  },
+  {
+    local: "global.css rules",
+    shared: "Selective handoff",
+    notes:
+      "Only shared shell/table/panel/meta/install chrome moves to Snurble; eyebrow rules, README markdown styling, and other site-specific CSS stay local for now.",
+  },
+];
+
+const wrapperExample = `---
+import { Layout } from "@matt-riley/ui-astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title === "mattriley.tools" ? title : \`\${title} | mattriley.tools\`;
+---
+
+<Layout title={pageTitle} description={description}>
+  <link slot="head" rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link slot="head" rel="icon" href="/favicon.ico" />
+  <main>
+    <slot />
+  </main>
+</Layout>`;
+
+const validationLoop = `pnpm --dir packages/tokens pack --pack-destination /tmp/snurble-stage12
+pnpm --dir packages/ui-astro pack --pack-destination /tmp/snurble-stage12
+
+# local-only smoke loop inside ../mattriley.tools
+pnpm add /tmp/snurble-stage12/matt-riley-design-tokens-0.0.0.tgz \
+  /tmp/snurble-stage12/matt-riley-ui-astro-0.0.0.tgz
+pnpm run lint && pnpm test && pnpm run build
+
+# do not commit any file refs or lockfile changes created for this loop`;
+---
+
+<Layout
+  title="mattriley.tools migration cookbook"
+  description="Stage 12 reference for moving mattriley.tools onto Snurble's shared package surface without losing consumer-owned behavior."
+>
+  <meta slot="head" name="theme-color" content="#11111b" />
+
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <section>
+        <Stack>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+            Snurble Stage 12
+          </p>
+          <Hero
+            title="mattriley.tools migration cookbook"
+            lede="This page documents the exact shared-component handoff for mattriley.tools, including the local-only validation boundary that stays in place until Stage 13 publishes consumer-ready versions."
+          />
+        </Stack>
+      </section>
+
+      <Section title="Stage 12 delivery boundary" headingId="delivery-boundary-heading">
+        <Panel>
+          <MetaList>
+            <dt>Mergeable now</dt>
+            <dd>Snurble package-contract changes plus this migration cookbook page.</dd>
+
+            <dt>Local-only validation proof</dt>
+            <dd>
+              A `mattriley.tools` migration branch can use packed tarballs or file refs to prove the
+              shared surface works, but those dependency refs and any related lockfile churn do not
+              get committed.
+            </dd>
+
+            <dt>Stage 13 handoff</dt>
+            <dd>
+              The remote consumer manifest switch waits for published or prerelease package
+              versions, then reruns the full consumer validation surface against those versions.
+            </dd>
+          </MetaList>
+        </Panel>
+      </Section>
+
+      <Section title="Component mapping" headingId="component-mapping-heading">
+        <Stack>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            The migration replaces repeated layout, shell, and presentation patterns while keeping
+            generated data, README rendering, and the consumer&apos;s document-shell obligations local.
+          </p>
+
+          <DataTable labelledBy="component-mapping-heading">
+            <Fragment slot="head">
+              <tr>
+                <th scope="col">Local structure</th>
+                <th scope="col">Snurble replacement</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </Fragment>
+
+            {
+              mappings.map((mapping) => (
+                <tr>
+                  <td>{mapping.local}</td>
+                  <td>{mapping.shared}</td>
+                  <td>{mapping.notes}</td>
+                </tr>
+              ))
+            }
+          </DataTable>
+        </Stack>
+      </Section>
+
+      <Section title="Wrapper layout pattern" headingId="wrapper-layout-heading">
+        <div class="grid gap-4 lg:grid-cols-[1fr,1.1fr]">
+          <article aria-labelledby="wrapper-layout-summary-heading">
+            <Panel>
+              <Stack>
+                <h3 id="wrapper-layout-summary-heading" class="text-xl font-semibold">
+                  Keep the consumer shell honest
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Shared <code>Layout</code> should own token import and document scaffolding, but
+                  <code>mattriley.tools</code> still needs a tiny local wrapper for title suffixes,
+                  favicons, remaining global CSS, and page-owned <code>&lt;main&gt;</code>.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  That wrapper is also the right place to preserve any head tags or app-level
+                  metadata that Snurble intentionally does not generalize yet.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="wrapper-layout-example-heading">
+            <Panel>
+              <Stack>
+                <h3 id="wrapper-layout-example-heading" class="text-xl font-semibold">
+                  Example wrapper
+                </h3>
+                <CodeSnippet variant="block" code={wrapperExample} />
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="CSS carve-out" headingId="css-carveout-heading">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <article aria-labelledby="css-moves-heading">
+            <Panel>
+              <Stack>
+                <h3 id="css-moves-heading" class="text-xl font-semibold">Moves to shared components</h3>
+                <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
+                  <li>page shell width and padding</li>
+                  <li>hero spacing and typography</li>
+                  <li>panel chrome and grouped spacing</li>
+                  <li>catalog table chrome and code-snippet treatment</li>
+                  <li>metadata list spacing and typography</li>
+                </ul>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="css-stays-heading">
+            <Panel>
+              <Stack>
+                <h3 id="css-stays-heading" class="text-xl font-semibold">Stays local for now</h3>
+                <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
+                  <li>README markdown styling and image/table glue</li>
+                  <li>eyebrow or source-of-truth copy styling that Snurble does not own</li>
+                  <li>favicon and site-specific head affordances</li>
+                  <li>any route-specific tweaks tied to generated content semantics</li>
+                </ul>
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Local validation loop" headingId="local-validation-loop-heading">
+        <Stack>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            Stage 12 is only honest once both Snurble packages can be packed together, installed
+            into a clean non-workspace consumer checkout, and validated end to end. That smoke loop
+            is intentionally local-only until Stage 13 supplies publishable versions.
+          </p>
+          <CodeSnippet variant="block" code={validationLoop} />
+        </Stack>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>

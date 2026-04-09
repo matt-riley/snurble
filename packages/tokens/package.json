@@ -1,7 +1,6 @@
 {
   "name": "@matt-riley/design-tokens",
   "version": "0.0.0",
-  "private": true,
   "files": [
     "src"
   ],
@@ -15,5 +14,8 @@
     "./semantic.css": "./src/semantic.css",
     "./typography.json": "./src/typography.json",
     "./spacing.json": "./src/spacing.json"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

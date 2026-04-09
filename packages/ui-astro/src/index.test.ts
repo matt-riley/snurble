@@ -23,7 +23,23 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as CodeSnippet } from "./CodeSnippet.astro";');
     expect(indexTs).toContain('export { default as Stack } from "./Stack.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
-    expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
+    expect(packageJson).toContain('"@matt-riley/design-tokens": "0.0.0"');
+    expect(packageJson).toContain('"astro": "^6.0.0"');
+    expect(packageJson).toContain('"access": "public"');
+    expect(packageJson).not.toContain('"private": true');
+  });
+
+  it("keeps both package manifests packable for external consumers", async () => {
+    const uiPackageJson = await readRepoFile("packages/ui-astro/package.json");
+    const tokenPackageJson = await readRepoFile("packages/tokens/package.json");
+
+    expect(uiPackageJson).toContain('"name": "@matt-riley/ui-astro"');
+    expect(uiPackageJson).toContain('"@matt-riley/design-tokens": "0.0.0"');
+    expect(uiPackageJson).toContain('"peerDependencies"');
+    expect(uiPackageJson).not.toContain('"workspace:*"');
+    expect(tokenPackageJson).toContain('"name": "@matt-riley/design-tokens"');
+    expect(tokenPackageJson).toContain('"access": "public"');
+    expect(tokenPackageJson).not.toContain('"private": true');
   });
 
   it("implements a minimal shared layout shell with package-owned token import", async () => {
@@ -250,5 +266,20 @@ describe("ui-astro package", () => {
     expect(homepage).not.toContain('<div class="space-y-4">');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");
+  });
+
+  it("adds a migration cookbook page for mattriley.tools", async () => {
+    const migrationPage = await readRepoFile("apps/docs/src/pages/mattriley-tools-migration.astro");
+
+    expect(migrationPage).toContain('import "../styles/global.css";');
+    expect(migrationPage).toContain(
+      'import { CodeSnippet, DataTable, Hero, Layout, MetaList, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";',
+    );
+    expect(migrationPage).toContain('title="mattriley.tools migration cookbook"');
+    expect(migrationPage).toContain("Stage 12 delivery boundary");
+    expect(migrationPage).toContain("Local-only validation proof");
+    expect(migrationPage).toContain("pack --pack-destination");
+    expect(migrationPage).toContain("do not commit");
+    expect(migrationPage).toContain("Component mapping");
   });
 });

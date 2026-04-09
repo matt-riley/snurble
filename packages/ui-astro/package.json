@@ -1,7 +1,6 @@
 {
   "name": "@matt-riley/ui-astro",
   "version": "0.0.0",
-  "private": true,
   "files": [
     "src"
   ],
@@ -9,7 +8,14 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "dependencies": {
-    "@matt-riley/design-tokens": "workspace:*"
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@matt-riley/design-tokens": "0.0.0"
+  },
+  "peerDependencies": {
+    "@matt-riley/design-tokens": "0.0.0",
+    "astro": "^6.0.0"
   }
 }

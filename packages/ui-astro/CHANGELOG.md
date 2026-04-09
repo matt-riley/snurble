@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.0.0...ui-astro-v1.0.1) (2026-04-09)
+
+
+### Bug Fixes
+
+* **release:** run publish from package dirs ([5002892](https://github.com/matt-riley/snurble/commit/50028929cdb526baf0738b9167d53eb1c98d9fb8))
+* **release:** support tag publish backfills ([69bae66](https://github.com/matt-riley/snurble/commit/69bae669742acd16fbd8b8054dbbdf5ab26735fb))
+
 ## 1.0.0 (2026-04-09)
 
 ### Features

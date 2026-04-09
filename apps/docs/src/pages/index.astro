@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Hero, Layout, MetaList, PageShell, Panel, Section } from "@matt-riley/ui-astro";
+import { CodeSnippet, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
@@ -26,69 +26,72 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Snurble MetaList component" description="Stage 09 meta list showcase for the Snurble design system.">
+<Layout
+  title="Snurble CodeSnippet component"
+  description="Stage 10 code snippet showcase for the Snurble design system."
+>
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-          Snurble Stage 09
+          Snurble Stage 10
         </p>
         <Hero
-          title="MetaList component is live."
-          lede="Shared metadata blocks now move semantic definition-list structure, shared spacing, and consistent term/value styling into a dedicated primitive while consumers still own the actual dt and dd markup."
+          title="CodeSnippet component is live."
+          lede="Shared install commands and longer code snippets now land in one narrow Astro primitive with explicit inline and block variants."
         />
       </section>
 
       <div class="space-y-4">
-        <h2 id="metalist-guidance-heading" class="text-2xl font-semibold">
-          MetaList guidance
+        <h2 id="codesnippet-guidance-heading" class="text-2xl font-semibold">
+          CodeSnippet guidance
         </h2>
-        <Section labelledBy="metalist-guidance-heading">
+        <Section labelledBy="codesnippet-guidance-heading">
           <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-            <article aria-labelledby="metalist-contract-heading">
+            <article aria-labelledby="codesnippet-contract-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="metalist-contract-heading" class="text-xl font-semibold">MetaList contract</h3>
+                  <h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>
                   <p class="text-sm text-[var(--snurble-text-muted)]">
-                    <code>MetaList</code> stays intentionally narrow: it owns the semantic <code>dl</code> wrapper and
-                    shared term/value treatment while consumers still author the actual <code>dt</code> and
-                    <code>dd</code> pairs.
+                    <code>CodeSnippet</code> keeps Stage 10 intentionally narrow: a required <code>variant</code> plus
+                    a required <code>code</code> string, with no slot API or styling escape hatches in v1.
                   </p>
                   <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)] sm:grid-cols-2">
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">default slot</code>
-                      <p class="mt-2">Consumers provide raw definition-list pairs instead of a row data schema.</p>
+                      <code class="font-medium text-[var(--snurble-text)]">explicit variant</code>
+                      <p class="mt-2">Consumers choose inline or block rendering directly instead of relying on inference.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">wrapper only</code>
-                      <p class="mt-2">Stage 09 keeps the API tiny: no formatter props, no item helper, no variants.</p>
+                      <code class="font-medium text-[var(--snurble-text)]">string content</code>
+                      <p class="mt-2">Validation checks for a non-empty string without rewriting the authored snippet.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">rich values</code>
-                      <p class="mt-2">Links, code, and stacked copy stay consumer-authored inside each value.</p>
+                      <code class="font-medium text-[var(--snurble-text)]">owned styling</code>
+                      <p class="mt-2">The component provides the pill and block chrome instead of delegating styling to the page.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">compose with Panel</code>
-                      <p class="mt-2">Panel keeps surface chrome external so the list primitive stays semantic.</p>
+                      <code class="font-medium text-[var(--snurble-text)]">v1 scope</code>
+                      <p class="mt-2">Stage 10 ships without syntax highlighting, copy controls, or language badges.</p>
                     </li>
                   </ul>
                 </div>
               </Panel>
             </article>
 
-            <article aria-labelledby="metalist-semantics-heading">
+            <article aria-labelledby="codesnippet-semantics-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="metalist-semantics-heading" class="text-xl font-semibold">Definition-list semantics</h3>
+                  <h3 id="codesnippet-semantics-heading" class="text-xl font-semibold">
+                    Rendering semantics
+                  </h3>
                   <p class="text-sm text-[var(--snurble-text-muted)]">
-                    Stage 09 follows the same wrapper-first boundary as <code>DataTable</code>, but for metadata
-                    instead of rows and columns. The primitive renders the <code>dl</code>; consumers keep ownership of
-                    each term and value pair.
+                    Inline snippets stay in sentence flow as a styled <code>code</code> element, while block snippets
+                    render as <code>pre</code> + <code>code</code> for preserved multiline content and horizontal overflow.
                   </p>
                   <p class="text-sm text-[var(--snurble-text-muted)]">
-                    The component does not require standalone accessible-name props in v1. In the intended usage, the
-                    surrounding <code>Section</code>, article, or nearby heading already labels the content block.
+                    Whitespace is preserved for authored block snippets, so install commands and configuration examples
+                    keep their intended indentation without widening the API.
                   </p>
                 </div>
               </Panel>
@@ -97,47 +100,40 @@ const spacingEntries = Object.entries(spacing.scale);
         </Section>
       </div>
 
-      <Section title="Examples" headingId="metalist-examples-heading">
+      <Section title="Examples" headingId="codesnippet-examples-heading">
         <div class="grid gap-4 xl:grid-cols-2">
-          <article aria-labelledby="metalist-text-heading">
+          <article aria-labelledby="codesnippet-inline-heading">
             <Panel>
               <div class="space-y-4">
-                <h3 id="metalist-text-heading" class="text-xl font-semibold">Text metadata example</h3>
+                <h3 id="codesnippet-inline-heading" class="text-xl font-semibold">Inline code example</h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  This first example shows the narrowest supported shape: plain text terms and values authored directly
-                  by the consumer.
+                  The inline variant is tuned for install commands and short snippets that need stronger visual emphasis
+                  without breaking sentence flow.
                 </p>
-                <MetaList>
-                  <dt>Runtime</dt>
-                  <dd>Astro component</dd>
-                  <dt>Ships from</dt>
-                  <dd>@matt-riley/ui-astro</dd>
-                  <dt>Best for</dt>
-                  <dd>Tool and plugin detail pages that repeat the same metadata structure.</dd>
-                </MetaList>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Install the package with <CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" /> and
+                  keep the surrounding prose readable.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Inline snippets keep the authored string intact while the component owns the shared pill treatment.
+                </p>
               </div>
             </Panel>
           </article>
 
-          <article aria-labelledby="metalist-rich-heading">
+          <article aria-labelledby="codesnippet-block-heading">
             <Panel>
               <div class="space-y-4">
-                <h3 id="metalist-rich-heading" class="text-xl font-semibold">Rich value example</h3>
+                <h3 id="codesnippet-block-heading" class="text-xl font-semibold">Block code example</h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Consumers can still use links, code, and multi-line value content without asking the primitive to
-                  understand those shapes.
+                  The block variant handles longer snippets and preserves multiline formatting, indentation, and overflow
+                  within the component boundary.
                 </p>
-                <MetaList>
-                  <dt>Docs</dt>
-                  <dd><a href="https://github.com/matt-riley/snurble">Open the snurble repository</a></dd>
-                  <dt>Install</dt>
-                  <dd><code>pnpm add @matt-riley/ui-astro</code></dd>
-                  <dt>Notes</dt>
-                  <dd>
-                    <p>MetaList keeps the term/value structure semantic while the app owns the copy itself.</p>
-                    <p>That keeps Stage 09 flexible without widening the public API.</p>
-                  </dd>
-                </MetaList>
+                <CodeSnippet variant="block" code={`pnpm add @matt-riley/ui-astro --filter ./apps/docs --workspace-root --save-exact --reporter append-only
+pnpm dlx astro sync --root ./apps/docs --config ./apps/docs/astro.config.mjs
+
+import { CodeSnippet } from "@matt-riley/ui-astro"`}
+                />
               </div>
             </Panel>
           </article>
@@ -161,13 +157,13 @@ const spacingEntries = Object.entries(spacing.scale);
           <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">Panel</p>
             <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns surface chrome and padding around the metadata examples.
+              Owns surface chrome and padding around the showcase examples.
             </p>
           </article>
           <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">MetaList</p>
+            <p class="font-medium">CodeSnippet</p>
             <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns semantic dl markup and shared term/value treatment only.
+              Owns the inline and block snippet markup, validation, and shared code styling contract.
             </p>
           </article>
         </div>

@@ -1,0 +1,62 @@
+---
+type Props = {
+  variant: "inline" | "block";
+  code: string;
+};
+
+const props: Props = Astro.props;
+const { variant, code } = props;
+const normalizedCode = typeof code === "string" ? code.trim() : "";
+
+if (!normalizedCode) {
+  throw new Error("CodeSnippet requires a non-empty `code` value.");
+}
+
+if (variant !== "inline" && variant !== "block") {
+  throw new Error("CodeSnippet requires `variant` to be `inline` or `block`.");
+}
+---
+
+{
+  variant === "inline" ? (
+    <code class="snurble-code-snippet snurble-code-snippet--inline">{code}</code>
+  ) : (
+    <pre class="snurble-code-snippet snurble-code-snippet--block"><code>{code}</code></pre>
+  )
+}
+
+<style>
+  .snurble-code-snippet {
+    font-family: var(--snurble-font-code);
+    font-size: var(--snurble-type-code-size);
+    line-height: var(--snurble-type-code-line-height);
+    color: var(--snurble-text);
+  }
+
+  .snurble-code-snippet--inline {
+    display: inline-flex;
+    max-width: 100%;
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    vertical-align: baseline;
+    overflow-x: auto;
+    border: 1px solid var(--snurble-border-strong);
+    border-radius: 999px;
+    background: var(--snurble-surface-strong);
+    white-space: nowrap;
+  }
+
+  .snurble-code-snippet--block {
+    margin: 0;
+    padding: var(--snurble-space-4);
+    overflow-x: auto;
+    border: 1px solid var(--snurble-border-strong);
+    border-radius: 1rem;
+    background: var(--snurble-surface-strong);
+  }
+
+  .snurble-code-snippet--block code {
+    display: block;
+    min-width: max-content;
+    white-space: pre;
+  }
+</style>

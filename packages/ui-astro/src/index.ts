@@ -5,3 +5,4 @@ export { default as Section } from "./Section.astro";
 export { default as Panel } from "./Panel.astro";
 export { default as DataTable } from "./DataTable.astro";
 export { default as MetaList } from "./MetaList.astro";
+export { default as CodeSnippet } from "./CodeSnippet.astro";

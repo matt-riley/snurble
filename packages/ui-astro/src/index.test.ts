@@ -20,6 +20,7 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as Panel } from "./Panel.astro";');
     expect(indexTs).toContain('export { default as DataTable } from "./DataTable.astro";');
     expect(indexTs).toContain('export { default as MetaList } from "./MetaList.astro";');
+    expect(indexTs).toContain('export { default as CodeSnippet } from "./CodeSnippet.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -160,6 +161,27 @@ describe("ui-astro package", () => {
     await expect(metaListAstro).resolves.not.toContain("ariaLabel");
   });
 
+  it("implements a narrow CodeSnippet primitive with explicit variant semantics and non-empty code validation", async () => {
+    const codeSnippetAstro = readRepoFile("packages/ui-astro/src/CodeSnippet.astro");
+
+    await expect(codeSnippetAstro).resolves.toContain('variant: "inline" | "block";');
+    await expect(codeSnippetAstro).resolves.toContain("code: string;");
+    await expect(codeSnippetAstro).resolves.toContain("const normalizedCode =");
+    await expect(codeSnippetAstro).resolves.toContain(
+      'throw new Error("CodeSnippet requires a non-empty `code` value.");',
+    );
+    await expect(codeSnippetAstro).resolves.toContain('variant === "inline"');
+    await expect(codeSnippetAstro).resolves.toContain("<code");
+    await expect(codeSnippetAstro).resolves.toContain("<pre");
+    await expect(codeSnippetAstro).resolves.toContain("<code>{code}</code>");
+    await expect(codeSnippetAstro).resolves.toContain("overflow-x: auto;");
+    await expect(codeSnippetAstro).resolves.toContain("white-space: pre;");
+    await expect(codeSnippetAstro).resolves.not.toContain("slot");
+    await expect(codeSnippetAstro).resolves.not.toContain("class?: string;");
+    await expect(codeSnippetAstro).resolves.not.toContain("language:");
+    await expect(codeSnippetAstro).resolves.not.toContain("copy");
+  });
+
   it("adds the minimal Astro typing support for package exports", async () => {
     const envDts = await readRepoFile("packages/ui-astro/src/env.d.ts");
     const tsconfig = await readRepoFile("packages/ui-astro/tsconfig.json");
@@ -168,39 +190,39 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("proves docs consume MetaList from the public package entrypoint", async () => {
+  it("proves docs consume CodeSnippet from the public package entrypoint", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain(
-      'import { Hero, Layout, MetaList, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
+      'import { CodeSnippet, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
     );
     expect(homepage).toContain("<Layout");
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain("<Hero");
-    expect(homepage).toContain('title="MetaList component is live."');
-    expect(homepage).toContain('id="metalist-guidance-heading"');
-    expect(homepage).toContain('<Section labelledBy="metalist-guidance-heading">');
-    expect(homepage).toContain('<article aria-labelledby="metalist-contract-heading">');
+    expect(homepage).toContain('title="CodeSnippet component is live."');
+    expect(homepage).toContain('id="codesnippet-guidance-heading"');
+    expect(homepage).toContain('<Section labelledBy="codesnippet-guidance-heading">');
+    expect(homepage).toContain('<article aria-labelledby="codesnippet-contract-heading">');
     expect(homepage).toContain(
-      '<h3 id="metalist-contract-heading" class="text-xl font-semibold">MetaList contract</h3>',
+      '<h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>',
     );
     expect(homepage).toContain("<Panel>");
     expect(homepage).toContain(
-      '<h3 id="metalist-text-heading" class="text-xl font-semibold">Text metadata example</h3>',
+      '<h3 id="codesnippet-inline-heading" class="text-xl font-semibold">Inline code example</h3>',
     );
-    expect(homepage).toContain("<MetaList>");
-    expect(homepage).toContain("<dt>Runtime</dt>");
-    expect(homepage).toContain("<dd>Astro component</dd>");
-    expect(homepage).toContain('<article aria-labelledby="metalist-rich-heading">');
     expect(homepage).toContain(
-      '<h3 id="metalist-rich-heading" class="text-xl font-semibold">Rich value example</h3>',
+      '<CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" />',
     );
-    expect(homepage).toContain("<a");
-    expect(homepage).toContain("<code>");
-    expect(homepage).toContain("Definition-list semantics");
+    expect(homepage).toContain('<article aria-labelledby="codesnippet-block-heading">');
+    expect(homepage).toContain(
+      '<h3 id="codesnippet-block-heading" class="text-xl font-semibold">Block code example</h3>',
+    );
+    expect(homepage).toContain('<CodeSnippet variant="block"');
+    expect(homepage).toContain("--reporter append-only");
+    expect(homepage).toContain("Whitespace is preserved for authored block snippets");
     expect(homepage).toContain("Composition boundaries");
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");

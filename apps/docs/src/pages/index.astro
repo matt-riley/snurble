@@ -7,17 +7,17 @@ import typography from "@matt-riley/design-tokens/typography.json";
 const semanticSurfaces = [
   {
     name: "Background",
-    token: "--surble-background",
+    token: "--snurble-background",
     note: "Application canvas and the darkest shell surfaces.",
   },
   {
     name: "Surface",
-    token: "--surble-surface",
+    token: "--snurble-surface",
     note: "Default card and panel background for primary content.",
   },
   {
     name: "Surface strong",
-    token: "--surble-surface-strong",
+    token: "--snurble-surface-strong",
     note: "Raised containers and stronger visual grouping.",
   },
 ];
@@ -26,13 +26,13 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble MetaList component" description="Stage 09 meta list showcase for the Surble design system.">
+<Layout title="Snurble MetaList component" description="Stage 09 meta list showcase for the Snurble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
-        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-          Surble Stage 09
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+          Snurble Stage 09
         </p>
         <Hero
           title="MetaList component is live."
@@ -50,26 +50,26 @@ const spacingEntries = Object.entries(spacing.scale);
               <Panel>
                 <div class="space-y-4">
                   <h3 id="metalist-contract-heading" class="text-xl font-semibold">MetaList contract</h3>
-                  <p class="text-sm text-[var(--surble-text-muted)]">
+                  <p class="text-sm text-[var(--snurble-text-muted)]">
                     <code>MetaList</code> stays intentionally narrow: it owns the semantic <code>dl</code> wrapper and
                     shared term/value treatment while consumers still author the actual <code>dt</code> and
                     <code>dd</code> pairs.
                   </p>
-                  <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">default slot</code>
+                  <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)] sm:grid-cols-2">
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                      <code class="font-medium text-[var(--snurble-text)]">default slot</code>
                       <p class="mt-2">Consumers provide raw definition-list pairs instead of a row data schema.</p>
                     </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">wrapper only</code>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                      <code class="font-medium text-[var(--snurble-text)]">wrapper only</code>
                       <p class="mt-2">Stage 09 keeps the API tiny: no formatter props, no item helper, no variants.</p>
                     </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">rich values</code>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                      <code class="font-medium text-[var(--snurble-text)]">rich values</code>
                       <p class="mt-2">Links, code, and stacked copy stay consumer-authored inside each value.</p>
                     </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">compose with Panel</code>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                      <code class="font-medium text-[var(--snurble-text)]">compose with Panel</code>
                       <p class="mt-2">Panel keeps surface chrome external so the list primitive stays semantic.</p>
                     </li>
                   </ul>
@@ -81,12 +81,12 @@ const spacingEntries = Object.entries(spacing.scale);
               <Panel>
                 <div class="space-y-4">
                   <h3 id="metalist-semantics-heading" class="text-xl font-semibold">Definition-list semantics</h3>
-                  <p class="text-sm text-[var(--surble-text-muted)]">
+                  <p class="text-sm text-[var(--snurble-text-muted)]">
                     Stage 09 follows the same wrapper-first boundary as <code>DataTable</code>, but for metadata
                     instead of rows and columns. The primitive renders the <code>dl</code>; consumers keep ownership of
                     each term and value pair.
                   </p>
-                  <p class="text-sm text-[var(--surble-text-muted)]">
+                  <p class="text-sm text-[var(--snurble-text-muted)]">
                     The component does not require standalone accessible-name props in v1. In the intended usage, the
                     surrounding <code>Section</code>, article, or nearby heading already labels the content block.
                   </p>
@@ -103,7 +103,7 @@ const spacingEntries = Object.entries(spacing.scale);
             <Panel>
               <div class="space-y-4">
                 <h3 id="metalist-text-heading" class="text-xl font-semibold">Text metadata example</h3>
-                <p class="text-sm text-[var(--surble-text-muted)]">
+                <p class="text-sm text-[var(--snurble-text-muted)]">
                   This first example shows the narrowest supported shape: plain text terms and values authored directly
                   by the consumer.
                 </p>
@@ -123,7 +123,7 @@ const spacingEntries = Object.entries(spacing.scale);
             <Panel>
               <div class="space-y-4">
                 <h3 id="metalist-rich-heading" class="text-xl font-semibold">Rich value example</h3>
-                <p class="text-sm text-[var(--surble-text-muted)]">
+                <p class="text-sm text-[var(--snurble-text-muted)]">
                   Consumers can still use links, code, and multi-line value content without asking the primitive to
                   understand those shapes.
                 </p>
@@ -146,27 +146,27 @@ const spacingEntries = Object.entries(spacing.scale);
 
       <Section title="Composition boundaries" headingId="composition-boundaries-heading">
         <div class="grid gap-4 lg:grid-cols-4">
-          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">Layout</p>
-            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
               Owns the document shell and shared token import.
             </p>
           </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">Section</p>
-            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
               Owns section headings and higher-level grouping semantics.
             </p>
           </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">Panel</p>
-            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
               Owns surface chrome and padding around the metadata examples.
             </p>
           </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">MetaList</p>
-            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
               Owns semantic dl markup and shared term/value treatment only.
             </p>
           </article>
@@ -179,13 +179,13 @@ const spacingEntries = Object.entries(spacing.scale);
             semanticSurfaces.map((surface) => (
               <article
                 class="rounded-3xl border p-5"
-                style={`background: var(${surface.token}); border-color: var(--surble-border);`}
+                style={`background: var(${surface.token}); border-color: var(--snurble-border);`}
               >
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--surble-text-muted)]">
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-text-muted)]">
                   {surface.name}
                 </p>
-                <p class="mt-3 text-sm text-[var(--surble-text-muted)]">{surface.note}</p>
-                <code class="mt-4 inline-flex rounded-full bg-black/25 px-3 py-1 text-xs text-[var(--surble-text)]">
+                <p class="mt-3 text-sm text-[var(--snurble-text-muted)]">{surface.note}</p>
+                <code class="mt-4 inline-flex rounded-full bg-black/25 px-3 py-1 text-xs text-[var(--snurble-text)]">
                   {surface.token}
                 </code>
               </article>
@@ -198,24 +198,24 @@ const spacingEntries = Object.entries(spacing.scale);
         <div class="grid gap-4 lg:grid-cols-2">
           <article
             class="space-y-4 rounded-3xl border p-6"
-            style="background: rgb(30 30 46 / 0.84); border-color: var(--surble-border);"
+            style="background: rgb(30 30 46 / 0.84); border-color: var(--snurble-border);"
           >
             <h3 class="text-xl font-semibold">Typography scale</h3>
             <div class="grid gap-4">
               {
                 typographyEntries.map(([name, style]) => (
-                  <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                  <div class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
                     <div class="flex items-center justify-between gap-3">
-                      <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--surble-text-muted)]">
+                      <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--snurble-text-muted)]">
                         {name}
                       </span>
-                      <code class="text-xs text-[var(--surble-text-muted)]">{style.size}</code>
+                      <code class="text-xs text-[var(--snurble-text-muted)]">{style.size}</code>
                     </div>
                     <p
                       class="mt-3"
                       style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
                     >
-                      Surble carries bold night-sky contrast without losing readability.
+                      Snurble carries bold night-sky contrast without losing readability.
                     </p>
                   </div>
                 ))
@@ -225,20 +225,20 @@ const spacingEntries = Object.entries(spacing.scale);
 
           <article
             class="space-y-4 rounded-3xl border p-6"
-            style="background: rgb(24 24 37 / 0.92); border-color: var(--surble-border);"
+            style="background: rgb(24 24 37 / 0.92); border-color: var(--snurble-border);"
           >
             <h3 class="text-xl font-semibold">Spacing scale</h3>
             <div class="grid gap-3">
               {
                 spacingEntries.map(([step, value]) => (
-                  <div class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                  <div class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
                     <div class="flex items-center gap-4">
-                      <code class="min-w-14 text-xs text-[var(--surble-text-muted)]">{step}</code>
+                      <code class="min-w-14 text-xs text-[var(--snurble-text-muted)]">{step}</code>
                       <div
-                        class="h-3 rounded-full bg-[var(--surble-accent)]"
+                        class="h-3 rounded-full bg-[var(--snurble-accent)]"
                         style={`width: ${value}; min-width: ${value};`}
                       ></div>
-                      <span class="text-sm text-[var(--surble-text-muted)]">{value}</span>
+                      <span class="text-sm text-[var(--snurble-text-muted)]">{value}</span>
                     </div>
                   </div>
                 ))

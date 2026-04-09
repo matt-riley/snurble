@@ -1,12 +1,12 @@
-# Surble Stage 03 — `Layout` Component
+# Snurble Stage 03 — `Layout` Component
 
 ## Goal
 
-Create a reusable Surble `Layout` component that owns the HTML shell, minimal shared head defaults, and Surble token baseline import path without hard-coding `mattriley.tools` copy.
+Create a reusable Snurble `Layout` component that owns the HTML shell, minimal shared head defaults, and Snurble token baseline import path without hard-coding `mattriley.tools` copy.
 
 ## Why this stage exists
 
-`../mattriley.tools/src/layouts/Layout.astro` already contains reusable shell concerns. Pulling that into Surble creates the top-level contract all later components will sit inside.
+`../mattriley.tools/src/layouts/Layout.astro` already contains reusable shell concerns. Pulling that into Snurble creates the top-level contract all later components will sit inside.
 
 ## Repository context
 
@@ -21,7 +21,7 @@ Create a reusable Surble `Layout` component that owns the HTML shell, minimal sh
 - Shared head/body structure with minimal reusable defaults.
 - Public package export consumed from the docs app through `@matt-riley/ui-astro`.
 - Minimal Astro typing/config support in `packages/ui-astro` so a `.astro` component can ship through the package entrypoint.
-- Single source of truth for the Surble token baseline import inside `Layout`.
+- Single source of truth for the Snurble token baseline import inside `Layout`.
 
 ### Out of scope
 
@@ -54,7 +54,7 @@ Create a reusable Surble `Layout` component that owns the HTML shell, minimal sh
 ## Implementation plan
 
 1. Compare the two reference layouts and separate reusable shell behavior from app-specific metadata.
-2. Implement the first-pass Surble `Layout` API:
+2. Implement the first-pass Snurble `Layout` API:
    - required `title`
    - optional `description`
    - optional `lang` with a default of `"en"`
@@ -86,7 +86,7 @@ Create a reusable Surble `Layout` component that owns the HTML shell, minimal sh
 
 ## Exit criteria
 
-- Surble exposes a usable `Layout` component from the public package entrypoint.
+- Snurble exposes a usable `Layout` component from the public package entrypoint.
 - Docs demonstrate real usage through the public package import path.
 - `Layout` owns the baseline token import and renders description metadata only when explicitly provided.
 - The API is generic enough for `mattriley.tools` adoption later.

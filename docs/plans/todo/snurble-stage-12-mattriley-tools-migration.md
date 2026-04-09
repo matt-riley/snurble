@@ -1,8 +1,8 @@
-# Surble Stage 12 — `mattriley.tools` Migration
+# Snurble Stage 12 — `mattriley.tools` Migration
 
 ## Goal
 
-Migrate `../mattriley.tools` to the full Surble package surface after all tokens and shared components are available.
+Migrate `../mattriley.tools` to the full Snurble package surface after all tokens and shared components are available.
 
 ## Why this stage exists
 
@@ -17,7 +17,7 @@ You chose to defer live adoption until the whole component set exists. This stag
 
 ### In scope
 
-- Add Surble packages to `mattriley.tools`.
+- Add Snurble packages to `mattriley.tools`.
 - Replace local layout and repeated UI structures with shared components.
 - Remove obsolete local CSS.
 - Update docs with a migration example page.
@@ -37,14 +37,14 @@ You chose to defer live adoption until the whole component set exists. This stag
 
 - `snurble` and `../mattriley.tools` are separate repos, so this migration cannot rely on `workspace:*` links.
 - Preferred migration path:
-  1. build Surble packages in `snurble`
+  1. build Snurble packages in `snurble`
   2. create local tarballs with the package manager pack flow
   3. install those tarballs into the `mattriley.tools` migration branch using file-based package references for the migration test loop
   4. switch those refs to the chosen published/prerelease package versions once Stage 13 completes
 - Rollback path if the handoff fails:
   1. revert `mattriley.tools` package refs and imports to the last local-only state
   2. restore the prior page/layout/CSS wiring from the migration branch history
-  3. keep Surble package work isolated until the package contract is fixed
+  3. keep Snurble package work isolated until the package contract is fixed
 
 ## Consumer invariants to preserve
 
@@ -77,7 +77,7 @@ You chose to defer live adoption until the whole component set exists. This stag
 
 ## Implementation plan
 
-1. Add Surble packages as dependencies and wire imports through public package entrypoints only.
+1. Add Snurble packages as dependencies and wire imports through public package entrypoints only.
 2. Swap the local shell to shared `Layout` and `PageShell`.
 3. Replace repeated header blocks with `Hero`.
 4. Replace content grouping and surfaces with `Section`, `Panel`, and `Stack`.
@@ -86,7 +86,7 @@ You chose to defer live adoption until the whole component set exists. This stag
 7. Remove or reduce local CSS that became redundant after the component migration.
 8. Add or extend tests for the migrated tool and plugin detail pages so shared-component integration is covered, not just generated data and homepage table headers.
 9. Update existing tests only where markup changes intentionally, while preserving existing table-contract assertions and data guarantees.
-10. Add a docs page that maps old local structures to their Surble replacements.
+10. Add a docs page that maps old local structures to their Snurble replacements.
 
 ## Validation
 
@@ -99,14 +99,14 @@ You chose to defer live adoption until the whole component set exists. This stag
 
 ## Risks and watchpoints
 
-- The migration can sprawl if local app-specific behavior leaks into Surble.
+- The migration can sprawl if local app-specific behavior leaks into Snurble.
 - Tests may need careful adjustment if wrapper markup changes but content contracts stay the same.
 - The generated-data flow must remain untouched.
 - Cross-repo package consumption can fail even when local source changes look correct, so the tarball/prerelease handoff needs to be tested explicitly.
 
 ## Exit criteria
 
-- `mattriley.tools` consumes Surble packages cleanly.
+- `mattriley.tools` consumes Snurble packages cleanly.
 - Repeated visual structure is package-owned rather than app-local.
 - Local CSS is reduced to truly site-specific rules.
 - Existing content/data behavior remains intact.

@@ -2,39 +2,39 @@
 @import "./semantic.css";
 
 :root {
-  --surble-font-display: "Permanent Marker", "Segoe UI", sans-serif;
-  --surble-font-body: "Montserrat", "Segoe UI", sans-serif;
-  --surble-font-code: "IBM Plex Mono", "SFMono-Regular", monospace;
-  --surble-space-1: 0.25rem;
-  --surble-space-2: 0.5rem;
-  --surble-space-3: 0.75rem;
-  --surble-space-4: 1rem;
-  --surble-space-5: 1.5rem;
-  --surble-space-6: 2rem;
-  --surble-space-7: 3rem;
-  --surble-space-8: 4rem;
-  --surble-type-display-size: 3rem;
-  --surble-type-display-line-height: 1;
-  --surble-type-title-size: 1.5rem;
-  --surble-type-title-line-height: 1.2;
-  --surble-type-body-size: 1rem;
-  --surble-type-body-line-height: 1.6;
-  --surble-type-code-size: 0.95rem;
-  --surble-type-code-line-height: 1.5;
+  --snurble-font-display: "Permanent Marker", "Segoe UI", sans-serif;
+  --snurble-font-body: "Montserrat", "Segoe UI", sans-serif;
+  --snurble-font-code: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --snurble-space-1: 0.25rem;
+  --snurble-space-2: 0.5rem;
+  --snurble-space-3: 0.75rem;
+  --snurble-space-4: 1rem;
+  --snurble-space-5: 1.5rem;
+  --snurble-space-6: 2rem;
+  --snurble-space-7: 3rem;
+  --snurble-space-8: 4rem;
+  --snurble-type-display-size: 3rem;
+  --snurble-type-display-line-height: 1;
+  --snurble-type-title-size: 1.5rem;
+  --snurble-type-title-line-height: 1.2;
+  --snurble-type-body-size: 1rem;
+  --snurble-type-body-line-height: 1.6;
+  --snurble-type-code-size: 0.95rem;
+  --snurble-type-code-line-height: 1.5;
 }
 
 /* Keep the shared foundation unlayered so it stays deterministic next to Tailwind's reserved base layer. */
 html {
-  background: var(--surble-background);
-  color: var(--surble-text);
+  background: var(--snurble-background);
+  color: var(--snurble-text);
 }
 
 body {
   margin: 0;
   background: transparent;
-  font-family: var(--surble-font-body);
-  font-size: var(--surble-type-body-size);
-  line-height: var(--surble-type-body-line-height);
+  font-family: var(--snurble-font-body);
+  font-size: var(--snurble-type-body-size);
+  line-height: var(--snurble-type-body-line-height);
 }
 
 *,
@@ -42,23 +42,23 @@ body {
 ::before,
 ::backdrop,
 ::file-selector-button {
-  border-color: var(--surble-border, currentColor);
+  border-color: var(--snurble-border, currentColor);
 }
 
 ::selection {
-  background: var(--surble-selection);
-  color: var(--surble-text);
+  background: var(--snurble-selection);
+  color: var(--snurble-text);
 }
 
 :where(a, button, input, textarea, select, summary, [tabindex]):not([tabindex="-1"]):focus-visible {
-  outline: 2px solid var(--surble-focus-ring);
+  outline: 2px solid var(--snurble-focus-ring);
   outline-offset: 3px;
 }
 
 a {
-  color: var(--surble-link);
+  color: var(--snurble-link);
 }
 
 a:hover {
-  color: var(--surble-link-hover);
+  color: var(--snurble-link-hover);
 }

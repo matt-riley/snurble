@@ -1,8 +1,8 @@
-# Surble Stage 09 — `MetaList` Component
+# Snurble Stage 09 — `MetaList` Component
 
 ## Goal
 
-Create a reusable Surble `MetaList` component for definition-list style metadata on tool and plugin detail pages.
+Create a reusable Snurble `MetaList` component for definition-list style metadata on tool and plugin detail pages.
 
 ## Why this stage exists
 
@@ -70,6 +70,6 @@ Create a reusable Surble `MetaList` component for definition-list style metadata
 
 ## Exit criteria
 
-- Surble exposes a reusable `MetaList`.
+- Snurble exposes a reusable `MetaList`.
 - Docs show at least two distinct metadata-list shapes.
 - Tests cover the export and narrow wrapper contract.

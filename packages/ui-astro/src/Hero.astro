@@ -8,47 +8,47 @@ const { title, lede } = Astro.props;
 const hasSupportingContent = Astro.slots.has("default");
 ---
 
-<header class="surble-hero">
-  <h1 class="surble-hero__title">{title}</h1>
-  {lede && <p class="surble-hero__lede">{lede}</p>}
+<header class="snurble-hero">
+  <h1 class="snurble-hero__title">{title}</h1>
+  {lede && <p class="snurble-hero__lede">{lede}</p>}
   {hasSupportingContent && (
-    <div class="surble-hero__supporting">
+    <div class="snurble-hero__supporting">
       <slot />
     </div>
   )}
 </header>
 
 <style>
-  .surble-hero {
+  .snurble-hero {
     display: grid;
-    gap: var(--surble-space-3);
-    margin: 0 0 var(--surble-space-7);
+    gap: var(--snurble-space-3);
+    margin: 0 0 var(--snurble-space-7);
   }
 
-  .surble-hero__title {
+  .snurble-hero__title {
     margin: 0;
-    color: var(--surble-text);
-    font-family: var(--surble-font-display);
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-display);
     font-size: clamp(2.75rem, 8vw, 4.5rem);
     line-height: 0.95;
     text-wrap: balance;
   }
 
-  .surble-hero__lede {
+  .snurble-hero__lede {
     max-width: 50rem;
     margin: 0;
-    color: var(--surble-text-muted);
+    color: var(--snurble-text-muted);
     font-size: clamp(1.125rem, 2vw, 1.35rem);
     line-height: 1.6;
   }
 
-  .surble-hero__supporting {
+  .snurble-hero__supporting {
     display: grid;
-    gap: var(--surble-space-2);
-    color: var(--surble-text-muted);
+    gap: var(--snurble-space-2);
+    color: var(--snurble-text-muted);
   }
 
-  .surble-hero__supporting :global(p) {
+  .snurble-hero__supporting :global(p) {
     margin: 0;
   }
 </style>

@@ -25,63 +25,63 @@ if (hasLabelledBy === hasAriaLabel) {
 }
 ---
 
-<div class="surble-data-table">
+<div class="snurble-data-table">
   <table aria-labelledby={labelledBy} aria-label={ariaLabel}>
-    <thead class="surble-data-table__head">
+    <thead class="snurble-data-table__head">
       <slot name="head" />
     </thead>
-    <tbody class="surble-data-table__body">
+    <tbody class="snurble-data-table__body">
       <slot />
     </tbody>
   </table>
 </div>
 
 <style>
-  .surble-data-table {
+  .snurble-data-table {
     min-width: 0;
     overflow-x: auto;
-    border: 1px solid var(--surble-border);
+    border: 1px solid var(--snurble-border);
     border-radius: 1rem;
     background: rgb(17 17 27 / 0.38);
   }
 
-  .surble-data-table table {
+  .snurble-data-table table {
     width: 100%;
     min-width: 34rem;
     border-collapse: collapse;
-    color: var(--surble-text);
+    color: var(--snurble-text);
   }
 
-  .surble-data-table__head {
+  .snurble-data-table__head {
     background: rgb(49 50 68 / 0.55);
   }
 
-  .surble-data-table :global(th),
-  .surble-data-table :global(td) {
+  .snurble-data-table :global(th),
+  .snurble-data-table :global(td) {
     padding: 0.9rem 1rem;
     text-align: left;
     vertical-align: top;
-    border-block-end: 1px solid var(--surble-border);
+    border-block-end: 1px solid var(--snurble-border);
   }
 
-  .surble-data-table :global(th) {
+  .snurble-data-table :global(th) {
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--surble-text-muted);
+    color: var(--snurble-text-muted);
   }
 
-  .surble-data-table :global(td) {
+  .snurble-data-table :global(td) {
     font-size: 0.95rem;
     line-height: 1.6;
   }
 
-  .surble-data-table__body :global(tr:last-child td) {
+  .snurble-data-table__body :global(tr:last-child td) {
     border-block-end: 0;
   }
 
-  .surble-data-table :global(code) {
+  .snurble-data-table :global(code) {
     white-space: nowrap;
   }
 </style>

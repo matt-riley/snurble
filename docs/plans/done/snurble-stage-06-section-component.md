@@ -1,8 +1,8 @@
-# Surble Stage 06 — `Section` Component
+# Snurble Stage 06 — `Section` Component
 
 ## Goal
 
-Create a reusable Surble `Section` component for structural content regions, standard outer spacing, and explicit heading association.
+Create a reusable Snurble `Section` component for structural content regions, standard outer spacing, and explicit heading association.
 
 ## Why this stage exists
 
@@ -19,7 +19,7 @@ Both the docs app and `mattriley.tools` rely on repeated titled content regions.
 
 - Semantic content-region wrapper for named regions.
 - Explicit heading association support with a narrow API.
-- Standard Surble outer spacing and heading/body rhythm defaults only.
+- Standard Snurble outer spacing and heading/body rhythm defaults only.
 - Public export plus docs refactors on real in-repo content regions.
 - Tests proving the export, contract, and docs consumption.
 
@@ -73,6 +73,6 @@ Both the docs app and `mattriley.tools` rely on repeated titled content regions.
 
 ## Exit criteria
 
-- Surble exposes a reusable `Section` with a narrow named-region API.
+- Snurble exposes a reusable `Section` with a narrow named-region API.
 - Docs show real page regions using `Section` without pulling in later-stage `Panel` or `DataTable` concerns.
 - Package tests cover the export, source contract, and docs-page consumption.

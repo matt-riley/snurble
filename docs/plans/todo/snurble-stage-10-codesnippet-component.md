@@ -1,8 +1,8 @@
-# Surble Stage 10 — `CodeSnippet` Component
+# Snurble Stage 10 — `CodeSnippet` Component
 
 ## Goal
 
-Create a reusable Surble `CodeSnippet` component for inline install commands and block-style code snippets.
+Create a reusable Snurble `CodeSnippet` component for inline install commands and block-style code snippets.
 
 ## Why this stage exists
 
@@ -67,5 +67,5 @@ Create a reusable Surble `CodeSnippet` component for inline install commands and
 
 ## Exit criteria
 
-- Surble exposes a reusable `CodeSnippet`.
+- Snurble exposes a reusable `CodeSnippet`.
 - Docs demonstrate both inline and block usage.

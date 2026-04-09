@@ -1,8 +1,8 @@
-# Surble Stage 08 — `DataTable` Component
+# Snurble Stage 08 — `DataTable` Component
 
 ## Goal
 
-Create a reusable Surble `DataTable` component for the tools and plugins catalog tables.
+Create a reusable Snurble `DataTable` component for the tools and plugins catalog tables.
 
 ## Why this stage exists
 
@@ -75,6 +75,6 @@ The homepage in `mattriley.tools` contains two near-parallel tables. A shared ta
 
 ## Exit criteria
 
-- Surble exposes a reusable `DataTable`.
+- Snurble exposes a reusable `DataTable`.
 - Stage 08 implementation demonstrated both a short and catalog-style table without embedding app-specific data logic.
 - Package tests cover the export, source contract, and negative API boundaries for `DataTable`.

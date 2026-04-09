@@ -1,12 +1,12 @@
-# Surble Stage 02 — Token Layer
+# Snurble Stage 02 — Token Layer
 
 ## Goal
 
-Create the Stage 02 Surble token foundation from the `../workv2/services/webclient` visual language so workspace consumers can adopt the look through a stable package contract instead of copying app-local CSS.
+Create the Stage 02 Snurble token foundation from the `../workv2/services/webclient` visual language so workspace consumers can adopt the look through a stable package contract instead of copying app-local CSS.
 
 ## Why this stage exists
 
-The current token package is a placeholder. Before any component work, Surble needs a stable palette, semantic surface model, typography definitions, spacing scale, and focus treatment that stay useful outside the original Tailwind-heavy app context.
+The current token package is a placeholder. Before any component work, Snurble needs a stable palette, semantic surface model, typography definitions, spacing scale, and focus treatment that stay useful outside the original Tailwind-heavy app context.
 
 ## Repository context
 
@@ -18,7 +18,7 @@ The current token package is a placeholder. Before any component work, Surble ne
 ### In scope
 
 - Build CSS-first token exports.
-- Translate the `workv2` Mocha-derived Catppuccin/Tailwind look into Surble-owned reusable assets.
+- Translate the `workv2` Mocha-derived Catppuccin/Tailwind look into Snurble-owned reusable assets.
 - Document token usage in the docs app.
 
 ### Out of scope
@@ -52,7 +52,7 @@ The current token package is a placeholder. Before any component work, Surble ne
 
 ## Implementation plan
 
-1. Extract the reusable styling primitives from the `workv2` global stylesheet and convert them into Surble-owned tokens rather than framework-specific imports:
+1. Extract the reusable styling primitives from the `workv2` global stylesheet and convert them into Snurble-owned tokens rather than framework-specific imports:
    - palette/base values derived from the Mocha reference
    - body typography defaults
    - semantic surface and text colors
@@ -101,5 +101,5 @@ The current token package is a placeholder. Before any component work, Surble ne
 ## Exit criteria
 
 - Workspace consumers can import `@matt-riley/design-tokens` as the default entrypoint.
-- Docs visibly render with the intended Surble theme.
+- Docs visibly render with the intended Snurble theme.
 - Token files cover palette values, typography metadata, spacing metadata, semantic colors, and focus styling through public package exports.

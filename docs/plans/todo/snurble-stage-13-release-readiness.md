@@ -1,8 +1,8 @@
-# Surble Stage 13 — Release Readiness
+# Snurble Stage 13 — Release Readiness
 
 ## Goal
 
-Verify that Surble is publishable, that the first consumer migration is stable, and that the rollout pattern is documented for later adopters.
+Verify that Snurble is publishable, that the first consumer migration is stable, and that the rollout pattern is documented for later adopters.
 
 ## Why this stage exists
 
@@ -24,7 +24,7 @@ The design system is not done when the code exists. It needs a clean release sur
 ### Out of scope
 
 - Actually migrating `workv2` during this stage; `workv2` is only a documented future adopter at this point.
-- Broadening the component scope beyond the planned Surble surface.
+- Broadening the component scope beyond the planned Snurble surface.
 
 ## Dependency notes
 
@@ -45,7 +45,7 @@ The design system is not done when the code exists. It needs a clean release sur
 
 ## Implementation plan
 
-1. Confirm each Surble package exports stable public entrypoints and the correct published files.
+1. Confirm each Snurble package exports stable public entrypoints and the correct published files.
 2. Run a pack/publish smoke path for each publishable package so archive contents and installability are verified before release.
 3. Check that docs examples and the `mattriley.tools` migration both consume only public package paths.
 4. Verify the final workspace validation flow and release workflow wiring still match the repo structure.
@@ -61,7 +61,7 @@ The design system is not done when the code exists. It needs a clean release sur
 - `pnpm lint`
 - `pnpm test`
 - `pnpm build`
-- package pack smoke checks for each publishable Surble package
+- package pack smoke checks for each publishable Snurble package
 
 ### `../mattriley.tools`
 
@@ -79,6 +79,6 @@ The design system is not done when the code exists. It needs a clean release sur
 
 ## Exit criteria
 
-- Surble packages are publishable.
+- Snurble packages are publishable.
 - `mattriley.tools` is a validated first consumer.
 - The next adopter path is documented and clear.

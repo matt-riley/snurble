@@ -1,17 +1,17 @@
-# Surble Stage 01 — Workspace Baseline
+# Snurble Stage 01 — Workspace Baseline
 
 ## Goal
 
-Turn `snurble` from a docs-only shell into a buildable, testable workspace baseline that later Surble stages can implement against without redefining the root contract.
+Turn `snurble` from a docs-only shell into a buildable, testable workspace baseline that later Snurble stages can implement against without redefining the root contract.
 
 ## Why this stage exists
 
-The `snurble` repo currently only contains planning docs. Every later stage depends on turning this repo into the real Surble implementation workspace first.
+The `snurble` repo currently only contains planning docs. Every later stage depends on turning this repo into the real Snurble implementation workspace first.
 
 ## Repository context
 
 - This plan targets the current repository, `snurble`.
-- External repos such as `../mattriley.tools` and `../workv2/services/webclient` are inputs, references, or future consumers, not the implementation home for Surble.
+- External repos such as `../mattriley.tools` and `../workv2/services/webclient` are inputs, references, or future consumers, not the implementation home for Snurble.
 
 ## Scope
 
@@ -33,7 +33,7 @@ The `snurble` repo currently only contains planning docs. Every later stage depe
 
 ## Dependency notes
 
-- This is the root stage. All later Surble stages assume its root `lint`, `typecheck`, `test`, and `build` contract stays green.
+- This is the root stage. All later Snurble stages assume its root `lint`, `typecheck`, `test`, and `build` contract stays green.
 - Stage 02 expects `packages/tokens` to exist as the placeholder package it will fill in.
 - Stage 01 package exports are workspace-ready but intentionally not publish-ready yet.
 - Release automation is intentionally deferred to later release-readiness work once package boundaries stabilize.

@@ -1,8 +1,8 @@
-# Surble Stage 11 — `Stack` Component
+# Snurble Stage 11 — `Stack` Component
 
 ## Goal
 
-Create a reusable Surble `Stack` component for simple vertical rhythm and grouped spacing.
+Create a reusable Snurble `Stack` component for simple vertical rhythm and grouped spacing.
 
 ## Why this stage exists
 
@@ -47,7 +47,7 @@ The `.stack` helper in `mattriley.tools` is simple, but it appears in enough pla
 
 1. Capture the existing `.stack` behavior as a tiny but explicit component contract.
 2. Decide whether a fixed default gap is enough or whether a constrained set of variants adds useful flexibility.
-3. Implement the component with Surble spacing tokens.
+3. Implement the component with Snurble spacing tokens.
 4. Export it and add docs examples that show composition with `Section`, `Panel`, and `CodeSnippet`.
 
 ## Validation
@@ -64,5 +64,5 @@ The `.stack` helper in `mattriley.tools` is simple, but it appears in enough pla
 
 ## Exit criteria
 
-- Surble exposes a reusable `Stack`.
+- Snurble exposes a reusable `Stack`.
 - Docs show it as the default grouped-spacing primitive.

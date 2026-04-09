@@ -1,23 +1,23 @@
 ---
 ---
 
-<dl class="surble-meta-list">
+<dl class="snurble-meta-list">
   <slot />
 </dl>
 
 <style>
-  .surble-meta-list {
+  .snurble-meta-list {
     display: grid;
     grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
-    gap: var(--surble-space-2) var(--surble-space-4);
+    gap: var(--snurble-space-2) var(--snurble-space-4);
     margin: 0;
     min-width: 0;
   }
 
-  .surble-meta-list :global(dt) {
+  .snurble-meta-list :global(dt) {
     grid-column: 1;
     margin: 0;
-    color: var(--surble-text-muted);
+    color: var(--snurble-text-muted);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -25,44 +25,44 @@
     text-transform: uppercase;
   }
 
-  .surble-meta-list :global(dd) {
+  .snurble-meta-list :global(dd) {
     grid-column: 2;
     margin: 0;
     min-width: 0;
-    color: var(--surble-text);
+    color: var(--snurble-text);
     font-size: 0.95rem;
     line-height: 1.6;
   }
 
-  .surble-meta-list :global(dd p) {
+  .snurble-meta-list :global(dd p) {
     margin: 0;
   }
 
-  .surble-meta-list :global(dd p + p) {
-    margin-block-start: var(--surble-space-1);
+  .snurble-meta-list :global(dd p + p) {
+    margin-block-start: var(--snurble-space-1);
   }
 
-  .surble-meta-list :global(a) {
-    color: var(--surble-accent);
+  .snurble-meta-list :global(a) {
+    color: var(--snurble-accent);
   }
 
-  .surble-meta-list :global(code) {
+  .snurble-meta-list :global(code) {
     white-space: nowrap;
   }
 
   @media (max-width: 40rem) {
-    .surble-meta-list {
+    .snurble-meta-list {
       grid-template-columns: 1fr;
-      gap: var(--surble-space-1);
+      gap: var(--snurble-space-1);
     }
 
-    .surble-meta-list :global(dt),
-    .surble-meta-list :global(dd) {
+    .snurble-meta-list :global(dt),
+    .snurble-meta-list :global(dd) {
       grid-column: 1;
     }
 
-    .surble-meta-list :global(dd) {
-      margin-block-end: var(--surble-space-2);
+    .snurble-meta-list :global(dd) {
+      margin-block-end: var(--snurble-space-2);
     }
   }
 </style>

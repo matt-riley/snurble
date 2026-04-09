@@ -34,30 +34,30 @@ if (hasTitle && !hasHeadingId) {
 const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
 ---
 
-<section aria-labelledby={resolvedHeadingId} class="surble-section">
-  {hasTitle && <h2 id={resolvedHeadingId} class="surble-section__title">{normalizedTitle}</h2>}
-  <div class="surble-section__content">
+<section aria-labelledby={resolvedHeadingId} class="snurble-section">
+  {hasTitle && <h2 id={resolvedHeadingId} class="snurble-section__title">{normalizedTitle}</h2>}
+  <div class="snurble-section__content">
     <slot />
   </div>
 </section>
 
 <style>
-  .surble-section {
+  .snurble-section {
     display: grid;
-    gap: var(--surble-space-4);
+    gap: var(--snurble-space-4);
     margin: 0;
   }
 
-  .surble-section__title {
+  .snurble-section__title {
     margin: 0;
-    color: var(--surble-text);
-    font-family: var(--surble-font-display);
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-display);
     font-size: clamp(1.5rem, 2vw, 2rem);
     line-height: 1.1;
     text-wrap: balance;
   }
 
-  .surble-section__content {
+  .snurble-section__content {
     min-width: 0;
   }
 </style>

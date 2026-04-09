@@ -1,8 +1,8 @@
-# Surble Stage 04 — `PageShell` Component
+# Snurble Stage 04 — `PageShell` Component
 
 ## Goal
 
-Create a reusable Surble `PageShell` component for page width, padding, and outer spacing.
+Create a reusable Snurble `PageShell` component for page width, padding, and outer spacing.
 
 ## Why this stage exists
 
@@ -71,6 +71,6 @@ Create a reusable Surble `PageShell` component for page width, padding, and oute
 
 ## Exit criteria
 
-- Surble exposes a reusable `PageShell`.
+- Snurble exposes a reusable `PageShell`.
 - Docs demonstrate `Layout > main > PageShell`.
 - The API is ready to wrap all `mattriley.tools` pages later.

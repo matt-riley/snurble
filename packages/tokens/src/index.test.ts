@@ -36,8 +36,8 @@ describe("design token package", () => {
     expect(indexCss).toContain("border-color");
     expect(indexCss).not.toContain(".skip-link");
     expect(indexCss).not.toContain("min-height: 100vh;");
-    expect(indexCss).toContain("font-size: var(--surble-type-body-size);");
-    expect(indexCss).toContain("line-height: var(--surble-type-body-line-height);");
+    expect(indexCss).toContain("font-size: var(--snurble-type-body-size);");
+    expect(indexCss).toContain("line-height: var(--snurble-type-body-line-height);");
   });
 
   it("ships the required semantic aliases and metadata mirrors", async () => {
@@ -52,26 +52,26 @@ describe("design token package", () => {
     }>("packages/tokens/src/spacing.json");
 
     for (const tokenName of [
-      "--surble-palette-blue",
-      "--surble-palette-base",
-      "--surble-palette-crust",
+      "--snurble-palette-blue",
+      "--snurble-palette-base",
+      "--snurble-palette-crust",
     ]) {
       expect(paletteCss).toContain(tokenName);
     }
 
     for (const tokenName of [
-      "--surble-background",
-      "--surble-surface",
-      "--surble-surface-strong",
-      "--surble-text",
-      "--surble-text-muted",
-      "--surble-border",
-      "--surble-border-strong",
-      "--surble-accent",
-      "--surble-focus-ring",
-      "--surble-link",
-      "--surble-link-hover",
-      "--surble-selection",
+      "--snurble-background",
+      "--snurble-surface",
+      "--snurble-surface-strong",
+      "--snurble-text",
+      "--snurble-text-muted",
+      "--snurble-border",
+      "--snurble-border-strong",
+      "--snurble-accent",
+      "--snurble-focus-ring",
+      "--snurble-link",
+      "--snurble-link-hover",
+      "--snurble-selection",
     ]) {
       expect(semanticCss).toContain(tokenName);
     }

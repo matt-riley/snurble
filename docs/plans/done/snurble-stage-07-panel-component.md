@@ -1,8 +1,8 @@
-# Surble Stage 07 — `Panel` Component
+# Snurble Stage 07 — `Panel` Component
 
 ## Goal
 
-Create a reusable Surble `Panel` component for rounded surface containers used inside metadata and highlighted content blocks.
+Create a reusable Snurble `Panel` component for rounded surface containers used inside metadata and highlighted content blocks.
 
 ## Why this stage exists
 
@@ -51,8 +51,8 @@ The detail pages in `mattriley.tools` and the visual tone in `workv2` both rely 
 
 ## Implementation plan
 
-1. Translate the existing `mattriley.tools` panel concept into a token-backed Surble surface.
-2. Incorporate the stronger Surble surface personality from `workv2` without tying the component to a card-specific layout.
+1. Translate the existing `mattriley.tools` panel concept into a token-backed Snurble surface.
+2. Incorporate the stronger Snurble surface personality from `workv2` without tying the component to a card-specific layout.
 3. Keep the API narrow: implement `Panel` as a default-slot-only visual wrapper, with `Section`, `article`, `aside`, and headings remaining consumer-owned.
 4. Refactor selected inline rounded/bordered `<article>` blocks on `apps/docs/src/pages/index.astro` into real `Panel` usage inside the current `Section` flows instead of replacing those wrappers.
 5. Export `Panel` publicly and extend `packages/ui-astro/src/index.test.ts` to cover the export, source contract, and docs consumption.
@@ -73,6 +73,6 @@ The detail pages in `mattriley.tools` and the visual tone in `workv2` both rely 
 
 ## Exit criteria
 
-- Surble exposes a reusable `Panel`.
+- Snurble exposes a reusable `Panel`.
 - Docs show it as the standard highlighted surface inside existing `Section` composition.
 - Package tests cover the export, source contract, and docs-page consumption.

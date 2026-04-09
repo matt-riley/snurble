@@ -47,14 +47,14 @@ describe("ui-astro package", () => {
     const pageShellAstro = await readRepoFile("packages/ui-astro/src/PageShell.astro");
 
     expect(pageShellAstro).toContain("const { class: className } = Astro.props;");
-    expect(pageShellAstro).toContain('<div class:list={["surble-page-shell", className]}>');
+    expect(pageShellAstro).toContain('<div class:list={["snurble-page-shell", className]}>');
     expect(pageShellAstro).toContain("max-width: 72rem;");
     expect(pageShellAstro).toContain("margin-inline: auto;");
-    expect(pageShellAstro).toContain("padding-block-start: var(--surble-space-6);");
+    expect(pageShellAstro).toContain("padding-block-start: var(--snurble-space-6);");
     expect(pageShellAstro).toContain(
-      "padding-inline: calc((var(--surble-space-4) + var(--surble-space-5)) / 2);",
+      "padding-inline: calc((var(--snurble-space-4) + var(--snurble-space-5)) / 2);",
     );
-    expect(pageShellAstro).toContain("padding-block-end: var(--surble-space-8);");
+    expect(pageShellAstro).toContain("padding-block-end: var(--snurble-space-8);");
     expect(pageShellAstro).not.toContain("<main");
   });
 
@@ -64,9 +64,9 @@ describe("ui-astro package", () => {
     expect(heroAstro).toContain("title: string;");
     expect(heroAstro).toContain("lede?: string;");
     expect(heroAstro).toContain("const { title, lede } = Astro.props;");
-    expect(heroAstro).toContain('<header class="surble-hero">');
-    expect(heroAstro).toContain('<h1 class="surble-hero__title">{title}</h1>');
-    expect(heroAstro).toContain('{lede && <p class="surble-hero__lede">{lede}</p>}');
+    expect(heroAstro).toContain('<header class="snurble-hero">');
+    expect(heroAstro).toContain('<h1 class="snurble-hero__title">{title}</h1>');
+    expect(heroAstro).toContain('{lede && <p class="snurble-hero__lede">{lede}</p>}');
     expect(heroAstro).toContain("<slot />");
     expect(heroAstro).toContain("max-width: 50rem;");
     expect(heroAstro).not.toContain("class?: string;");
@@ -86,14 +86,14 @@ describe("ui-astro package", () => {
     );
     await expect(sectionAstro).resolves.toContain("const resolvedHeadingId =");
     await expect(sectionAstro).resolves.toContain(
-      '<section aria-labelledby={resolvedHeadingId} class="surble-section">',
+      '<section aria-labelledby={resolvedHeadingId} class="snurble-section">',
     );
     await expect(sectionAstro).resolves.toContain(
-      '<h2 id={resolvedHeadingId} class="surble-section__title">{normalizedTitle}</h2>',
+      '<h2 id={resolvedHeadingId} class="snurble-section__title">{normalizedTitle}</h2>',
     );
-    await expect(sectionAstro).resolves.toContain("gap: var(--surble-space-4);");
+    await expect(sectionAstro).resolves.toContain("gap: var(--snurble-space-4);");
     await expect(sectionAstro).resolves.not.toContain(
-      ".surble-section__content {\n    display: grid;",
+      ".snurble-section__content {\n    display: grid;",
     );
     await expect(sectionAstro).resolves.not.toContain("class?: string;");
   });
@@ -101,12 +101,12 @@ describe("ui-astro package", () => {
   it("implements a visual Panel wrapper with surface treatment and default slot content only", async () => {
     const panelAstro = readRepoFile("packages/ui-astro/src/Panel.astro");
 
-    await expect(panelAstro).resolves.toContain('<div class="surble-panel">');
+    await expect(panelAstro).resolves.toContain('<div class="snurble-panel">');
     await expect(panelAstro).resolves.toContain("<slot />");
-    await expect(panelAstro).resolves.toContain("background: var(--surble-surface);");
-    await expect(panelAstro).resolves.toContain("border: 1px solid var(--surble-border);");
+    await expect(panelAstro).resolves.toContain("background: var(--snurble-surface);");
+    await expect(panelAstro).resolves.toContain("border: 1px solid var(--snurble-border);");
     await expect(panelAstro).resolves.toContain("border-radius: 1.5rem;");
-    await expect(panelAstro).resolves.toContain("padding: var(--surble-space-5);");
+    await expect(panelAstro).resolves.toContain("padding: var(--snurble-space-5);");
     await expect(panelAstro).resolves.not.toContain("title:");
     await expect(panelAstro).resolves.not.toContain("aria-labelledby");
     await expect(panelAstro).resolves.not.toContain("class?: string;");
@@ -124,16 +124,16 @@ describe("ui-astro package", () => {
     await expect(dataTableAstro).resolves.toContain(
       'throw new Error("DataTable requires exactly one of `labelledBy` or `ariaLabel`.");',
     );
-    await expect(dataTableAstro).resolves.toContain('<div class="surble-data-table">');
+    await expect(dataTableAstro).resolves.toContain('<div class="snurble-data-table">');
     await expect(dataTableAstro).resolves.toContain(
       "<table aria-labelledby={labelledBy} aria-label={ariaLabel}>",
     );
-    await expect(dataTableAstro).resolves.toContain('<thead class="surble-data-table__head">');
+    await expect(dataTableAstro).resolves.toContain('<thead class="snurble-data-table__head">');
     await expect(dataTableAstro).resolves.toContain('<slot name="head" />');
-    await expect(dataTableAstro).resolves.toContain('<tbody class="surble-data-table__body">');
+    await expect(dataTableAstro).resolves.toContain('<tbody class="snurble-data-table__body">');
     await expect(dataTableAstro).resolves.toContain("<slot />");
     await expect(dataTableAstro).resolves.toContain("overflow-x: auto;");
-    await expect(dataTableAstro).resolves.toContain(".surble-data-table :global(th)");
+    await expect(dataTableAstro).resolves.toContain(".snurble-data-table :global(th)");
     await expect(dataTableAstro).resolves.not.toContain("rows:");
     await expect(dataTableAstro).resolves.not.toContain("columns:");
     await expect(dataTableAstro).resolves.not.toContain("sortable");
@@ -145,13 +145,13 @@ describe("ui-astro package", () => {
   it("implements a narrow MetaList wrapper with semantic dl markup and consumer-owned dt/dd pairs", async () => {
     const metaListAstro = readRepoFile("packages/ui-astro/src/MetaList.astro");
 
-    await expect(metaListAstro).resolves.toContain('<dl class="surble-meta-list">');
+    await expect(metaListAstro).resolves.toContain('<dl class="snurble-meta-list">');
     await expect(metaListAstro).resolves.toContain("<slot />");
-    await expect(metaListAstro).resolves.toContain(".surble-meta-list {");
+    await expect(metaListAstro).resolves.toContain(".snurble-meta-list {");
     await expect(metaListAstro).resolves.toContain("min-width: 0;");
-    await expect(metaListAstro).resolves.toContain(".surble-meta-list :global(dt)");
+    await expect(metaListAstro).resolves.toContain(".snurble-meta-list :global(dt)");
     await expect(metaListAstro).resolves.toContain("grid-column: 1;");
-    await expect(metaListAstro).resolves.toContain(".surble-meta-list :global(dd)");
+    await expect(metaListAstro).resolves.toContain(".snurble-meta-list :global(dd)");
     await expect(metaListAstro).resolves.toContain("grid-column: 2;");
     await expect(metaListAstro).resolves.not.toContain("rows:");
     await expect(metaListAstro).resolves.not.toContain("items:");

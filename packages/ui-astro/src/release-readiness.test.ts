@@ -1,4 +1,4 @@
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,35 +15,46 @@ const readRepoJson = async <T>(relativePath: string): Promise<T> =>
 const readRepoFile = async (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf8");
 
-const packPackage = async (packageDir: string, tarballName: string): Promise<string[]> => {
+const packPackage = async (packageDir: string): Promise<string[]> => {
   const packDestination = await mkdtemp(resolve(tmpdir(), "snurble-release-pack-"));
 
-  await execFileAsync(
-    "pnpm",
-    ["--dir", resolve(repoRoot, packageDir), "pack", "--pack-destination", packDestination],
-    { cwd: repoRoot },
-  );
+  try {
+    await execFileAsync(
+      "pnpm",
+      ["--dir", resolve(repoRoot, packageDir), "pack", "--pack-destination", packDestination],
+      { cwd: repoRoot },
+    );
 
-  const { stdout } = await execFileAsync("tar", ["-tzf", resolve(packDestination, tarballName)]);
-  return stdout
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
+    const archiveNames = (await readdir(packDestination)).filter((entry) => entry.endsWith(".tgz"));
+    if (archiveNames.length !== 1) {
+      throw new Error(
+        `Expected exactly one tarball in ${packDestination}, found ${archiveNames.length}.`,
+      );
+    }
+
+    const { stdout } = await execFileAsync("tar", [
+      "-tzf",
+      resolve(packDestination, archiveNames[0]),
+    ]);
+    return stdout
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+  } finally {
+    await rm(packDestination, { recursive: true, force: true });
+  }
 };
 
 describe("stage 13 release readiness", () => {
   it("packs the design tokens package without test files and with a package readme", async () => {
-    const archiveEntries = await packPackage(
-      "packages/tokens",
-      "matt-riley-design-tokens-0.0.0.tgz",
-    );
+    const archiveEntries = await packPackage("packages/tokens");
 
     expect(archiveEntries).toContain("package/README.md");
     expect(archiveEntries).not.toContain("package/src/index.test.ts");
   });
 
   it("packs the ui-astro package without test files and with a package readme", async () => {
-    const archiveEntries = await packPackage("packages/ui-astro", "matt-riley-ui-astro-0.0.0.tgz");
+    const archiveEntries = await packPackage("packages/ui-astro");
 
     expect(archiveEntries).toContain("package/README.md");
     expect(archiveEntries).not.toContain("package/src/index.test.ts");

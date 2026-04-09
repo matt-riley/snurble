@@ -11,9 +11,11 @@
     grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
     gap: var(--surble-space-2) var(--surble-space-4);
     margin: 0;
+    min-width: 0;
   }
 
   .surble-meta-list :global(dt) {
+    grid-column: 1;
     margin: 0;
     color: var(--surble-text-muted);
     font-size: 0.75rem;
@@ -24,6 +26,7 @@
   }
 
   .surble-meta-list :global(dd) {
+    grid-column: 2;
     margin: 0;
     min-width: 0;
     color: var(--surble-text);
@@ -51,6 +54,11 @@
     .surble-meta-list {
       grid-template-columns: 1fr;
       gap: var(--surble-space-1);
+    }
+
+    .surble-meta-list :global(dt),
+    .surble-meta-list :global(dd) {
+      grid-column: 1;
     }
 
     .surble-meta-list :global(dd) {

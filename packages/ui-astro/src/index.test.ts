@@ -148,8 +148,11 @@ describe("ui-astro package", () => {
     await expect(metaListAstro).resolves.toContain('<dl class="surble-meta-list">');
     await expect(metaListAstro).resolves.toContain("<slot />");
     await expect(metaListAstro).resolves.toContain(".surble-meta-list {");
+    await expect(metaListAstro).resolves.toContain("min-width: 0;");
     await expect(metaListAstro).resolves.toContain(".surble-meta-list :global(dt)");
+    await expect(metaListAstro).resolves.toContain("grid-column: 1;");
     await expect(metaListAstro).resolves.toContain(".surble-meta-list :global(dd)");
+    await expect(metaListAstro).resolves.toContain("grid-column: 2;");
     await expect(metaListAstro).resolves.not.toContain("rows:");
     await expect(metaListAstro).resolves.not.toContain("items:");
     await expect(metaListAstro).resolves.not.toContain("MetaListItem");

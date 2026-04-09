@@ -54,8 +54,8 @@ The homepage in `mattriley.tools` contains two near-parallel tables. A shared ta
 1. Implement `DataTable` as a narrow Astro primitive that owns only the overflow wrapper, semantic `<table>`, and shared table styling; keep `Panel` and surrounding layout composition external.
 2. Lock the API to an accessibility-first, slot-based contract: require exactly one of `labelledBy` or `ariaLabel`, accept a named `head` slot for header `<tr>` content, and use the default slot for body `<tr>` content.
 3. Preserve compatibility with the existing homepage column order and long-content overflow expectations in `mattriley.tools` without introducing data, sorting, filtering, or class-based escape-hatch props.
-4. Add docs examples for both a short table and a fuller multi-column catalog, composed through the public package entrypoint on the current docs page.
-5. Extend package tests to cover the export, source contract, negative API boundaries, and docs consumption.
+4. During Stage 08 implementation, add docs examples for both a short table and a fuller multi-column catalog through the public package entrypoint on the then-current docs showcase page.
+5. Extend package tests to cover the export, source contract, and negative API boundaries; later stages may repurpose the single docs showcase page.
 
 ## Validation
 
@@ -76,5 +76,5 @@ The homepage in `mattriley.tools` contains two near-parallel tables. A shared ta
 ## Exit criteria
 
 - Surble exposes a reusable `DataTable`.
-- Docs demonstrate both a short and catalog-style table without embedding app-specific data logic.
-- Package tests cover the export, source contract, and docs-page consumption.
+- Stage 08 implementation demonstrated both a short and catalog-style table without embedding app-specific data logic.
+- Package tests cover the export, source contract, and negative API boundaries for `DataTable`.

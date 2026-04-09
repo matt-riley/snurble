@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Hero, Layout, PageShell } from "@matt-riley/ui-astro";
+import { Hero, Layout, PageShell, Section } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
@@ -34,111 +34,120 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble Hero component" description="Stage 05 hero showcase for the Surble design system.">
+<Layout title="Surble Section component" description="Stage 06 section showcase for the Surble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-          Surble Stage 05
+          Surble Stage 06
         </p>
         <Hero
-          title="Hero component is live."
-          lede="The shared intro block now owns the semantic header pattern from mattriley.tools: title, optional lede, and optional supporting content inside the hero itself."
+          title="Section component is live."
+          lede="Shared content regions now get a narrow Section primitive: either a built-in h2 or explicit external heading association, with Surble spacing but no panel-style chrome."
         />
       </section>
 
-      <section class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-        <article
-          class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
-          style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
-        >
-          <h2 class="text-2xl font-semibold">Hero contract</h2>
-          <p class="text-sm text-[var(--surble-text-muted)]">
-            The shared hero stays intentionally narrow: one semantic header that owns the title, optional lede, and
-            optional trailing supporting content.
-          </p>
-          <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
-            <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-              <code class="font-medium text-[var(--surble-text)]">title</code>
-              <p class="mt-2">Required hero heading rendered as the shared <code>h1</code>.</p>
-            </li>
-            <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-              <code class="font-medium text-[var(--surble-text)]">lede</code>
-              <p class="mt-2">Optional introductory paragraph constrained to the shared readable width.</p>
-            </li>
-            <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-              <code class="font-medium text-[var(--surble-text)]">slot</code>
-              <p class="mt-2">Optional trailing content for synced timestamps or other supporting detail-page copy.</p>
-            </li>
-            <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-              <code class="font-medium text-[var(--surble-text)]">No eyebrow</code>
-              <p class="mt-2">Eyebrow labels and back links stay outside Hero so page chrome stays consumer-owned.</p>
-            </li>
-          </ul>
-        </article>
+      <div class="space-y-4">
+        <h2 id="hero-guidance-heading" class="text-2xl font-semibold">
+          Hero guidance
+        </h2>
+        <Section labelledBy="hero-guidance-heading">
+          <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
+            <article
+              class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
+              style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
+            >
+              <h3 class="text-xl font-semibold">Section contract</h3>
+              <p class="text-sm text-[var(--surble-text-muted)]">
+                `Section` stays intentionally narrow: a named content region with shared outer spacing and either an
+                internal heading or explicit external heading association.
+              </p>
+              <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
+                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                  <code class="font-medium text-[var(--surble-text)]">title</code>
+                  <p class="mt-2">Renders the shared <code>h2</code> inside the component.</p>
+                </li>
+                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                  <code class="font-medium text-[var(--surble-text)]">labelledBy</code>
+                  <p class="mt-2">Associates the region with a consumer-owned heading without duplicating it.</p>
+                </li>
+                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                  <code class="font-medium text-[var(--surble-text)]">Spacing only</code>
+                  <p class="mt-2">The component coordinates structure and rhythm, not panel chrome or card padding.</p>
+                </li>
+                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                  <code class="font-medium text-[var(--surble-text)]">Real regions</code>
+                  <p class="mt-2">Docs use Section for actual grouped content instead of standalone demo wrappers.</p>
+                </li>
+              </ul>
+            </article>
 
-        <article
-          class="space-y-4 rounded-3xl border p-6"
-          style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
-        >
-          <h2 class="text-2xl font-semibold">Composition</h2>
-          <div class="grid gap-3">
-            <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-              <p class="font-medium">Layout</p>
-              <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                Owns the HTML document shell, shared head defaults, and the baseline token import.
-              </p>
-            </div>
-            <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-              <p class="font-medium">main.docs-shell + PageShell</p>
-              <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                Keep the docs backdrop, page semantics, and outer width/padding contract outside the shared hero API.
-              </p>
-            </div>
-            <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-              <p class="font-medium">Hero</p>
-              <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                Owns the semantic intro block only, so overview and detail pages share one heading contract.
-              </p>
-            </div>
+            <article
+              class="space-y-4 rounded-3xl border p-6"
+              style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
+            >
+              <h3 class="text-xl font-semibold">Composition boundaries</h3>
+              <div class="grid gap-3">
+                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                  <p class="font-medium">Layout</p>
+                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                    Owns the HTML document shell, shared head defaults, and the baseline token import.
+                  </p>
+                </div>
+                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                  <p class="font-medium">main.docs-shell + PageShell</p>
+                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                    Keep the docs backdrop, page semantics, and outer width/padding contract outside the shared section
+                    API.
+                  </p>
+                </div>
+                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                  <p class="font-medium">Section</p>
+                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                    Owns named-region structure and spacing only, leaving surface treatment to later components.
+                  </p>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
-      </section>
+        </Section>
+      </div>
 
-      <section class="grid gap-4 lg:grid-cols-[1.15fr,0.85fr]">
-        <article
-          class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
-          style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
-        >
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-            Eyebrow stays outside Hero
-          </p>
-          <h2 class="text-2xl font-semibold">Detail-style usage</h2>
-          <p class="text-sm text-[var(--surble-text-muted)]">
-            Detail pages keep the eyebrow or back link outside Hero, then pass supporting content through the default
-            slot instead of relying on metadata-specific props.
-          </p>
-          <pre
-            class="overflow-x-auto rounded-2xl border bg-black/25 p-4 text-sm text-[var(--surble-text)]"
-            style="border-color: var(--surble-border);"
-          ><code>{detailHeroExample}</code></pre>
-        </article>
+      <Section title="Detail-style hero usage" headingId="detail-hero-usage-heading">
+        <div class="grid gap-4 lg:grid-cols-[1.15fr,0.85fr]">
+          <article
+            class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
+            style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
+          >
+            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
+              Eyebrow stays outside Hero
+            </p>
+            <h3 class="text-xl font-semibold">Detail-style usage</h3>
+            <p class="text-sm text-[var(--surble-text-muted)]">
+              Detail pages keep the eyebrow or back link outside Hero, then pass supporting content through the default
+              slot instead of relying on metadata-specific props.
+            </p>
+            <pre
+              class="overflow-x-auto rounded-2xl border bg-black/25 p-4 text-sm text-[var(--surble-text)]"
+              style="border-color: var(--surble-border);"
+            ><code>{detailHeroExample}</code></pre>
+          </article>
 
-        <article
-          class="space-y-4 rounded-3xl border p-6"
-          style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
-        >
-          <h2 class="text-2xl font-semibold">Why the slot stays generic</h2>
-          <p class="text-sm text-[var(--surble-text-muted)]">
-            The shared slot covers supporting content already proven by the references, but it avoids baking timestamps,
-            badges, or metadata rows into the public API before a second real variation appears.
-          </p>
-        </article>
-      </section>
+          <article
+            class="space-y-4 rounded-3xl border p-6"
+            style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
+          >
+            <h3 class="text-xl font-semibold">Why the slot stays generic</h3>
+            <p class="text-sm text-[var(--surble-text-muted)]">
+              The shared slot covers supporting content already proven by the references, but it avoids baking
+              timestamps, badges, or metadata rows into the public API before a second real variation appears.
+            </p>
+          </article>
+        </div>
+      </Section>
 
-      <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Semantic surfaces</h2>
+      <Section title="Semantic surfaces" headingId="semantic-surfaces-heading">
         <div class="grid gap-4 lg:grid-cols-3">
           {
             semanticSurfaces.map((surface) => (
@@ -157,65 +166,63 @@ const spacingEntries = Object.entries(spacing.scale);
             ))
           }
         </div>
-      </section>
+      </Section>
 
-      <section class="grid gap-4 lg:grid-cols-2">
-        <article
-          class="space-y-4 rounded-3xl border p-6"
-          style="background: rgb(30 30 46 / 0.84); border-color: var(--surble-border);"
-        >
-          <h2 class="text-2xl font-semibold">Typography scale</h2>
-          <div class="grid gap-4">
-            {
-              typographyEntries.map(([name, style]) => (
-                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                  <div class="flex items-center justify-between gap-3">
-                    <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--surble-text-muted)]">
-                      {name}
-                    </span>
-                    <code class="text-xs text-[var(--surble-text-muted)]">{style.size}</code>
+      <Section title="Design scales" headingId="design-scales-heading">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <article
+            class="space-y-4 rounded-3xl border p-6"
+            style="background: rgb(30 30 46 / 0.84); border-color: var(--surble-border);"
+          >
+            <h3 class="text-xl font-semibold">Typography scale</h3>
+            <div class="grid gap-4">
+              {
+                typographyEntries.map(([name, style]) => (
+                  <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                    <div class="flex items-center justify-between gap-3">
+                      <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--surble-text-muted)]">
+                        {name}
+                      </span>
+                      <code class="text-xs text-[var(--surble-text-muted)]">{style.size}</code>
+                    </div>
+                    <p
+                      class="mt-3"
+                      style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
+                    >
+                      Surble carries bold night-sky contrast without losing readability.
+                    </p>
                   </div>
-                  <p
-                    class="mt-3"
-                    style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
-                  >
-                    Surble carries bold night-sky contrast without losing readability.
-                  </p>
-                </div>
-              ))
-            }
-          </div>
-        </article>
+                ))
+              }
+            </div>
+          </article>
 
-        <article
-          class="space-y-4 rounded-3xl border p-6"
-          style="background: rgb(24 24 37 / 0.92); border-color: var(--surble-border);"
-        >
-          <h2 class="text-2xl font-semibold">Spacing scale</h2>
-          <div class="grid gap-3">
-            {
-              spacingEntries.map(([step, value]) => (
-                <div class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                  <div class="flex items-center gap-4">
-                    <code class="min-w-14 text-xs text-[var(--surble-text-muted)]">{step}</code>
-                    <div
-                      class="h-3 rounded-full bg-[var(--surble-accent)]"
-                      style={`width: ${value}; min-width: ${value};`}
-                    ></div>
-                    <span class="text-sm text-[var(--surble-text-muted)]">{value}</span>
+          <article
+            class="space-y-4 rounded-3xl border p-6"
+            style="background: rgb(24 24 37 / 0.92); border-color: var(--surble-border);"
+          >
+            <h3 class="text-xl font-semibold">Spacing scale</h3>
+            <div class="grid gap-3">
+              {
+                spacingEntries.map(([step, value]) => (
+                  <div class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                    <div class="flex items-center gap-4">
+                      <code class="min-w-14 text-xs text-[var(--surble-text-muted)]">{step}</code>
+                      <div
+                        class="h-3 rounded-full bg-[var(--surble-accent)]"
+                        style={`width: ${value}; min-width: ${value};`}
+                      ></div>
+                      <span class="text-sm text-[var(--surble-text-muted)]">{value}</span>
+                    </div>
                   </div>
-                </div>
-              ))
-            }
-          </div>
-        </article>
-      </section>
+                ))
+              }
+            </div>
+          </article>
+        </div>
+      </Section>
 
-      <section
-        class="space-y-4 rounded-3xl border p-6"
-        style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
-      >
-        <h2 class="text-2xl font-semibold">Focus treatment</h2>
+      <Section title="Focus treatment" headingId="focus-treatment-heading">
         <p class="max-w-2xl text-sm text-[var(--surble-text-muted)]">
           The shared token entrypoint exports a generic focus-visible rule so interactive elements stay legible without
           bringing docs-only helper classes along for the ride.
@@ -239,7 +246,7 @@ const spacingEntries = Object.entries(spacing.scale);
         <p id="focus-note" class="text-sm text-[var(--surble-text-muted)]">
           The green ring comes from <code class="text-[var(--surble-text)]">--surble-focus-ring</code>.
         </p>
-      </section>
+      </Section>
     </PageShell>
   </main>
 </Layout>

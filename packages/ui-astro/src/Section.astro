@@ -1,0 +1,63 @@
+---
+type TitledProps = {
+  title: string;
+  headingId: string;
+  labelledBy?: never;
+};
+
+type AssociatedProps = {
+  title?: never;
+  headingId?: never;
+  labelledBy: string;
+};
+
+type Props = TitledProps | AssociatedProps;
+
+const { title, headingId, labelledBy } = Astro.props;
+
+const normalizedTitle = typeof title === "string" ? title.trim() : "";
+const normalizedHeadingId = typeof headingId === "string" ? headingId.trim() : "";
+const normalizedLabelledBy = typeof labelledBy === "string" ? labelledBy.trim() : "";
+
+const hasTitle = normalizedTitle.length > 0;
+const hasHeadingId = normalizedHeadingId.length > 0;
+const hasLabelledBy = normalizedLabelledBy.length > 0;
+
+if (hasTitle === hasLabelledBy) {
+  throw new Error("Section requires exactly one of `title` or `labelledBy`.");
+}
+
+if (hasTitle && !hasHeadingId) {
+  throw new Error("Section title mode requires a non-empty `headingId`.");
+}
+
+const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
+---
+
+<section aria-labelledby={resolvedHeadingId} class="surble-section">
+  {hasTitle && <h2 id={resolvedHeadingId} class="surble-section__title">{normalizedTitle}</h2>}
+  <div class="surble-section__content">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .surble-section {
+    display: grid;
+    gap: var(--surble-space-4);
+    margin: 0;
+  }
+
+  .surble-section__title {
+    margin: 0;
+    color: var(--surble-text);
+    font-family: var(--surble-font-display);
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .surble-section__content {
+    min-width: 0;
+  }
+</style>

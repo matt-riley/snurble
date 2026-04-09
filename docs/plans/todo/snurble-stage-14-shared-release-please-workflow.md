@@ -1,4 +1,4 @@
-# Surble Stage 14 — Shared Release-Please Workflow
+# Snurble Stage 14 — Shared Release-Please Workflow
 
 ## Goal
 
@@ -6,7 +6,7 @@ Add a shared-release-based workflow that versions `@matt-riley/design-tokens` an
 
 ## Why this stage exists
 
-Stage 13 identified release readiness as a separate concern, but the workflow and registry wiring are still missing. This stage turns the release research into concrete repository work so Surble can cut real package releases instead of stopping at local workspace validation.
+Stage 13 identified release readiness as a separate concern, but the workflow and registry wiring are still missing. This stage turns the release research into concrete repository work so Snurble can cut real package releases instead of stopping at local workspace validation.
 
 ## Repository context
 
@@ -86,7 +86,7 @@ Stage 13 identified release readiness as a separate concern, but the workflow an
    - `tokens_tag`
    - `ui_astro_released`
    - `ui_astro_tag`
-   This keeps the shared workflow call single-purpose while giving the repo two independent publish gates.
+     This keeps the shared workflow call single-purpose while giving the repo two independent publish gates.
 6. Add `publish-design-tokens` and `publish-ui-astro` jobs that:
    - check out the exact emitted tag for each released package
    - install `pnpm@10.33.0`

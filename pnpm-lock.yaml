@@ -44,7 +44,11 @@ importers:
 
   packages/tokens: {}
 
-  packages/ui-astro: {}
+  packages/ui-astro:
+    dependencies:
+      '@matt-riley/design-tokens':
+        specifier: workspace:*
+        version: link:../tokens
 
 packages:
 

@@ -96,15 +96,20 @@ describe("design token package", () => {
     });
   });
 
-  it("proves the default token import on the docs homepage", async () => {
+  it("proves docs consume token metadata while Layout owns the baseline css import", async () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
 
-    expect(globalCss).toContain('@import "@matt-riley/design-tokens";');
+    expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
+    expect(homepage).toContain('import { Layout } from "@matt-riley/ui-astro";');
+    expect(homepage).toContain('import spacing from "@matt-riley/design-tokens/spacing.json";');
+    expect(homepage).toContain(
+      'import typography from "@matt-riley/design-tokens/typography.json";',
+    );
     expect(homepage).toContain("Semantic surfaces");
     expect(homepage).toContain("Typography scale");
     expect(homepage).toContain("Spacing scale");
-    expect(homepage).toContain("Focus treatment");
+    expect(homepage).toContain("Layout contract");
   });
 });

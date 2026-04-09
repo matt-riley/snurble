@@ -17,13 +17,17 @@ Create a reusable Surble `PageShell` component for page width, padding, and oute
 
 ### In scope
 
-- Wrapper for max width and padding.
-- Optional spacing variants if clearly needed.
+- One default-only wrapper for shared max width and horizontal/vertical padding.
+- Neutral container contract with slot content and optional class passthrough.
 - Public export and docs example.
+- Tests proving the export and docs composition.
 
 ### Out of scope
 
+- Variants.
+- Page semantics such as owning `<main>`.
 - Content-specific page sections.
+- Docs-only backdrop, min-height, flex/gap layout, and hero treatment.
 - Live consumer migration during this stage.
 
 ## Dependency notes
@@ -37,7 +41,8 @@ Create a reusable Surble `PageShell` component for page width, padding, and oute
 
 - `packages/ui-astro/src/PageShell.astro`
 - `packages/ui-astro/src/index.ts`
-- docs example page/section consuming `PageShell`
+- `packages/ui-astro/src/index.test.ts`
+- `apps/docs/src/pages/index.astro`
 
 ### Reference inputs
 
@@ -45,11 +50,11 @@ Create a reusable Surble `PageShell` component for page width, padding, and oute
 
 ## Implementation plan
 
-1. Capture the repeated page-shell behavior from the local CSS and convert it into a component contract.
-2. Decide whether the API needs variants or whether one default shell is enough.
-3. Implement the component using Surble tokens instead of site-local styling.
-4. Export it publicly and add docs examples that show standard page content inside it.
-5. Confirm the component composes cleanly with the shared `Layout`.
+1. Capture the extracted `.page` behavior as a shared contract for max width and horizontal/vertical padding only.
+2. Implement `PageShell` as a neutral container that does not own page semantics, sections, or docs-specific layout behavior.
+3. Keep the API default-only: slot content plus optional class passthrough, with no variants in this stage.
+4. Export `PageShell` publicly and update docs to compose `Layout > main.docs-shell > PageShell`.
+5. Extend package tests to prove the export, component contract, and docs usage stay aligned.
 
 ## Validation
 
@@ -61,10 +66,11 @@ Create a reusable Surble `PageShell` component for page width, padding, and oute
 ## Risks and watchpoints
 
 - Adding too many layout variants too early will make the component fuzzy.
-- The page shell should not absorb section- or hero-specific concerns.
+- The page shell should not absorb page semantics or section-, hero-, or docs-specific concerns.
+- The docs example should not hide a mismatch between the shared contract and the extracted `.page` reference.
 
 ## Exit criteria
 
 - Surble exposes a reusable `PageShell`.
-- Docs demonstrate it inside `Layout`.
+- Docs demonstrate `Layout > main > PageShell`.
 - The API is ready to wrap all `mattriley.tools` pages later.

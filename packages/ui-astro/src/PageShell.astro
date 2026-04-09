@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["surble-page-shell", className]}>
+  <slot />
+</div>
+
+<style>
+  .surble-page-shell {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-block-start: var(--surble-space-6);
+    padding-inline: calc((var(--surble-space-4) + var(--surble-space-5)) / 2);
+    padding-block-end: var(--surble-space-8);
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Layout } from "@matt-riley/ui-astro";
+import { Layout, PageShell } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
@@ -26,21 +26,23 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble layout component" description="Stage 03 layout contract showcase for the Surble design system.">
+<Layout title="Surble PageShell component" description="Stage 04 page shell showcase for the Surble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
-  <main class="docs-shell mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-16">
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
     <section class="space-y-4">
       <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-        Surble Stage 03
+        Surble Stage 04
       </p>
       <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">
-        Layout component is live.
+        PageShell component is live.
       </h1>
       <p class="max-w-2xl text-lg text-[var(--surble-muted)]">
         <code class="rounded bg-black/20 px-2 py-1 text-sm">@matt-riley/ui-astro</code> now exposes a reusable
-        <code class="ml-2 rounded bg-black/20 px-2 py-1 text-sm">Layout</code> shell that owns the HTML scaffold,
-        shared head defaults, and Surble token baseline import. Typography and spacing metadata still stay available
-        through the public token package exports.
+        <code class="ml-2 rounded bg-black/20 px-2 py-1 text-sm">PageShell</code> container that handles shared page
+        width and spacing while <code class="ml-2 rounded bg-black/20 px-2 py-1 text-sm">Layout</code> still owns the
+        HTML scaffold and baseline token import. Typography and spacing metadata remain available through the public
+        token package exports.
       </p>
     </section>
 
@@ -49,27 +51,27 @@ const spacingEntries = Object.entries(spacing.scale);
         class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
         style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
       >
-        <h2 class="text-2xl font-semibold">Layout contract</h2>
+        <h2 class="text-2xl font-semibold">PageShell contract</h2>
         <p class="text-sm text-[var(--surble-text-muted)]">
-          The first shared component stays intentionally small: page title, optional description, optional body class,
-          and a named head slot for extra tags.
+          The second shared component stays intentionally narrow: one neutral container for max width, responsive inline
+          padding, and page-level vertical spacing.
         </p>
         <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
           <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-            <code class="font-medium text-[var(--surble-text)]">title</code>
-            <p class="mt-2">Required page title rendered directly into the shared document shell.</p>
+            <code class="font-medium text-[var(--surble-text)]">slot</code>
+            <p class="mt-2">Consumer content rendered inside a neutral page-width wrapper.</p>
           </li>
           <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-            <code class="font-medium text-[var(--surble-text)]">description</code>
-            <p class="mt-2">Optional meta description rendered only when a consumer provides one.</p>
+            <code class="font-medium text-[var(--surble-text)]">class</code>
+            <p class="mt-2">Optional passthrough for consumer-owned layout classes like this docs page stack.</p>
           </li>
           <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-            <code class="font-medium text-[var(--surble-text)]">bodyClass</code>
-            <p class="mt-2">Optional hook for consumer-owned body styling without widening the shell API.</p>
+            <code class="font-medium text-[var(--surble-text)]">72rem max width</code>
+            <p class="mt-2">Keeps page content aligned with the extracted <code>.page</code> reference.</p>
           </li>
           <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-            <code class="font-medium text-[var(--surble-text)]">slot="head"</code>
-            <p class="mt-2">Named slot for extra head tags like theme-color, canonicals, or future metadata.</p>
+            <code class="font-medium text-[var(--surble-text)]">No semantics</code>
+            <p class="mt-2">Consumers keep their own <code>main</code>, hero, and section structure.</p>
           </li>
         </ul>
       </article>
@@ -78,24 +80,24 @@ const spacingEntries = Object.entries(spacing.scale);
         class="space-y-4 rounded-3xl border p-6"
         style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
       >
-        <h2 class="text-2xl font-semibold">Head defaults</h2>
+        <h2 class="text-2xl font-semibold">Composition</h2>
         <div class="grid gap-3">
           <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-            <p class="font-medium">Always rendered</p>
+            <p class="font-medium">Layout</p>
             <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-              charset, viewport, document title, lang, and the shared Surble token baseline import.
+              Owns the HTML document shell, shared head defaults, and the baseline token import.
             </p>
           </div>
           <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-            <p class="font-medium">Conditionally rendered</p>
+            <p class="font-medium">main.docs-shell</p>
             <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-              The description meta tag appears only when a consumer passes <code>description</code>.
+              Keeps the docs-only backdrop and page semantics without leaking those concerns into the shared package API.
             </p>
           </div>
           <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-            <p class="font-medium">Extended via slot</p>
+            <p class="font-medium">PageShell</p>
             <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-              This page adds the <code>theme-color</code> tag through the named head slot.
+              Constrains width and page spacing while the consumer keeps content structure and extra layout classes.
             </p>
           </div>
         </div>
@@ -205,5 +207,6 @@ const spacingEntries = Object.entries(spacing.scale);
         The green ring comes from <code class="text-[var(--surble-text)]">--surble-focus-ring</code>.
       </p>
     </section>
+    </PageShell>
   </main>
 </Layout>

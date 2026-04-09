@@ -14,6 +14,7 @@ describe("ui-astro package", () => {
     const packageJson = await readRepoFile("packages/ui-astro/package.json");
 
     expect(indexTs).toContain('export { default as Layout } from "./Layout.astro";');
+    expect(indexTs).toContain('export { default as PageShell } from "./PageShell.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -37,6 +38,21 @@ describe("ui-astro package", () => {
     expect(layoutAstro).toContain("class:list");
   });
 
+  it("implements a neutral PageShell container for width and padding only", async () => {
+    const pageShellAstro = await readRepoFile("packages/ui-astro/src/PageShell.astro");
+
+    expect(pageShellAstro).toContain("const { class: className } = Astro.props;");
+    expect(pageShellAstro).toContain('<div class:list={["surble-page-shell", className]}>');
+    expect(pageShellAstro).toContain("max-width: 72rem;");
+    expect(pageShellAstro).toContain("margin-inline: auto;");
+    expect(pageShellAstro).toContain("padding-block-start: var(--surble-space-6);");
+    expect(pageShellAstro).toContain(
+      "padding-inline: calc((var(--surble-space-4) + var(--surble-space-5)) / 2);",
+    );
+    expect(pageShellAstro).toContain("padding-block-end: var(--surble-space-8);");
+    expect(pageShellAstro).not.toContain("<main");
+  });
+
   it("adds the minimal Astro typing support for package exports", async () => {
     const envDts = await readRepoFile("packages/ui-astro/src/env.d.ts");
     const tsconfig = await readRepoFile("packages/ui-astro/tsconfig.json");
@@ -50,9 +66,10 @@ describe("ui-astro package", () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
-    expect(homepage).toContain('import { Layout } from "@matt-riley/ui-astro";');
+    expect(homepage).toContain('import { Layout, PageShell } from "@matt-riley/ui-astro";');
     expect(homepage).toContain("<Layout");
-    expect(homepage).toContain("docs-shell");
+    expect(homepage).toContain('<main class="docs-shell min-h-screen">');
+    expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain('slot="head"');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");

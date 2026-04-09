@@ -1,17 +1,41 @@
 ---
 import "../styles/global.css";
-import { Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
+import { DataTable, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
-const heroExampleSyncedAt = "2026-04-09T09:59:32.322Z";
-const detailHeroExample = `<p class="eyebrow">Back to all tools</p>
-<Hero
-  title="Detail-style hero"
-  lede="Detail pages can add supporting metadata after the lede without turning timestamps or labels into dedicated props."
->
-  <p>Last synced: <time datetime="${heroExampleSyncedAt}">2026-04-09 09:59 UTC</time></p>
-</Hero>`;
+const shortTableRows = [
+  {
+    surface: "Docs page",
+    role: "Shows the public DataTable import and a minimal table shape.",
+  },
+  {
+    surface: "Future consumer",
+    role: "Keeps row mapping and headings app-owned while Surble owns the shared table treatment.",
+  },
+];
+
+const pluginCatalogRows = [
+  {
+    name: "Space Sync",
+    kind: "Plugin",
+    install: "pnpm add @matt-riley/space-sync",
+    note: "Keeps local Copilot indexes fresh after repository updates.",
+  },
+  {
+    name: "Queue Peek",
+    kind: "Tool",
+    install: "pnpm add @matt-riley/queue-peek",
+    note: "Summarises durable work queues without exposing repo-specific logic.",
+  },
+  {
+    name: "Review Pulse",
+    kind: "Plugin",
+    install: "pnpm add @matt-riley/review-pulse",
+    note: "Tracks open review work and makes handoffs visible in one place.",
+  },
+];
+
 const semanticSurfaces = [
   {
     name: "Background",
@@ -34,53 +58,55 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble Panel component" description="Stage 07 panel showcase for the Surble design system.">
+<Layout title="Surble DataTable component" description="Stage 08 datatable showcase for the Surble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-          Surble Stage 07
+          Surble Stage 08
         </p>
         <Hero
-          title="Panel component is live."
-          lede="Shared highlighted blocks now move their border, radius, padding, and surface styling into a dedicated Panel wrapper while Section keeps the named-region contract."
+          title="DataTable component is live."
+          lede="Shared catalog tables now move overflow handling, semantic table markup, and consistent cell styling into a dedicated primitive while surrounding headings and surfaces stay consumer-owned."
         />
       </section>
 
       <div class="space-y-4">
-        <h2 id="panel-guidance-heading" class="text-2xl font-semibold">
-          Panel guidance
+        <h2 id="datatable-guidance-heading" class="text-2xl font-semibold">
+          DataTable guidance
         </h2>
-        <Section labelledBy="panel-guidance-heading">
+        <Section labelledBy="datatable-guidance-heading">
           <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-            <article aria-labelledby="panel-contract-heading">
+            <article aria-labelledby="datatable-contract-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="panel-contract-heading" class="text-xl font-semibold">Panel contract</h3>
+                  <h3 id="datatable-contract-heading" class="text-xl font-semibold">DataTable contract</h3>
                   <p class="text-sm text-[var(--surble-text-muted)]">
-                    `Panel` stays intentionally narrow: a visual wrapper for highlighted blocks that owns surface,
-                    border, radius, and padding while leaving semantics and headings to consumers.
+                    `DataTable` stays intentionally narrow: it owns the overflow wrapper, semantic table, and shared cell
+                    treatment while consumers still own headings, rows, links, and data mapping.
                   </p>
                   <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">slot</code>
-                      <p class="mt-2">Panel renders consumer-owned content without adding heading or region props.</p>
+                      <code class="font-medium text-[var(--surble-text)]">head slot</code>
+                      <p class="mt-2">The named head slot accepts the header row so column order stays app-owned.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">Surface</code>
+                      <code class="font-medium text-[var(--surble-text)]">default slot</code>
                       <p class="mt-2">
-                        Default surface, border, and radius create a shared highlighted-content baseline.
+                        Body rows stay consumer-owned, which keeps row rendering flexible without row-model props.
                       </p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">Padding</code>
-                      <p class="mt-2">Panel owns the interior breathing room so repeated blocks stop restyling it inline.</p>
+                      <code class="font-medium text-[var(--surble-text)]">Accessible name</code>
+                      <p class="mt-2">
+                        Tables require exactly one of <code>labelledBy</code> or <code>ariaLabel</code>.
+                      </p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">Compose with Section</code>
+                      <code class="font-medium text-[var(--surble-text)]">Compose with Panel</code>
                       <p class="mt-2">
-                        Section still owns named-region semantics around groups of panels and other content.
+                        Panel keeps surface chrome external so table semantics and surface styling do not overlap.
                       </p>
                     </li>
                   </ul>
@@ -88,31 +114,18 @@ const spacingEntries = Object.entries(spacing.scale);
               </Panel>
             </article>
 
-            <article aria-labelledby="panel-boundaries-heading">
+            <article aria-labelledby="datatable-accessibility-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="panel-boundaries-heading" class="text-xl font-semibold">Composition boundaries</h3>
-                  <div class="grid gap-3">
-                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                      <p class="font-medium">Layout</p>
-                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                        Owns the HTML document shell, shared head defaults, and the baseline token import.
-                      </p>
-                    </div>
-                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                      <p class="font-medium">Section</p>
-                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                        Keeps named-region semantics and shared section headings outside the visual wrapper.
-                      </p>
-                    </div>
-                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                      <p class="font-medium">Panel</p>
-                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                        Owns the visual chrome only, so later table and code-snippet primitives can sit inside it
-                        cleanly.
-                      </p>
-                    </div>
-                  </div>
+                  <h3 id="datatable-accessibility-heading" class="text-xl font-semibold">Accessibility</h3>
+                  <p class="text-sm text-[var(--surble-text-muted)]">
+                    Stage 08 keeps the naming contract explicit. Use <code>labelledBy</code> when a visible heading
+                    already exists nearby, or <code>ariaLabel</code> when the table needs a standalone accessible name.
+                  </p>
+                  <p class="text-sm text-[var(--surble-text-muted)]">
+                    Header cells and row content still stay consumer-owned so apps can keep real table semantics like
+                    <code>scope="col"</code>, links, install commands, and inline badges where they belong.
+                  </p>
                 </div>
               </Panel>
             </article>
@@ -120,38 +133,96 @@ const spacingEntries = Object.entries(spacing.scale);
         </Section>
       </div>
 
-      <Section title="Detail-style hero usage" headingId="detail-hero-usage-heading">
-        <div class="grid gap-4 lg:grid-cols-[1.15fr,0.85fr]">
-          <article aria-labelledby="detail-usage-heading">
+      <Section title="Examples" headingId="datatable-examples-heading">
+        <div class="grid gap-4 xl:grid-cols-2">
+          <article aria-labelledby="datatable-short-heading">
             <Panel>
               <div class="space-y-4">
-                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-                  Eyebrow stays outside Hero
-                </p>
-                <h3 id="detail-usage-heading" class="text-xl font-semibold">Detail-style usage</h3>
+                <h3 id="datatable-short-heading" class="text-xl font-semibold">Short table example</h3>
                 <p class="text-sm text-[var(--surble-text-muted)]">
-                  Detail pages keep the eyebrow or back link outside Hero, then pass supporting content through the
-                  default slot instead of relying on metadata-specific props.
+                  This smaller example shows the narrowest supported shape: one header row plus a handful of body rows
+                  mapped directly by the consumer.
                 </p>
-                <pre
-                  class="overflow-x-auto rounded-2xl border bg-black/25 p-4 text-sm text-[var(--surble-text)]"
-                  style="border-color: var(--surble-border);"
-                ><code>{detailHeroExample}</code></pre>
+                <DataTable labelledBy="datatable-short-heading">
+                  <tr slot="head">
+                    <th scope="col">Surface</th>
+                    <th scope="col">Why it exists</th>
+                  </tr>
+                  {
+                    shortTableRows.map((row) => (
+                      <tr>
+                        <td>{row.surface}</td>
+                        <td>{row.role}</td>
+                      </tr>
+                    ))
+                  }
+                </DataTable>
               </div>
             </Panel>
           </article>
 
-          <aside aria-labelledby="panel-slot-guidance-heading">
+          <article aria-labelledby="datatable-catalog-heading">
             <Panel>
               <div class="space-y-4">
-                <h3 id="panel-slot-guidance-heading" class="text-xl font-semibold">Why the slot stays generic</h3>
+                <h3 id="datatable-catalog-heading" class="text-xl font-semibold">Catalog-style example</h3>
                 <p class="text-sm text-[var(--surble-text-muted)]">
-                  The shared slot covers supporting content already proven by the references, but it avoids baking
-                  timestamps, badges, or metadata rows into the public API before a second real variation appears.
+                  The wider catalog variant keeps long install commands and multiple columns readable without baking
+                  app-specific data contracts into Surble.
+                </p>
+                <DataTable labelledBy="datatable-catalog-heading">
+                  <tr slot="head">
+                    <th scope="col">Name</th>
+                    <th scope="col">Kind</th>
+                    <th scope="col">Install</th>
+                    <th scope="col">Notes</th>
+                  </tr>
+                  {
+                    pluginCatalogRows.map((entry) => (
+                      <tr>
+                        <td>{entry.name}</td>
+                        <td>{entry.kind}</td>
+                        <td><code>{entry.install}</code></td>
+                        <td>{entry.note}</td>
+                      </tr>
+                    ))
+                  }
+                </DataTable>
+                <p class="text-sm text-[var(--surble-text-muted)]">
+                  Long install commands like <code>pnpm add</code> stay legible because the component owns horizontal
+                  overflow instead of forcing each consumer to restyle wrappers by hand.
                 </p>
               </div>
             </Panel>
-          </aside>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Composition boundaries" headingId="composition-boundaries-heading">
+        <div class="grid gap-4 lg:grid-cols-4">
+          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+            <p class="font-medium">Layout</p>
+            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+              Owns the document shell and shared token import.
+            </p>
+          </article>
+          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+            <p class="font-medium">Section</p>
+            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+              Owns section headings and higher-level grouping semantics.
+            </p>
+          </article>
+          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+            <p class="font-medium">Panel</p>
+            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+              Owns surface chrome and padding around the table examples.
+            </p>
+          </article>
+          <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+            <p class="font-medium">DataTable</p>
+            <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+              Owns overflow, semantic table markup, and shared row/cell treatment only.
+            </p>
+          </article>
         </div>
       </Section>
 
@@ -228,32 +299,6 @@ const spacingEntries = Object.entries(spacing.scale);
             </div>
           </article>
         </div>
-      </Section>
-
-      <Section title="Focus treatment" headingId="focus-treatment-heading">
-        <p class="max-w-2xl text-sm text-[var(--surble-text-muted)]">
-          The shared token entrypoint exports a generic focus-visible rule so interactive elements stay legible without
-          bringing docs-only helper classes along for the ride.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <button
-            type="button"
-            class="rounded-full border px-5 py-3 font-medium"
-            style="border-color: var(--surble-border-strong); background: var(--surble-surface-strong);"
-          >
-            Tab to focus me
-          </button>
-          <a
-            href="#focus-note"
-            class="inline-flex items-center rounded-full border px-5 py-3 font-medium"
-            style="border-color: var(--surble-border-strong); background: var(--surble-surface);"
-          >
-            Then focus this link
-          </a>
-        </div>
-        <p id="focus-note" class="text-sm text-[var(--surble-text-muted)]">
-          The green ring comes from <code class="text-[var(--surble-text)]">--surble-focus-ring</code>.
-        </p>
       </Section>
     </PageShell>
   </main>

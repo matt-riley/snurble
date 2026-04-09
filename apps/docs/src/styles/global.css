@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
-:root {
-  font-family: var(--surble-font-body);
+.docs-shell {
+  position: relative;
+  isolation: isolate;
 }
 
-html {
+.docs-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
     radial-gradient(circle at top, rgb(137 180 250 / 0.2), transparent 38%),
-    linear-gradient(180deg, rgb(49 50 68 / 0.55), transparent 30%), var(--surble-background);
-  color: var(--surble-text);
-}
-
-body {
-  background: transparent;
+    linear-gradient(180deg, rgb(49 50 68 / 0.55), transparent 30%);
 }

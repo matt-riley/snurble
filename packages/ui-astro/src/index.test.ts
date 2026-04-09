@@ -52,7 +52,9 @@ describe("ui-astro package", () => {
     expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain('import { Layout } from "@matt-riley/ui-astro";');
     expect(homepage).toContain("<Layout");
+    expect(homepage).toContain("docs-shell");
     expect(homepage).toContain('slot="head"');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
+    expect(globalCss).toContain(".docs-shell::before");
   });
 });

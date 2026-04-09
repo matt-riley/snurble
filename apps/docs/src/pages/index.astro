@@ -1,40 +1,8 @@
 ---
 import "../styles/global.css";
-import { DataTable, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
+import { Hero, Layout, MetaList, PageShell, Panel, Section } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
-
-const shortTableRows = [
-  {
-    surface: "Docs page",
-    role: "Shows the public DataTable import and a minimal table shape.",
-  },
-  {
-    surface: "Future consumer",
-    role: "Keeps row mapping and headings app-owned while Surble owns the shared table treatment.",
-  },
-];
-
-const pluginCatalogRows = [
-  {
-    name: "Space Sync",
-    kind: "Plugin",
-    install: "pnpm add @matt-riley/space-sync",
-    note: "Keeps local Copilot indexes fresh after repository updates.",
-  },
-  {
-    name: "Queue Peek",
-    kind: "Tool",
-    install: "pnpm add @matt-riley/queue-peek",
-    note: "Summarises durable work queues without exposing repo-specific logic.",
-  },
-  {
-    name: "Review Pulse",
-    kind: "Plugin",
-    install: "pnpm add @matt-riley/review-pulse",
-    note: "Tracks open review work and makes handoffs visible in one place.",
-  },
-];
 
 const semanticSurfaces = [
   {
@@ -58,73 +26,69 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble DataTable component" description="Stage 08 datatable showcase for the Surble design system.">
+<Layout title="Surble MetaList component" description="Stage 09 meta list showcase for the Surble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-          Surble Stage 08
+          Surble Stage 09
         </p>
         <Hero
-          title="DataTable component is live."
-          lede="Shared catalog tables now move overflow handling, semantic table markup, and consistent cell styling into a dedicated primitive while surrounding headings and surfaces stay consumer-owned."
+          title="MetaList component is live."
+          lede="Shared metadata blocks now move semantic definition-list structure, shared spacing, and consistent term/value styling into a dedicated primitive while consumers still own the actual dt and dd markup."
         />
       </section>
 
       <div class="space-y-4">
-        <h2 id="datatable-guidance-heading" class="text-2xl font-semibold">
-          DataTable guidance
+        <h2 id="metalist-guidance-heading" class="text-2xl font-semibold">
+          MetaList guidance
         </h2>
-        <Section labelledBy="datatable-guidance-heading">
+        <Section labelledBy="metalist-guidance-heading">
           <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-            <article aria-labelledby="datatable-contract-heading">
+            <article aria-labelledby="metalist-contract-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="datatable-contract-heading" class="text-xl font-semibold">DataTable contract</h3>
+                  <h3 id="metalist-contract-heading" class="text-xl font-semibold">MetaList contract</h3>
                   <p class="text-sm text-[var(--surble-text-muted)]">
-                    `DataTable` stays intentionally narrow: it owns the overflow wrapper, semantic table, and shared cell
-                    treatment while consumers still own headings, rows, links, and data mapping.
+                    <code>MetaList</code> stays intentionally narrow: it owns the semantic <code>dl</code> wrapper and
+                    shared term/value treatment while consumers still author the actual <code>dt</code> and
+                    <code>dd</code> pairs.
                   </p>
                   <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">head slot</code>
-                      <p class="mt-2">The named head slot accepts the header row so column order stays app-owned.</p>
-                    </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
                       <code class="font-medium text-[var(--surble-text)]">default slot</code>
-                      <p class="mt-2">
-                        Body rows stay consumer-owned, which keeps row rendering flexible without row-model props.
-                      </p>
+                      <p class="mt-2">Consumers provide raw definition-list pairs instead of a row data schema.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">Accessible name</code>
-                      <p class="mt-2">
-                        Tables require exactly one of <code>labelledBy</code> or <code>ariaLabel</code>.
-                      </p>
+                      <code class="font-medium text-[var(--surble-text)]">wrapper only</code>
+                      <p class="mt-2">Stage 09 keeps the API tiny: no formatter props, no item helper, no variants.</p>
                     </li>
                     <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                      <code class="font-medium text-[var(--surble-text)]">Compose with Panel</code>
-                      <p class="mt-2">
-                        Panel keeps surface chrome external so table semantics and surface styling do not overlap.
-                      </p>
+                      <code class="font-medium text-[var(--surble-text)]">rich values</code>
+                      <p class="mt-2">Links, code, and stacked copy stay consumer-authored inside each value.</p>
+                    </li>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                      <code class="font-medium text-[var(--surble-text)]">compose with Panel</code>
+                      <p class="mt-2">Panel keeps surface chrome external so the list primitive stays semantic.</p>
                     </li>
                   </ul>
                 </div>
               </Panel>
             </article>
 
-            <article aria-labelledby="datatable-accessibility-heading">
+            <article aria-labelledby="metalist-semantics-heading">
               <Panel>
                 <div class="space-y-4">
-                  <h3 id="datatable-accessibility-heading" class="text-xl font-semibold">Accessibility</h3>
+                  <h3 id="metalist-semantics-heading" class="text-xl font-semibold">Definition-list semantics</h3>
                   <p class="text-sm text-[var(--surble-text-muted)]">
-                    Stage 08 keeps the naming contract explicit. Use <code>labelledBy</code> when a visible heading
-                    already exists nearby, or <code>ariaLabel</code> when the table needs a standalone accessible name.
+                    Stage 09 follows the same wrapper-first boundary as <code>DataTable</code>, but for metadata
+                    instead of rows and columns. The primitive renders the <code>dl</code>; consumers keep ownership of
+                    each term and value pair.
                   </p>
                   <p class="text-sm text-[var(--surble-text-muted)]">
-                    Header cells and row content still stay consumer-owned so apps can keep real table semantics like
-                    <code>scope="col"</code>, links, install commands, and inline badges where they belong.
+                    The component does not require standalone accessible-name props in v1. In the intended usage, the
+                    surrounding <code>Section</code>, article, or nearby heading already labels the content block.
                   </p>
                 </div>
               </Panel>
@@ -133,64 +97,47 @@ const spacingEntries = Object.entries(spacing.scale);
         </Section>
       </div>
 
-      <Section title="Examples" headingId="datatable-examples-heading">
+      <Section title="Examples" headingId="metalist-examples-heading">
         <div class="grid gap-4 xl:grid-cols-2">
-          <article aria-labelledby="datatable-short-heading">
+          <article aria-labelledby="metalist-text-heading">
             <Panel>
               <div class="space-y-4">
-                <h3 id="datatable-short-heading" class="text-xl font-semibold">Short table example</h3>
+                <h3 id="metalist-text-heading" class="text-xl font-semibold">Text metadata example</h3>
                 <p class="text-sm text-[var(--surble-text-muted)]">
-                  This smaller example shows the narrowest supported shape: one header row plus a handful of body rows
-                  mapped directly by the consumer.
+                  This first example shows the narrowest supported shape: plain text terms and values authored directly
+                  by the consumer.
                 </p>
-                <DataTable labelledBy="datatable-short-heading">
-                  <tr slot="head">
-                    <th scope="col">Surface</th>
-                    <th scope="col">Why it exists</th>
-                  </tr>
-                  {
-                    shortTableRows.map((row) => (
-                      <tr>
-                        <td>{row.surface}</td>
-                        <td>{row.role}</td>
-                      </tr>
-                    ))
-                  }
-                </DataTable>
+                <MetaList>
+                  <dt>Runtime</dt>
+                  <dd>Astro component</dd>
+                  <dt>Ships from</dt>
+                  <dd>@matt-riley/ui-astro</dd>
+                  <dt>Best for</dt>
+                  <dd>Tool and plugin detail pages that repeat the same metadata structure.</dd>
+                </MetaList>
               </div>
             </Panel>
           </article>
 
-          <article aria-labelledby="datatable-catalog-heading">
+          <article aria-labelledby="metalist-rich-heading">
             <Panel>
               <div class="space-y-4">
-                <h3 id="datatable-catalog-heading" class="text-xl font-semibold">Catalog-style example</h3>
+                <h3 id="metalist-rich-heading" class="text-xl font-semibold">Rich value example</h3>
                 <p class="text-sm text-[var(--surble-text-muted)]">
-                  The wider catalog variant keeps long install commands and multiple columns readable without baking
-                  app-specific data contracts into Surble.
+                  Consumers can still use links, code, and multi-line value content without asking the primitive to
+                  understand those shapes.
                 </p>
-                <DataTable labelledBy="datatable-catalog-heading">
-                  <tr slot="head">
-                    <th scope="col">Name</th>
-                    <th scope="col">Kind</th>
-                    <th scope="col">Install</th>
-                    <th scope="col">Notes</th>
-                  </tr>
-                  {
-                    pluginCatalogRows.map((entry) => (
-                      <tr>
-                        <td>{entry.name}</td>
-                        <td>{entry.kind}</td>
-                        <td><code>{entry.install}</code></td>
-                        <td>{entry.note}</td>
-                      </tr>
-                    ))
-                  }
-                </DataTable>
-                <p class="text-sm text-[var(--surble-text-muted)]">
-                  Long install commands like <code>pnpm add</code> stay legible because the component owns horizontal
-                  overflow instead of forcing each consumer to restyle wrappers by hand.
-                </p>
+                <MetaList>
+                  <dt>Docs</dt>
+                  <dd><a href="https://github.com/matt-riley/snurble">Open the snurble repository</a></dd>
+                  <dt>Install</dt>
+                  <dd><code>pnpm add @matt-riley/ui-astro</code></dd>
+                  <dt>Notes</dt>
+                  <dd>
+                    <p>MetaList keeps the term/value structure semantic while the app owns the copy itself.</p>
+                    <p>That keeps Stage 09 flexible without widening the public API.</p>
+                  </dd>
+                </MetaList>
               </div>
             </Panel>
           </article>
@@ -214,13 +161,13 @@ const spacingEntries = Object.entries(spacing.scale);
           <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
             <p class="font-medium">Panel</p>
             <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-              Owns surface chrome and padding around the table examples.
+              Owns surface chrome and padding around the metadata examples.
             </p>
           </article>
           <article class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-            <p class="font-medium">DataTable</p>
+            <p class="font-medium">MetaList</p>
             <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-              Owns overflow, semantic table markup, and shared row/cell treatment only.
+              Owns semantic dl markup and shared term/value treatment only.
             </p>
           </article>
         </div>

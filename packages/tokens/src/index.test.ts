@@ -102,9 +102,7 @@ describe("design token package", () => {
 
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
-    expect(homepage).toContain(
-      'import { DataTable, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
-    );
+    expect(homepage).toContain('from "@matt-riley/ui-astro";');
     expect(homepage).toContain('import spacing from "@matt-riley/design-tokens/spacing.json";');
     expect(homepage).toContain(
       'import typography from "@matt-riley/design-tokens/typography.json";',
@@ -112,6 +110,5 @@ describe("design token package", () => {
     expect(homepage).toContain("Semantic surfaces");
     expect(homepage).toContain("Typography scale");
     expect(homepage).toContain("Spacing scale");
-    expect(homepage).toContain("DataTable contract");
   });
 });

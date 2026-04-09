@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Hero, Layout, PageShell, Section } from "@matt-riley/ui-astro";
+import { Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
@@ -34,81 +34,87 @@ const typographyEntries = Object.entries(typography.styles);
 const spacingEntries = Object.entries(spacing.scale);
 ---
 
-<Layout title="Surble Section component" description="Stage 06 section showcase for the Surble design system.">
+<Layout title="Surble Panel component" description="Stage 07 panel showcase for the Surble design system.">
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section class="space-y-4">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-          Surble Stage 06
+          Surble Stage 07
         </p>
         <Hero
-          title="Section component is live."
-          lede="Shared content regions now get a narrow Section primitive: either a built-in h2 or explicit external heading association, with Surble spacing but no panel-style chrome."
+          title="Panel component is live."
+          lede="Shared highlighted blocks now move their border, radius, padding, and surface styling into a dedicated Panel wrapper while Section keeps the named-region contract."
         />
       </section>
 
       <div class="space-y-4">
-        <h2 id="hero-guidance-heading" class="text-2xl font-semibold">
-          Hero guidance
+        <h2 id="panel-guidance-heading" class="text-2xl font-semibold">
+          Panel guidance
         </h2>
-        <Section labelledBy="hero-guidance-heading">
+        <Section labelledBy="panel-guidance-heading">
           <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-            <article
-              class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
-              style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
-            >
-              <h3 class="text-xl font-semibold">Section contract</h3>
-              <p class="text-sm text-[var(--surble-text-muted)]">
-                `Section` stays intentionally narrow: a named content region with shared outer spacing and either an
-                internal heading or explicit external heading association.
-              </p>
-              <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
-                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                  <code class="font-medium text-[var(--surble-text)]">title</code>
-                  <p class="mt-2">Renders the shared <code>h2</code> inside the component.</p>
-                </li>
-                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                  <code class="font-medium text-[var(--surble-text)]">labelledBy</code>
-                  <p class="mt-2">Associates the region with a consumer-owned heading without duplicating it.</p>
-                </li>
-                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                  <code class="font-medium text-[var(--surble-text)]">Spacing only</code>
-                  <p class="mt-2">The component coordinates structure and rhythm, not panel chrome or card padding.</p>
-                </li>
-                <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
-                  <code class="font-medium text-[var(--surble-text)]">Real regions</code>
-                  <p class="mt-2">Docs use Section for actual grouped content instead of standalone demo wrappers.</p>
-                </li>
-              </ul>
+            <article aria-labelledby="panel-contract-heading">
+              <Panel>
+                <div class="space-y-4">
+                  <h3 id="panel-contract-heading" class="text-xl font-semibold">Panel contract</h3>
+                  <p class="text-sm text-[var(--surble-text-muted)]">
+                    `Panel` stays intentionally narrow: a visual wrapper for highlighted blocks that owns surface,
+                    border, radius, and padding while leaving semantics and headings to consumers.
+                  </p>
+                  <ul class="grid gap-3 text-sm text-[var(--surble-text-muted)] sm:grid-cols-2">
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                      <code class="font-medium text-[var(--surble-text)]">slot</code>
+                      <p class="mt-2">Panel renders consumer-owned content without adding heading or region props.</p>
+                    </li>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                      <code class="font-medium text-[var(--surble-text)]">Surface</code>
+                      <p class="mt-2">
+                        Default surface, border, and radius create a shared highlighted-content baseline.
+                      </p>
+                    </li>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                      <code class="font-medium text-[var(--surble-text)]">Padding</code>
+                      <p class="mt-2">Panel owns the interior breathing room so repeated blocks stop restyling it inline.</p>
+                    </li>
+                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--surble-border);">
+                      <code class="font-medium text-[var(--surble-text)]">Compose with Section</code>
+                      <p class="mt-2">
+                        Section still owns named-region semantics around groups of panels and other content.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </Panel>
             </article>
 
-            <article
-              class="space-y-4 rounded-3xl border p-6"
-              style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
-            >
-              <h3 class="text-xl font-semibold">Composition boundaries</h3>
-              <div class="grid gap-3">
-                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                  <p class="font-medium">Layout</p>
-                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                    Owns the HTML document shell, shared head defaults, and the baseline token import.
-                  </p>
+            <article aria-labelledby="panel-boundaries-heading">
+              <Panel>
+                <div class="space-y-4">
+                  <h3 id="panel-boundaries-heading" class="text-xl font-semibold">Composition boundaries</h3>
+                  <div class="grid gap-3">
+                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                      <p class="font-medium">Layout</p>
+                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                        Owns the HTML document shell, shared head defaults, and the baseline token import.
+                      </p>
+                    </div>
+                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                      <p class="font-medium">Section</p>
+                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                        Keeps named-region semantics and shared section headings outside the visual wrapper.
+                      </p>
+                    </div>
+                    <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
+                      <p class="font-medium">Panel</p>
+                      <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
+                        Owns the visual chrome only, so later table and code-snippet primitives can sit inside it
+                        cleanly.
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                  <p class="font-medium">main.docs-shell + PageShell</p>
-                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                    Keep the docs backdrop, page semantics, and outer width/padding contract outside the shared section
-                    API.
-                  </p>
-                </div>
-                <div class="rounded-2xl border p-4" style="border-color: var(--surble-border);">
-                  <p class="font-medium">Section</p>
-                  <p class="mt-2 text-sm text-[var(--surble-text-muted)]">
-                    Owns named-region structure and spacing only, leaving surface treatment to later components.
-                  </p>
-                </div>
-              </div>
+              </Panel>
             </article>
           </div>
         </Section>
@@ -116,34 +122,36 @@ const spacingEntries = Object.entries(spacing.scale);
 
       <Section title="Detail-style hero usage" headingId="detail-hero-usage-heading">
         <div class="grid gap-4 lg:grid-cols-[1.15fr,0.85fr]">
-          <article
-            class="space-y-4 rounded-3xl border p-6 shadow-2xl shadow-black/20"
-            style="background: rgb(17 17 27 / 0.72); border-color: var(--surble-border);"
-          >
-            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
-              Eyebrow stays outside Hero
-            </p>
-            <h3 class="text-xl font-semibold">Detail-style usage</h3>
-            <p class="text-sm text-[var(--surble-text-muted)]">
-              Detail pages keep the eyebrow or back link outside Hero, then pass supporting content through the default
-              slot instead of relying on metadata-specific props.
-            </p>
-            <pre
-              class="overflow-x-auto rounded-2xl border bg-black/25 p-4 text-sm text-[var(--surble-text)]"
-              style="border-color: var(--surble-border);"
-            ><code>{detailHeroExample}</code></pre>
+          <article aria-labelledby="detail-usage-heading">
+            <Panel>
+              <div class="space-y-4">
+                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">
+                  Eyebrow stays outside Hero
+                </p>
+                <h3 id="detail-usage-heading" class="text-xl font-semibold">Detail-style usage</h3>
+                <p class="text-sm text-[var(--surble-text-muted)]">
+                  Detail pages keep the eyebrow or back link outside Hero, then pass supporting content through the
+                  default slot instead of relying on metadata-specific props.
+                </p>
+                <pre
+                  class="overflow-x-auto rounded-2xl border bg-black/25 p-4 text-sm text-[var(--surble-text)]"
+                  style="border-color: var(--surble-border);"
+                ><code>{detailHeroExample}</code></pre>
+              </div>
+            </Panel>
           </article>
 
-          <article
-            class="space-y-4 rounded-3xl border p-6"
-            style="background: rgb(30 30 46 / 0.88); border-color: var(--surble-border);"
-          >
-            <h3 class="text-xl font-semibold">Why the slot stays generic</h3>
-            <p class="text-sm text-[var(--surble-text-muted)]">
-              The shared slot covers supporting content already proven by the references, but it avoids baking
-              timestamps, badges, or metadata rows into the public API before a second real variation appears.
-            </p>
-          </article>
+          <aside aria-labelledby="panel-slot-guidance-heading">
+            <Panel>
+              <div class="space-y-4">
+                <h3 id="panel-slot-guidance-heading" class="text-xl font-semibold">Why the slot stays generic</h3>
+                <p class="text-sm text-[var(--surble-text-muted)]">
+                  The shared slot covers supporting content already proven by the references, but it avoids baking
+                  timestamps, badges, or metadata rows into the public API before a second real variation appears.
+                </p>
+              </div>
+            </Panel>
+          </aside>
         </div>
       </Section>
 

@@ -103,7 +103,7 @@ describe("design token package", () => {
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
     expect(homepage).toContain(
-      'import { Hero, Layout, PageShell, Section } from "@matt-riley/ui-astro";',
+      'import { Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
     );
     expect(homepage).toContain('import spacing from "@matt-riley/design-tokens/spacing.json";');
     expect(homepage).toContain(
@@ -112,6 +112,6 @@ describe("design token package", () => {
     expect(homepage).toContain("Semantic surfaces");
     expect(homepage).toContain("Typography scale");
     expect(homepage).toContain("Spacing scale");
-    expect(homepage).toContain("Section contract");
+    expect(homepage).toContain("Panel contract");
   });
 });

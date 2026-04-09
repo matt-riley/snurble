@@ -17,6 +17,7 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as PageShell } from "./PageShell.astro";');
     expect(indexTs).toContain('export { default as Hero } from "./Hero.astro";');
     expect(indexTs).toContain('export { default as Section } from "./Section.astro";');
+    expect(indexTs).toContain('export { default as Panel } from "./Panel.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -95,6 +96,20 @@ describe("ui-astro package", () => {
     await expect(sectionAstro).resolves.not.toContain("class?: string;");
   });
 
+  it("implements a visual Panel wrapper with surface treatment and default slot content only", async () => {
+    const panelAstro = readRepoFile("packages/ui-astro/src/Panel.astro");
+
+    await expect(panelAstro).resolves.toContain('<div class="surble-panel">');
+    await expect(panelAstro).resolves.toContain("<slot />");
+    await expect(panelAstro).resolves.toContain("background: var(--surble-surface);");
+    await expect(panelAstro).resolves.toContain("border: 1px solid var(--surble-border);");
+    await expect(panelAstro).resolves.toContain("border-radius: 1.5rem;");
+    await expect(panelAstro).resolves.toContain("padding: var(--surble-space-5);");
+    await expect(panelAstro).resolves.not.toContain("title:");
+    await expect(panelAstro).resolves.not.toContain("aria-labelledby");
+    await expect(panelAstro).resolves.not.toContain("class?: string;");
+  });
+
   it("adds the minimal Astro typing support for package exports", async () => {
     const envDts = await readRepoFile("packages/ui-astro/src/env.d.ts");
     const tsconfig = await readRepoFile("packages/ui-astro/tsconfig.json");
@@ -103,24 +118,35 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("proves docs consume Section from the public package entrypoint", async () => {
+  it("proves docs consume Panel from the public package entrypoint", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain(
-      'import { Hero, Layout, PageShell, Section } from "@matt-riley/ui-astro";',
+      'import { Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
     );
     expect(homepage).toContain("<Layout");
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain("<Hero");
-    expect(homepage).toContain('title="Section component is live."');
-    expect(homepage).toContain('id="hero-guidance-heading"');
-    expect(homepage).toContain('<Section labelledBy="hero-guidance-heading">');
+    expect(homepage).toContain('title="Panel component is live."');
+    expect(homepage).toContain('id="panel-guidance-heading"');
+    expect(homepage).toContain('<Section labelledBy="panel-guidance-heading">');
+    expect(homepage).toContain("<Panel>");
+    expect(homepage).toContain('<article aria-labelledby="panel-contract-heading">');
+    expect(homepage).toContain(
+      '<h3 id="panel-contract-heading" class="text-xl font-semibold">Panel contract</h3>',
+    );
+    expect(homepage).toContain('<article aria-labelledby="panel-boundaries-heading">');
+    expect(homepage).toContain(
+      '<h3 id="panel-boundaries-heading" class="text-xl font-semibold">Composition boundaries</h3>',
+    );
     expect(homepage).toContain(
       '<Section title="Detail-style hero usage" headingId="detail-hero-usage-heading">',
     );
+    expect(homepage).toContain('<article aria-labelledby="detail-usage-heading">');
+    expect(homepage).toContain('<aside aria-labelledby="panel-slot-guidance-heading">');
     expect(homepage).toContain(
       '<Section title="Semantic surfaces" headingId="semantic-surfaces-heading">',
     );
@@ -131,6 +157,7 @@ describe("ui-astro package", () => {
     expect(homepage).toContain(
       '<p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">',
     );
+    expect(homepage).not.toContain("rounded-3xl border p-6 shadow-2xl shadow-black/20");
     expect(homepage).toContain('title="Detail-style hero"');
     expect(homepage).toContain('slot="head"');
     expect(homepage).not.toContain('<section class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">');

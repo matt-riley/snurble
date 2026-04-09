@@ -117,6 +117,17 @@ describe("stage 13 release readiness", () => {
     expect(workflow).toContain("packages/ui-astro--release_created");
     expect(workflow).toContain('// "false"');
     expect(workflow).toContain("== 'true'");
+    expect(workflow).not.toContain("pnpm install --frozen-lockfile");
+  });
+
+  it("adds a manual tag publish workflow for release backfills", async () => {
+    const workflow = await readRepoFile(".github/workflows/publish-release-tags.yml");
+
+    expect(workflow).toContain("workflow_dispatch:");
+    expect(workflow).toContain("tokens_tag");
+    expect(workflow).toContain("ui_astro_tag");
+    expect(workflow).toContain("pnpm --dir packages/tokens publish --no-git-checks");
+    expect(workflow).toContain("pnpm --dir packages/ui-astro publish --no-git-checks");
   });
 
   it("adds an honest Stage 13 release-readiness guide with versioning, auth, rollback, and rollout gates", async () => {

@@ -96,11 +96,8 @@ jobs:
             exit 1
           fi
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Publish package
-        run: pnpm --filter @matt-riley/design-tokens publish --no-git-checks
+        run: pnpm --dir packages/tokens publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}
 
@@ -143,10 +140,7 @@ jobs:
             exit 1
           fi
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Publish package
-        run: pnpm --filter @matt-riley/ui-astro publish --no-git-checks
+        run: pnpm --dir packages/ui-astro publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}

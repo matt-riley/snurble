@@ -6,3 +6,4 @@ export { default as Panel } from "./Panel.astro";
 export { default as DataTable } from "./DataTable.astro";
 export { default as MetaList } from "./MetaList.astro";
 export { default as CodeSnippet } from "./CodeSnippet.astro";
+export { default as Stack } from "./Stack.astro";

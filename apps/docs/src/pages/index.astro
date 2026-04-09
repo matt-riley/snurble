@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { CodeSnippet, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";
+import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
 import spacing from "@matt-riley/design-tokens/spacing.json";
 import typography from "@matt-riley/design-tokens/typography.json";
 
@@ -27,23 +27,84 @@ const spacingEntries = Object.entries(spacing.scale);
 ---
 
 <Layout
-  title="Snurble CodeSnippet component"
-  description="Stage 10 code snippet showcase for the Snurble design system."
+  title="Snurble Stack component"
+  description="Stage 11 stack showcase for the Snurble design system."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
-      <section class="space-y-4">
-        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-          Snurble Stage 10
-        </p>
-        <Hero
-          title="CodeSnippet component is live."
-          lede="Shared install commands and longer code snippets now land in one narrow Astro primitive with explicit inline and block variants."
-        />
+      <section>
+        <Stack>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+            Snurble Stage 11
+          </p>
+          <Hero
+            title="Stack component is live."
+            lede="Grouped content now has a shared spacing primitive that composes cleanly with Section, Panel, and CodeSnippet without widening into layout props."
+          />
+        </Stack>
       </section>
 
-      <div class="space-y-4">
+      <Section title="Stack guidance" headingId="stack-guidance-heading">
+        <div class="grid gap-4 lg:grid-cols-[1.2fr,1fr]">
+          <article aria-labelledby="stack-contract-heading">
+            <Panel>
+              <Stack>
+                <h3 id="stack-contract-heading" class="text-xl font-semibold">Stack contract</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  <code>Stack</code> is Snurble&apos;s zero-config grouped-spacing primitive. It owns only vertical rhythm
+                  between direct children, using a fixed <code>var(--snurble-space-4)</code> gap.
+                </p>
+                <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)] sm:grid-cols-2">
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <code class="font-medium text-[var(--snurble-text)]">no props</code>
+                    <p class="mt-2">Stage 11 ships without spacing variants, alignment controls, or class passthrough.</p>
+                  </li>
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <code class="font-medium text-[var(--snurble-text)]">composition only</code>
+                    <p class="mt-2">Use Stack inside Section, Panel, and other wrappers when content needs a shared rhythm.</p>
+                  </li>
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <code class="font-medium text-[var(--snurble-text)]">non-goals</code>
+                    <p class="mt-2">It does not own page width, section framing, grid layout, or responsive spacing modes.</p>
+                  </li>
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <code class="font-medium text-[var(--snurble-text)]">stable default</code>
+                    <p class="mt-2">The fixed gap is part of the v1 contract until real usage proves a broader scale is needed.</p>
+                  </li>
+                </ul>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="stack-composition-heading">
+            <Panel>
+              <Stack>
+                <h3 id="stack-composition-heading" class="text-xl font-semibold">Composition example</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Stack keeps related copy, commands, and supporting notes together without asking the page to re-declare
+                  the same spacing rules over and over.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Install the package with <CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" /> and
+                  keep surrounding guidance in the same shared rhythm wrapper.
+                </p>
+                <CodeSnippet variant="block" code={`<Section title="Examples" headingId="examples-heading">
+  <Panel>
+    <Stack>
+      <h3>Example heading</h3>
+      <p>Related content stays grouped.</p>
+    </Stack>
+  </Panel>
+</Section>`}
+                />
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Stack>
         <h2 id="codesnippet-guidance-heading" class="text-2xl font-semibold">
           CodeSnippet guidance
         </h2>
@@ -51,7 +112,7 @@ const spacingEntries = Object.entries(spacing.scale);
           <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
             <article aria-labelledby="codesnippet-contract-heading">
               <Panel>
-                <div class="space-y-4">
+                <Stack>
                   <h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>
                   <p class="text-sm text-[var(--snurble-text-muted)]">
                     <code>CodeSnippet</code> keeps Stage 10 intentionally narrow: a required <code>variant</code> plus
@@ -75,13 +136,13 @@ const spacingEntries = Object.entries(spacing.scale);
                       <p class="mt-2">Stage 10 ships without syntax highlighting, copy controls, or language badges.</p>
                     </li>
                   </ul>
-                </div>
+                </Stack>
               </Panel>
             </article>
 
             <article aria-labelledby="codesnippet-semantics-heading">
               <Panel>
-                <div class="space-y-4">
+                <Stack>
                   <h3 id="codesnippet-semantics-heading" class="text-xl font-semibold">
                     Rendering semantics
                   </h3>
@@ -93,18 +154,18 @@ const spacingEntries = Object.entries(spacing.scale);
                     Whitespace is preserved for authored block snippets, so install commands and configuration examples
                     keep their intended indentation without widening the API.
                   </p>
-                </div>
+                </Stack>
               </Panel>
             </article>
           </div>
         </Section>
-      </div>
+      </Stack>
 
       <Section title="Examples" headingId="codesnippet-examples-heading">
         <div class="grid gap-4 xl:grid-cols-2">
           <article aria-labelledby="codesnippet-inline-heading">
             <Panel>
-              <div class="space-y-4">
+              <Stack>
                 <h3 id="codesnippet-inline-heading" class="text-xl font-semibold">Inline code example</h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   The inline variant is tuned for install commands and short snippets that need stronger visual emphasis
@@ -117,13 +178,13 @@ const spacingEntries = Object.entries(spacing.scale);
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   Inline snippets keep the authored string intact while the component owns the shared pill treatment.
                 </p>
-              </div>
+              </Stack>
             </Panel>
           </article>
 
           <article aria-labelledby="codesnippet-block-heading">
             <Panel>
-              <div class="space-y-4">
+              <Stack>
                 <h3 id="codesnippet-block-heading" class="text-xl font-semibold">Block code example</h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   The block variant handles longer snippets and preserves multiline formatting, indentation, and overflow
@@ -134,14 +195,14 @@ pnpm dlx astro sync --root ./apps/docs --config ./apps/docs/astro.config.mjs
 
 import { CodeSnippet } from "@matt-riley/ui-astro"`}
                 />
-              </div>
+              </Stack>
             </Panel>
           </article>
         </div>
       </Section>
 
       <Section title="Composition boundaries" headingId="composition-boundaries-heading">
-        <div class="grid gap-4 lg:grid-cols-4">
+        <div class="grid gap-4 xl:grid-cols-5">
           <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
             <p class="font-medium">Layout</p>
             <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
@@ -158,6 +219,12 @@ import { CodeSnippet } from "@matt-riley/ui-astro"`}
             <p class="font-medium">Panel</p>
             <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
               Owns surface chrome and padding around the showcase examples.
+            </p>
+          </article>
+          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
+            <p class="font-medium">Stack</p>
+            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
+              Owns repeated vertical spacing for grouped content without widening into layout controls.
             </p>
           </article>
           <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
@@ -193,53 +260,57 @@ import { CodeSnippet } from "@matt-riley/ui-astro"`}
       <Section title="Design scales" headingId="design-scales-heading">
         <div class="grid gap-4 lg:grid-cols-2">
           <article
-            class="space-y-4 rounded-3xl border p-6"
+            class="rounded-3xl border p-6"
             style="background: rgb(30 30 46 / 0.84); border-color: var(--snurble-border);"
           >
-            <h3 class="text-xl font-semibold">Typography scale</h3>
-            <div class="grid gap-4">
-              {
-                typographyEntries.map(([name, style]) => (
-                  <div class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-                    <div class="flex items-center justify-between gap-3">
-                      <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--snurble-text-muted)]">
-                        {name}
-                      </span>
-                      <code class="text-xs text-[var(--snurble-text-muted)]">{style.size}</code>
+            <Stack>
+              <h3 class="text-xl font-semibold">Typography scale</h3>
+              <div class="grid gap-4">
+                {
+                  typographyEntries.map(([name, style]) => (
+                    <div class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
+                      <div class="flex items-center justify-between gap-3">
+                        <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--snurble-text-muted)]">
+                          {name}
+                        </span>
+                        <code class="text-xs text-[var(--snurble-text-muted)]">{style.size}</code>
+                      </div>
+                      <p
+                        class="mt-3"
+                        style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
+                      >
+                        Snurble carries bold night-sky contrast without losing readability.
+                      </p>
                     </div>
-                    <p
-                      class="mt-3"
-                      style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
-                    >
-                      Snurble carries bold night-sky contrast without losing readability.
-                    </p>
-                  </div>
-                ))
-              }
-            </div>
+                  ))
+                }
+              </div>
+            </Stack>
           </article>
 
           <article
-            class="space-y-4 rounded-3xl border p-6"
+            class="rounded-3xl border p-6"
             style="background: rgb(24 24 37 / 0.92); border-color: var(--snurble-border);"
           >
-            <h3 class="text-xl font-semibold">Spacing scale</h3>
-            <div class="grid gap-3">
-              {
-                spacingEntries.map(([step, value]) => (
-                  <div class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                    <div class="flex items-center gap-4">
-                      <code class="min-w-14 text-xs text-[var(--snurble-text-muted)]">{step}</code>
-                      <div
-                        class="h-3 rounded-full bg-[var(--snurble-accent)]"
-                        style={`width: ${value}; min-width: ${value};`}
-                      ></div>
-                      <span class="text-sm text-[var(--snurble-text-muted)]">{value}</span>
+            <Stack>
+              <h3 class="text-xl font-semibold">Spacing scale</h3>
+              <div class="grid gap-3">
+                {
+                  spacingEntries.map(([step, value]) => (
+                    <div class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                      <div class="flex items-center gap-4">
+                        <code class="min-w-14 text-xs text-[var(--snurble-text-muted)]">{step}</code>
+                        <div
+                          class="h-3 rounded-full bg-[var(--snurble-accent)]"
+                          style={`width: ${value}; min-width: ${value};`}
+                        ></div>
+                        <span class="text-sm text-[var(--snurble-text-muted)]">{value}</span>
+                      </div>
                     </div>
-                  </div>
-                ))
-              }
-            </div>
+                  ))
+                }
+              </div>
+            </Stack>
           </article>
         </div>
       </Section>

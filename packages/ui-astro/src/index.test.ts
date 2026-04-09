@@ -21,6 +21,7 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as DataTable } from "./DataTable.astro";');
     expect(indexTs).toContain('export { default as MetaList } from "./MetaList.astro";');
     expect(indexTs).toContain('export { default as CodeSnippet } from "./CodeSnippet.astro";');
+    expect(indexTs).toContain('export { default as Stack } from "./Stack.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -113,6 +114,22 @@ describe("ui-astro package", () => {
     await expect(panelAstro).resolves.not.toContain("class?: string;");
   });
 
+  it("implements a zero-config Stack wrapper for repeated vertical spacing", async () => {
+    const stackAstro = readRepoFile("packages/ui-astro/src/Stack.astro");
+
+    await expect(stackAstro).resolves.toContain('<div class="snurble-stack">');
+    await expect(stackAstro).resolves.toContain("<slot />");
+    await expect(stackAstro).resolves.toContain(".snurble-stack > :global(* + *) {");
+    await expect(stackAstro).resolves.toContain("margin-block-start: var(--snurble-space-4);");
+    await expect(stackAstro).resolves.not.toContain("interface Props");
+    await expect(stackAstro).resolves.not.toContain("type Props =");
+    await expect(stackAstro).resolves.not.toContain("class?: string;");
+    await expect(stackAstro).resolves.not.toContain("space:");
+    await expect(stackAstro).resolves.not.toContain("display: grid;");
+    await expect(stackAstro).resolves.not.toContain("display: flex;");
+    await expect(stackAstro).resolves.not.toContain("min-width: 0;");
+  });
+
   it("implements a narrow DataTable wrapper with explicit accessible naming and slot-based rows", async () => {
     const dataTableAstro = readRepoFile("packages/ui-astro/src/DataTable.astro");
 
@@ -190,22 +207,28 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("proves docs consume CodeSnippet from the public package entrypoint", async () => {
+  it("proves docs frame Stack as the Stage 11 primitive while composing with CodeSnippet", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain(
-      'import { CodeSnippet, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
+      'import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";',
     );
     expect(homepage).toContain("<Layout");
+    expect(homepage).toContain('title="Snurble Stack component"');
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain("<Hero");
-    expect(homepage).toContain('title="CodeSnippet component is live."');
+    expect(homepage).toContain("Snurble Stage 11");
+    expect(homepage).toContain('title="Stack component is live."');
+    expect(homepage).toContain(
+      '<Section title="Stack guidance" headingId="stack-guidance-heading">',
+    );
     expect(homepage).toContain('id="codesnippet-guidance-heading"');
     expect(homepage).toContain('<Section labelledBy="codesnippet-guidance-heading">');
     expect(homepage).toContain('<article aria-labelledby="codesnippet-contract-heading">');
+    expect(homepage).toContain("<Stack>");
     expect(homepage).toContain(
       '<h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>',
     );
@@ -224,6 +247,7 @@ describe("ui-astro package", () => {
     expect(homepage).toContain("--reporter append-only");
     expect(homepage).toContain("Whitespace is preserved for authored block snippets");
     expect(homepage).toContain("Composition boundaries");
+    expect(homepage).not.toContain('<div class="space-y-4">');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");
   });

@@ -1,0 +1,12 @@
+---
+---
+
+<div class="snurble-stack">
+  <slot />
+</div>
+
+<style>
+  .snurble-stack > :global(* + *) {
+    margin-block-start: var(--snurble-space-4);
+  }
+</style>

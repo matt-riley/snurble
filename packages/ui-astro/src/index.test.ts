@@ -23,7 +23,7 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as CodeSnippet } from "./CodeSnippet.astro";');
     expect(indexTs).toContain('export { default as Stack } from "./Stack.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
-    expect(packageJson).toContain('"@matt-riley/design-tokens": "0.0.0"');
+    expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');
     expect(packageJson).toContain('"access": "public"');
     expect(packageJson).not.toContain('"private": true');
@@ -34,7 +34,7 @@ describe("ui-astro package", () => {
     const tokenPackageJson = await readRepoFile("packages/tokens/package.json");
 
     expect(uiPackageJson).toContain('"name": "@matt-riley/ui-astro"');
-    expect(uiPackageJson).toContain('"@matt-riley/design-tokens": "0.0.0"');
+    expect(uiPackageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(uiPackageJson).toContain('"peerDependencies"');
     expect(uiPackageJson).not.toContain('"workspace:*"');
     expect(tokenPackageJson).toContain('"name": "@matt-riley/design-tokens"');

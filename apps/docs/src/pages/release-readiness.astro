@@ -1,0 +1,166 @@
+---
+import "../styles/global.css";
+import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+const prereleaseCommands = `pnpm run validate
+pnpm --dir packages/tokens version 0.1.0-next.0 --no-git-tag-version
+pnpm --dir packages/ui-astro version 0.1.0-next.0 --no-git-tag-version
+pnpm --dir packages/tokens pack --pack-destination /tmp/snurble-release
+pnpm --dir packages/ui-astro pack --pack-destination /tmp/snurble-release
+
+# export NODE_AUTH_TOKEN with write:packages access for the @matt-riley scope first
+pnpm --dir packages/tokens publish --tag next --no-git-checks --registry https://npm.pkg.github.com
+pnpm --dir packages/ui-astro publish --tag next --no-git-checks --registry https://npm.pkg.github.com`;
+
+const consumerInstall = `@matt-riley:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}
+
+pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease>`;
+---
+
+<Layout
+  title="Snurble release readiness"
+  description="Stage 13 guide for manual prerelease publication, consumer cutover preparation, and the Stage 14 automation handoff."
+>
+  <meta slot="head" name="theme-color" content="#11111b" />
+
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <section>
+        <Stack>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+            Snurble Stage 13
+          </p>
+          <Hero
+            title="Release readiness"
+            lede="Stage 13 hardens Snurble for a manual prerelease path, documents the first consumer cutover contract, and hands durable automation off to Stage 14."
+          />
+        </Stack>
+      </section>
+
+      <Section title="Manual prerelease contract" headingId="manual-prerelease-heading">
+        <div class="grid gap-4 lg:grid-cols-[1.1fr,1fr]">
+          <article aria-labelledby="manual-prerelease-summary-heading">
+            <Panel>
+              <Stack>
+                <h3 id="manual-prerelease-summary-heading" class="text-xl font-semibold">
+                  Why Stage 13 stays manual
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Stage 13 focuses on proving that packed artifacts and the manual prerelease
+                  contract are ready for publication. It intentionally stops short of shared
+                  workflow automation so the release contract is clear before it is automated, and
+                  the real first-consumer proof happens when published prereleases are installed in
+                  the consumer repo.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The operator path for this stage is a <strong>manual prerelease</strong> using a
+                  prerelease dist-tag and explicit package versions.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Use the same prerelease version for both packages, such as
+                  <code>0.1.0-next.0</code>, so consumer manifests and rollback notes stay easy to
+                  reason about.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="manual-prerelease-commands-heading">
+            <Panel>
+              <Stack>
+                <h3 id="manual-prerelease-commands-heading" class="text-xl font-semibold">
+                  Operator runbook
+                </h3>
+                <CodeSnippet variant="block" code={prereleaseCommands} />
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Consumer install contract" headingId="consumer-install-contract-heading">
+        <div class="grid gap-4 lg:grid-cols-[1fr,1.05fr]">
+          <article aria-labelledby="consumer-install-summary-heading">
+            <Panel>
+              <Stack>
+                <h3 id="consumer-install-summary-heading" class="text-xl font-semibold">
+                  Consumer install contract
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Consumers must install real prerelease versions from the package registry and
+                  commit those versions in their manifest and lockfile. Stage 13 explicitly forbids
+                  leaving <code>file:</code> refs or local tarball dependencies in committed
+                  consumer state.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Public imports stay on package entrypoints only, and consumer-owned shell concerns
+                  remain local unless Snurble has explicitly absorbed them.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Later adopters should follow the same contract after the first consumer has rerun
+                  its own validation surface against published prerelease versions.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="consumer-install-commands-heading">
+            <Panel>
+              <Stack>
+                <h3 id="consumer-install-commands-heading" class="text-xl font-semibold">
+                  Registry install example
+                </h3>
+                <CodeSnippet variant="block" code={consumerInstall} />
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Rollback path" headingId="rollback-path-heading">
+        <Panel>
+          <Stack>
+            <h3 class="text-xl font-semibold">Rollback path</h3>
+            <p class="text-sm text-[var(--snurble-text-muted)]">
+              If a prerelease is bad, do not reuse the same version. Revert the consumer back to
+              the last known-good package versions, publish a newer prerelease, and rerun the
+              consumer validation surface before resuming rollout.
+            </p>
+          </Stack>
+        </Panel>
+      </Section>
+
+      <Section title="Adoption gates" headingId="adoption-gates-heading">
+        <Panel>
+          <Stack>
+            <h3 class="text-xl font-semibold">Adoption gates for later adopters</h3>
+            <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
+              <li>packed artifacts contain only intentional runtime and documentation files</li>
+              <li>the manual prerelease path is documented with versioning and auth expectations</li>
+              <li>the first consumer has rerun its validation surface against published prereleases</li>
+              <li>later adopters can follow the same public import and install contract</li>
+            </ul>
+          </Stack>
+        </Panel>
+      </Section>
+
+      <Section title="Stage 14 handoff" headingId="stage14-handoff-heading">
+        <Panel>
+          <Stack>
+            <h3 class="text-xl font-semibold">Automation belongs in Stage 14</h3>
+            <p class="text-sm text-[var(--snurble-text-muted)]">
+              Stage 14 owns the shared <code>release-please</code> and GitHub Packages workflow
+              wiring. That stage takes the manual Stage 13 contract and automates it through the
+              shared release workflow family instead of changing the Stage 13 behavior itself.
+            </p>
+            <p class="text-sm text-[var(--snurble-text-muted)]">
+              The handoff stays clean when Stage 13 proves package contents, docs, consumer
+              ergonomics, and rollout gates first.
+            </p>
+          </Stack>
+        </Panel>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>

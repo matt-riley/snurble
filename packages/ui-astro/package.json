@@ -2,7 +2,10 @@
   "name": "@matt-riley/ui-astro",
   "version": "0.0.0",
   "files": [
-    "src"
+    "src/*.astro",
+    "src/*.d.ts",
+    "src/index.ts",
+    "README.md"
   ],
   "type": "module",
   "exports": {
@@ -12,10 +15,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@matt-riley/design-tokens": "0.0.0"
+    "@matt-riley/design-tokens": ">=0.0.0-0"
   },
   "peerDependencies": {
-    "@matt-riley/design-tokens": "0.0.0",
+    "@matt-riley/design-tokens": ">=0.0.0-0",
     "astro": "^6.0.0"
   }
 }

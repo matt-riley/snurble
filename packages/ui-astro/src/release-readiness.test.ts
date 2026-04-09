@@ -126,8 +126,9 @@ describe("stage 13 release readiness", () => {
     expect(workflow).toContain("workflow_dispatch:");
     expect(workflow).toContain("tokens_tag");
     expect(workflow).toContain("ui_astro_tag");
-    expect(workflow).toContain("pnpm --dir packages/tokens publish --no-git-checks");
-    expect(workflow).toContain("pnpm --dir packages/ui-astro publish --no-git-checks");
+    expect(workflow).toContain("working-directory: packages/tokens");
+    expect(workflow).toContain("working-directory: packages/ui-astro");
+    expect(workflow).toContain("pnpm publish --no-git-checks");
   });
 
   it("adds an honest Stage 13 release-readiness guide with versioning, auth, rollback, and rollout gates", async () => {

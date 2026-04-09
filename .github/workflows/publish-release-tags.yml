@@ -53,7 +53,8 @@ jobs:
           fi
 
       - name: Publish package
-        run: pnpm --dir packages/tokens publish --no-git-checks
+        working-directory: packages/tokens
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}
 
@@ -96,6 +97,7 @@ jobs:
           fi
 
       - name: Publish package
-        run: pnpm --dir packages/ui-astro publish --no-git-checks
+        working-directory: packages/ui-astro
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}

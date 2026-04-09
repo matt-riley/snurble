@@ -18,6 +18,7 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain('export { default as Hero } from "./Hero.astro";');
     expect(indexTs).toContain('export { default as Section } from "./Section.astro";');
     expect(indexTs).toContain('export { default as Panel } from "./Panel.astro";');
+    expect(indexTs).toContain('export { default as DataTable } from "./DataTable.astro";');
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": "workspace:*"');
   });
@@ -110,6 +111,36 @@ describe("ui-astro package", () => {
     await expect(panelAstro).resolves.not.toContain("class?: string;");
   });
 
+  it("implements a narrow DataTable wrapper with explicit accessible naming and slot-based rows", async () => {
+    const dataTableAstro = readRepoFile("packages/ui-astro/src/DataTable.astro");
+
+    await expect(dataTableAstro).resolves.toContain("type LabelledByProps = {");
+    await expect(dataTableAstro).resolves.toContain("labelledBy: string;");
+    await expect(dataTableAstro).resolves.toContain("type AriaLabelProps = {");
+    await expect(dataTableAstro).resolves.toContain("ariaLabel: string;");
+    await expect(dataTableAstro).resolves.toContain("props.labelledBy.trim() || undefined");
+    await expect(dataTableAstro).resolves.toContain("props.ariaLabel.trim() || undefined");
+    await expect(dataTableAstro).resolves.toContain(
+      'throw new Error("DataTable requires exactly one of `labelledBy` or `ariaLabel`.");',
+    );
+    await expect(dataTableAstro).resolves.toContain('<div class="surble-data-table">');
+    await expect(dataTableAstro).resolves.toContain(
+      "<table aria-labelledby={labelledBy} aria-label={ariaLabel}>",
+    );
+    await expect(dataTableAstro).resolves.toContain('<thead class="surble-data-table__head">');
+    await expect(dataTableAstro).resolves.toContain('<slot name="head" />');
+    await expect(dataTableAstro).resolves.toContain('<tbody class="surble-data-table__body">');
+    await expect(dataTableAstro).resolves.toContain("<slot />");
+    await expect(dataTableAstro).resolves.toContain("overflow-x: auto;");
+    await expect(dataTableAstro).resolves.toContain(".surble-data-table :global(th)");
+    await expect(dataTableAstro).resolves.not.toContain("rows:");
+    await expect(dataTableAstro).resolves.not.toContain("columns:");
+    await expect(dataTableAstro).resolves.not.toContain("sortable");
+    await expect(dataTableAstro).resolves.not.toContain("filter");
+    await expect(dataTableAstro).resolves.not.toContain("fetch");
+    await expect(dataTableAstro).resolves.not.toContain("class?: string;");
+  });
+
   it("adds the minimal Astro typing support for package exports", async () => {
     const envDts = await readRepoFile("packages/ui-astro/src/env.d.ts");
     const tsconfig = await readRepoFile("packages/ui-astro/tsconfig.json");
@@ -118,49 +149,39 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("proves docs consume Panel from the public package entrypoint", async () => {
+  it("proves docs consume DataTable from the public package entrypoint", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain(
-      'import { Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
+      'import { DataTable, Hero, Layout, PageShell, Panel, Section } from "@matt-riley/ui-astro";',
     );
     expect(homepage).toContain("<Layout");
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain("<Hero");
-    expect(homepage).toContain('title="Panel component is live."');
-    expect(homepage).toContain('id="panel-guidance-heading"');
-    expect(homepage).toContain('<Section labelledBy="panel-guidance-heading">');
+    expect(homepage).toContain('title="DataTable component is live."');
+    expect(homepage).toContain('id="datatable-guidance-heading"');
+    expect(homepage).toContain('<Section labelledBy="datatable-guidance-heading">');
+    expect(homepage).toContain('<article aria-labelledby="datatable-contract-heading">');
+    expect(homepage).toContain(
+      '<h3 id="datatable-contract-heading" class="text-xl font-semibold">DataTable contract</h3>',
+    );
     expect(homepage).toContain("<Panel>");
-    expect(homepage).toContain('<article aria-labelledby="panel-contract-heading">');
+    expect(homepage).toContain('<DataTable labelledBy="datatable-short-heading">');
+    expect(homepage).toContain('<tr slot="head">');
     expect(homepage).toContain(
-      '<h3 id="panel-contract-heading" class="text-xl font-semibold">Panel contract</h3>',
+      '<h3 id="datatable-short-heading" class="text-xl font-semibold">Short table example</h3>',
     );
-    expect(homepage).toContain('<article aria-labelledby="panel-boundaries-heading">');
+    expect(homepage).toContain('<article aria-labelledby="datatable-catalog-heading">');
     expect(homepage).toContain(
-      '<h3 id="panel-boundaries-heading" class="text-xl font-semibold">Composition boundaries</h3>',
+      '<h3 id="datatable-catalog-heading" class="text-xl font-semibold">Catalog-style example</h3>',
     );
-    expect(homepage).toContain(
-      '<Section title="Detail-style hero usage" headingId="detail-hero-usage-heading">',
-    );
-    expect(homepage).toContain('<article aria-labelledby="detail-usage-heading">');
-    expect(homepage).toContain('<aside aria-labelledby="panel-slot-guidance-heading">');
-    expect(homepage).toContain(
-      '<Section title="Semantic surfaces" headingId="semantic-surfaces-heading">',
-    );
-    expect(homepage).toContain('<Section title="Design scales" headingId="design-scales-heading">');
-    expect(homepage).toContain(
-      '<Section title="Focus treatment" headingId="focus-treatment-heading">',
-    );
-    expect(homepage).toContain(
-      '<p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--surble-accent)]">',
-    );
-    expect(homepage).not.toContain("rounded-3xl border p-6 shadow-2xl shadow-black/20");
-    expect(homepage).toContain('title="Detail-style hero"');
-    expect(homepage).toContain('slot="head"');
-    expect(homepage).not.toContain('<section class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">');
+    expect(homepage).toContain('<DataTable labelledBy="datatable-catalog-heading">');
+    expect(homepage).toContain("<code>pnpm add");
+    expect(homepage).toContain("Accessibility");
+    expect(homepage).toContain("Composition boundaries");
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");
   });

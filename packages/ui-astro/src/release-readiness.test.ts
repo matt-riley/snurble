@@ -71,6 +71,54 @@ describe("stage 13 release readiness", () => {
     expect(packageJson.peerDependencies["@matt-riley/design-tokens"]).toBe(">=0.0.0-0");
   });
 
+  it("adds GitHub Packages registry metadata without tightening ui-astro's token range", async () => {
+    const tokensPackageJson = await readRepoJson<{
+      publishConfig: {
+        access: string;
+        registry?: string;
+      };
+    }>("packages/tokens/package.json");
+    const uiAstroPackageJson = await readRepoJson<{
+      publishConfig: {
+        access: string;
+        registry?: string;
+      };
+      devDependencies: Record<string, string>;
+      peerDependencies: Record<string, string>;
+    }>("packages/ui-astro/package.json");
+
+    expect(tokensPackageJson.publishConfig.access).toBe("public");
+    expect(tokensPackageJson.publishConfig.registry).toBe("https://npm.pkg.github.com");
+    expect(uiAstroPackageJson.publishConfig.access).toBe("public");
+    expect(uiAstroPackageJson.publishConfig.registry).toBe("https://npm.pkg.github.com");
+    expect(uiAstroPackageJson.devDependencies["@matt-riley/design-tokens"]).toBe(">=0.0.0-0");
+    expect(uiAstroPackageJson.peerDependencies["@matt-riley/design-tokens"]).toBe(">=0.0.0-0");
+  });
+
+  it("adds a stage 14 release-please workflow for independent package releases", async () => {
+    const releaseConfig = await readRepoJson<{
+      packages: Record<string, { "release-type": string }>;
+      plugins?: unknown[];
+    }>("release-please-config.json");
+    const releaseManifest = await readRepoJson<Record<string, string>>(
+      ".release-please-manifest.json",
+    );
+    const workflow = await readRepoFile(".github/workflows/release-please.yml");
+
+    expect(Object.keys(releaseConfig.packages)).toEqual(["packages/tokens", "packages/ui-astro"]);
+    expect(releaseConfig.packages["packages/tokens"]["release-type"]).toBe("node");
+    expect(releaseConfig.packages["packages/ui-astro"]["release-type"]).toBe("node");
+    expect(releaseConfig.plugins).toBeUndefined();
+    expect(releaseManifest["packages/tokens"]).toBeDefined();
+    expect(releaseManifest["packages/ui-astro"]).toBeDefined();
+    expect(workflow).toContain("matt-riley/matt-riley-ci/.github/workflows/release-please.yml@v1");
+    expect(workflow).toContain("raw_outputs_json");
+    expect(workflow).toContain("packages/tokens--release_created");
+    expect(workflow).toContain("packages/ui-astro--release_created");
+    expect(workflow).toContain('// "false"');
+    expect(workflow).toContain("== 'true'");
+  });
+
   it("adds an honest Stage 13 release-readiness guide with versioning, auth, rollback, and rollout gates", async () => {
     const releaseGuide = await readRepoFile("apps/docs/src/pages/release-readiness.astro");
 

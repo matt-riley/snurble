@@ -12,7 +12,8 @@
     ".": "./src/index.ts"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@matt-riley/design-tokens": ">=0.0.0-0"

@@ -31,6 +31,6 @@ The package entrypoint exports:
 
 `@matt-riley/design-tokens` remains a peer dependency and should be installed alongside this package.
 
-See the Stage 13 release-readiness guide for the manual versioning, auth, rollback, and Stage 14 handoff details.
+See the Stage 13 release-readiness guide for the manual versioning, auth, rollback, and Stage 14 automation details.
 
-Stage 14 is reserved for the shared `release-please` automation that turns this manual prerelease contract into a long-lived release workflow.
+Stage 14 adds the shared `release-please` and GitHub Packages workflow wiring that turns the manual prerelease contract into a long-lived release workflow.

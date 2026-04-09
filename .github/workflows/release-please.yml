@@ -1,0 +1,152 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-please:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: matt-riley/matt-riley-ci/.github/workflows/release-please.yml@v1
+    with:
+      config-file: release-please-config.json
+      manifest-file: .release-please-manifest.json
+    secrets:
+      token: ${{ secrets.RELEASE_PLEASE_TOKEN || github.token }}
+
+  release-metadata:
+    name: Release metadata
+    needs: release-please
+    runs-on: ubuntu-latest
+    outputs:
+      tokens_released: ${{ steps.parse.outputs.tokens_released }}
+      tokens_tag: ${{ steps.parse.outputs.tokens_tag }}
+      ui_astro_released: ${{ steps.parse.outputs.ui_astro_released }}
+      ui_astro_tag: ${{ steps.parse.outputs.ui_astro_tag }}
+    steps:
+      - name: Parse release outputs
+        id: parse
+        env:
+          RAW_OUTPUTS_JSON: ${{ needs.release-please.outputs.raw_outputs_json }}
+        run: |
+          tokens_released="$(jq -er '."packages/tokens--release_created" // "false"' <<<"$RAW_OUTPUTS_JSON")"
+          tokens_tag="$(jq -er '."packages/tokens--tag_name" // ""' <<<"$RAW_OUTPUTS_JSON")"
+          ui_astro_released="$(jq -er '."packages/ui-astro--release_created" // "false"' <<<"$RAW_OUTPUTS_JSON")"
+          ui_astro_tag="$(jq -er '."packages/ui-astro--tag_name" // ""' <<<"$RAW_OUTPUTS_JSON")"
+
+          if [[ "$tokens_released" == "true" && -z "$tokens_tag" ]]; then
+            echo "::error::Missing tag output for packages/tokens release."
+            exit 1
+          fi
+
+          if [[ "$ui_astro_released" == "true" && -z "$ui_astro_tag" ]]; then
+            echo "::error::Missing tag output for packages/ui-astro release."
+            exit 1
+          fi
+
+          {
+            echo "tokens_released=$tokens_released"
+            echo "tokens_tag=$tokens_tag"
+            echo "ui_astro_released=$ui_astro_released"
+            echo "ui_astro_tag=$ui_astro_tag"
+          } >> "$GITHUB_OUTPUT"
+
+  publish-design-tokens:
+    name: Publish design tokens
+    needs: release-metadata
+    if: ${{ needs.release-metadata.outputs.tokens_released == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-metadata.outputs.tokens_tag }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: https://npm.pkg.github.com
+          scope: "@matt-riley"
+
+      - name: Verify tag matches package version
+        env:
+          EMITTED_TAG: ${{ needs.release-metadata.outputs.tokens_tag }}
+        run: |
+          package_version="$(jq -r '.version' packages/tokens/package.json)"
+          if [[ "$EMITTED_TAG" != *"$package_version" ]]; then
+            echo "::error::Release tag $EMITTED_TAG does not end with package version $package_version."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish package
+        run: pnpm --filter @matt-riley/design-tokens publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+  publish-ui-astro:
+    name: Publish ui-astro
+    needs:
+      - release-metadata
+      - publish-design-tokens
+    if: ${{ always() && needs.release-metadata.outputs.ui_astro_released == 'true' && (needs.release-metadata.outputs.tokens_released != 'true' || needs.publish-design-tokens.result == 'success') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-metadata.outputs.ui_astro_tag }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: https://npm.pkg.github.com
+          scope: "@matt-riley"
+
+      - name: Verify tag matches package version
+        env:
+          EMITTED_TAG: ${{ needs.release-metadata.outputs.ui_astro_tag }}
+        run: |
+          package_version="$(jq -r '.version' packages/ui-astro/package.json)"
+          if [[ "$EMITTED_TAG" != *"$package_version" ]]; then
+            echo "::error::Release tag $EMITTED_TAG does not end with package version $package_version."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish package
+        run: pnpm --filter @matt-riley/ui-astro publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}

@@ -1,0 +1,12 @@
+{
+  "packages": {
+    "packages/tokens": {
+      "release-type": "node",
+      "package-name": "@matt-riley/design-tokens"
+    },
+    "packages/ui-astro": {
+      "release-type": "node",
+      "package-name": "@matt-riley/ui-astro"
+    }
+  }
+}

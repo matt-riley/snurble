@@ -1,0 +1,35 @@
+---
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+
+if (!href.startsWith("#")) {
+  throw new Error("SkipLink requires an internal anchor `href` starting with #.");
+}
+---
+
+<a class="snurble-skip-link" href={href}>
+  <slot />
+</a>
+
+<style>
+  .snurble-skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 50;
+    transform: translateY(-200%);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: var(--snurble-surface);
+    color: var(--snurble-text);
+    transition: transform 0.2s ease;
+  }
+
+  .snurble-skip-link:focus,
+  .snurble-skip-link:focus-visible {
+    transform: translateY(0);
+  }
+</style>

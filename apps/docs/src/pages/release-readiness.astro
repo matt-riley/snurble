@@ -33,7 +33,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
           </p>
           <Hero
             title="Release readiness"
-            lede="Stage 13 hardens Snurble for a manual prerelease path, documents the first consumer cutover contract, and hands durable automation off to Stage 14."
+            lede="Stage 13 hardens Snurble for a manual prerelease path, documents the first consumer (mattriley.tools) cutover contract, and hands durable automation off to Stage 14. workv2 remains the foundation reference; mattriley.tools validates the extracted contract."
           />
         </Stack>
       </section>
@@ -51,7 +51,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
                   contract are ready for publication. It intentionally stops short of shared
                   workflow automation so the release contract is clear before it is automated, and
                   the real first-consumer proof happens when published prereleases are installed in
-                  the consumer repo.
+                  mattriley.tools (the proving consumer, not the foundation reference).
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   The operator path for this stage is a <strong>manual prerelease</strong> using a
@@ -91,15 +91,18 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
                   Consumers must install real prerelease versions from the package registry and
                   commit those versions in their manifest and lockfile. Stage 13 explicitly forbids
                   leaving <code>file:</code> refs or local tarball dependencies in committed
-                  consumer state.
+                  consumer state. mattriley.tools is the first proving consumer; workv2 (the foundation)
+                  will adopt Snurble after foundation-specific primitives are extracted.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   Public imports stay on package entrypoints only, and consumer-owned shell concerns
                   remain local unless Snurble has explicitly absorbed them.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Later adopters should follow the same contract after the first consumer has rerun
-                  its own validation surface against published prerelease versions.
+                  Later adopters should follow the same contract after mattriley.tools (the first
+                  proving consumer) has rerun its validation surface against published prerelease
+                  versions. workv2 (the foundation reference) will adopt Snurble after
+                  foundation-specific primitives are extracted.
                 </p>
               </Stack>
             </Panel>
@@ -138,8 +141,9 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
             <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
               <li>packed artifacts contain only intentional runtime and documentation files</li>
               <li>the manual prerelease path is documented with versioning and auth expectations</li>
-              <li>the first consumer has rerun its validation surface against published prereleases</li>
+              <li>mattriley.tools (the first proving consumer) has rerun its validation surface against published prereleases</li>
               <li>later adopters can follow the same public import and install contract</li>
+              <li>workv2 (the foundation reference) adoption waits for foundation-specific primitive extraction</li>
             </ul>
           </Stack>
         </Panel>

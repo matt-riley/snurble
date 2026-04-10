@@ -1,0 +1,226 @@
+---
+import "../styles/global.css";
+import {
+  CodeSnippet,
+  ExperienceCard,
+  ExperienceList,
+  Hero,
+  Layout,
+  PageShell,
+  Panel,
+  Section,
+  SkillIcon,
+  SkillIconList,
+  Stack,
+} from "@matt-riley/ui-astro";
+---
+
+<Layout
+  title="Experience Primitives"
+  description="Shared experience and timeline presentation primitives for workv2 foundation"
+>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title="Experience Primitives"
+        lede="Extracted presentation primitives for displaying job experience, timelines, and skill lists."
+      />
+
+      <Section title="Overview" headingId="overview-heading">
+        <Stack>
+          <Panel>
+            <p>
+              The experience primitives provide shared UI components for presenting
+              professional experience, job histories, and skill lists. These components
+              are extracted from workv2 to support consistent experience presentation
+              across multiple sites.
+            </p>
+            <p>
+              <strong>Key principle:</strong> Fetching, date normalization, and trusted
+              HTML sourcing stay outside the shared package. These primitives handle only
+              presentation concerns.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Component Inventory" headingId="inventory-heading">
+        <Stack>
+          <article>
+            <h3 class="text-xl font-semibold mb-2">ExperienceCard</h3>
+            <Panel>
+              <p>
+                Displays a single job or experience entry with logo, title, company,
+                description, dates, and optional skill list.
+              </p>
+              <CodeSnippet
+                variant="block"
+                code={`<ExperienceCard
+  logo="/logo.png"
+  title="Senior Developer"
+  company="ACME Corp"
+  description="<p>Trusted HTML description</p>"
+  start="2020-01"
+  end="2023-12"
+>
+  <SkillIconList title="Stack:">
+    <SkillIcon>
+      <YourIconComponent name="typescript" title="TypeScript" />
+    </SkillIcon>
+    <SkillIcon>
+      <YourIconComponent name="react" title="React" />
+    </SkillIcon>
+  </SkillIconList>
+</ExperienceCard>`}
+              />
+            </Panel>
+          </article>
+
+          <article>
+            <h3 class="text-xl font-semibold mb-2">ExperienceList</h3>
+            <Panel>
+              <p>
+                Wrapper for multiple experience cards with semantic list markup and
+                consistent spacing.
+              </p>
+              <CodeSnippet
+                variant="block"
+                code={`<ExperienceList>
+  <li>
+    <ExperienceCard ... />
+  </li>
+  <li>
+    <ExperienceCard ... />
+  </li>
+</ExperienceList>`}
+              />
+            </Panel>
+          </article>
+
+          <article>
+            <h3 class="text-xl font-semibold mb-2">SkillIconList & SkillIcon</h3>
+            <Panel>
+              <p>
+                Displays a list of skill icons with optional title. SkillIcon is a minimal
+                slot-based container for layout and spacing. Consumers provide the actual
+                icon element via slot.
+              </p>
+              <CodeSnippet
+                variant="block"
+                code={`<SkillIconList title="Stack:">
+  <SkillIcon>
+    <!-- Consumer provides icon implementation -->
+    <YourIconComponent name="typescript" title="TypeScript" />
+  </SkillIcon>
+</SkillIconList>`}
+              />
+            </Panel>
+          </article>
+        </Stack>
+      </Section>
+
+      <Section title="Live Example" headingId="example-heading">
+        <ExperienceList>
+          <li>
+            <ExperienceCard
+              logo="https://via.placeholder.com/128"
+              title="Senior Software Engineer"
+              company="Example Technologies"
+              description="<p>Led development of distributed systems and mentored junior developers. Architected scalable microservices handling millions of requests daily.</p>"
+              start="2020-01"
+              end="2023-12"
+            >
+              <SkillIconList title="Stack:">
+                <SkillIcon>
+                  <span>TS</span>
+                </SkillIcon>
+                <SkillIcon>
+                  <span>React</span>
+                </SkillIcon>
+                <SkillIcon>
+                  <span>Node</span>
+                </SkillIcon>
+              </SkillIconList>
+            </ExperienceCard>
+          </li>
+          <li>
+            <ExperienceCard
+              logo="https://via.placeholder.com/128"
+              title="Software Developer"
+              company="Startup Inc"
+              description="<p>Built initial product MVP and established engineering practices. Worked across the full stack from database design to frontend implementation.</p>"
+              start="2018-06"
+              end="2019-12"
+            >
+              <SkillIconList title="Stack:">
+                <SkillIcon>
+                  <span>JS</span>
+                </SkillIcon>
+                <SkillIcon>
+                  <span>Python</span>
+                </SkillIcon>
+              </SkillIconList>
+            </ExperienceCard>
+          </li>
+        </ExperienceList>
+      </Section>
+
+      <Section title="Consumer Responsibilities" headingId="consumer-heading">
+        <Stack>
+          <Panel>
+            <h4 class="font-semibold mb-2">Fetching and Data Normalization</h4>
+            <p>
+              Consumers must handle API calls, date parsing, and data transformation
+              before passing props to these components.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h4 class="font-semibold mb-2">Trusted HTML Boundary</h4>
+            <p>
+              <code class="text-sm bg-gray-100 px-1 py-0.5 rounded">
+                ExperienceCard.description
+              </code> uses <code class="text-sm bg-gray-100 px-1 py-0.5 rounded">
+                set:html
+              </code>. Only pass sanitized or trusted rich text content. This boundary is
+              documented in the component source.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h4 class="font-semibold mb-2">Icon Implementation</h4>
+            <p>
+              SkillIcon provides the container and layout. Consumers provide the actual
+              icon element (SVG, icon font, or component) via the default slot.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Usage Notes" headingId="notes-heading">
+        <Stack>
+          <Panel>
+            <ul class="list-disc pl-5 space-y-2">
+              <li>
+                Date formatting is intentionally not handled by these components. Pass
+                pre-formatted date strings or use consumer-side date utilities.
+              </li>
+              <li>
+                The components use Snurble design tokens for spacing, colors, and
+                typography.
+              </li>
+              <li>
+                Grid layout in ExperienceCard is responsive and stacks on mobile
+                viewports.
+              </li>
+              <li>
+                All components use semantic HTML (article, time, ul/li) for better
+                accessibility.
+              </li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>

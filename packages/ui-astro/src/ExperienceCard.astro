@@ -1,0 +1,120 @@
+---
+interface Props {
+  logo: string;
+  title: string;
+  company: string;
+  description: string;
+  start: string;
+  end: string;
+}
+
+const { logo, title, company, description, start, end } = Astro.props;
+---
+
+<article class="snurble-experience-card">
+  <div class="snurble-experience-card__logo">
+    <img src={logo} alt={title} />
+  </div>
+  <div class="snurble-experience-card__content">
+    <header class="snurble-experience-card__header">
+      <div class="snurble-experience-card__title-group">
+        <h3 class="snurble-experience-card__title">{title}</h3>
+        <p class="snurble-experience-card__company">{company}</p>
+      </div>
+      <p class="snurble-experience-card__dates">
+        <time datetime={start}>{start}</time> - <time datetime={end}>{end}</time>
+      </p>
+    </header>
+    <slot />
+  </div>
+  <!--
+    Trusted HTML boundary:
+    `description` is only safe when sourced from upstream sanitization
+    or trusted rich text rendering. Consumers must ensure description
+    comes from a trusted source before using set:html.
+  -->
+  <div class="snurble-experience-card__description" set:html={description} />
+</article>
+
+<style>
+  .snurble-experience-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--snurble-space-4);
+    padding: var(--snurble-space-4);
+    background: var(--snurble-surface);
+    border: 1px solid var(--snurble-border);
+    border-radius: 0.5rem;
+  }
+
+  .snurble-experience-card__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .snurble-experience-card__logo img {
+    max-width: 8rem;
+    max-height: 8rem;
+    object-fit: contain;
+  }
+
+  .snurble-experience-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-3);
+    min-width: 0;
+  }
+
+  .snurble-experience-card__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--snurble-space-2);
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: var(--snurble-space-2);
+    border-bottom: 1px solid var(--snurble-border);
+  }
+
+  .snurble-experience-card__title-group {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .snurble-experience-card__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .snurble-experience-card__company {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--snurble-text-secondary, var(--snurble-text));
+    opacity: 0.8;
+  }
+
+  .snurble-experience-card__dates {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .snurble-experience-card__description {
+    grid-column: 1 / -1;
+    padding: var(--snurble-space-2);
+    text-align: justify;
+  }
+
+  @media (max-width: 768px) {
+    .snurble-experience-card {
+      grid-template-columns: 1fr;
+    }
+
+    .snurble-experience-card__logo img {
+      max-width: 6rem;
+      max-height: 6rem;
+    }
+  }
+</style>

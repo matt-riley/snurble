@@ -1,0 +1,227 @@
+---
+import "../styles/global.css";
+import {
+  CodeSnippet,
+  DecoratedHeading,
+  Hero,
+  Layout,
+  PageShell,
+  Panel,
+  ProfileHero,
+  Section,
+  SocialLinks,
+  Stack,
+} from "@matt-riley/ui-astro";
+
+const profileLinks = [
+  { href: "https://github.com/matt-riley", icon: "GitHub", label: "GitHub profile" },
+  { href: "https://linkedin.com/in/matthewjriley", icon: "LinkedIn", label: "LinkedIn profile" },
+  { href: "https://bsky.app/profile/mattriley.dev", icon: "Bluesky", label: "Bluesky profile" },
+];
+---
+
+<Layout
+  title="Profile & Social Primitives | Snurble"
+  description="ProfileHero, SocialLinks, and DecoratedHeading components for profile pages"
+>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title="Profile & Social Primitives"
+        lede="Foundation components for profile headers, social links, and decorative text effects derived from workv2 homepage patterns."
+      />
+
+      <Section title="ProfileHero Component" headingId="profile-hero-heading">
+        <Stack>
+          <p>
+            Avatar-based profile header with name and subtitle. Designed for personal homepage
+            headers with centered layout and responsive typography.
+          </p>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">ProfileHero contract</h3>
+              <CodeSnippet
+                variant="block"
+                code={`interface Props {
+  name: string;
+  subtitle: string;
+  avatarSrc: string;
+  avatarAlt: string;
+}`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">Example usage</h3>
+              <CodeSnippet
+                variant="block"
+                code={`<ProfileHero
+  name="Matt Riley"
+  subtitle="Senior Software Engineer in Leeds, West Yorkshire"
+  avatarSrc="https://github.com/matt-riley.png"
+  avatarAlt="Matt Riley's GitHub avatar"
+/>`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold">Live example</h3>
+            <ProfileHero
+              name="Matt Riley"
+              subtitle="Senior Software Engineer in Leeds, West Yorkshire"
+              avatarSrc="https://github.com/matt-riley.png"
+              avatarAlt="Matt Riley's GitHub avatar"
+            />
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="SocialLinks Component" headingId="social-links-heading">
+        <Stack>
+          <p>
+            Icon-based navigation for social profiles. Accepts an array of links with href, icon,
+            and accessible label. Supports hover and focus states with scale transforms.
+          </p>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">SocialLinks contract</h3>
+              <CodeSnippet
+                variant="block"
+                code={`interface Props {
+  links: Array<{
+    href: string;
+    icon: string;
+    label: string;
+  }>;
+}`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">Example usage</h3>
+              <CodeSnippet
+                variant="block"
+                code={`const links = [
+  { href: "https://github.com/matt-riley", icon: "GitHub", label: "GitHub profile" },
+  { href: "https://linkedin.com/in/matthewjriley", icon: "LinkedIn", label: "LinkedIn profile" },
+  { href: "https://bsky.app/profile/mattriley.dev", icon: "Bluesky", label: "Bluesky profile" },
+];
+
+<SocialLinks links={links} />`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold">Live example</h3>
+            <SocialLinks links={profileLinks} />
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="DecoratedHeading Component" headingId="decorated-heading-heading">
+        <Stack>
+          <p>
+            SVG text with outline effects for decorative section headings. Uses SVG filters to
+            create outlined text treatment inspired by workv2's SvgHeader pattern.
+          </p>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">DecoratedHeading contract</h3>
+              <CodeSnippet
+                variant="block"
+                code={`interface Props {
+  text: string;
+}`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">Example usage</h3>
+              <CodeSnippet
+                variant="block"
+                code={`<DecoratedHeading text="Projects" />
+<DecoratedHeading text="Experience" />`}
+              />
+            </Stack>
+          </Panel>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">Live examples</h3>
+              <div class="flex flex-col gap-4">
+                <DecoratedHeading text="Projects" />
+                <DecoratedHeading text="Experience" />
+                <DecoratedHeading text="About Me" />
+              </div>
+            </Stack>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Composition Example" headingId="composition-heading">
+        <Stack>
+          <p>
+            These primitives work together to create homepage profile sections similar to the
+            workv2 reference implementation.
+          </p>
+
+          <Panel>
+            <Stack>
+              <h3 class="text-xl font-semibold">Full profile composition</h3>
+              <CodeSnippet
+                variant="block"
+                code={`<ProfileHero
+  name="Matt Riley"
+  subtitle="Senior Software Engineer in Leeds, West Yorkshire"
+  avatarSrc="https://github.com/matt-riley.png"
+  avatarAlt="Matt Riley's GitHub avatar"
+/>
+
+<SocialLinks links={profileLinks} />
+
+<!-- Pattern: hidden semantic heading + decorative SVG -->
+<h2 id="projects-heading" class="sr-only">Projects</h2>
+<Section labelledBy="projects-heading">
+  <DecoratedHeading text="Projects" />
+  <!-- Project content here -->
+</Section>`}
+              />
+              <p class="text-sm text-gray-600">
+                Use a screen-reader-only heading with DecoratedHeading for visual presentation,
+                following the workv2 pattern where the semantic h2 is hidden and the SVG provides
+                the visual treatment.
+              </p>
+            </Stack>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Design Notes" headingId="design-notes-heading">
+        <Stack>
+          <p class="text-sm text-gray-600">
+            These components were extracted from the workv2 homepage patterns as part of the
+            foundation realignment effort. They keep Hero and Section narrow by adding sibling
+            components rather than expanding existing APIs. The patterns are generalized for
+            reusability while remaining expressive enough to represent the workv2 homepage.
+          </p>
+          <p class="text-sm text-gray-600">
+            SocialLinks uses text-based icon placeholders in this primitive form. Consumer apps can
+            wrap with icon libraries (astro-icon, lucide-react, etc.) or pass SVG strings via the
+            icon property.
+          </p>
+        </Stack>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>

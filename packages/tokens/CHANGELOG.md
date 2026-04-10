@@ -2,10 +2,9 @@
 
 ## [1.0.1](https://github.com/matt-riley/snurble/compare/design-tokens-v1.0.0...design-tokens-v1.0.1) (2026-04-09)
 
-
 ### Bug Fixes
 
-* **release:** support tag publish backfills ([69bae66](https://github.com/matt-riley/snurble/commit/69bae669742acd16fbd8b8054dbbdf5ab26735fb))
+- **release:** support tag publish backfills ([69bae66](https://github.com/matt-riley/snurble/commit/69bae669742acd16fbd8b8054dbbdf5ab26735fb))
 
 ## 1.0.0 (2026-04-09)
 

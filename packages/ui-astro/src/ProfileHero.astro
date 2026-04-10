@@ -1,0 +1,58 @@
+---
+interface Props {
+  name: string;
+  subtitle: string;
+  avatarSrc: string;
+  avatarAlt: string;
+}
+
+const { name, subtitle, avatarSrc, avatarAlt } = Astro.props;
+---
+
+<header class="snurble-profile-hero">
+  <img
+    src={avatarSrc}
+    alt={avatarAlt}
+    class="snurble-profile-hero__avatar"
+    width="176"
+    height="176"
+  />
+  <h1 class="snurble-profile-hero__name">{name}</h1>
+  <p class="snurble-profile-hero__subtitle">{subtitle}</p>
+</header>
+
+<style>
+  .snurble-profile-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--snurble-space-4);
+    padding-block: var(--snurble-space-6);
+  }
+
+  .snurble-profile-hero__avatar {
+    border-radius: 50%;
+    border: 4px solid var(--snurble-border);
+    object-fit: cover;
+  }
+
+  .snurble-profile-hero__name {
+    margin: 0;
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .snurble-profile-hero__subtitle {
+    max-width: 40rem;
+    margin: 0;
+    color: var(--snurble-text-muted);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+</style>

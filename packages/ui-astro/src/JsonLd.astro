@@ -1,0 +1,28 @@
+---
+type Props<T = unknown> = {
+  jsonld: T;
+};
+
+const { jsonld } = Astro.props;
+
+let serialized: string;
+try {
+  serialized = JSON.stringify(jsonld);
+} catch (error) {
+  throw new Error("JsonLd requires a valid `jsonld` value that can be serialized to JSON.", {
+    cause: error,
+  });
+}
+
+if (serialized === undefined) {
+  throw new Error("JsonLd requires a valid `jsonld` value that can be serialized to JSON.");
+}
+
+const safeJson = serialized.replace(/<\//g, "<\\/");
+---
+
+<script
+  type="application/ld+json"
+  set:html={safeJson}
+  is:inline
+></script>

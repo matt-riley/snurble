@@ -1,0 +1,52 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const filterId = `decorated-heading-${crypto.randomUUID()}`;
+---
+
+<div class="snurble-decorated-heading">
+  <svg width="300" height="60" viewBox="0 0 300 60" aria-hidden="true">
+    <defs>
+      <filter id={filterId}>
+        <feMorphology
+          in="SourceAlpha"
+          result="DILATED"
+          operator="dilate"
+          radius="3"
+        />
+        <feFlood flood-color="var(--snurble-accent, #a6e3a1)" flood-opacity="1" result="OUTLINE_COLOR" />
+        <feComposite in="OUTLINE_COLOR" in2="DILATED" operator="in" result="OUTLINE" />
+        <feMerge>
+          <feMergeNode in="OUTLINE" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <text
+      x="150"
+      y="45"
+      text-anchor="middle"
+      filter={`url(#${filterId})`}
+      class="snurble-decorated-heading__text"
+    >
+      {text}
+    </text>
+  </svg>
+</div>
+
+<style>
+  .snurble-decorated-heading {
+    display: flex;
+    justify-content: center;
+    padding-block: var(--snurble-space-2);
+  }
+
+  .snurble-decorated-heading__text {
+    font-family: var(--snurble-font-display);
+    font-size: 50px;
+    fill: var(--snurble-text);
+  }
+</style>

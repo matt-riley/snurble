@@ -2,11 +2,14 @@
 import "../styles/global.css";
 import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
 
-const prereleaseCommands = `pnpm run validate
-pnpm --dir packages/tokens version 0.1.0-next.0 --no-git-tag-version
-pnpm --dir packages/ui-astro version 0.1.0-next.0 --no-git-tag-version
-pnpm --dir packages/tokens pack --pack-destination /tmp/snurble-release
-pnpm --dir packages/ui-astro pack --pack-destination /tmp/snurble-release
+const prereleaseCommands = `NEXT_VERSION=<next-prerelease-version>
+
+pnpm run validate
+pnpm --dir packages/tokens version "$NEXT_VERSION" --no-git-tag-version
+pnpm --dir packages/ui-astro version "$NEXT_VERSION" --no-git-tag-version
+mkdir -p artifacts/prerelease
+pnpm --dir packages/tokens pack --pack-destination ./artifacts/prerelease
+pnpm --dir packages/ui-astro pack --pack-destination ./artifacts/prerelease
 
 # export NODE_AUTH_TOKEN with write:packages access for the @matt-riley scope first
 pnpm --dir packages/tokens publish --tag next --no-git-checks --registry https://npm.pkg.github.com
@@ -20,7 +23,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 <Layout
   title="Snurble release readiness"
-  description="Stage 13 guide for manual prerelease publication, consumer cutover preparation, and the Stage 14 automation handoff."
+  description="Publishing and adoption guidance for manual prerelease publication, consumer cutover preparation, and rollout gates."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
 
@@ -28,12 +31,10 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
     <PageShell class="flex flex-col gap-10">
       <section>
         <Stack>
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-            Snurble Stage 13
-          </p>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">Publishing guide</p>
           <Hero
             title="Release readiness"
-            lede="Stage 13 hardens Snurble for a manual prerelease path, documents the first consumer (mattriley.tools) cutover contract, and hands durable automation off to Stage 14. workv2 remains the foundation reference; mattriley.tools validates the extracted contract."
+            lede="Use this runbook to publish Snurble prereleases, move consumers onto registry installs, and enforce the gates that keep later adoption safe. workv2 remains the foundation reference; mattriley.tools is the first proving consumer."
           />
         </Stack>
       </section>
@@ -44,23 +45,22 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
             <Panel>
               <Stack>
                 <h3 id="manual-prerelease-summary-heading" class="text-xl font-semibold">
-                  Why Stage 13 stays manual
+                  Why the first publishing path stays manual
                 </h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Stage 13 focuses on proving that packed artifacts and the manual prerelease
-                  contract are ready for publication. It intentionally stops short of shared
-                  workflow automation so the release contract is clear before it is automated, and
-                  the real first-consumer proof happens when published prereleases are installed in
-                  mattriley.tools (the proving consumer, not the foundation reference).
+                  Start with a manual prerelease so the package contents, versioning contract, and
+                  registry-auth workflow are all explicit before they are automated. The first
+                  proving consumer run happens when published prereleases are installed in
+                  mattriley.tools rather than from local tarballs or workspace links.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  The operator path for this stage is a <strong>manual prerelease</strong> using a
-                  prerelease dist-tag and explicit package versions.
+                  The operator path is a <strong>manual prerelease</strong> using a prerelease
+                  dist-tag and explicit package versions.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Use the same prerelease version for both packages, such as
-                  <code>0.1.0-next.0</code>, so consumer manifests and rollback notes stay easy to
-                  reason about.
+                  Derive <code>NEXT_VERSION</code> from the current published package version and use
+                  the same prerelease string for both packages so consumer manifests and rollback
+                  notes stay easy to reason about.
                 </p>
               </Stack>
             </Panel>
@@ -89,20 +89,20 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
                 </h3>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   Consumers must install real prerelease versions from the package registry and
-                  commit those versions in their manifest and lockfile. Stage 13 explicitly forbids
-                  leaving <code>file:</code> refs or local tarball dependencies in committed
-                  consumer state. mattriley.tools is the first proving consumer; workv2 (the foundation)
-                  will adopt Snurble after foundation-specific primitives are extracted.
+                  commit those versions in their manifest and lockfile. Do not leave
+                  <code>file:</code> refs or local tarball dependencies in committed consumer state.
+                  mattriley.tools is the first proving consumer; workv2 and later adopters can move
+                  onto the shipped surface once they are ready to validate against published
+                  prereleases.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   Public imports stay on package entrypoints only, and consumer-owned shell concerns
                   remain local unless Snurble has explicitly absorbed them.
                 </p>
                 <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Later adopters should follow the same contract after mattriley.tools (the first
-                  proving consumer) has rerun its validation surface against published prerelease
-                  versions. workv2 (the foundation reference) will adopt Snurble after
-                  foundation-specific primitives are extracted.
+                  Later adopters should follow the same contract only after mattriley.tools has
+                  rerun its validation surface against published prerelease versions and the package
+                  contract has proven stable outside the design-system workspace.
                 </p>
               </Stack>
             </Panel>
@@ -143,25 +143,25 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
               <li>the manual prerelease path is documented with versioning and auth expectations</li>
               <li>mattriley.tools (the first proving consumer) has rerun its validation surface against published prereleases</li>
               <li>later adopters can follow the same public import and install contract</li>
-              <li>workv2 (the foundation reference) adoption waits for foundation-specific primitive extraction</li>
+              <li>workv2 or any later adopter has validated its own integration against the same published prereleases before rollout</li>
             </ul>
           </Stack>
         </Panel>
       </Section>
 
-      <Section title="Stage 14 handoff" headingId="stage14-handoff-heading">
+      <Section title="Automation follow-on" headingId="automation-follow-on-heading">
         <Panel>
           <Stack>
-            <h3 class="text-xl font-semibold">Automation belongs in Stage 14</h3>
+            <h3 class="text-xl font-semibold">Automate only after the runbook stays stable</h3>
             <p class="text-sm text-[var(--snurble-text-muted)]">
-              Stage 14 now owns the shared <code>release-please</code> and GitHub Packages
-              workflow wiring. That work takes the manual Stage 13 contract and automates it
-              through the shared release workflow family instead of changing the Stage 13 behavior
-              itself.
+              Shared <code>release-please</code> and GitHub Packages workflow wiring should encode
+              this exact manual contract rather than invent a different release process. Automation
+              comes after package contents, consumer ergonomics, and rollback expectations are all
+              understood from real prerelease use.
             </p>
             <p class="text-sm text-[var(--snurble-text-muted)]">
-              The handoff stayed clean because Stage 13 proved package contents, docs, consumer
-              ergonomics, and rollout gates first.
+              That keeps the automated path aligned with the operator runbook instead of drifting
+              away from the behavior that consumers already validated.
             </p>
           </Stack>
         </Panel>

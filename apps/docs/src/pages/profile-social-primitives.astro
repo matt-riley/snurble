@@ -21,26 +21,39 @@ const profileLinks = [
 ---
 
 <Layout
-  title="Profile & Social Primitives | Snurble"
-  description="ProfileHero, SocialLinks, and DecoratedHeading components for profile pages"
+  title="Profile & Social Primitives - Snurble"
+  description="ProfileHero, SocialLinks, and DecoratedHeading primitives for profile headers, social navigation, and decorative headings"
 >
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <Hero
         title="Profile & Social Primitives"
-        lede="Foundation components for profile headers, social links, and decorative text effects derived from workv2 homepage patterns."
+        lede="Profile-building primitives for avatar headers, social link groups, and decorative section headings"
       />
 
-      <Section title="ProfileHero Component" headingId="profile-hero-heading">
+      <Section title="Overview" headingId="overview-heading">
+        <Stack>
+          <Panel>
+            <p>
+              These primitives cover the most common profile-page building blocks: a centered hero,
+              a social link cluster, and a decorative heading treatment. They stay focused on
+              rendering while leaving content strategy, icon sourcing, and section structure to the
+              consumer.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="ProfileHero" headingId="profile-hero-heading">
         <Stack>
           <p>
-            Avatar-based profile header with name and subtitle. Designed for personal homepage
-            headers with centered layout and responsive typography.
+            <code>ProfileHero</code> renders a centered avatar, name, and subtitle for a person or
+            creator profile page.
           </p>
 
           <Panel>
             <Stack>
-              <h3 class="text-xl font-semibold">ProfileHero contract</h3>
+              <h3 class="text-xl font-semibold">Contract</h3>
               <CodeSnippet
                 variant="block"
                 code={`interface Props {
@@ -80,16 +93,16 @@ const profileLinks = [
         </Stack>
       </Section>
 
-      <Section title="SocialLinks Component" headingId="social-links-heading">
+      <Section title="SocialLinks" headingId="social-links-heading">
         <Stack>
           <p>
-            Icon-based navigation for social profiles. Accepts an array of links with href, icon,
-            and accessible label. Supports hover and focus states with scale transforms.
+            <code>SocialLinks</code> renders a navigation landmark containing external profile links
+            with hover and focus affordances.
           </p>
 
           <Panel>
             <Stack>
-              <h3 class="text-xl font-semibold">SocialLinks contract</h3>
+              <h3 class="text-xl font-semibold">Contract</h3>
               <CodeSnippet
                 variant="block"
                 code={`interface Props {
@@ -126,16 +139,16 @@ const profileLinks = [
         </Stack>
       </Section>
 
-      <Section title="DecoratedHeading Component" headingId="decorated-heading-heading">
+      <Section title="DecoratedHeading" headingId="decorated-heading-heading">
         <Stack>
           <p>
-            SVG text with outline effects for decorative section headings. Uses SVG filters to
-            create outlined text treatment inspired by workv2's SvgHeader pattern.
+            <code>DecoratedHeading</code> renders stylized SVG text for section labels and other
+            decorative headings.
           </p>
 
           <Panel>
             <Stack>
-              <h3 class="text-xl font-semibold">DecoratedHeading contract</h3>
+              <h3 class="text-xl font-semibold">Contract</h3>
               <CodeSnippet
                 variant="block"
                 code={`interface Props {
@@ -171,14 +184,9 @@ const profileLinks = [
 
       <Section title="Composition Example" headingId="composition-heading">
         <Stack>
-          <p>
-            These primitives work together to create homepage profile sections similar to the
-            workv2 reference implementation.
-          </p>
-
           <Panel>
             <Stack>
-              <h3 class="text-xl font-semibold">Full profile composition</h3>
+              <h3 class="text-xl font-semibold">Putting the primitives together</h3>
               <CodeSnippet
                 variant="block"
                 code={`<ProfileHero
@@ -190,36 +198,44 @@ const profileLinks = [
 
 <SocialLinks links={profileLinks} />
 
-<!-- Pattern: hidden semantic heading + decorative SVG -->
 <h2 id="projects-heading" class="sr-only">Projects</h2>
 <Section labelledBy="projects-heading">
   <DecoratedHeading text="Projects" />
   <!-- Project content here -->
 </Section>`}
               />
-              <p class="text-sm text-gray-600">
-                Use a screen-reader-only heading with DecoratedHeading for visual presentation,
-                following the workv2 pattern where the semantic h2 is hidden and the SVG provides
-                the visual treatment.
-              </p>
             </Stack>
           </Panel>
         </Stack>
       </Section>
 
-      <Section title="Design Notes" headingId="design-notes-heading">
+      <Section title="Consumer Responsibilities" headingId="consumer-heading">
         <Stack>
-          <p class="text-sm text-gray-600">
-            These components were extracted from the workv2 homepage patterns as part of the
-            foundation realignment effort. They keep Hero and Section narrow by adding sibling
-            components rather than expanding existing APIs. The patterns are generalized for
-            reusability while remaining expressive enough to represent the workv2 homepage.
-          </p>
-          <p class="text-sm text-gray-600">
-            SocialLinks uses text-based icon placeholders in this primitive form. Consumer apps can
-            wrap with icon libraries (astro-icon, lucide-react, etc.) or pass SVG strings via the
-            icon property.
-          </p>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Accessibility</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Provide meaningful <code>avatarAlt</code> text for the profile image.</li>
+              <li>Set each social <code>label</code> so the navigation remains understandable without the visual icon text.</li>
+              <li>Pair <code>DecoratedHeading</code> with a semantic heading when the text labels a section.</li>
+            </ul>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Rendering boundaries</h3>
+            <p class="mb-3">
+              <code>SocialLinks</code> passes each <code>href</code> straight through to the rendered
+              <code>&lt;a href&gt;</code> with no package-level URL validation. Supply vetted external
+              URLs, ideally <code>https://</code>, or wrap the primitive with your own validation
+              before rendering.
+            </p>
+            <p>
+              The primitive also renders the <code>icon</code> string as visible text inside an
+              <code>aria-hidden</code> wrapper. The accessible name comes from <code>label</code>, not
+              the icon value. If you need SVG or component-based icons, compose a wrapper around the
+              same link data contract rather than treating this primitive as a raw HTML injection
+              point.
+            </p>
+          </Panel>
         </Stack>
       </Section>
     </PageShell>

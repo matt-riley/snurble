@@ -24,7 +24,7 @@ const sampleJsonLd = {
 
 <Layout
   title="Shell Primitives - Snurble"
-  description="FontAssets, JsonLd, and SkipLink foundation primitives"
+  description="FontAssets, JsonLd, and SkipLink primitives for fonts, structured data, and keyboard navigation"
 >
   <Fragment slot="head">
     <FontAssets />
@@ -37,19 +37,43 @@ const sampleJsonLd = {
     <PageShell class="flex flex-col gap-10">
       <Hero
         title="Shell Primitives"
-        lede="Additive foundation components for accessibility, SEO, and performance"
+        lede="Additive primitives for loading fonts, publishing structured data, and improving keyboard navigation"
       />
+
+      <Section title="Overview" headingId="overview-heading">
+        <Stack>
+          <Panel>
+            <p>
+              These primitives help you wire page-level concerns without expanding your layout API.
+              <code>FontAssets</code> handles shared font-face declarations, <code>JsonLd</code>
+              emits structured data, and <code>SkipLink</code> gives keyboard users a fast path to
+              main content.
+            </p>
+          </Panel>
+          <Panel>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Use them at the document shell layer, not inside leaf content components.</li>
+              <li>They stay narrowly focused on rendering; route-specific decisions remain consumer-owned.</li>
+              <li>Each primitive has an explicit accessibility, trust, or performance contract.</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
 
       <Section title="FontAssets" headingId="fontassets-heading">
         <Stack>
           <p>
-            The <code>FontAssets</code> component provides reusable font-face declarations
-            for the Snurble design system typography. It matches the font families defined
-            in <code>@matt-riley/design-tokens</code>.
+            <code>FontAssets</code> injects the shared <code>@font-face</code> declarations used by
+            the Snurble typography tokens.
           </p>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <h3 class="text-xl font-semibold mb-4">Contract</h3>
+            <p>This primitive takes no props. Render it once in the document head.</p>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
               code={`<Layout title="My Page">
@@ -57,19 +81,18 @@ const sampleJsonLd = {
     <FontAssets />
   </Fragment>
   <PageShell>
-    <!-- content uses Montserrat and Permanent Marker -->
+    <!-- content that uses the shared font tokens -->
   </PageShell>
 </Layout>`}
             />
           </Panel>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Features</h3>
+            <h3 class="text-xl font-semibold mb-4">Consumer responsibilities</h3>
             <ul class="list-disc list-inside space-y-2">
-              <li>Includes Montserrat weights: 400, 600, 700, 900</li>
-              <li>Includes Permanent Marker weight: 400</li>
-              <li>Uses <code>font-display: swap</code> for optimal performance</li>
-              <li>Zero configuration required</li>
+              <li>Include it once per document to avoid duplicate font-face declarations.</li>
+              <li>Use it alongside the font families referenced by <code>@matt-riley/design-tokens</code>.</li>
+              <li>Account for the remote font origin in your performance and privacy review.</li>
             </ul>
           </Panel>
         </Stack>
@@ -78,12 +101,20 @@ const sampleJsonLd = {
       <Section title="JsonLd" headingId="jsonld-heading">
         <Stack>
           <p>
-            The <code>JsonLd</code> component safely injects structured data for search
-            engines and social platforms. It escapes closing script tags to prevent XSS.
+            <code>JsonLd</code> renders a <code>script[type="application/ld+json"]</code> tag for
+            structured data in the head.
           </p>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <h3 class="text-xl font-semibold mb-4">Contract</h3>
+            <p>
+              Pass a <code>jsonld</code> prop containing any JSON-serializable value. Values that
+              cannot be serialized cause the component to throw.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
               code={`const profileData = {
@@ -102,10 +133,11 @@ const sampleJsonLd = {
           </Panel>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Safety</h3>
+            <h3 class="text-xl font-semibold mb-4">Trusted boundary</h3>
             <p>
-              The component automatically escapes <code>&lt;/</code> sequences in the JSON
-              output to prevent script injection attacks.
+              The component escapes closing <code>&lt;/</code> sequences before writing the script
+              contents. Consumers still own schema correctness, route placement, and ensuring the
+              input data is intentionally published.
             </p>
           </Panel>
         </Stack>
@@ -114,74 +146,64 @@ const sampleJsonLd = {
       <Section title="SkipLink" headingId="skiplink-heading">
         <Stack>
           <p>
-            The <code>SkipLink</code> component provides keyboard navigation to skip
-            repetitive content. It's visually hidden until focused, meeting WCAG 2.1
-            accessibility guidelines.
+            <code>SkipLink</code> renders a hidden-until-focus anchor that helps keyboard users move
+            directly to the main content target.
           </p>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <h3 class="text-xl font-semibold mb-4">Contract</h3>
+            <p>
+              Pass an internal anchor <code>href</code> beginning with <code>#</code>. Any other
+              value throws so the component cannot point to an unsafe or non-local target.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
               code={`<Layout title="My Page">
   <SkipLink href="#main-content">Skip to main content</SkipLink>
-  
+
   <nav>
-    <!-- navigation -->
+    <!-- repetitive navigation -->
   </nav>
 
   <main id="main-content" tabindex="-1">
-    <!-- main content -->
+    <!-- primary page content -->
   </main>
 </Layout>`}
             />
           </Panel>
 
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Behavior</h3>
+            <h3 class="text-xl font-semibold mb-4">Accessibility responsibilities</h3>
             <ul class="list-disc list-inside space-y-2">
-              <li>Hidden off-screen by default</li>
-              <li>Visible when focused via keyboard navigation</li>
-              <li>Styled with Snurble design tokens</li>
-              <li>Smooth transform transition on focus</li>
+              <li>Place the skip link before repeated navigation or chrome.</li>
+              <li>Ensure the destination element has a matching <code>id</code>.</li>
+              <li>Add <code>tabindex="-1"</code> to the destination when it is not normally focusable.</li>
             </ul>
           </Panel>
 
           <Panel>
             <h3 class="text-xl font-semibold mb-4">Try it</h3>
             <p>
-              Press <kbd class="px-2 py-1 bg-gray-200 rounded">Tab</kbd> at the top of this
-              page to see the skip link appear.
+              Press <kbd class="px-2 py-1 bg-gray-200 rounded">Tab</kbd> at the top of this page
+              to reveal the skip link and move focus to the example main landmark.
             </p>
           </Panel>
         </Stack>
       </Section>
 
-      <Section title="Integration Notes" headingId="integration-heading">
+      <Section title="Composition Notes" headingId="composition-heading">
         <Stack>
           <Panel>
-            <h3 class="text-xl font-semibold mb-4">Layout Compatibility</h3>
+            <h3 class="text-xl font-semibold mb-4">Using the primitives together</h3>
             <p>
-              These primitives work with the existing <code>Layout</code> component's
-              <code>head</code> slot. They do not require Layout modifications and are
-              fully backward compatible.
-            </p>
-          </Panel>
-
-          <Panel>
-            <h3 class="text-xl font-semibold mb-4">Consumer Boundaries</h3>
-            <p>
-              <code>FontAssets</code> provides the asset-loading contract for the typography
-              defined in <code>@matt-riley/design-tokens</code>. Consumers can override font
-              sources or add additional weights as needed.
-            </p>
-            <p class="mt-4">
-              <code>JsonLd</code> accepts any JSON-serializable data. Consumers own the
-              structured data schemas and route-specific metadata.
-            </p>
-            <p class="mt-4">
-              <code>SkipLink</code> requires consumers to set <code>id</code> and
-              <code>tabindex="-1"</code> on the target element for proper focus management.
+              A typical docs or marketing page renders <code>FontAssets</code> and
+              <code>JsonLd</code> in the <code>head</code> slot, then places <code>SkipLink</code>
+              as the first interactive element in the body. This keeps SEO, performance, and
+              keyboard affordances near the page shell instead of scattering them through content.
             </p>
           </Panel>
         </Stack>

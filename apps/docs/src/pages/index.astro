@@ -1,316 +1,230 @@
 ---
 import "../styles/global.css";
 import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
-import spacing from "@matt-riley/design-tokens/spacing.json";
-import typography from "@matt-riley/design-tokens/typography.json";
 
-const semanticSurfaces = [
+const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";
+
+const documentationAreas = [
   {
-    name: "Background",
-    note: "Application canvas and the darkest shell surfaces.",
-    token: "--snurble-background",
+    href: "/foundation",
+    id: "foundations",
+    label: "Foundations",
+    note: "Start with repo roles, foundation coverage, and the current package surface.",
   },
   {
-    name: "Surface",
-    note: "Default card and panel background for primary content.",
-    token: "--snurble-surface",
+    href: "/shell-primitives",
+    id: "shell-primitives",
+    label: "Shell primitives",
+    note: "FontAssets, JsonLd, and SkipLink cover shell-level accessibility, metadata, and font loading.",
   },
   {
-    name: "Surface strong",
-    note: "Raised containers and stronger visual grouping.",
-    token: "--snurble-surface-strong",
+    href: "/profile-social-primitives",
+    id: "profile-social-primitives",
+    label: "Profile/social primitives",
+    note: "ProfileHero, SocialLinks, and DecoratedHeading carry the profile and social layer.",
+  },
+  {
+    href: "/project-primitives",
+    id: "project-primitives",
+    label: "Project primitives",
+    note: "ProjectCard and ProjectGrid separate shared display concerns from consumer-owned data logic.",
+  },
+  {
+    href: "/experience-primitives",
+    id: "experience-primitives",
+    label: "Experience primitives",
+    note: "ExperienceCard, ExperienceList, SkillIcon, and SkillIconList cover timeline and skill presentation.",
+  },
+  {
+    href: "/mattriley-tools-migration",
+    id: "adoption-migration",
+    label: "Adoption/migration",
+    note: "Use the migration guide when moving a consumer onto the shared package surface.",
+  },
+  {
+    href: "/release-readiness",
+    id: "release-publishing",
+    label: "Release/publishing",
+    note: "Review the prerelease contract, registry install path, and publishing expectations.",
   },
 ];
 
-const typographyEntries = Object.entries(typography.styles);
-const spacingEntries = Object.entries(spacing.scale);
+const packageFamilies = [
+  {
+    id: "foundations",
+    label: "Foundations",
+    primitives: ["Layout", "PageShell", "Hero", "Section", "Panel", "Stack", "DataTable", "MetaList", "CodeSnippet"],
+  },
+  {
+    id: "shell-primitives",
+    label: "Shell primitives",
+    primitives: ["FontAssets", "JsonLd", "SkipLink"],
+  },
+  {
+    id: "profile-social-primitives",
+    label: "Profile/social primitives",
+    primitives: ["ProfileHero", "SocialLinks", "DecoratedHeading"],
+  },
+  {
+    id: "project-primitives",
+    label: "Project primitives",
+    primitives: ["ProjectCard", "ProjectGrid"],
+  },
+  {
+    id: "experience-primitives",
+    label: "Experience primitives",
+    primitives: ["ExperienceCard", "ExperienceList", "SkillIcon", "SkillIconList"],
+  },
+];
 ---
 
 <Layout
-  title="Snurble Stack component"
-  description="Stage 11 stack showcase for the Snurble design system."
+  title="Snurble design system"
+  description="Foundations, primitives, and adoption guidance for the Snurble design system."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
+
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section>
         <Stack>
           <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-            Snurble Stage 11
+            Snurble design system
           </p>
           <Hero
-            title="Stack component is live."
-            lede="Grouped content now has a shared spacing primitive that composes cleanly with Section, Panel, and CodeSnippet without widening into layout props. Snurble extracts the shared design contract from workv2/services/webclient (foundation reference) for use by mattriley.tools (first consumer) and future adopters."
+            title="Durable foundations for Astro sites"
+            lede="Snurble packages the shared design-system contract extracted from workv2 into design tokens and 21 Astro primitives. Use this docs site to understand the foundations, browse primitive families, and plan adoption or publishing work without relying on one-off project history."
           />
         </Stack>
       </section>
 
-      <Section title="Stack guidance" headingId="stack-guidance-heading">
-        <div class="grid gap-4 lg:grid-cols-[1.2fr,1fr]">
-          <article aria-labelledby="stack-contract-heading">
-            <Panel>
-              <Stack>
-                <h3 id="stack-contract-heading" class="text-xl font-semibold">Stack contract</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  <code>Stack</code> is Snurble&apos;s zero-config grouped-spacing primitive. It owns only vertical rhythm
-                  between direct children, using a fixed <code>var(--snurble-space-4)</code> gap.
-                </p>
-                <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)] sm:grid-cols-2">
-                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                    <code class="font-medium text-[var(--snurble-text)]">no props</code>
-                    <p class="mt-2">Stage 11 ships without spacing variants, alignment controls, or class passthrough.</p>
-                  </li>
-                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                    <code class="font-medium text-[var(--snurble-text)]">composition only</code>
-                    <p class="mt-2">Use Stack inside Section, Panel, and other wrappers when content needs a shared rhythm.</p>
-                  </li>
-                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                    <code class="font-medium text-[var(--snurble-text)]">non-goals</code>
-                    <p class="mt-2">It does not own page width, section framing, grid layout, or responsive spacing modes.</p>
-                  </li>
-                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                    <code class="font-medium text-[var(--snurble-text)]">stable default</code>
-                    <p class="mt-2">The fixed gap is part of the v1 contract until real usage proves a broader scale is needed.</p>
-                  </li>
-                </ul>
-              </Stack>
-            </Panel>
-          </article>
-
-          <article aria-labelledby="stack-composition-heading">
-            <Panel>
-              <Stack>
-                <h3 id="stack-composition-heading" class="text-xl font-semibold">Composition example</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Stack keeps related copy, commands, and supporting notes together without asking the page to re-declare
-                  the same spacing rules over and over.
-                </p>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Install the package with <CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" /> and
-                  keep surrounding guidance in the same shared rhythm wrapper.
-                </p>
-                <CodeSnippet variant="block" code={`<Section title="Examples" headingId="examples-heading">
-  <Panel>
-    <Stack>
-      <h3>Example heading</h3>
-      <p>Related content stays grouped.</p>
-    </Stack>
-  </Panel>
-</Section>`}
-                />
-              </Stack>
-            </Panel>
-          </article>
-        </div>
-      </Section>
-
-      <Stack>
-        <h2 id="codesnippet-guidance-heading" class="text-2xl font-semibold">
-          CodeSnippet guidance
-        </h2>
-        <Section labelledBy="codesnippet-guidance-heading">
-          <div class="grid gap-4 lg:grid-cols-[1.3fr,1fr]">
-            <article aria-labelledby="codesnippet-contract-heading">
-              <Panel>
-                <Stack>
-                  <h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>
-                  <p class="text-sm text-[var(--snurble-text-muted)]">
-                    <code>CodeSnippet</code> keeps Stage 10 intentionally narrow: a required <code>variant</code> plus
-                    a required <code>code</code> string, with no slot API or styling escape hatches in v1.
-                  </p>
-                  <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)] sm:grid-cols-2">
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">explicit variant</code>
-                      <p class="mt-2">Consumers choose inline or block rendering directly instead of relying on inference.</p>
-                    </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">string content</code>
-                      <p class="mt-2">Validation checks for a non-empty string without rewriting the authored snippet.</p>
-                    </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">owned styling</code>
-                      <p class="mt-2">The component provides the pill and block chrome instead of delegating styling to the page.</p>
-                    </li>
-                    <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <code class="font-medium text-[var(--snurble-text)]">v1 scope</code>
-                      <p class="mt-2">Stage 10 ships without syntax highlighting, copy controls, or language badges.</p>
-                    </li>
-                  </ul>
-                </Stack>
-              </Panel>
-            </article>
-
-            <article aria-labelledby="codesnippet-semantics-heading">
-              <Panel>
-                <Stack>
-                  <h3 id="codesnippet-semantics-heading" class="text-xl font-semibold">
-                    Rendering semantics
-                  </h3>
-                  <p class="text-sm text-[var(--snurble-text-muted)]">
-                    Inline snippets stay in sentence flow as a styled <code>code</code> element, while block snippets
-                    render as <code>pre</code> + <code>code</code> for preserved multiline content and horizontal overflow.
-                  </p>
-                  <p class="text-sm text-[var(--snurble-text-muted)]">
-                    Whitespace is preserved for authored block snippets, so install commands and configuration examples
-                    keep their intended indentation without widening the API.
-                  </p>
-                </Stack>
-              </Panel>
-            </article>
-          </div>
-        </Section>
-      </Stack>
-
-      <Section title="Examples" headingId="codesnippet-examples-heading">
-        <div class="grid gap-4 xl:grid-cols-2">
-          <article aria-labelledby="codesnippet-inline-heading">
-            <Panel>
-              <Stack>
-                <h3 id="codesnippet-inline-heading" class="text-xl font-semibold">Inline code example</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  The inline variant is tuned for install commands and short snippets that need stronger visual emphasis
-                  without breaking sentence flow.
-                </p>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Install the package with <CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" /> and
-                  keep the surrounding prose readable.
-                </p>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Inline snippets keep the authored string intact while the component owns the shared pill treatment.
-                </p>
-              </Stack>
-            </Panel>
-          </article>
-
-          <article aria-labelledby="codesnippet-block-heading">
-            <Panel>
-              <Stack>
-                <h3 id="codesnippet-block-heading" class="text-xl font-semibold">Block code example</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  The block variant handles longer snippets and preserves multiline formatting, indentation, and overflow
-                  within the component boundary.
-                </p>
-                <CodeSnippet variant="block" code={`pnpm add @matt-riley/ui-astro --filter ./apps/docs --workspace-root --save-exact --reporter append-only
-pnpm dlx astro sync --root ./apps/docs --config ./apps/docs/astro.config.mjs
-
-import { CodeSnippet } from "@matt-riley/ui-astro"`}
-                />
-              </Stack>
-            </Panel>
-          </article>
-        </div>
-      </Section>
-
-      <Section title="Composition boundaries" headingId="composition-boundaries-heading">
-        <div class="grid gap-4 xl:grid-cols-5">
-          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">Layout</p>
-            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns the document shell and shared token import.
-            </p>
-          </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">Section</p>
-            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns section headings and higher-level grouping semantics.
-            </p>
-          </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">Panel</p>
-            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns surface chrome and padding around the showcase examples.
-            </p>
-          </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">Stack</p>
-            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns repeated vertical spacing for grouped content without widening into layout controls.
-            </p>
-          </article>
-          <article class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-            <p class="font-medium">CodeSnippet</p>
-            <p class="mt-2 text-sm text-[var(--snurble-text-muted)]">
-              Owns the inline and block snippet markup, validation, and shared code styling contract.
-            </p>
-          </article>
-        </div>
-      </Section>
-
-      <Section title="Semantic surfaces" headingId="semantic-surfaces-heading">
+      <Section title="Start here" headingId="start-here-heading">
         <div class="grid gap-4 lg:grid-cols-3">
-          {
-            semanticSurfaces.map((surface) => (
-              <article
-                class="rounded-3xl border p-5"
-                style={`background: var(${surface.token}); border-color: var(--snurble-border);`}
-              >
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-text-muted)]">
-                  {surface.name}
+          <article aria-labelledby="foundation-entry-heading">
+            <Panel>
+              <Stack>
+                <h3 id="foundation-entry-heading" class="text-xl font-semibold">Foundations</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Begin with the foundation map to see how workv2, Snurble, and mattriley.tools fit together and which primitive families are already extracted.
                 </p>
-                <p class="mt-3 text-sm text-[var(--snurble-text-muted)]">{surface.note}</p>
-                <code class="mt-4 inline-flex rounded-full bg-black/25 px-3 py-1 text-xs text-[var(--snurble-text)]">
-                  {surface.token}
-                </code>
+                <p>
+                  <a class="font-medium text-[var(--snurble-accent)]" href="/foundation">Open foundation guide →</a>
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="family-entry-heading">
+            <Panel>
+              <Stack>
+                <h3 id="family-entry-heading" class="text-xl font-semibold">Primitive families</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Shell, profile/social, project, and experience pages document the durable component taxonomy rather than a temporary delivery snapshot.
+                </p>
+                <p>
+                  <a class="font-medium text-[var(--snurble-accent)]" href="#docs-map-heading">Browse documentation map →</a>
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="adoption-entry-heading">
+            <Panel>
+              <Stack>
+                <h3 id="adoption-entry-heading" class="text-xl font-semibold">Adoption path</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  When you are ready to consume the packages, follow the adoption/migration and release/publishing docs to keep consumer-owned behavior and delivery workflow explicit.
+                </p>
+                <p>
+                  <a class="font-medium text-[var(--snurble-accent)]" href="/mattriley-tools-migration">Open adoption guide →</a>
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Documentation map" headingId="docs-map-heading">
+        <div class="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          {
+            documentationAreas.map((area) => (
+              <article aria-labelledby={`${area.id}-heading`}>
+                <Panel>
+                  <Stack>
+                    <h3 id={`${area.id}-heading`} class="text-xl font-semibold">{area.label}</h3>
+                    <p class="text-sm text-[var(--snurble-text-muted)]">{area.note}</p>
+                    <p>
+                      <a class="font-medium text-[var(--snurble-accent)]" href={area.href}>
+                        Open {area.label.toLowerCase()} →
+                      </a>
+                    </p>
+                  </Stack>
+                </Panel>
               </article>
             ))
           }
         </div>
       </Section>
 
-      <Section title="Design scales" headingId="design-scales-heading">
-        <div class="grid gap-4 lg:grid-cols-2">
-          <article
-            class="rounded-3xl border p-6"
-            style="background: rgb(30 30 46 / 0.84); border-color: var(--snurble-border);"
-          >
-            <Stack>
-              <h3 class="text-xl font-semibold">Typography scale</h3>
-              <div class="grid gap-4">
-                {
-                  typographyEntries.map(([name, style]) => (
-                    <div class="rounded-2xl border p-4" style="border-color: var(--snurble-border);">
-                      <div class="flex items-center justify-between gap-3">
-                        <span class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--snurble-text-muted)]">
-                          {name}
-                        </span>
-                        <code class="text-xs text-[var(--snurble-text-muted)]">{style.size}</code>
-                      </div>
-                      <p
-                        class="mt-3"
-                        style={`font-family: ${style.fontFamily}; font-size: ${style.size}; line-height: ${style.lineHeight}; font-weight: ${style.weight};`}
-                      >
-                        Snurble carries bold night-sky contrast without losing readability.
-                      </p>
-                    </div>
-                  ))
-                }
-              </div>
-            </Stack>
+      <Section title="Current package surface" headingId="package-surface-heading">
+        <Stack>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            <code>@matt-riley/ui-astro</code> currently exports 21 primitives organized into durable families. The goal is to make the shared package surface easy to scan before you dive into individual component pages.
+          </p>
+
+          <div class="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+            {
+              packageFamilies.map((family) => (
+                <article aria-labelledby={`${family.id}-surface-heading`}>
+                  <Panel>
+                    <Stack>
+                      <h3 id={`${family.id}-surface-heading`} class="text-xl font-semibold">{family.label}</h3>
+                      <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                        {family.primitives.map((primitive) => <li><code>{primitive}</code></li>)}
+                      </ul>
+                    </Stack>
+                  </Panel>
+                </article>
+              ))
+            }
+          </div>
+        </Stack>
+      </Section>
+
+      <Section title="Adoption and publishing" headingId="adoption-publishing-heading">
+        <div class="grid gap-4 lg:grid-cols-[1.05fr,1fr]">
+          <article aria-labelledby="install-heading">
+            <Panel>
+              <Stack>
+                <h3 id="install-heading" class="text-xl font-semibold">Install the shared packages</h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Consumers adopt Snurble through the package entrypoints. Keep route data, metadata decisions, and app-specific behavior local unless a primitive page explicitly says Snurble owns that concern.
+                </p>
+                <CodeSnippet variant="block" code={installCommand} />
+              </Stack>
+            </Panel>
           </article>
 
-          <article
-            class="rounded-3xl border p-6"
-            style="background: rgb(24 24 37 / 0.92); border-color: var(--snurble-border);"
-          >
-            <Stack>
-              <h3 class="text-xl font-semibold">Spacing scale</h3>
-              <div class="grid gap-3">
-                {
-                  spacingEntries.map(([step, value]) => (
-                    <div class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
-                      <div class="flex items-center gap-4">
-                        <code class="min-w-14 text-xs text-[var(--snurble-text-muted)]">{step}</code>
-                        <div
-                          class="h-3 rounded-full bg-[var(--snurble-accent)]"
-                          style={`width: ${value}; min-width: ${value};`}
-                        ></div>
-                        <span class="text-sm text-[var(--snurble-text-muted)]">{value}</span>
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
-            </Stack>
+          <article aria-labelledby="adoption-links-heading">
+            <Panel>
+              <Stack>
+                <h3 id="adoption-links-heading" class="text-xl font-semibold">Next documents to read</h3>
+                <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <span class="font-medium text-[var(--snurble-text)]">Adoption/migration</span>
+                    <p class="mt-2">Use the migration guide when replacing consumer-local presentation code with shared primitives.</p>
+                  </li>
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <span class="font-medium text-[var(--snurble-text)]">Release/publishing</span>
+                    <p class="mt-2">Use the release guide when you need prerelease versions, registry installs, or publishing workflow details.</p>
+                  </li>
+                  <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                    <span class="font-medium text-[var(--snurble-text)]">Foundation alignment</span>
+                    <p class="mt-2">Use the foundation page to keep repo ownership and extraction status clear before planning new primitives.</p>
+                  </li>
+                </ul>
+              </Stack>
+            </Panel>
           </article>
         </div>
       </Section>

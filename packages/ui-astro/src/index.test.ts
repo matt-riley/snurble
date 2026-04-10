@@ -1,16 +1,19 @@
+/* oxlint-disable vitest/no-importing-vitest-globals */
+
 import { readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
-
+import { describe, expect, it, vi } from "vitest";
 
 const repoRoot = resolve(import.meta.dirname, "../../..");
 
-const readRepoFile = async (relativePath: string): Promise<string> =>
+const readRepoFile = (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf-8");
 
+vi.setConfig({ testTimeout: 5000 });
+
 describe("ui-astro package", () => {
-  it("exposes the Stage 03 layout component through the package entrypoint", async () => {
+  it("exposes the durable foundation primitives through the package entrypoint", async () => {
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
     const packageJson = await readRepoFile("packages/ui-astro/package.json");
 
@@ -127,10 +130,12 @@ describe("ui-astro package", () => {
   it("implements a named Section wrapper with mutually exclusive heading modes", async () => {
     const sectionAstro = readRepoFile("packages/ui-astro/src/Section.astro");
 
-    await expect(sectionAstro).resolves.toContain("type TitledProps = {");
+    await expect(sectionAstro).resolves.toContain("interface TitledProps {");
     await expect(sectionAstro).resolves.toContain("headingId: string;");
     await expect(sectionAstro).resolves.toContain("labelledBy?: never;");
-    await expect(sectionAstro).resolves.toContain("type AssociatedProps = {");
+    await expect(sectionAstro).resolves.toContain(
+      "interface AssociatedProps {"
+    );
     await expect(sectionAstro).resolves.toContain("title?: never;");
     await expect(sectionAstro).resolves.toContain(
       'throw new Error("Section requires exactly one of `title` or `labelledBy`.");'
@@ -196,9 +201,13 @@ describe("ui-astro package", () => {
       "packages/ui-astro/src/DataTable.astro"
     );
 
-    await expect(dataTableAstro).resolves.toContain("type LabelledByProps = {");
+    await expect(dataTableAstro).resolves.toContain(
+      "interface LabelledByProps {"
+    );
     await expect(dataTableAstro).resolves.toContain("labelledBy: string;");
-    await expect(dataTableAstro).resolves.toContain("type AriaLabelProps = {");
+    await expect(dataTableAstro).resolves.toContain(
+      "interface AriaLabelProps {"
+    );
     await expect(dataTableAstro).resolves.toContain("ariaLabel: string;");
     await expect(dataTableAstro).resolves.toContain(
       "props.labelledBy.trim() || undefined"
@@ -292,7 +301,7 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("proves docs frame Stack as the Stage 11 primitive while composing with CodeSnippet", async () => {
+  it("documents durable foundations, package families, and adoption guidance on the docs homepage", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
@@ -301,51 +310,38 @@ describe("ui-astro package", () => {
       'import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";'
     );
     expect(homepage).toContain("<Layout");
-    expect(homepage).toContain('title="Snurble Stack component"');
+    expect(homepage).toContain('title="Snurble design system"');
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
+    expect(homepage).toContain("Snurble design system");
     expect(homepage).toContain("<Hero");
-    expect(homepage).toContain("Snurble Stage 11");
-    expect(homepage).toContain('title="Stack component is live."');
+    expect(homepage).toContain("Durable foundations for Astro sites");
     expect(homepage).toContain(
-      '<Section title="Stack guidance" headingId="stack-guidance-heading">'
+      '<Section title="Documentation map" headingId="docs-map-heading">'
     );
-    expect(homepage).toContain('id="codesnippet-guidance-heading"');
+    expect(homepage).toContain("Current package surface");
     expect(homepage).toContain(
-      '<Section labelledBy="codesnippet-guidance-heading">'
+      '<Section title="Adoption and publishing" headingId="adoption-publishing-heading">'
     );
+    expect(homepage).toContain("Foundations");
+    expect(homepage).toContain("Shell primitives");
+    expect(homepage).toContain("Profile/social primitives");
+    expect(homepage).toContain("Project primitives");
+    expect(homepage).toContain("Experience primitives");
+    expect(homepage).toContain("Install the shared packages");
+    expect(homepage).toContain("Next documents to read");
     expect(homepage).toContain(
-      '<article aria-labelledby="codesnippet-contract-heading">'
-    );
-    expect(homepage).toContain("<Stack>");
-    expect(homepage).toContain(
-      '<h3 id="codesnippet-contract-heading" class="text-xl font-semibold">CodeSnippet contract</h3>'
-    );
-    expect(homepage).toContain("<Panel>");
-    expect(homepage).toContain(
-      '<h3 id="codesnippet-inline-heading" class="text-xl font-semibold">Inline code example</h3>'
+      'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
     );
     expect(homepage).toContain(
-      '<CodeSnippet variant="inline" code="pnpm add @matt-riley/ui-astro" />'
+      '<CodeSnippet variant="block" code={installCommand} />'
     );
-    expect(homepage).toContain(
-      '<article aria-labelledby="codesnippet-block-heading">'
-    );
-    expect(homepage).toContain(
-      '<h3 id="codesnippet-block-heading" class="text-xl font-semibold">Block code example</h3>'
-    );
-    expect(homepage).toContain('<CodeSnippet variant="block"');
-    expect(homepage).toContain("--reporter append-only");
-    expect(homepage).toContain(
-      "Whitespace is preserved for authored block snippets"
-    );
-    expect(homepage).toContain("Composition boundaries");
-    expect(homepage).not.toContain('<div class="space-y-4">');
+    expect(homepage).toContain("Release/publishing");
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");
   });
 
-  it("adds a migration cookbook page for mattriley.tools", async () => {
+  it("adds a migration cookbook page for durable consumer adoption guidance", async () => {
     const migrationPage = await readRepoFile(
       "apps/docs/src/pages/mattriley-tools-migration.astro"
     );
@@ -357,11 +353,38 @@ describe("ui-astro package", () => {
     expect(migrationPage).toContain(
       'title="mattriley.tools migration cookbook"'
     );
-    expect(migrationPage).toContain("Stage 12 delivery boundary");
+    expect(migrationPage).toContain("Migration boundary");
+    expect(migrationPage).toContain("Durable package contract");
     expect(migrationPage).toContain("Local-only validation proof");
+    expect(migrationPage).toContain("Registry adoption checkpoint");
     expect(migrationPage).toContain("pack --pack-destination");
+    expect(migrationPage).toContain(
+      "SMOKE_DIR=$(pwd)/artifacts/mattriley-tools-smoke"
+    );
+    expect(migrationPage).toContain("matt-riley-design-tokens-*.tgz");
     expect(migrationPage).toContain("do not commit");
     expect(migrationPage).toContain("Component mapping");
+    expect(migrationPage).toContain("Wrapper layout pattern");
+    expect(migrationPage).toContain("Local validation loop");
+  });
+
+  it("documents trusted URL and accessibility boundaries for profile and experience primitives", async () => {
+    const profileSocialPage = await readRepoFile(
+      "apps/docs/src/pages/profile-social-primitives.astro"
+    );
+    const experiencePage = await readRepoFile(
+      "apps/docs/src/pages/experience-primitives.astro"
+    );
+
+    expect(profileSocialPage).toContain(
+      "passes each <code>href</code> straight through to the rendered"
+    );
+    expect(profileSocialPage).toContain("Supply vetted external");
+    expect(profileSocialPage).toContain("ideally <code>https://</code>");
+    expect(experiencePage).toContain(
+      "uses the same <code>start</code> and <code>end</code> strings for both <code>datetime</code> attributes and visible text"
+    );
+    expect(experiencePage).toContain("Treat that as a limitation");
   });
 
   it("exports the accepted foundation primitives through the package entrypoint", async () => {
@@ -497,7 +520,7 @@ describe("ui-astro package", () => {
     );
 
     await expect(socialLinksAstro).resolves.toContain(
-      "links: Array<{ href: string; icon: string; label: string }>;"
+      "links: { href: string; icon: string; label: string }[];"
     );
     await expect(socialLinksAstro).resolves.toContain(
       '<nav aria-label="Social profiles"'
@@ -590,7 +613,7 @@ describe("ui-astro package", () => {
       'const firstColonIndex = trimmed.indexOf(":");'
     );
     expect(projectCardAstro).toContain("trimmed.slice(0, firstColonIndex)");
-    expect(projectCardAstro).toContain("character.charCodeAt(0)");
+    expect(projectCardAstro).toContain("character.codePointAt(0)");
     expect(projectCardAstro).toContain('character.trim() === ""');
     expect(projectCardAstro).toContain("new URL(trimmed)");
     expect(projectCardAstro).toContain('parsed.protocol === "http:"');

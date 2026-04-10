@@ -1,20 +1,23 @@
+/* oxlint-disable vitest/no-importing-vitest-globals */
+
 import { execFile } from "node:child_process";
 import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import { promisify } from "node:util";
 
-
+import { describe, expect, it, vi } from "vitest";
 
 const execFileAsync = promisify(execFile);
 const repoRoot = resolve(import.meta.dirname, "../../..");
 
+const readRepoFile = (relativePath: string): Promise<string> =>
+  readFile(resolve(repoRoot, relativePath), "utf-8");
+
 const readRepoJson = async <T>(relativePath: string): Promise<T> =>
   JSON.parse(await readRepoFile(relativePath)) as T;
 
-const readRepoFile = async (relativePath: string): Promise<string> =>
-  readFile(resolve(repoRoot, relativePath), "utf-8");
+vi.setConfig({ testTimeout: 5000 });
 
 const packPackage = async (packageDir: string): Promise<string[]> => {
   const packDestination = await mkdtemp(
@@ -34,7 +37,8 @@ const packPackage = async (packageDir: string): Promise<string[]> => {
       { cwd: repoRoot }
     );
 
-    const archiveNames = (await readdir(packDestination)).filter((entry) =>
+    const packDestinationEntries = await readdir(packDestination);
+    const archiveNames = packDestinationEntries.filter((entry) =>
       entry.endsWith(".tgz")
     );
     if (archiveNames.length !== 1) {
@@ -56,7 +60,7 @@ const packPackage = async (packageDir: string): Promise<string[]> => {
   }
 };
 
-describe("stage 13 release readiness", () => {
+describe("release readiness docs and packaging", () => {
   it("packs the design tokens package without test files and with a package readme", async () => {
     const archiveEntries = await packPackage("packages/tokens");
 
@@ -86,6 +90,16 @@ describe("stage 13 release readiness", () => {
     expect(packageJson.peerDependencies["@matt-riley/design-tokens"]).toBe(
       ">=0.0.0-0"
     );
+  });
+
+  it("keeps the ui-astro package readme aligned with the shipped public surface", async () => {
+    const readme = await readRepoFile("packages/ui-astro/README.md");
+
+    expect(readme).toContain("ProfileHero");
+    expect(readme).toContain("SocialLinks");
+    expect(readme).toContain("ExperienceCard");
+    expect(readme).toContain("ProjectGrid");
+    expect(readme).not.toContain("remain in the extraction backlog");
   });
 
   it("adds GitHub Packages registry metadata without tightening ui-astro's token range", async () => {
@@ -120,7 +134,7 @@ describe("stage 13 release readiness", () => {
     ).toBe(">=0.0.0-0");
   });
 
-  it("adds a stage 14 release-please workflow for independent package releases", async () => {
+  it("adds a release-please workflow for independent package releases", async () => {
     const releaseConfig = await readRepoJson<{
       packages: Record<string, { "release-type": string }>;
       plugins?: unknown[];
@@ -167,22 +181,22 @@ describe("stage 13 release readiness", () => {
     expect(workflow).toContain("pnpm publish --no-git-checks");
   });
 
-  it("adds an honest Stage 13 release-readiness guide with versioning, auth, rollback, and rollout gates", async () => {
+  it("adds a release-readiness guide with versioning, auth, rollback, and adoption gates", async () => {
     const releaseGuide = await readRepoFile(
       "apps/docs/src/pages/release-readiness.astro"
     );
 
     expect(releaseGuide).toContain('title="Snurble release readiness"');
-    expect(releaseGuide).toContain("manual prerelease");
-    expect(releaseGuide).toContain("0.1.0-next.0");
+    expect(releaseGuide).toContain("Manual prerelease contract");
+    expect(releaseGuide).toContain("NEXT_VERSION=<next-prerelease-version>");
     expect(releaseGuide).toContain("NODE_AUTH_TOKEN");
     expect(releaseGuide).toContain("write:packages");
+    expect(releaseGuide).toContain("Consumer install contract");
     expect(releaseGuide).toContain("Rollback path");
     expect(releaseGuide).toContain("Adoption gates");
-    expect(releaseGuide).toContain("later adopters");
-    expect(releaseGuide).toContain("Consumer install contract");
-    expect(releaseGuide).toContain("Stage 14");
+    expect(releaseGuide).toContain("Automation follow-on");
     expect(releaseGuide).toContain("release-please");
-    expect(releaseGuide).not.toContain("validates a real first consumer");
+    expect(releaseGuide).toContain("first proving consumer");
+    expect(releaseGuide).not.toContain("Stage 14");
   });
 });

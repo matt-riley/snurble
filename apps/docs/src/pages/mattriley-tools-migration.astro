@@ -62,12 +62,15 @@ const pageTitle = title === "mattriley.tools" ? title : \`\${title} | mattriley.
   </main>
 </Layout>`;
 
-const validationLoop = `pnpm --dir packages/tokens pack --pack-destination /tmp/snurble-stage12
-pnpm --dir packages/ui-astro pack --pack-destination /tmp/snurble-stage12
+const validationLoop = `SMOKE_DIR=$(pwd)/artifacts/mattriley-tools-smoke
+mkdir -p "$SMOKE_DIR"
+pnpm --dir packages/tokens pack --pack-destination "$SMOKE_DIR"
+pnpm --dir packages/ui-astro pack --pack-destination "$SMOKE_DIR"
 
-# local-only smoke loop inside ../mattriley.tools
-pnpm add /tmp/snurble-stage12/matt-riley-design-tokens-0.0.0.tgz \
-  /tmp/snurble-stage12/matt-riley-ui-astro-0.0.0.tgz
+# from the Snurble repo root, then switch into ../mattriley.tools
+cd ../mattriley.tools
+pnpm add "$SMOKE_DIR"/matt-riley-design-tokens-*.tgz \
+  "$SMOKE_DIR"/matt-riley-ui-astro-*.tgz
 pnpm run lint && pnpm test && pnpm run build
 
 # do not commit any file refs or lockfile changes created for this loop`;
@@ -75,7 +78,7 @@ pnpm run lint && pnpm test && pnpm run build
 
 <Layout
   title="mattriley.tools migration cookbook"
-  description="Stage 12 reference for moving mattriley.tools onto Snurble's shared package surface without losing consumer-owned behavior."
+  description="Cookbook guidance for moving mattriley.tools onto Snurble's shared package surface without losing consumer-owned behavior."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
 
@@ -83,21 +86,19 @@ pnpm run lint && pnpm test && pnpm run build
     <PageShell class="flex flex-col gap-10">
       <section>
         <Stack>
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-            Snurble Stage 12
-          </p>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">Consumer cookbook</p>
           <Hero
             title="mattriley.tools migration cookbook"
-            lede="This page documents the shared-component handoff for mattriley.tools, the first Snurble consumer. mattriley.tools proves the extracted contract works, while workv2/services/webclient remains the foundation reference implementation."
+            lede="This page documents the shared-component handoff for mattriley.tools, the first proving Snurble consumer. Use it as the durable pattern guide for adopting the shared surface while keeping consumer-owned behavior intact."
           />
         </Stack>
       </section>
 
-      <Section title="Stage 12 delivery boundary" headingId="delivery-boundary-heading">
+      <Section title="Migration boundary" headingId="delivery-boundary-heading">
         <Panel>
           <MetaList>
-            <dt>Mergeable now</dt>
-            <dd>Snurble package-contract changes plus this migration cookbook page.</dd>
+            <dt>Durable package contract</dt>
+            <dd>Snurble package-contract changes and this cookbook page can ship independently of any one consumer rollout branch.</dd>
 
             <dt>Local-only validation proof</dt>
             <dd>
@@ -106,10 +107,10 @@ pnpm run lint && pnpm test && pnpm run build
               get committed.
             </dd>
 
-            <dt>Stage 13 handoff</dt>
+            <dt>Registry adoption checkpoint</dt>
             <dd>
-              The remote consumer manifest switch waits for published or prerelease package
-              versions, then reruns the full consumer validation surface against those versions.
+              The committed consumer manifest switch waits for published prerelease package versions,
+              then reruns the full consumer validation surface against those registry installs.
             </dd>
           </MetaList>
         </Panel>
@@ -120,8 +121,10 @@ pnpm run lint && pnpm test && pnpm run build
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
             The migration replaces repeated layout, shell, and presentation patterns while keeping
             generated data, README rendering, and the consumer&apos;s document-shell obligations local.
-            Note: the current shared surface was shaped by mattriley.tools adoption; workv2 foundation
-            patterns (profile hero, social links, experience cards, project grids) remain in the extraction backlog.
+            The current shared surface was shaped by mattriley.tools adoption and now also includes
+            the profile, social, project, and experience primitives documented elsewhere in this
+            site. This cookbook stays focused on the mattriley.tools shell, catalog, and detail-page
+            integration seams that still need consumer-specific handling during adoption.
           </p>
 
           <DataTable labelledBy="component-mapping-heading">
@@ -216,9 +219,10 @@ pnpm run lint && pnpm test && pnpm run build
       <Section title="Local validation loop" headingId="local-validation-loop-heading">
         <Stack>
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
-            Stage 12 is only honest once both Snurble packages can be packed together, installed
-            into a clean non-workspace consumer checkout, and validated end to end. That smoke loop
-            is intentionally local-only until Stage 13 supplies publishable versions.
+            The migration is only honest once both Snurble packages can be packed together,
+            installed into a clean non-workspace consumer checkout, and validated end to end. Keep
+            this smoke loop local until published prerelease versions are ready for committed
+            consumer adoption.
           </p>
           <CodeSnippet variant="block" code={validationLoop} />
         </Stack>

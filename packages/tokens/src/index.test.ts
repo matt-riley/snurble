@@ -1,19 +1,22 @@
+/* oxlint-disable vitest/no-importing-vitest-globals */
+
 import { readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
-
+import { describe, expect, it, vi } from "vitest";
 
 const repoRoot = resolve(import.meta.dirname, "../../..");
 
 const readRepoJson = async <T>(relativePath: string): Promise<T> =>
   JSON.parse(await readFile(resolve(repoRoot, relativePath), "utf-8")) as T;
 
-const readRepoFile = async (relativePath: string): Promise<string> =>
+const readRepoFile = (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf-8");
 
+vi.setConfig({ testTimeout: 5000 });
+
 describe("design token package", () => {
-  it("exposes the stage 02 public entrypoints", async () => {
+  it("exposes the public design-token entrypoints", async () => {
     const packageJson = await readRepoJson<{
       exports: Record<string, string>;
     }>("packages/tokens/package.json");
@@ -99,21 +102,24 @@ describe("design token package", () => {
     });
   });
 
-  it("proves docs consume token metadata while Layout owns the baseline css import", async () => {
+  it("documents token package ownership and install guidance while Layout owns the baseline css import", async () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
+    const foundationPage = await readRepoFile(
+      "apps/docs/src/pages/foundation.astro"
+    );
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
 
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
-    expect(homepage).toContain('from "@matt-riley/ui-astro";');
-    expect(homepage).toContain(
-      'import spacing from "@matt-riley/design-tokens/spacing.json";'
+    expect(foundationPage).toContain('title="Snurble foundations"');
+    expect(foundationPage).toContain("<code>@matt-riley/design-tokens</code>");
+    expect(foundationPage).toContain("Shared packages stay narrow");
+    expect(foundationPage).toContain(
+      "Snurble owns reusable presentation contracts and design tokens."
     );
     expect(homepage).toContain(
-      'import typography from "@matt-riley/design-tokens/typography.json";'
+      'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
     );
-    expect(homepage).toContain("Semantic surfaces");
-    expect(homepage).toContain("Typography scale");
-    expect(homepage).toContain("Spacing scale");
+    expect(homepage).toContain("Install the shared packages");
   });
 });

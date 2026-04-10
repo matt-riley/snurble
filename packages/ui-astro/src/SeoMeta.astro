@@ -1,0 +1,59 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  imageAlt?: string;
+  type?: string;
+  siteName?: string;
+  twitterCard?: string;
+}
+
+const {
+  title,
+  description,
+  url,
+  image,
+  imageAlt = title,
+  type = "website",
+  siteName,
+  twitterCard = "summary_large_image",
+} = Astro.props;
+
+const isAbsoluteUrl = (candidate: string): boolean => {
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+};
+
+if (!isAbsoluteUrl(url)) {
+  throw new Error(
+    `SeoMeta: url must be an absolute http/https URL, got: "${url}"`
+  );
+}
+
+if (image !== undefined && !isAbsoluteUrl(image)) {
+  throw new Error(
+    `SeoMeta: image must be an absolute http/https URL, got: "${image}"`
+  );
+}
+---
+
+<Fragment>
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:type" content={type} />
+  {siteName && <meta property="og:site_name" content={siteName} />}
+  {image && <meta property="og:image" content={image} />}
+  {image && <meta property="og:image:alt" content={imageAlt} />}
+  <meta name="twitter:card" content={twitterCard} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  {image && <meta name="twitter:image" content={image} />}
+  {image && <meta name="twitter:image:alt" content={imageAlt} />}
+</Fragment>

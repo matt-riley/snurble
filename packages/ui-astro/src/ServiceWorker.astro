@@ -1,0 +1,20 @@
+---
+interface Props {
+  src?: string;
+  scope?: string;
+}
+
+const { src = "/sw.js", scope = "/" } = Astro.props;
+---
+
+<script define:vars={{ src, scope }}>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", async () => {
+      try {
+        await navigator.serviceWorker.register(src, { scope });
+      } catch (error) {
+        console.error("Service worker registration failed:", error);
+      }
+    });
+  }
+</script>

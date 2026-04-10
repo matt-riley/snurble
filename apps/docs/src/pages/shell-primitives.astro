@@ -20,6 +20,27 @@ const sampleJsonLd = {
   name: "Shell Primitives Example",
   url: "https://example.com",
 };
+
+const seoMetaExample = `---
+import { Layout, SeoMeta } from "@matt-riley/ui-astro";
+---
+<Layout title="My Page">
+  <SeoMeta
+    slot="head"
+    title="My Page"
+    description="Page description for social sharing"
+    url="https://example.com/my-page"
+    image="https://example.com/og.png"
+    siteName="My Site"
+  />
+</Layout>`;
+
+const serviceWorkerExample = `---
+import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
+---
+<Layout title="My PWA">
+  <ServiceWorker src="/sw.js" scope="/" />
+</Layout>`;
 ---
 
 <Layout
@@ -202,12 +223,70 @@ const sampleJsonLd = {
             <p>
               A typical docs or marketing page renders <code>FontAssets</code> and
               <code>JsonLd</code> in the <code>head</code> slot, then places <code>SkipLink</code>
-              as the first interactive element in the body. This keeps SEO, performance, and
+              as the first interactive element in the body. Add <code>SeoMeta</code> to the
+              <code>head</code> slot for Open Graph and Twitter Card metadata. Use
+              <code>ServiceWorker</code> for PWA registration. This keeps SEO, performance, and
               keyboard affordances near the page shell instead of scattering them through content.
             </p>
           </Panel>
         </Stack>
       </Section>
+
+      <Section title="SeoMeta" headingId="seometa-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Open Graph and Twitter Card metadata</h3>
+            <p class="mb-4">
+              Renders a <code>&lt;Fragment&gt;</code> of <code>og:</code> and
+              <code>twitter:</code> meta tags. Place it in the Layout <code>head</code> slot.
+              Both <code>url</code> and <code>image</code> must be absolute <code>http/https</code>
+              URLs; a non-absolute value throws at build time.
+            </p>
+            <CodeSnippet
+              variant="block"
+              code={seoMetaExample}
+            />
+          </Panel>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Props</h3>
+            <ul class="list-disc pl-6 space-y-1">
+              <li><code>title</code> — page title (required)</li>
+              <li><code>description</code> — meta description (required)</li>
+              <li><code>url</code> — canonical absolute URL (required)</li>
+              <li><code>image</code> — absolute URL to OG image (optional)</li>
+              <li><code>imageAlt</code> — alt text for OG image; defaults to title (optional)</li>
+              <li><code>type</code> — OG type; defaults to <code>"website"</code> (optional)</li>
+              <li><code>siteName</code> — OG site_name (optional)</li>
+              <li><code>twitterCard</code> — Twitter card type; defaults to <code>"summary_large_image"</code> (optional)</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="ServiceWorker" headingId="serviceworker-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">PWA service worker registration</h3>
+            <p class="mb-4">
+              Registers a service worker on the <code>load</code> event. Guards with a
+              <code>"serviceWorker" in navigator</code> check so it is safe in all browsers.
+              Errors are reported via <code>console.error</code>.
+            </p>
+            <CodeSnippet
+              variant="block"
+              code={serviceWorkerExample}
+            />
+          </Panel>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Props</h3>
+            <ul class="list-disc pl-6 space-y-1">
+              <li><code>src</code> — path to the service worker script; defaults to <code>"/sw.js"</code> (optional)</li>
+              <li><code>scope</code> — registration scope; defaults to <code>"/"</code> (optional)</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+
     </PageShell>
   </main>
 </Layout>

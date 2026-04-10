@@ -10,6 +10,8 @@ export { default as Stack } from "./Stack.astro";
 export { default as FontAssets } from "./FontAssets.astro";
 export { default as JsonLd } from "./JsonLd.astro";
 export { default as SkipLink } from "./SkipLink.astro";
+export { default as SeoMeta } from "./SeoMeta.astro";
+export { default as ServiceWorker } from "./ServiceWorker.astro";
 export { default as ProfileHero } from "./ProfileHero.astro";
 export { default as SocialLinks } from "./SocialLinks.astro";
 export { default as DecoratedHeading } from "./DecoratedHeading.astro";

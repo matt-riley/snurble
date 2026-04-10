@@ -122,6 +122,11 @@ describe("ui-astro package", () => {
     );
     expect(heroAstro).toContain("<slot />");
     expect(heroAstro).toContain("max-width: 50rem;");
+    expect(heroAstro).toContain("color: var(--snurble-brand-primary);");
+    expect(heroAstro).toContain("text-transform: uppercase;");
+    expect(heroAstro).toContain(
+      "font-weight: var(--snurble-font-weight-display);"
+    );
     expect(heroAstro).not.toContain("class?: string;");
     expect(heroAstro).not.toContain("eyebrow");
   });
@@ -161,15 +166,16 @@ describe("ui-astro package", () => {
     await expect(panelAstro).resolves.toContain('<div class="snurble-panel">');
     await expect(panelAstro).resolves.toContain("<slot />");
     await expect(panelAstro).resolves.toContain(
-      "background: var(--snurble-surface);"
+      "background: var(--snurble-surface-card);"
     );
     await expect(panelAstro).resolves.toContain(
-      "border: 1px solid var(--snurble-border);"
+      "border: 1px solid var(--snurble-border-card);"
     );
-    await expect(panelAstro).resolves.toContain("border-radius: 1.5rem;");
+    await expect(panelAstro).resolves.toContain("border-radius: 0.5rem;");
     await expect(panelAstro).resolves.toContain(
       "padding: var(--snurble-space-5);"
     );
+    await expect(panelAstro).resolves.not.toContain("box-shadow");
     await expect(panelAstro).resolves.not.toContain("title:");
     await expect(panelAstro).resolves.not.toContain("aria-labelledby");
     await expect(panelAstro).resolves.not.toContain("class?: string;");
@@ -743,6 +749,69 @@ describe("ui-astro package", () => {
     );
     expect(indexTs).toContain(
       'export { default as SkillIconList } from "./SkillIconList.astro";'
+    );
+  });
+
+  it("implements SeoMeta for Open Graph and Twitter Card metadata injection", async () => {
+    const seoMetaAstro = readRepoFile("packages/ui-astro/src/SeoMeta.astro");
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    await expect(seoMetaAstro).resolves.toContain("title: string;");
+    await expect(seoMetaAstro).resolves.toContain("description: string;");
+    await expect(seoMetaAstro).resolves.toContain("url: string;");
+    await expect(seoMetaAstro).resolves.toContain("image?: string;");
+    await expect(seoMetaAstro).resolves.toContain("imageAlt?: string;");
+    await expect(seoMetaAstro).resolves.toContain('type = "website"');
+    await expect(seoMetaAstro).resolves.toContain(
+      'twitterCard = "summary_large_image"'
+    );
+    await expect(seoMetaAstro).resolves.toContain("imageAlt = title");
+    await expect(seoMetaAstro).resolves.toContain('property="og:title"');
+    await expect(seoMetaAstro).resolves.toContain('property="og:description"');
+    await expect(seoMetaAstro).resolves.toContain('property="og:url"');
+    await expect(seoMetaAstro).resolves.toContain('property="og:type"');
+    await expect(seoMetaAstro).resolves.toContain('property="og:image"');
+    await expect(seoMetaAstro).resolves.toContain('property="og:site_name"');
+    await expect(seoMetaAstro).resolves.toContain('name="twitter:card"');
+    await expect(seoMetaAstro).resolves.toContain('name="twitter:title"');
+    await expect(seoMetaAstro).resolves.toContain('name="twitter:description"');
+    await expect(seoMetaAstro).resolves.toContain('name="twitter:image"');
+    await expect(seoMetaAstro).resolves.toContain("isAbsoluteUrl");
+    await expect(seoMetaAstro).resolves.toContain(
+      "SeoMeta: url must be an absolute http/https URL"
+    );
+    await expect(seoMetaAstro).resolves.toContain(
+      "SeoMeta: image must be an absolute http/https URL"
+    );
+    expect(indexTs).toContain(
+      'export { default as SeoMeta } from "./SeoMeta.astro";'
+    );
+  });
+
+  it("implements ServiceWorker for Progressive Web App service worker registration", async () => {
+    const serviceWorkerAstro = readRepoFile(
+      "packages/ui-astro/src/ServiceWorker.astro"
+    );
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    await expect(serviceWorkerAstro).resolves.toContain('src = "/sw.js"');
+    await expect(serviceWorkerAstro).resolves.toContain('scope = "/"');
+    await expect(serviceWorkerAstro).resolves.toContain(
+      "define:vars={{ src, scope }}"
+    );
+    await expect(serviceWorkerAstro).resolves.toContain(
+      '"serviceWorker" in navigator'
+    );
+    await expect(serviceWorkerAstro).resolves.toContain(
+      'window.addEventListener("load"'
+    );
+    await expect(serviceWorkerAstro).resolves.toContain(
+      "navigator.serviceWorker.register(src, { scope })"
+    );
+    await expect(serviceWorkerAstro).resolves.toContain("console.error");
+    await expect(serviceWorkerAstro).resolves.not.toContain("console.log");
+    expect(indexTs).toContain(
+      'export { default as ServiceWorker } from "./ServiceWorker.astro";'
     );
   });
 });

@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 21 Astro primitives:
+The package entrypoint currently exports 23 Astro primitives:
 
 ### Shell and document primitives
 
@@ -42,6 +42,8 @@ The package entrypoint currently exports 21 Astro primitives:
 - `FontAssets`
 - `JsonLd`
 - `SkipLink`
+- `SeoMeta`
+- `ServiceWorker`
 - `PageShell`
 - `Hero`
 - `Section`

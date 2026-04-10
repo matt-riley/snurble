@@ -39,12 +39,13 @@ const { links } = Astro.props;
     justify-content: center;
     color: var(--snurble-text);
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease-in-out;
   }
 
   .snurble-social-links__link:hover,
   .snurble-social-links__link:focus-visible {
     transform: scale(1.3);
+    transition: all 0.4s ease-in-out;
   }
 
   .snurble-social-links__link:focus-visible {
@@ -62,21 +63,36 @@ const { links } = Astro.props;
     font-size: 1.5rem;
   }
 
-  .snurble-social-links__link[data-icon="github"]:hover {
-    color: var(--snurble-palette-subtext0);
-  }
-
-  .snurble-social-links__link[data-icon="linkedin"]:hover {
+  .snurble-social-links__link[data-icon*="bluesky"]:hover,
+  .snurble-social-links__link[data-icon*="linkedin"]:hover,
+  .snurble-social-links__link:focus-visible[data-icon*="bluesky"],
+  .snurble-social-links__link:focus-visible[data-icon*="linkedin"] {
     color: var(--snurble-palette-blue);
   }
 
-  .snurble-social-links__link[data-icon="twitter"]:hover,
-  .snurble-social-links__link[data-icon="x"]:hover {
-    color: var(--snurble-palette-subtext0);
+  .snurble-social-links__link[data-icon*="twitch"]:hover,
+  .snurble-social-links__link:focus-visible[data-icon*="twitch"] {
+    color: var(--snurble-palette-mauve);
   }
 
-  .snurble-social-links__link[data-icon="email"]:hover,
-  .snurble-social-links__link[data-icon="mail"]:hover {
-    color: var(--snurble-palette-peach);
+  .snurble-social-links__link[data-icon*="youtube"]:hover,
+  .snurble-social-links__link[data-icon*="pdf"]:hover,
+  .snurble-social-links__link:focus-visible[data-icon*="youtube"],
+  .snurble-social-links__link:focus-visible[data-icon*="pdf"] {
+    color: var(--snurble-palette-red);
+  }
+
+  .snurble-social-links__link[data-icon*="spotify"]:hover,
+  .snurble-social-links__link:focus-visible[data-icon*="spotify"] {
+    color: var(--snurble-palette-green);
+  }
+
+  .snurble-social-links__link[data-icon*="github"]:hover,
+  .snurble-social-links__link[data-icon*="x"]:hover,
+  .snurble-social-links__link[data-icon*="twitter"]:hover,
+  .snurble-social-links__link:focus-visible[data-icon*="github"],
+  .snurble-social-links__link:focus-visible[data-icon*="x"],
+  .snurble-social-links__link:focus-visible[data-icon*="twitter"] {
+    color: var(--snurble-palette-subtext0);
   }
 </style>

@@ -101,6 +101,7 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     </h3>
     {stars !== undefined && stars > 0 && (
       <p class="snurble-project-card__stars">
+        <span aria-hidden="true">★</span>
         <span class="sr-only">stars</span>
         <span>{stars}</span>
       </p>
@@ -158,7 +159,7 @@ const safeUrl = isSafeUrl(url) ? url : "#";
   .snurble-project-card__title {
     margin: 0;
     font-size: 1.125rem;
-    font-weight: 800;
+    font-weight: 900;
     text-transform: uppercase;
     color: var(--snurble-brand-heading);
   }
@@ -176,6 +177,7 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     margin: 0;
     font-size: 0.875rem;
     font-weight: 600;
+    color: var(--snurble-brand-primary);
   }
 
   .sr-only {

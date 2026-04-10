@@ -2,15 +2,13 @@
 
 ## [1.3.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.2.0...ui-astro-v1.3.0) (2026-04-10)
 
-
 ### Features
 
-* **ui-astro:** mirror workv2 style + add SeoMeta and ServiceWorker components ([060a945](https://github.com/matt-riley/snurble/commit/060a945f2df8ff6bde71737438d799f274ba9e6e))
-
+- **ui-astro:** mirror workv2 style + add SeoMeta and ServiceWorker components ([060a945](https://github.com/matt-riley/snurble/commit/060a945f2df8ff6bde71737438d799f274ba9e6e))
 
 ### Bug Fixes
 
-* some components ([4124b89](https://github.com/matt-riley/snurble/commit/4124b89741c0716f4c3eb128565283246cdcb69c))
+- some components ([4124b89](https://github.com/matt-riley/snurble/commit/4124b89741c0716f4c3eb128565283246cdcb69c))
 
 ## [1.2.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.1.0...ui-astro-v1.2.0) (2026-04-10)
 

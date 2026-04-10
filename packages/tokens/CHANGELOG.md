@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.2.0...design-tokens-v1.3.0) (2026-04-10)
+
+
+### Features
+
+* **ui-astro:** mirror workv2 style + add SeoMeta and ServiceWorker components ([060a945](https://github.com/matt-riley/snurble/commit/060a945f2df8ff6bde71737438d799f274ba9e6e))
+
 ## [1.2.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.1.0...design-tokens-v1.2.0) (2026-04-10)
 
 ### Features

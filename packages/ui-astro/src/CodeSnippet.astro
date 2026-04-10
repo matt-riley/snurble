@@ -1,10 +1,10 @@
 ---
-type Props = {
+interface Props {
   variant: "inline" | "block";
   code: string;
-};
+}
 
-const props: Props = Astro.props;
+const {props} = Astro;
 const { variant, code } = props;
 const normalizedCode = typeof code === "string" ? code.trim() : "";
 

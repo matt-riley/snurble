@@ -1,12 +1,12 @@
 ---
-type Props = {
+interface Props {
   name: string;
   description: string;
   url: string;
   stars?: number;
   languages?: { name: string; color?: string }[];
   topics?: string[];
-};
+}
 
 const { name, description, url, stars, languages = [], topics = [] } = Astro.props;
 
@@ -16,25 +16,25 @@ const { name, description, url, stars, languages = [], topics = [] } = Astro.pro
  * Rejects javascript:, data:, vbscript:, and other dangerous schemes.
  */
 const isSafeUrl = (url: string): boolean => {
-  if (!url || typeof url !== "string") return false;
+  if (!url || typeof url !== "string") {return false;}
 
   const trimmed = url.trim();
 
   // Empty URLs are not safe
-  if (trimmed.length === 0) return false;
+  if (trimmed.length === 0) {return false;}
 
   // Reject protocol-relative URLs so callers cannot escape to another origin.
-  if (trimmed.startsWith("//")) return false;
+  if (trimmed.startsWith("//")) {return false;}
 
   // Allow only explicit relative references.
-  if (/^(\/(?!\/)|\.\/|\.\.\/)/.test(trimmed)) return true;
+  if (/^(\/(?!\/)|\.\/|\.\.\/)/.test(trimmed)) {return true;}
 
   const firstColonIndex = trimmed.indexOf(":");
   if (firstColonIndex !== -1) {
     const maybeScheme = trimmed.slice(0, firstColonIndex);
     const hasWhitespaceOrControl = [...maybeScheme].some((character) => {
-      const code = character.charCodeAt(0);
-      return character.trim() === "" || code < 0x20 || code === 0x7f;
+      const code = character.codePointAt(0);
+      return character.trim() === "" || code < 0x20 || code === 0x7F;
     });
 
     if (hasWhitespaceOrControl) {
@@ -56,7 +56,7 @@ const isSafeUrl = (url: string): boolean => {
  * Rejects anything containing semicolons, quotes, or other potentially dangerous characters.
  */
 const isSafeColor = (color: string): boolean => {
-  if (!color || typeof color !== "string") return false;
+  if (!color || typeof color !== "string") {return false;}
 
   // Trim whitespace
   const trimmed = color.trim();

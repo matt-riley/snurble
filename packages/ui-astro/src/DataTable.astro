@@ -1,17 +1,17 @@
 ---
-type LabelledByProps = {
+interface LabelledByProps {
   labelledBy: string;
   ariaLabel?: never;
-};
+}
 
-type AriaLabelProps = {
+interface AriaLabelProps {
   labelledBy?: never;
   ariaLabel: string;
-};
+}
 
 type Props = LabelledByProps | AriaLabelProps;
 
-const props: Props = Astro.props;
+const {props} = Astro;
 const labelledBy =
   typeof props.labelledBy === "string" ? props.labelledBy.trim() || undefined : undefined;
 const ariaLabel =

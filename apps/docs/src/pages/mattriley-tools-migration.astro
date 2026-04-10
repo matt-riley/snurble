@@ -5,39 +5,39 @@ import { CodeSnippet, DataTable, Hero, Layout, MetaList, PageShell, Panel, Secti
 const mappings = [
   {
     local: "src/layouts/Layout.astro + page-level <main>",
-    shared: "Layout + local wrapper",
     notes:
       "Compose Snurble Layout under a consumer-owned wrapper so title suffixes, favicons, head tags, app CSS, and <main> semantics stay local.",
+    shared: "Layout + local wrapper",
   },
   {
     local: "Homepage hero + section wrappers",
-    shared: "Hero + Section + PageShell + Stack",
     notes:
       "Keep the two catalog sections, their copy, and their independent sync timestamps while moving repeated shell and spacing structure into shared primitives.",
+    shared: "Hero + Section + PageShell + Stack",
   },
   {
     local: "Hand-written catalog tables",
-    shared: "DataTable",
     notes:
       "Preserve the tool table's four columns and the plugin table's three-column contract; keep the generated data source untouched.",
+    shared: "DataTable",
   },
   {
     local: "Detail-page panels and grouped copy",
-    shared: "Panel + Stack + Section",
     notes:
       "Use shared surface and spacing primitives, but keep README rendering and route data flow in mattriley.tools.",
+    shared: "Panel + Stack + Section",
   },
   {
     local: "Metadata dl + install command",
-    shared: "MetaList + CodeSnippet",
     notes:
       "Tool detail pages can move install content into shared snippet styling; plugin pages keep metadata + README only and still do not grow an install section.",
+    shared: "MetaList + CodeSnippet",
   },
   {
     local: "global.css rules",
-    shared: "Selective handoff",
     notes:
       "Only shared shell/table/panel/meta/install chrome moves to Snurble; eyebrow rules, README markdown styling, and other site-specific CSS stay local for now.",
+    shared: "Selective handoff",
   },
 ];
 

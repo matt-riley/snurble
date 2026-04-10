@@ -1,15 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
 
-const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+
+
+const repoRoot = resolve(import.meta.dirname, "../../..");
 
 const readRepoJson = async <T>(relativePath: string): Promise<T> =>
-  JSON.parse(await readFile(resolve(repoRoot, relativePath), "utf8")) as T;
+  JSON.parse(await readFile(resolve(repoRoot, relativePath), "utf-8")) as T;
 
 const readRepoFile = async (relativePath: string): Promise<string> =>
-  readFile(resolve(repoRoot, relativePath), "utf8");
+  readFile(resolve(repoRoot, relativePath), "utf-8");
 
 describe("design token package", () => {
   it("exposes the stage 02 public entrypoints", async () => {
@@ -17,12 +18,12 @@ describe("design token package", () => {
       exports: Record<string, string>;
     }>("packages/tokens/package.json");
 
-    expect(packageJson.exports).toEqual({
+    expect(packageJson.exports).toStrictEqual({
       ".": "./src/index.css",
       "./palette.css": "./src/palette.css",
       "./semantic.css": "./src/semantic.css",
-      "./typography.json": "./src/typography.json",
       "./spacing.json": "./src/spacing.json",
+      "./typography.json": "./src/typography.json",
     });
   });
 
@@ -37,7 +38,9 @@ describe("design token package", () => {
     expect(indexCss).not.toContain(".skip-link");
     expect(indexCss).not.toContain("min-height: 100vh;");
     expect(indexCss).toContain("font-size: var(--snurble-type-body-size);");
-    expect(indexCss).toContain("line-height: var(--snurble-type-body-line-height);");
+    expect(indexCss).toContain(
+      "line-height: var(--snurble-type-body-line-height);"
+    );
   });
 
   it("ships the required semantic aliases and metadata mirrors", async () => {
@@ -76,15 +79,15 @@ describe("design token package", () => {
       expect(semanticCss).toContain(tokenName);
     }
 
-    expect(typography.families).toEqual({
-      display: '"Permanent Marker", "Segoe UI", sans-serif',
+    expect(typography.families).toStrictEqual({
       body: '"Montserrat", "Segoe UI", sans-serif',
       code: '"IBM Plex Mono", "SFMono-Regular", monospace',
+      display: '"Permanent Marker", "Segoe UI", sans-serif',
     });
     expect(typography.styles.display.size).toBe("3rem");
     expect(typography.styles.body.lineHeight).toBe("1.6");
     expect(typography.styles.code.weight).toBe("500");
-    expect(spacing.scale).toEqual({
+    expect(spacing.scale).toStrictEqual({
       "1": "0.25rem",
       "2": "0.5rem",
       "3": "0.75rem",
@@ -103,9 +106,11 @@ describe("design token package", () => {
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
     expect(homepage).toContain('from "@matt-riley/ui-astro";');
-    expect(homepage).toContain('import spacing from "@matt-riley/design-tokens/spacing.json";');
     expect(homepage).toContain(
-      'import typography from "@matt-riley/design-tokens/typography.json";',
+      'import spacing from "@matt-riley/design-tokens/spacing.json";'
+    );
+    expect(homepage).toContain(
+      'import typography from "@matt-riley/design-tokens/typography.json";'
     );
     expect(homepage).toContain("Semantic surfaces");
     expect(homepage).toContain("Typography scale");

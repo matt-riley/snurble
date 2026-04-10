@@ -1,15 +1,15 @@
 ---
-type TitledProps = {
+interface TitledProps {
   title: string;
   headingId: string;
   labelledBy?: never;
-};
+}
 
-type AssociatedProps = {
+interface AssociatedProps {
   title?: never;
   headingId?: never;
   labelledBy: string;
-};
+}
 
 type Props = TitledProps | AssociatedProps;
 

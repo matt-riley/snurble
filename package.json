@@ -8,7 +8,7 @@
     "typecheck": "pnpm exec tsc --noEmit -p packages/ui-astro/tsconfig.json && pnpm --dir apps/docs typecheck",
     "test": "pnpm exec vitest run",
     "build": "pnpm --dir apps/docs build",
-    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
+    "validate": "pnpm run check && pnpm run typecheck && pnpm run test && pnpm run build",
     "check": "ultracite check",
     "fix": "ultracite fix",
     "prepare": "lefthook install"

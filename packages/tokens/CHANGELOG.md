@@ -2,10 +2,9 @@
 
 ## [1.1.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.0.1...design-tokens-v1.1.0) (2026-04-10)
 
-
 ### Features
 
-* **ui-astro:** extract workv2 foundation primitives ([#9](https://github.com/matt-riley/snurble/issues/9)) ([e93704c](https://github.com/matt-riley/snurble/commit/e93704c1488d52cac0748c8a3cd6a0a6ae8f32d6))
+- **ui-astro:** extract workv2 foundation primitives ([#9](https://github.com/matt-riley/snurble/issues/9)) ([e93704c](https://github.com/matt-riley/snurble/commit/e93704c1488d52cac0748c8a3cd6a0a6ae8f32d6))
 
 ## [1.0.1](https://github.com/matt-riley/snurble/compare/design-tokens-v1.0.0...design-tokens-v1.0.1) (2026-04-09)
 

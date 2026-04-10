@@ -6,7 +6,10 @@
         "name": "@astrojs/ts-plugin"
       }
     ],
-    "types": ["astro/client"]
+    "types": [
+      "astro/client"
+    ],
+    "strictNullChecks": true
   },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"]

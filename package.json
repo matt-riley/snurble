@@ -8,13 +8,18 @@
     "typecheck": "pnpm exec tsc --noEmit -p packages/ui-astro/tsconfig.json && pnpm --dir apps/docs typecheck",
     "test": "pnpm exec vitest run",
     "build": "pnpm --dir apps/docs build",
-    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build"
+    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "lefthook install"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "lefthook": "^2.1.5",
     "oxfmt": "^0.44.0",
     "oxlint": "^1.59.0",
     "typescript": "^6.0.0",
+    "ultracite": "7.4.4",
     "vitest": "^4.1.3"
   },
   "engines": {

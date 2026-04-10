@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.3.0...ui-astro-v1.3.1) (2026-04-10)
+
+
+### Bug Fixes
+
+* changelog ? ([cab4fb7](https://github.com/matt-riley/snurble/commit/cab4fb78a84d3794375f996cc6f4b88bf8d4ea9f))
+
 ## [1.3.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.2.0...ui-astro-v1.3.0) (2026-04-10)
 
 ### Features

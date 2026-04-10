@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.1.0...design-tokens-v1.2.0) (2026-04-10)
+
+
+### Features
+
+* align Snurble with WorkV2 design system ([8264425](https://github.com/matt-riley/snurble/commit/8264425a959fa8c7270a545e72541673e86b681e))
+
 ## [1.1.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.0.1...design-tokens-v1.1.0) (2026-04-10)
 
 ### Features

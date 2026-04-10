@@ -34,7 +34,7 @@ importers:
     dependencies:
       '@matt-riley/design-tokens':
         specifier: workspace:*
-        version: link:../../packages/tokens
+        version: 1.2.0
       '@matt-riley/ui-astro':
         specifier: workspace:*
         version: link:../../packages/ui-astro
@@ -58,7 +58,7 @@ importers:
     devDependencies:
       '@matt-riley/design-tokens':
         specifier: '>=0.0.0-0'
-        version: 1.1.0
+        version: 1.2.0
 
 packages:
 
@@ -479,8 +479,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@matt-riley/design-tokens@1.1.0':
-    resolution: {integrity: sha512-i/jG7KPcVdONHWpgIvcWrVqwSQ31xGqJNQ2en1STjEqn3XlQw8eejxFtTkAuj0sONtleVC833sq/qTCbmMzg7w==, tarball: https://npm.pkg.github.com/download/@matt-riley/design-tokens/1.1.0/a14649abaf747f87bb94ae2667572f411e004c23}
+  '@matt-riley/design-tokens@1.2.0':
+    resolution: {integrity: sha512-SC+nwh9jYVipePj3bL+JWso0DRjC8DFCmKbFOKdXCsynIRHfk3EI/i/zhLzKSgcG8M6dYjkPkZnhsSzJh71SWg==, tarball: https://npm.pkg.github.com/download/@matt-riley/design-tokens/1.2.0/12300fc5e0383ef450e7c09c6ce79055e65f6fb9}
 
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
@@ -2838,7 +2838,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@matt-riley/design-tokens@1.1.0': {}
+  '@matt-riley/design-tokens@1.2.0': {}
 
   '@oslojs/encoding@1.1.0': {}
 

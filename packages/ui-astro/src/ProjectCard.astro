@@ -15,10 +15,10 @@ const { name, description, url, stars, languages = [], topics = [] } = Astro.pro
  * Accepts http, https, and relative URLs.
  * Rejects javascript:, data:, vbscript:, and other dangerous schemes.
  */
-const isSafeUrl = (url: string): boolean => {
-  if (!url || typeof url !== "string") {return false;}
+const isSafeUrl = (candidateUrl: string): boolean => {
+  if (!candidateUrl || typeof candidateUrl !== "string") {return false;}
 
-  const trimmed = url.trim();
+  const trimmed = candidateUrl.trim();
 
   // Empty URLs are not safe
   if (trimmed.length === 0) {return false;}
@@ -62,13 +62,11 @@ const isSafeColor = (color: string): boolean => {
   const trimmed = color.trim();
 
   // Reject dangerous characters that could inject CSS
-  if (/[;"'\\()]/.test(trimmed)) {
-    // Allow parentheses only for rgb/rgba/hsl/hsla
-    if (!/^(rgb|rgba|hsl|hsla)\([^)]+\)$/i.test(trimmed)) {
-      return false;
-    }
+  // Allow parentheses only for rgb/rgba/hsl/hsla.
+  if (/[;"'\\()]/.test(trimmed) && !/^(rgb|rgba|hsl|hsla)\([^)]+\)$/i.test(trimmed)) {
+    return false;
   }
-  
+
   // Accept common safe color formats:
   // - Hex: #RGB, #RRGGBB, #RRGGBBAA
   // - rgb/rgba: rgb(r,g,b), rgba(r,g,b,a)

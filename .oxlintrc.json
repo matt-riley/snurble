@@ -4,5 +4,30 @@
     "./node_modules/ultracite/config/oxlint/core/.oxlintrc.json",
     "./node_modules/ultracite/config/oxlint/astro/.oxlintrc.json",
     "./node_modules/ultracite/config/oxlint/vitest/.oxlintrc.json"
+  ],
+  "ignorePatterns": [".worktrees/**"],
+  "overrides": [
+    {
+      "files": ["**/*.astro"],
+      "rules": {
+        "unicorn/filename-case": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.test.js",
+        "**/*.test.jsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ],
+      "rules": {
+        "vitest/no-importing-vitest-globals": "off",
+        "vitest/prefer-importing-vitest-globals": "off"
+      }
+    }
   ]
 }

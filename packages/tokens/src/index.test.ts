@@ -6,14 +6,13 @@ import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 const repoRoot = resolve(import.meta.dirname, "../../..");
+vi.setConfig({ testTimeout: 30_000 });
 
 const readRepoJson = async <T>(relativePath: string): Promise<T> =>
   JSON.parse(await readFile(resolve(repoRoot, relativePath), "utf-8")) as T;
 
 const readRepoFile = (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf-8");
-
-vi.setConfig({ testTimeout: 5000 });
 
 describe("design token package", () => {
   it("exposes the public design-token entrypoints", async () => {

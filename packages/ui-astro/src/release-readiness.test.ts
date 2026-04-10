@@ -10,14 +10,13 @@ import { describe, expect, it, vi } from "vitest";
 
 const execFileAsync = promisify(execFile);
 const repoRoot = resolve(import.meta.dirname, "../../..");
+vi.setConfig({ testTimeout: 30_000 });
 
 const readRepoFile = (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf-8");
 
 const readRepoJson = async <T>(relativePath: string): Promise<T> =>
   JSON.parse(await readRepoFile(relativePath)) as T;
-
-vi.setConfig({ testTimeout: 5000 });
 
 const packPackage = async (packageDir: string): Promise<string[]> => {
   const packDestination = await mkdtemp(

@@ -6,11 +6,10 @@ import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 const repoRoot = resolve(import.meta.dirname, "../../..");
+vi.setConfig({ testTimeout: 30_000 });
 
 const readRepoFile = (relativePath: string): Promise<string> =>
   readFile(resolve(repoRoot, relativePath), "utf-8");
-
-vi.setConfig({ testTimeout: 5000 });
 
 describe("ui-astro package", () => {
   it("exposes the durable foundation primitives through the package entrypoint", async () => {

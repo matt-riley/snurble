@@ -42,7 +42,7 @@ const { logo, title, company, description, start, end } = Astro.props;
     grid-template-columns: auto 1fr;
     gap: var(--snurble-space-4);
     padding: var(--snurble-space-4);
-    background: var(--snurble-surface);
+    background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border);
     border-radius: 0.5rem;
   }
@@ -73,7 +73,7 @@ const { logo, title, company, description, start, end } = Astro.props;
     justify-content: space-between;
     align-items: flex-start;
     padding-bottom: var(--snurble-space-2);
-    border-bottom: 1px solid var(--snurble-border);
+    border-bottom: 1px solid var(--snurble-border-card);
   }
 
   .snurble-experience-card__title-group {
@@ -86,13 +86,13 @@ const { logo, title, company, description, start, end } = Astro.props;
     font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
+    color: var(--snurble-brand-heading);
   }
 
   .snurble-experience-card__company {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--snurble-text-secondary, var(--snurble-text));
-    opacity: 0.8;
+    color: var(--snurble-text-muted);
   }
 
   .snurble-experience-card__dates {

@@ -17,7 +17,7 @@ const filterId = `decorated-heading-${crypto.randomUUID()}`;
           operator="dilate"
           radius="3"
         />
-        <feFlood flood-color="var(--snurble-accent, #a6e3a1)" flood-opacity="1" result="OUTLINE_COLOR" />
+        <feFlood flood-color="var(--snurble-decorated-heading-outline, var(--snurble-accent-success))" flood-opacity="1" result="OUTLINE_COLOR" />
         <feComposite in="OUTLINE_COLOR" in2="DILATED" operator="in" result="OUTLINE" />
         <feMerge>
           <feMergeNode in="OUTLINE" />
@@ -42,11 +42,13 @@ const filterId = `decorated-heading-${crypto.randomUUID()}`;
     display: flex;
     justify-content: center;
     padding-block: var(--snurble-space-2);
+    --snurble-decorated-heading-fill: var(--snurble-accent-danger);
+    --snurble-decorated-heading-outline: var(--snurble-accent-success);
   }
 
   .snurble-decorated-heading__text {
     font-family: var(--snurble-font-display);
     font-size: 50px;
-    fill: var(--snurble-text);
+    fill: var(--snurble-decorated-heading-fill);
   }
 </style>

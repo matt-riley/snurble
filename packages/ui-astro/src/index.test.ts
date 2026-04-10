@@ -703,7 +703,7 @@ describe("ui-astro package", () => {
     );
 
     await expect(skillIconAstro).resolves.toContain(
-      '<span class="snurble-skill-icon">'
+      '<span class="snurble-skill-icon" aria-hidden="true">'
     );
     await expect(skillIconAstro).resolves.toContain("<slot />");
     await expect(skillIconAstro).resolves.toContain("display: inline-flex;");

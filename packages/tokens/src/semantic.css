@@ -2,14 +2,29 @@
   --snurble-background: var(--snurble-palette-crust);
   --snurble-surface: var(--snurble-palette-base);
   --snurble-surface-strong: var(--snurble-palette-surface0);
+  --snurble-surface-badge: var(--snurble-palette-surface2);
+  --snurble-surface-card: var(--snurble-palette-surface1);
+
   --snurble-text: var(--snurble-palette-text);
   --snurble-text-muted: var(--snurble-palette-subtext0);
+  --snurble-text-tertiary: var(--snurble-palette-overlay1);
   --snurble-muted: var(--snurble-text-muted);
+
   --snurble-border: rgb(108 112 134 / 0.45);
   --snurble-border-strong: rgb(127 132 156 / 0.75);
+  --snurble-border-card: var(--snurble-palette-surface2);
+
   --snurble-accent: var(--snurble-palette-blue);
+  --snurble-accent-success: var(--snurble-palette-green);
+  --snurble-accent-danger: var(--snurble-palette-red);
   --snurble-focus-ring: var(--snurble-palette-green);
+
+  --snurble-brand-primary: var(--snurble-palette-peach);
+  --snurble-brand-heading: var(--snurble-palette-mauve);
+
   --snurble-link: var(--snurble-palette-blue);
   --snurble-link-hover: var(--snurble-palette-sky);
   --snurble-selection: rgb(137 180 250 / 0.22);
+
+  --snurble-font-weight-display: 900;
 }

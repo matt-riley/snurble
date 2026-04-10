@@ -1,0 +1,24 @@
+---
+---
+
+<ul class="snurble-project-grid">
+  <slot />
+</ul>
+
+<style>
+  .snurble-project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--snurble-space-4);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 64rem) {
+    .snurble-project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

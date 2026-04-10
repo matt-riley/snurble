@@ -1,0 +1,239 @@
+---
+type Props = {
+  name: string;
+  description: string;
+  url: string;
+  stars?: number;
+  languages?: { name: string; color?: string }[];
+  topics?: string[];
+};
+
+const { name, description, url, stars, languages = [], topics = [] } = Astro.props;
+
+/**
+ * Validates that a URL is safe to use in href attributes.
+ * Accepts http, https, and relative URLs.
+ * Rejects javascript:, data:, vbscript:, and other dangerous schemes.
+ */
+const isSafeUrl = (url: string): boolean => {
+  if (!url || typeof url !== "string") return false;
+
+  const trimmed = url.trim();
+
+  // Empty URLs are not safe
+  if (trimmed.length === 0) return false;
+
+  // Reject protocol-relative URLs so callers cannot escape to another origin.
+  if (trimmed.startsWith("//")) return false;
+
+  // Allow only explicit relative references.
+  if (/^(\/(?!\/)|\.\/|\.\.\/)/.test(trimmed)) return true;
+
+  const firstColonIndex = trimmed.indexOf(":");
+  if (firstColonIndex !== -1) {
+    const maybeScheme = trimmed.slice(0, firstColonIndex);
+    const hasWhitespaceOrControl = [...maybeScheme].some((character) => {
+      const code = character.charCodeAt(0);
+      return character.trim() === "" || code < 0x20 || code === 0x7f;
+    });
+
+    if (hasWhitespaceOrControl) {
+      return false;
+    }
+  }
+
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Validates that a color string is safe to use in inline styles.
+ * Accepts hex colors, rgb/rgba, hsl/hsla, and named colors.
+ * Rejects anything containing semicolons, quotes, or other potentially dangerous characters.
+ */
+const isSafeColor = (color: string): boolean => {
+  if (!color || typeof color !== "string") return false;
+
+  // Trim whitespace
+  const trimmed = color.trim();
+
+  // Reject dangerous characters that could inject CSS
+  if (/[;"'\\()]/.test(trimmed)) {
+    // Allow parentheses only for rgb/rgba/hsl/hsla
+    if (!/^(rgb|rgba|hsl|hsla)\([^)]+\)$/i.test(trimmed)) {
+      return false;
+    }
+  }
+  
+  // Accept common safe color formats:
+  // - Hex: #RGB, #RRGGBB, #RRGGBBAA
+  // - rgb/rgba: rgb(r,g,b), rgba(r,g,b,a)
+  // - hsl/hsla: hsl(h,s,l), hsla(h,s,l,a)
+  // - Named colors: limited set of common CSS color keywords
+  const hexPattern = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+  const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/i;
+  const hslPattern = /^hsla?\(\s*\d+\s*,\s*\d+%?\s*,\s*\d+%?\s*(,\s*[\d.]+\s*)?\)$/i;
+  const namedColorPattern = /^(red|blue|green|yellow|orange|purple|pink|brown|black|white|gray|grey|cyan|magenta)$/i;
+
+  return hexPattern.test(trimmed) ||
+         rgbPattern.test(trimmed) ||
+         hslPattern.test(trimmed) ||
+         namedColorPattern.test(trimmed);
+};
+
+// Validate and sanitize the URL
+const safeUrl = isSafeUrl(url) ? url : "#";
+---
+
+<article class="snurble-project-card">
+  <header class="snurble-project-card__header">
+    <h3 class="snurble-project-card__title">
+      <a
+        href={safeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="snurble-project-card__link"
+      >
+        {name}
+      </a>
+    </h3>
+    {stars !== undefined && stars > 0 && (
+      <p class="snurble-project-card__stars">
+        <span class="sr-only">stars</span>
+        <span>{stars}</span>
+      </p>
+    )}
+  </header>
+
+  <p class="snurble-project-card__description">{description}</p>
+
+  {languages.length > 0 && (
+    <ul class="snurble-project-card__languages">
+      {languages.map((language) => {
+        const safeColor = language.color && isSafeColor(language.color) ? language.color : undefined;
+        return (
+          <li
+            class="snurble-project-card__language-item"
+            style={safeColor ? `border-color: ${safeColor}; color: ${safeColor};` : undefined}
+          >
+            {language.name}
+          </li>
+        );
+      })}
+    </ul>
+  )}
+
+  {topics.length > 0 && (
+    <ul class="snurble-project-card__topics">
+      {topics.map((topic) => (
+        <li class="snurble-project-card__topic-item">
+          #{topic}
+        </li>
+      ))}
+    </ul>
+  )}
+</article>
+
+<style>
+  .snurble-project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-3);
+    height: 100%;
+    padding: var(--snurble-space-4);
+    background: var(--snurble-surface);
+    border: 1px solid var(--snurble-border);
+    border-radius: 0.5rem;
+  }
+
+  .snurble-project-card__header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--snurble-space-2);
+  }
+
+  .snurble-project-card__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--snurble-accent);
+  }
+
+  .snurble-project-card__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .snurble-project-card__link:hover {
+    text-decoration: underline;
+  }
+
+  .snurble-project-card__stars {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .snurble-project-card__description {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--snurble-text-muted);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .snurble-project-card__languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--snurble-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snurble-project-card__language-item {
+    font-size: 0.75rem;
+    border: 1px solid currentColor;
+    border-radius: 9999px;
+    padding-inline: var(--snurble-space-2);
+    padding-block: 0.125rem;
+  }
+
+  .snurble-project-card__topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--snurble-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snurble-project-card__topic-item {
+    font-size: 0.75rem;
+    background: var(--snurble-surface-alt);
+    border-radius: 9999px;
+    padding-inline: var(--snurble-space-2);
+    padding-block: 0.125rem;
+    color: var(--snurble-text-muted);
+  }
+</style>

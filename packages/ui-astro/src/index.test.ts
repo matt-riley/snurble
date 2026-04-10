@@ -282,4 +282,274 @@ describe("ui-astro package", () => {
     expect(migrationPage).toContain("do not commit");
     expect(migrationPage).toContain("Component mapping");
   });
+
+  it("exports the accepted foundation primitives through the package entrypoint", async () => {
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    expect(indexTs).toContain('export { default as FontAssets } from "./FontAssets.astro";');
+    expect(indexTs).toContain('export { default as JsonLd } from "./JsonLd.astro";');
+    expect(indexTs).toContain('export { default as SkipLink } from "./SkipLink.astro";');
+    expect(indexTs).toContain('export { default as ProfileHero } from "./ProfileHero.astro";');
+    expect(indexTs).toContain('export { default as SocialLinks } from "./SocialLinks.astro";');
+    expect(indexTs).toContain(
+      'export { default as DecoratedHeading } from "./DecoratedHeading.astro";',
+    );
+    expect(indexTs).toContain('export { default as ProjectCard } from "./ProjectCard.astro";');
+    expect(indexTs).toContain('export { default as ProjectGrid } from "./ProjectGrid.astro";');
+    expect(indexTs).toContain(
+      'export { default as ExperienceCard } from "./ExperienceCard.astro";',
+    );
+    expect(indexTs).toContain(
+      'export { default as ExperienceList } from "./ExperienceList.astro";',
+    );
+    expect(indexTs).toContain('export { default as SkillIcon } from "./SkillIcon.astro";');
+    expect(indexTs).toContain('export { default as SkillIconList } from "./SkillIconList.astro";');
+  });
+
+  it("implements a reusable FontAssets component for font-face declarations", async () => {
+    const fontAssetsAstro = readRepoFile("packages/ui-astro/src/FontAssets.astro");
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    await expect(fontAssetsAstro).resolves.toContain("@font-face");
+    await expect(fontAssetsAstro).resolves.toContain("font-family:");
+    await expect(fontAssetsAstro).resolves.toContain("font-display: swap;");
+    await expect(fontAssetsAstro).resolves.toContain("<style");
+    await expect(fontAssetsAstro).resolves.not.toContain("interface Props");
+    await expect(fontAssetsAstro).resolves.not.toContain("Astro.props");
+    expect(indexTs).toContain('export { default as FontAssets } from "./FontAssets.astro";');
+  });
+
+  it("implements a reusable JsonLd component for structured data injection", async () => {
+    const jsonLdAstro = readRepoFile("packages/ui-astro/src/JsonLd.astro");
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    await expect(jsonLdAstro).resolves.toContain('type="application/ld+json"');
+    await expect(jsonLdAstro).resolves.toContain("JSON.stringify");
+    await expect(jsonLdAstro).resolves.toContain("jsonld");
+    await expect(jsonLdAstro).resolves.toContain("<script");
+    await expect(jsonLdAstro).resolves.toContain("is:inline");
+    await expect(jsonLdAstro).resolves.toContain("set:html");
+    await expect(jsonLdAstro).resolves.toContain("</");
+    await expect(jsonLdAstro).resolves.toContain("try {");
+    await expect(jsonLdAstro).resolves.toContain("catch (error)");
+    await expect(jsonLdAstro).resolves.toContain("cause: error");
+    await expect(jsonLdAstro).resolves.toContain(
+      'throw new Error("JsonLd requires a valid `jsonld` value that can be serialized to JSON.")',
+    );
+    expect(indexTs).toContain('export { default as JsonLd } from "./JsonLd.astro";');
+  });
+
+  it("implements a reusable SkipLink component for keyboard navigation", async () => {
+    const skipLinkAstro = readRepoFile("packages/ui-astro/src/SkipLink.astro");
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    await expect(skipLinkAstro).resolves.toContain("skip-link");
+    await expect(skipLinkAstro).resolves.toContain("href:");
+    await expect(skipLinkAstro).resolves.toContain("<a");
+    await expect(skipLinkAstro).resolves.toContain("position: absolute");
+    await expect(skipLinkAstro).resolves.toContain("transform:");
+    await expect(skipLinkAstro).resolves.toContain(":focus");
+    await expect(skipLinkAstro).resolves.toContain("slot");
+    await expect(skipLinkAstro).resolves.toContain('href.startsWith("#")');
+    await expect(skipLinkAstro).resolves.toContain(
+      'throw new Error("SkipLink requires an internal anchor `href` starting with #.")',
+    );
+    expect(indexTs).toContain('export { default as SkipLink } from "./SkipLink.astro";');
+  });
+
+  it("implements ProfileHero for avatar-based profile headers with name and subtitle", async () => {
+    const profileHeroAstro = readRepoFile("packages/ui-astro/src/ProfileHero.astro");
+
+    await expect(profileHeroAstro).resolves.toContain("name: string;");
+    await expect(profileHeroAstro).resolves.toContain("subtitle: string;");
+    await expect(profileHeroAstro).resolves.toContain("avatarSrc: string;");
+    await expect(profileHeroAstro).resolves.toContain("avatarAlt: string;");
+    await expect(profileHeroAstro).resolves.toContain('<header class="snurble-profile-hero">');
+    await expect(profileHeroAstro).resolves.toContain("<img");
+    await expect(profileHeroAstro).resolves.toContain("src={avatarSrc}");
+    await expect(profileHeroAstro).resolves.toContain("alt={avatarAlt}");
+    await expect(profileHeroAstro).resolves.toContain(
+      '<h1 class="snurble-profile-hero__name">{name}</h1>',
+    );
+    await expect(profileHeroAstro).resolves.toContain(
+      '<p class="snurble-profile-hero__subtitle">{subtitle}</p>',
+    );
+    await expect(profileHeroAstro).resolves.toContain("border-radius");
+    await expect(profileHeroAstro).resolves.toContain("text-align: center");
+    await expect(profileHeroAstro).resolves.not.toContain("lede");
+    await expect(profileHeroAstro).resolves.not.toContain("<slot");
+  });
+
+  it("implements SocialLinks for icon-based social profile navigation", async () => {
+    const socialLinksAstro = readRepoFile("packages/ui-astro/src/SocialLinks.astro");
+
+    await expect(socialLinksAstro).resolves.toContain(
+      "links: Array<{ href: string; icon: string; label: string }>;",
+    );
+    await expect(socialLinksAstro).resolves.toContain('<nav aria-label="Social profiles"');
+    await expect(socialLinksAstro).resolves.toContain("<a");
+    await expect(socialLinksAstro).resolves.toContain("href={link.href}");
+    await expect(socialLinksAstro).resolves.toContain("aria-label={link.label}");
+    await expect(socialLinksAstro).resolves.toContain('target="_blank"');
+    await expect(socialLinksAstro).resolves.toContain('rel="noopener noreferrer"');
+    await expect(socialLinksAstro).resolves.toContain("links.map");
+    await expect(socialLinksAstro).resolves.toContain("display: flex");
+    await expect(socialLinksAstro).resolves.not.toContain("astro-icon");
+    await expect(socialLinksAstro).resolves.not.toContain("class?: string;");
+  });
+
+  it("implements DecoratedHeading for SVG text effects", async () => {
+    const decoratedHeadingAstro = readRepoFile("packages/ui-astro/src/DecoratedHeading.astro");
+
+    await expect(decoratedHeadingAstro).resolves.toContain("text: string;");
+    await expect(decoratedHeadingAstro).resolves.toContain("<svg");
+    await expect(decoratedHeadingAstro).resolves.toContain("<text");
+    await expect(decoratedHeadingAstro).resolves.toContain("{text}");
+    await expect(decoratedHeadingAstro).resolves.toContain("filter");
+    await expect(decoratedHeadingAstro).resolves.toContain("feMorphology");
+    await expect(decoratedHeadingAstro).resolves.toContain("text-anchor");
+    await expect(decoratedHeadingAstro).resolves.toContain("crypto.randomUUID()");
+    await expect(decoratedHeadingAstro).resolves.not.toContain('id="textOutline"');
+    await expect(decoratedHeadingAstro).resolves.not.toContain("class?: string;");
+    await expect(decoratedHeadingAstro).resolves.not.toContain("<slot");
+  });
+
+  it("exports ProjectCard and ProjectGrid primitives through the package entrypoint", async () => {
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    expect(indexTs).toContain('export { default as ProjectCard } from "./ProjectCard.astro";');
+    expect(indexTs).toContain('export { default as ProjectGrid } from "./ProjectGrid.astro";');
+  });
+
+  it("implements a ProjectCard display primitive derived from workv2 RepoCard", async () => {
+    const projectCardAstro = await readRepoFile("packages/ui-astro/src/ProjectCard.astro");
+
+    expect(projectCardAstro).toContain("name: string;");
+    expect(projectCardAstro).toContain("description: string;");
+    expect(projectCardAstro).toContain("url: string;");
+    expect(projectCardAstro).toContain("stars?: number;");
+    expect(projectCardAstro).toContain("languages?: { name: string; color?: string }[];");
+    expect(projectCardAstro).toContain("topics?: string[];");
+    expect(projectCardAstro).toContain("<article");
+    expect(projectCardAstro).toContain("<h3");
+    expect(projectCardAstro).toContain("<a");
+    expect(projectCardAstro).toContain("href={safeUrl}");
+    expect(projectCardAstro).toContain('target="_blank"');
+    expect(projectCardAstro).toContain('rel="noopener noreferrer"');
+    expect(projectCardAstro).toContain("{description}");
+    expect(projectCardAstro).toContain("stars");
+    expect(projectCardAstro).toContain("languages");
+    expect(projectCardAstro).toContain("<ul");
+    expect(projectCardAstro).toContain("topics");
+    expect(projectCardAstro).not.toContain("fetch");
+    expect(projectCardAstro).not.toContain("rankRepos");
+    expect(projectCardAstro).not.toContain("API");
+    expect(projectCardAstro).toMatch(/isSafeColor|isValidColor|validateColor|safeColor/i);
+    expect(projectCardAstro).toMatch(/isSafeUrl|isValidUrl|validateUrl|safeUrl/i);
+    expect(projectCardAstro).toContain('trimmed.startsWith("//")');
+    expect(projectCardAstro).toContain('const firstColonIndex = trimmed.indexOf(":");');
+    expect(projectCardAstro).toContain("trimmed.slice(0, firstColonIndex)");
+    expect(projectCardAstro).toContain("character.charCodeAt(0)");
+    expect(projectCardAstro).toContain('character.trim() === ""');
+    expect(projectCardAstro).toContain("new URL(trimmed)");
+    expect(projectCardAstro).toContain('parsed.protocol === "http:"');
+    expect(projectCardAstro).toContain('parsed.protocol === "https:"');
+    expect(projectCardAstro).toContain("stars !== undefined");
+    expect(projectCardAstro).toContain("stars > 0");
+    expect(projectCardAstro).toContain("languages.length > 0");
+    expect(projectCardAstro).toContain("topics.length > 0");
+  });
+
+  it("implements a ProjectGrid wrapper for laying out ProjectCard components", async () => {
+    const projectGridAstro = await readRepoFile("packages/ui-astro/src/ProjectGrid.astro");
+
+    expect(projectGridAstro).toContain("<slot />");
+    expect(projectGridAstro).toContain("grid");
+    expect(projectGridAstro).toContain("gap");
+    expect(projectGridAstro).toContain("<ul");
+    expect(projectGridAstro).toContain("list-style: none");
+    expect(projectGridAstro).not.toContain("fetch");
+    expect(projectGridAstro).not.toContain("rankRepos");
+    expect(projectGridAstro).not.toContain("topLanguages");
+    expect(projectGridAstro).not.toContain("limitTopics");
+    expect(projectGridAstro).not.toContain("type Props");
+  });
+
+  it("demonstrates ProjectCard edge cases and security in docs", async () => {
+    const docsPage = await readRepoFile("apps/docs/src/pages/project-primitives.astro");
+
+    expect(docsPage).toMatch(/name=.*description=.*url=/s);
+    expect(docsPage).toContain("stars:");
+    expect(docsPage).toContain("languages:");
+    expect(docsPage).toContain("topics:");
+    expect(docsPage).toMatch(/consumer|Consumer/);
+    expect(docsPage).toMatch(/ranking|Ranking/);
+  });
+
+  it("implements ExperienceCard for displaying job/experience entries with logo, title, company, description, and skills", async () => {
+    const experienceCardAstro = readRepoFile("packages/ui-astro/src/ExperienceCard.astro");
+
+    await expect(experienceCardAstro).resolves.toContain("logo: string;");
+    await expect(experienceCardAstro).resolves.toContain("title: string;");
+    await expect(experienceCardAstro).resolves.toContain("company: string;");
+    await expect(experienceCardAstro).resolves.toContain("description: string;");
+    await expect(experienceCardAstro).resolves.toContain("start: string;");
+    await expect(experienceCardAstro).resolves.toContain("end: string;");
+    await expect(experienceCardAstro).resolves.toContain(
+      '<article class="snurble-experience-card">',
+    );
+    await expect(experienceCardAstro).resolves.toContain("<img");
+    await expect(experienceCardAstro).resolves.toContain("alt={title}");
+    await expect(experienceCardAstro).resolves.toContain("<time");
+    await expect(experienceCardAstro).resolves.toContain("set:html={description}");
+    await expect(experienceCardAstro).resolves.toContain("<slot />");
+    await expect(experienceCardAstro).resolves.not.toContain("class?: string;");
+  });
+
+  it("implements ExperienceList for wrapping multiple experience cards with semantic list markup", async () => {
+    const experienceListAstro = readRepoFile("packages/ui-astro/src/ExperienceList.astro");
+
+    await expect(experienceListAstro).resolves.toContain('<ul class="snurble-experience-list">');
+    await expect(experienceListAstro).resolves.toContain("<slot />");
+    await expect(experienceListAstro).resolves.toContain(".snurble-experience-list {");
+    await expect(experienceListAstro).resolves.toContain("list-style: none;");
+    await expect(experienceListAstro).resolves.toContain("padding: 0;");
+    await expect(experienceListAstro).resolves.not.toContain("interface Props");
+    await expect(experienceListAstro).resolves.not.toContain("type Props =");
+  });
+
+  it("implements SkillIcon as a minimal slot-based container for icons", async () => {
+    const skillIconAstro = readRepoFile("packages/ui-astro/src/SkillIcon.astro");
+
+    await expect(skillIconAstro).resolves.toContain('<span class="snurble-skill-icon">');
+    await expect(skillIconAstro).resolves.toContain("<slot />");
+    await expect(skillIconAstro).resolves.toContain("display: inline-flex;");
+    await expect(skillIconAstro).resolves.not.toContain("interface Props");
+    await expect(skillIconAstro).resolves.not.toContain("type Props =");
+    await expect(skillIconAstro).resolves.not.toContain("class?: string;");
+  });
+
+  it("implements SkillIconList for wrapping skill icons with semantic list markup", async () => {
+    const skillIconListAstro = readRepoFile("packages/ui-astro/src/SkillIconList.astro");
+
+    await expect(skillIconListAstro).resolves.toContain("title?: string;");
+    await expect(skillIconListAstro).resolves.toContain('<div class="snurble-skill-icon-list">');
+    await expect(skillIconListAstro).resolves.toContain("{title && <h3");
+    await expect(skillIconListAstro).resolves.toContain("<slot />");
+    await expect(skillIconListAstro).resolves.toContain(".snurble-skill-icon-list {");
+    await expect(skillIconListAstro).resolves.not.toContain("skills:");
+  });
+
+  it("exports experience primitives through the package entrypoint", async () => {
+    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
+
+    expect(indexTs).toContain(
+      'export { default as ExperienceCard } from "./ExperienceCard.astro";',
+    );
+    expect(indexTs).toContain(
+      'export { default as ExperienceList } from "./ExperienceList.astro";',
+    );
+    expect(indexTs).toContain('export { default as SkillIcon } from "./SkillIcon.astro";');
+    expect(indexTs).toContain('export { default as SkillIconList } from "./SkillIconList.astro";');
+  });
 });

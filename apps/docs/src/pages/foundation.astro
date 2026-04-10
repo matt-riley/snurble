@@ -1,0 +1,352 @@
+---
+import "../styles/global.css";
+import { Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+const foundationComponents = [
+  {
+    name: "Shell primitives",
+    status: "Missing",
+    source: "Main.astro, JSONLD.astro, skip-link pattern",
+    note: "JsonLd, SkipLink, and expanded Layout contract for SEO/a11y shell needs.",
+  },
+  {
+    name: "Font loading",
+    status: "Missing",
+    source: "Fonts.astro + Main.astro preloads",
+    note: "Snurble tokens define Permanent Marker and Montserrat, but not the loading mechanism.",
+  },
+  {
+    name: "Profile hero",
+    status: "Missing",
+    source: "Homepage header (avatar + title + subtitle + actions)",
+    note: "Current Hero is too narrow; needs dedicated ProfileHero for foundation's flagship header.",
+  },
+  {
+    name: "Social links",
+    status: "Missing",
+    source: "Links.astro",
+    note: "Social/profile links are a core foundation primitive still stranded in app code.",
+  },
+  {
+    name: "Experience section",
+    status: "Missing",
+    source: "Experience.astro, JobCard/*, Skill.astro",
+    note: "ExperienceList, ExperienceCard, and SkillIconList are the biggest missing content pattern.",
+  },
+  {
+    name: "Project/repo cards",
+    status: "Missing",
+    source: "RepoCard.astro, Repos.astro",
+    note: "Stage 07 used RepoCard as visual input but never extracted the card/grid primitives.",
+  },
+  {
+    name: "Decorated headings",
+    status: "Missing",
+    source: "SvgHeader.astro + Section.astro",
+    note: "Current Section preserved semantics but dropped the most recognizable visual header treatment.",
+  },
+  {
+    name: "Design tokens",
+    status: "Complete",
+    source: "global.css palette, typography, spacing",
+    note: "Catppuccin Mocha palette, semantic surfaces, font families, and spacing scale are extracted.",
+  },
+  {
+    name: "Layout foundation",
+    status: "Partial",
+    source: "Main.astro baseline structure",
+    note: "Minimal Layout exists but lacks shell utilities, metadata helpers, and a11y primitives.",
+  },
+  {
+    name: "Section & Panel",
+    status: "Partial",
+    source: "Section.astro, RepoCard surface treatment",
+    note: "Generalized wrappers exist but represent only a subset of foundation patterns.",
+  },
+];
+---
+
+<Layout
+  title="workv2 foundation reference"
+  description="The workv2/services/webclient repository is the foundation reference implementation for Snurble's design system."
+>
+  <meta slot="head" name="theme-color" content="#11111b" />
+
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <section>
+        <Stack>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+            Foundation Reference
+          </p>
+          <Hero
+            title="workv2 is the foundation"
+            lede="The workv2/services/webclient repository is Snurble's design foundation and reference implementation. Snurble extracts the shared contract from workv2, while mattriley.tools serves as the proving consumer."
+          />
+        </Stack>
+      </section>
+
+      <Section title="Repository roles" headingId="repo-roles-heading">
+        <div class="grid gap-4 lg:grid-cols-3">
+          <article aria-labelledby="workv2-role-heading">
+            <Panel>
+              <Stack>
+                <h3 id="workv2-role-heading" class="text-xl font-semibold">workv2/webclient</h3>
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-accent)]">
+                  Foundation
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The visual, layout, and component reference implementation. Stage 02 explicitly
+                  sourced the token foundation from workv2, establishing it as the system's defining
+                  repo.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  workv2 defines shell patterns (JsonLd, skip-link, font loading), profile primitives
+                  (avatar header, social links), content sections (experience, projects), and the
+                  Catppuccin Mocha aesthetic that Snurble encodes.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="snurble-role-heading">
+            <Panel>
+              <Stack>
+                <h3 id="snurble-role-heading" class="text-xl font-semibold">Snurble</h3>
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-accent)]">
+                  Extracted shared contract
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The design-system packages (<code>@matt-riley/design-tokens</code>, <code
+                    >@matt-riley/ui-astro</code
+                  >) that extract reusable primitives from the workv2 foundation.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Snurble carries workv2's color language and spacing logic but does not yet cover
+                  the full foundation component system—shell utilities, profile hero, social links,
+                  experience cards, and project grids remain in the extraction backlog.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="mattriley-tools-role-heading">
+            <Panel>
+              <Stack>
+                <h3 id="mattriley-tools-role-heading" class="text-xl font-semibold">mattriley.tools</h3>
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-accent)]">
+                  Proving consumer
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The first real Snurble adopter and consumer validation repo. mattriley.tools proved
+                  the shared package surface works outside the design-system workspace.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  It is not the design reference—that role belongs to workv2—but its catalog/detail
+                  pages drove much of the early component extraction roadmap (Hero, DataTable,
+                  MetaList, CodeSnippet).
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Foundation extraction status" headingId="extraction-status-heading">
+        <Stack>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            Snurble's token layer is foundation-aligned: the palette, typography tokens, and spacing
+            scale reflect workv2's Catppuccin Mocha aesthetic and structural primitives. The component
+            roadmap, however, drifted toward mattriley.tools as the shaping consumer. The table below
+            maps workv2 foundation patterns to Snurble's current extraction state.
+          </p>
+
+          <div class="overflow-x-auto">
+            <table
+              class="w-full border-collapse text-left text-sm"
+              style="border-color: var(--snurble-border);"
+            >
+              <thead>
+                <tr style="border-bottom: 1px solid var(--snurble-border);">
+                  <th class="px-4 py-3 font-semibold">Pattern</th>
+                  <th class="px-4 py-3 font-semibold">Status</th>
+                  <th class="px-4 py-3 font-semibold">workv2 source</th>
+                  <th class="px-4 py-3 font-semibold">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  foundationComponents.map((component, index) => (
+                    <tr
+                      class:list={[
+                        index < foundationComponents.length - 1 &&
+                          "border-b",
+                      ]}
+                      style="border-color: var(--snurble-border);"
+                    >
+                      <td class="px-4 py-3 font-medium">{component.name}</td>
+                      <td class="px-4 py-3">
+                        <span
+                          class:list={[
+                            "inline-flex rounded-full px-3 py-1 text-xs font-semibold",
+                            component.status === "Complete" &&
+                              "bg-green-500/10 text-green-400",
+                            component.status === "Partial" &&
+                              "bg-yellow-500/10 text-yellow-400",
+                            component.status === "Missing" &&
+                              "bg-red-500/10 text-red-400",
+                          ]}
+                        >
+                          {component.status}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-[var(--snurble-text-muted)]">
+                        <code class="text-xs">{component.source}</code>
+                      </td>
+                      <td class="px-4 py-3 text-[var(--snurble-text-muted)]">{component.note}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </Stack>
+      </Section>
+
+      <Section title="Where the drift happened" headingId="drift-heading">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <article aria-labelledby="roadmap-drift-heading">
+            <Panel>
+              <Stack>
+                <h3 id="roadmap-drift-heading" class="text-xl font-semibold">
+                  Roadmap pivoted to first-consumer-first
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Stage 05 defined Hero from mattriley.tools headers and explicitly excluded the full
+                  workv2 profile layout. Stages 08–10 extracted DataTable, MetaList, and CodeSnippet
+                  directly from mattriley.tools patterns.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  By Stage 12/13, the migration cookbook and release-readiness docs centered entirely
+                  on mattriley.tools as the "first consumer," while workv2 became a future adopter.
+                  Snurble stopped using workv2 as the component reference and used it primarily as a
+                  visual/tone reference.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="shell-drift-heading">
+            <Panel>
+              <Stack>
+                <h3 id="shell-drift-heading" class="text-xl font-semibold">
+                  Shell is thinner than the foundation
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  workv2's Main.astro owns route-specific metadata, canonical URLs, OG/Twitter tags,
+                  theme-color, preconnect hints, JSON-LD injection, skip link, font preloads, and
+                  service-worker registration.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Snurble's Layout is intentionally minimal: charset/viewport/title, optional
+                  description, and a head slot. That minimalism was correct in Stage 03, but it means
+                  Snurble does not yet carry the shell/accessibility/SEO parts of the foundation.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="typography-drift-heading">
+            <Panel>
+              <Stack>
+                <h3 id="typography-drift-heading" class="text-xl font-semibold">
+                  Typography tokens without loading
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  Snurble's token package defines <code>--snurble-font-display</code> as "Permanent
+                  Marker" and <code>--snurble-font-body</code> as "Montserrat", matching workv2's
+                  theme.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  But Snurble never migrated the font-face/font-preload machinery: workv2 loads those
+                  fonts via Fonts.astro plus preload tags in Main.astro, while Snurble's Layout does
+                  not load them at all. Snurble preserves the font names but not the asset-loading
+                  contract.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="components-drift-heading">
+            <Panel>
+              <Stack>
+                <h3 id="components-drift-heading" class="text-xl font-semibold">
+                  Component surface matches the consumer better
+                </h3>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The current ui-astro exports (Hero, Section, PageShell, Stack, DataTable, MetaList,
+                  CodeSnippet, Panel) map almost one-for-one to mattriley.tools pages.
+                </p>
+                <p class="text-sm text-[var(--snurble-text-muted)]">
+                  The same list does not cover workv2's defining pieces: social links, profile hero,
+                  experience/timeline cards, repo/project cards, decorated headings, or shared
+                  shell/a11y utilities like JsonLd and SkipLink.
+                </p>
+              </Stack>
+            </Panel>
+          </article>
+        </div>
+      </Section>
+
+      <Section title="Recommended correction path" headingId="correction-path-heading">
+        <Panel>
+          <Stack>
+            <h3 class="text-xl font-semibold">What should be corrected first</h3>
+            <ol class="grid gap-4 text-sm text-[var(--snurble-text-muted)]">
+              <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                <span class="font-medium text-[var(--snurble-text)]">1. Reassert repo roles</span>
+                <p class="mt-2">
+                  Snurble docs and plans should explicitly describe: workv2 = foundation reference
+                  implementation, Snurble = extracted shared system, mattriley.tools = proving
+                  adopter/consumer. That framing prevents new component work from defaulting to
+                  whichever consumer asks first.
+                </p>
+              </li>
+              <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                <span class="font-medium text-[var(--snurble-text)]">2. Fix shell parity first</span
+                >
+                <p class="mt-2">
+                  JsonLd, skip-link/a11y helpers, and font-loading support should be the first
+                  correction milestone because they close gaps between Snurble and workv2 without
+                  destabilizing the current mattriley.tools consumer surface.
+                </p>
+              </li>
+              <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                <span class="font-medium text-[var(--snurble-text)]"
+                  >3. Add foundation primitives as new components</span
+                >
+                <p class="mt-2">
+                  Do not expand Hero until it can model avatar/profile layout—add a dedicated
+                  ProfileHero. Do not overload Section with decoration props—add a separate decorated
+                  heading primitive. Keep the current Snurble discipline (narrow, explicit APIs) while
+                  making the design system broad enough to represent the original foundation.
+                </p>
+              </li>
+              <li class="rounded-2xl border px-4 py-3" style="border-color: var(--snurble-border);">
+                <span class="font-medium text-[var(--snurble-text)]"
+                  >4. Make workv2 a real consumer</span
+                >
+                <p class="mt-2">
+                  After P0/P1 primitives land, migrate workv2 to the shared tokens and UI package so
+                  Snurble is validated against both a catalog/data-heavy consumer (mattriley.tools)
+                  and the original profile/product foundation (workv2). That is the cleanest way to
+                  stop further drift.
+                </p>
+              </li>
+            </ol>
+          </Stack>
+        </Panel>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>

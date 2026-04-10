@@ -1,0 +1,215 @@
+---
+import "../styles/global.css";
+import {
+  CodeSnippet,
+  FontAssets,
+  Hero,
+  JsonLd,
+  Layout,
+  PageShell,
+  Panel,
+  Section,
+  SkipLink,
+  Stack,
+} from "@matt-riley/ui-astro";
+
+const sampleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Shell Primitives Example",
+  url: "https://example.com",
+  description: "Demonstrates shell primitives for accessibility and SEO",
+};
+---
+
+<Layout
+  title="Shell Primitives - Snurble"
+  description="FontAssets, JsonLd, and SkipLink foundation primitives"
+>
+  <Fragment slot="head">
+    <FontAssets />
+    <JsonLd jsonld={sampleJsonLd} />
+  </Fragment>
+
+  <SkipLink href="#main-content">Skip to main content</SkipLink>
+
+  <main class="docs-shell min-h-screen" id="main-content" tabindex="-1">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title="Shell Primitives"
+        lede="Additive foundation components for accessibility, SEO, and performance"
+      />
+
+      <Section title="FontAssets" headingId="fontassets-heading">
+        <Stack>
+          <p>
+            The <code>FontAssets</code> component provides reusable font-face declarations
+            for the Snurble design system typography. It matches the font families defined
+            in <code>@matt-riley/design-tokens</code>.
+          </p>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <CodeSnippet
+              variant="block"
+              code={`<Layout title="My Page">
+  <Fragment slot="head">
+    <FontAssets />
+  </Fragment>
+  <PageShell>
+    <!-- content uses Montserrat and Permanent Marker -->
+  </PageShell>
+</Layout>`}
+            />
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Features</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Includes Montserrat weights: 400, 600, 700, 900</li>
+              <li>Includes Permanent Marker weight: 400</li>
+              <li>Uses <code>font-display: swap</code> for optimal performance</li>
+              <li>Zero configuration required</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="JsonLd" headingId="jsonld-heading">
+        <Stack>
+          <p>
+            The <code>JsonLd</code> component safely injects structured data for search
+            engines and social platforms. It escapes closing script tags to prevent XSS.
+          </p>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <CodeSnippet
+              variant="block"
+              code={`const profileData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Matt Riley",
+  jobTitle: "Software Engineer"
+};
+
+<Layout title="Profile">
+  <Fragment slot="head">
+    <JsonLd jsonld={profileData} />
+  </Fragment>
+</Layout>`}
+            />
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Safety</h3>
+            <p>
+              The component automatically escapes <code>&lt;/</code> sequences in the JSON
+              output to prevent script injection attacks.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="SkipLink" headingId="skiplink-heading">
+        <Stack>
+          <p>
+            The <code>SkipLink</code> component provides keyboard navigation to skip
+            repetitive content. It's visually hidden until focused, meeting WCAG 2.1
+            accessibility guidelines.
+          </p>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Usage</h3>
+            <CodeSnippet
+              variant="block"
+              code={`<Layout title="My Page">
+  <SkipLink href="#main-content">Skip to main content</SkipLink>
+  
+  <nav>
+    <!-- navigation -->
+  </nav>
+
+  <main id="main-content" tabindex="-1">
+    <!-- main content -->
+  </main>
+</Layout>`}
+            />
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Behavior</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Hidden off-screen by default</li>
+              <li>Visible when focused via keyboard navigation</li>
+              <li>Styled with Snurble design tokens</li>
+              <li>Smooth transform transition on focus</li>
+            </ul>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Try it</h3>
+            <p>
+              Press <kbd class="px-2 py-1 bg-gray-200 rounded">Tab</kbd> at the top of this
+              page to see the skip link appear.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Integration Notes" headingId="integration-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Layout Compatibility</h3>
+            <p>
+              These primitives work with the existing <code>Layout</code> component's
+              <code>head</code> slot. They do not require Layout modifications and are
+              fully backward compatible.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-4">Consumer Boundaries</h3>
+            <p>
+              <code>FontAssets</code> provides the asset-loading contract for the typography
+              defined in <code>@matt-riley/design-tokens</code>. Consumers can override font
+              sources or add additional weights as needed.
+            </p>
+            <p class="mt-4">
+              <code>JsonLd</code> accepts any JSON-serializable data. Consumers own the
+              structured data schemas and route-specific metadata.
+            </p>
+            <p class="mt-4">
+              <code>SkipLink</code> requires consumers to set <code>id</code> and
+              <code>tabindex="-1"</code> on the target element for proper focus management.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>
+
+<style>
+  .docs-shell {
+    background: linear-gradient(135deg, #1e1e2e 0%, #181825 100%);
+  }
+
+  .docs-shell::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 25% 25%, rgba(137, 180, 250, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(203, 166, 247, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  kbd {
+    font-family: ui-monospace, monospace;
+    font-size: 0.875em;
+  }
+</style>

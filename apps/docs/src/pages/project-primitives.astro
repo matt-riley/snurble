@@ -1,0 +1,237 @@
+---
+import "../styles/global.css";
+import {
+  Hero,
+  Layout,
+  PageShell,
+  Panel,
+  ProjectCard,
+  ProjectGrid,
+  Section,
+  Stack,
+} from "@matt-riley/ui-astro";
+
+const sampleProjects = [
+  {
+    name: "snurble",
+    description: "A foundation design system extracted from workv2 with Astro 6 components and Catppuccin tokens",
+    url: "https://github.com/matt-riley/snurble",
+    stars: 12,
+    languages: [
+      { name: "TypeScript", color: "#3178c6" },
+      { name: "Astro", color: "#ff5d01" },
+    ],
+    topics: ["design-system", "astro", "catppuccin"],
+  },
+  {
+    name: "workv2",
+    description: "Personal portfolio and homepage built with Astro and Catppuccin Mocha theme",
+    url: "https://github.com/matt-riley/workv2",
+    stars: 8,
+    languages: [
+      { name: "TypeScript", color: "#3178c6" },
+      { name: "JavaScript", color: "#f7df1e" },
+    ],
+    topics: ["portfolio", "astro", "homepage"],
+  },
+  {
+    name: "copilot-cli",
+    description: "Advanced GitHub Copilot CLI integration with custom skills and agent workflows",
+    url: "https://github.com/matt-riley/copilot-cli",
+    languages: [
+      { name: "TypeScript", color: "#3178c6" },
+    ],
+    topics: ["copilot", "cli", "ai-tools"],
+  },
+  {
+    name: "example-project",
+    description: "A minimal example project showing ProjectCard without optional metadata",
+    url: "https://github.com/example/project",
+  },
+];
+---
+
+<Layout
+  title="Project Primitives - Snurble"
+  description="ProjectCard and ProjectGrid components extracted from workv2 foundation"
+>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title="Project Primitives"
+        lede="Display primitives derived from workv2 RepoCard and Repos patterns"
+      />
+
+      <Section title="Overview" headingId="overview-heading">
+        <Stack>
+          <Panel>
+            <p>
+              The <code>ProjectCard</code> and <code>ProjectGrid</code> components are reusable
+              display primitives extracted from the workv2 foundation. They handle presentation
+              only—data fetching, ranking, filtering, and topic limiting remain consumer-owned.
+            </p>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Key Features</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Clean separation: display logic in shared components, business logic in consumers</li>
+              <li>Flexible metadata: stars, languages, and topics are all optional</li>
+              <li>Accessibility: semantic HTML with proper ARIA labels</li>
+              <li>Responsive: adapts from single column to two-column grid</li>
+              <li>Foundation-aligned: uses Snurble design tokens for consistency</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="ProjectCard Contract" headingId="project-card-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Required Props</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li><code>name: string</code> - Project name displayed as heading</li>
+              <li><code>description: string</code> - Project description (line-clamped to 2 lines)</li>
+              <li><code>url: string</code> - Link target (opens in new tab)</li>
+            </ul>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Optional Props</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li><code>stars?: number</code> - Star count (only shown if greater than 0)</li>
+              <li><code>languages?: {"{ name: string; color?: string }[]"}</code> - Language badges with optional colors</li>
+              <li><code>topics?: string[]</code> - Topic tags</li>
+            </ul>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Live Examples" headingId="examples-heading">
+        <Stack>
+          <article aria-labelledby="grid-example-heading">
+            <h3 id="grid-example-heading" class="text-xl font-semibold mb-4">ProjectGrid with Multiple Cards</h3>
+            <Panel>
+              <ProjectGrid>
+                {sampleProjects.map((project) => (
+                  <li class="w-full">
+                    <ProjectCard
+                      name={project.name}
+                      description={project.description}
+                      url={project.url}
+                      stars={project.stars}
+                      languages={project.languages}
+                      topics={project.topics}
+                    />
+                  </li>
+                ))}
+              </ProjectGrid>
+            </Panel>
+          </article>
+
+          <article aria-labelledby="single-card-heading">
+            <h3 id="single-card-heading" class="text-xl font-semibold mb-4">Single ProjectCard</h3>
+            <Panel>
+              <ProjectCard
+                name="standalone-project"
+                description="This card demonstrates the minimal required props only: name, description, and url."
+                url="https://github.com/example/standalone"
+              />
+            </Panel>
+          </article>
+        </Stack>
+      </Section>
+
+      <Section title="Consumer Responsibilities" headingId="consumer-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">What the Consumer Owns</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>
+                <strong>Data fetching:</strong> Retrieve project data from your API, GitHub, or content collections
+              </li>
+              <li>
+                <strong>Ranking/sorting:</strong> Order projects by stars, activity, or custom criteria
+              </li>
+              <li>
+                <strong>Filtering:</strong> Show/hide projects based on categories, types, or status
+              </li>
+              <li>
+                <strong>Topic limiting:</strong> Decide how many topics to display per card
+              </li>
+              <li>
+                <strong>Language selection:</strong> Choose which languages to show and their display colors
+              </li>
+              <li>
+                <strong>Error states:</strong> Handle loading, empty, and error states around the grid
+              </li>
+            </ul>
+          </Panel>
+
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Migration from workv2 Repos Component</h3>
+            <p class="mb-3">
+              The workv2 <code>Repos.astro</code> component handled fetching, ranking, language limiting,
+              and topic limiting. When migrating to shared primitives:
+            </p>
+            <ol class="list-decimal list-inside space-y-2">
+              <li>Keep your existing <code>fetchReposContent</code>, <code>rankRepos</code>, <code>topLanguages</code>, and <code>limitTopics</code> utilities</li>
+              <li>Replace the local <code>RepoCard</code> with the shared <code>ProjectCard</code></li>
+              <li>Replace the grid wrapper with <code>ProjectGrid</code></li>
+              <li>Keep fallback messages and error handling in your page component</li>
+            </ol>
+          </Panel>
+        </Stack>
+      </Section>
+
+      <Section title="Security" headingId="security-heading">
+        <Stack>
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">URL Validation</h3>
+            <p class="mb-3">
+              ProjectCard validates all project URLs before rendering them in <code>href</code> attributes
+              to prevent injection attacks using dangerous schemes like <code>javascript:</code>, <code>data:</code>,
+              or <code>vbscript:</code>. Only safe URL formats are accepted:
+            </p>
+            <ul class="list-disc list-inside space-y-1 mb-3">
+              <li>HTTP and HTTPS URLs: <code>https://example.com</code>, <code>http://example.com</code></li>
+              <li>Relative paths: <code>/path/to/page</code>, <code>./page</code>, <code>../page</code></li>
+            </ul>
+            <p class="mb-3">
+              Unsafe URLs (using dangerous schemes or missing required protocols for external URLs)
+              are replaced with <code>#</code> to prevent malicious behavior while keeping the component functional.
+            </p>
+            <p>
+              The validator also rejects protocol-relative URLs like <code>//example.com</code> and
+              obfuscated schemes that rely on whitespace or control characters before the colon.
+            </p>
+          </Panel>
+          
+          <Panel>
+            <h3 class="text-xl font-semibold mb-3">Color Validation</h3>
+            <p class="mb-3">
+              ProjectCard validates all language color values before rendering them in inline styles
+              to prevent CSS injection attacks. Only safe color formats are accepted:
+            </p>
+            <ul class="list-disc list-inside space-y-1 mb-3">
+              <li>Hex colors: <code>#RGB</code>, <code>#RRGGBB</code>, <code>#RRGGBBAA</code></li>
+              <li>RGB/RGBA: <code>rgb(r,g,b)</code>, <code>rgba(r,g,b,a)</code></li>
+              <li>HSL/HSLA: <code>hsl(h,s,l)</code>, <code>hsla(h,s,l,a)</code></li>
+              <li>Common named colors: <code>red</code>, <code>blue</code>, <code>green</code>, etc.</li>
+            </ul>
+            <p>
+              Unsafe color strings (containing semicolons, quotes, or other dangerous characters)
+              are rejected. The language name will still display, but without color styling.
+            </p>
+          </Panel>
+        </Stack>
+      </Section>
+    </PageShell>
+  </main>
+</Layout>
+
+<style>
+  .docs-shell {
+    min-height: 100vh;
+  }
+</style>

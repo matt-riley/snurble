@@ -88,7 +88,7 @@ pnpm run lint && pnpm test && pnpm run build
           </p>
           <Hero
             title="mattriley.tools migration cookbook"
-            lede="This page documents the exact shared-component handoff for mattriley.tools, including the local-only validation boundary that stays in place until Stage 13 publishes consumer-ready versions."
+            lede="This page documents the shared-component handoff for mattriley.tools, the first Snurble consumer. mattriley.tools proves the extracted contract works, while workv2/services/webclient remains the foundation reference implementation."
           />
         </Stack>
       </section>
@@ -120,6 +120,8 @@ pnpm run lint && pnpm test && pnpm run build
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
             The migration replaces repeated layout, shell, and presentation patterns while keeping
             generated data, README rendering, and the consumer&apos;s document-shell obligations local.
+            Note: the current shared surface was shaped by mattriley.tools adoption; workv2 foundation
+            patterns (profile hero, social links, experience cards, project grids) remain in the extraction backlog.
           </p>
 
           <DataTable labelledBy="component-mapping-heading">

@@ -46,8 +46,12 @@ importers:
 
   packages/ui-astro:
     dependencies:
+      astro:
+        specifier: ^6.0.0
+        version: 6.1.5(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(typescript@5.9.3)(yaml@2.8.3)
+    devDependencies:
       '@matt-riley/design-tokens':
-        specifier: workspace:*
+        specifier: '>=0.0.0-0'
         version: link:../tokens
 
 packages:

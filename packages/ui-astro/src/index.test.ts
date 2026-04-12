@@ -252,6 +252,22 @@ describe("ui-astro package", () => {
     await expect(dataTableAstro).resolves.not.toContain("class?: string;");
   });
 
+  it("supports stacked mobile rows through consumer-supplied data labels", async () => {
+    const dataTableAstro = await readRepoFile(
+      "packages/ui-astro/src/DataTable.astro"
+    );
+    const migrationPage = await readRepoFile(
+      "apps/docs/src/pages/mattriley-tools-migration.astro"
+    );
+
+    expect(dataTableAstro).toContain("attr(data-label)");
+    expect(dataTableAstro).toContain(":global(td[data-label])");
+    expect(dataTableAstro).toContain(":global(td[data-label]::before)");
+    expect(migrationPage).toContain('data-label="Local structure"');
+    expect(migrationPage).toContain('data-label="Snurble replacement"');
+    expect(migrationPage).toContain('data-label="Notes"');
+  });
+
   it("implements a narrow MetaList wrapper with semantic dl markup and consumer-owned dt/dd pairs", async () => {
     const metaListAstro = readRepoFile("packages/ui-astro/src/MetaList.astro");
 

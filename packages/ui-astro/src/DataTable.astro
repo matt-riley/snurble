@@ -73,6 +73,7 @@ if (hasLabelledBy === hasAriaLabel) {
   }
 
   .snurble-data-table :global(td) {
+    min-width: 0;
     font-size: 0.875rem;
     line-height: 1.6;
   }
@@ -83,5 +84,74 @@ if (hasLabelledBy === hasAriaLabel) {
 
   .snurble-data-table :global(code) {
     white-space: nowrap;
+  }
+
+  @media (max-width: 40rem) {
+    .snurble-data-table {
+      overflow-x: visible;
+      border: 0;
+      background: transparent;
+    }
+
+    .snurble-data-table table {
+      min-width: 0;
+    }
+
+    .snurble-data-table__head {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .snurble-data-table__body {
+      display: grid;
+      gap: var(--snurble-space-3);
+    }
+
+    .snurble-data-table__body :global(tr) {
+      display: block;
+      border: 1px solid var(--snurble-border);
+      border-radius: 0.5rem;
+      background: var(--snurble-surface-card);
+      overflow: hidden;
+    }
+
+    .snurble-data-table__body :global(td) {
+      display: block;
+      padding: var(--snurble-space-3) var(--snurble-space-4);
+      border-block-end: 1px solid var(--snurble-border);
+    }
+
+    .snurble-data-table__body :global(td[data-label]) {
+      display: grid;
+      grid-template: auto / minmax(0, 9rem) minmax(0, 1fr);
+      gap: var(--snurble-space-2);
+      align-items: start;
+    }
+
+    .snurble-data-table__body :global(td[data-label]::before) {
+      content: attr(data-label);
+      color: var(--snurble-text-muted);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .snurble-data-table__body :global(tr td:last-child) {
+      border-block-end: 0;
+    }
+
+    .snurble-data-table :global(code) {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
   }
 </style>

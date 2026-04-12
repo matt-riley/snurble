@@ -139,9 +139,9 @@ pnpm run lint && pnpm test && pnpm run build
             {
               mappings.map((mapping) => (
                 <tr>
-                  <td>{mapping.local}</td>
-                  <td>{mapping.shared}</td>
-                  <td>{mapping.notes}</td>
+                  <td data-label="Local structure">{mapping.local}</td>
+                  <td data-label="Snurble replacement">{mapping.shared}</td>
+                  <td data-label="Notes">{mapping.notes}</td>
                 </tr>
               ))
             }

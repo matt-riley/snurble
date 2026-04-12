@@ -156,8 +156,8 @@ describe("release readiness docs and packaging", () => {
     expect(releaseConfig.plugins).toBeUndefined();
     expect(releaseManifest["packages/tokens"]).toBeDefined();
     expect(releaseManifest["packages/ui-astro"]).toBeDefined();
-    expect(workflow).toContain(
-      "matt-riley/matt-riley-ci/.github/workflows/release-please.yml@v1"
+    expect(workflow).toMatch(
+      /matt-riley\/matt-riley-ci\/\.github\/workflows\/release-please\.yml@[0-9a-f]{40}/
     );
     expect(workflow).toContain("raw_outputs_json");
     expect(workflow).toContain("packages/tokens--release_created");

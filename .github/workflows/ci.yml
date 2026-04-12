@@ -30,3 +30,14 @@ jobs:
       run-build: false
       test-script: typecheck
       concurrency-suffix: typecheck
+
+  deploy:
+    needs:
+      - validate
+      - typecheck
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/request-infra-deploy.yml
+    with:
+      app-name: snurble
+    secrets:
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}

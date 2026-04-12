@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --dir apps/docs dev",
-    "lint": "pnpm exec oxlint -c .oxlint.lint.json . && pnpm exec oxfmt --check .",
+    "lint": "pnpm exec oxlint -c oxlint.lint.config.ts . && pnpm exec oxfmt --check .",
     "typecheck": "pnpm exec tsc --noEmit -p packages/ui-astro/tsconfig.json && pnpm --dir apps/docs typecheck",
     "test": "pnpm exec vitest run",
     "build": "pnpm --dir apps/docs build",

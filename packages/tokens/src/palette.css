@@ -1,5 +1,6 @@
+/* Catppuccin Mocha (dark) */
 :root {
-  color-scheme: dark;
+  color-scheme: dark light;
   --snurble-palette-rosewater: #f5e0dc;
   --snurble-palette-flamingo: #f2cdcd;
   --snurble-palette-pink: #f5c2e7;
@@ -26,4 +27,37 @@
   --snurble-palette-base: #1e1e2e;
   --snurble-palette-mantle: #181825;
   --snurble-palette-crust: #11111b;
+}
+
+/* Catppuccin Latte (light) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --snurble-palette-rosewater: #dc8a78;
+    --snurble-palette-flamingo: #dd7878;
+    --snurble-palette-pink: #ea76cb;
+    --snurble-palette-mauve: #8839ef;
+    --snurble-palette-red: #d20f39;
+    --snurble-palette-maroon: #e64553;
+    --snurble-palette-peach: #fe640b;
+    --snurble-palette-yellow: #df8e1d;
+    --snurble-palette-green: #40a02b;
+    --snurble-palette-teal: #179299;
+    --snurble-palette-sky: #04a5e5;
+    --snurble-palette-sapphire: #209fb5;
+    --snurble-palette-blue: #1e66f5;
+    --snurble-palette-lavender: #7287fd;
+    --snurble-palette-text: #4c4f69;
+    --snurble-palette-subtext1: #5c5f77;
+    --snurble-palette-subtext0: #6c6f85;
+    --snurble-palette-overlay2: #7c7f93;
+    --snurble-palette-overlay1: #8c8fa1;
+    --snurble-palette-overlay0: #9ca0b0;
+    --snurble-palette-surface2: #acb0be;
+    --snurble-palette-surface1: #bcc0cc;
+    --snurble-palette-surface0: #ccd0da;
+    --snurble-palette-base: #eff1f5;
+    --snurble-palette-mantle: #e6e9ef;
+    --snurble-palette-crust: #dce0e8;
+  }
 }

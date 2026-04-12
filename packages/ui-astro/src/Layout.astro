@@ -17,6 +17,7 @@ const { title, description, lang = "en", bodyClass } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
     <slot name="head" />
@@ -28,3 +29,27 @@ const { title, description, lang = "en", bodyClass } = Astro.props;
     </main>
   </body>
 </html>
+
+<style is:global>
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Suppress focus ring when <main> receives programmatic focus from the skip link.
+     tabindex="-1" prevents this element from being tab-focused normally. */
+  #main-content:focus:not(:focus-visible) {
+    outline: none;
+  }
+</style>

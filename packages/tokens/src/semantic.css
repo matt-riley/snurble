@@ -28,3 +28,12 @@
 
   --snurble-font-weight-display: 900;
 }
+
+/* Latte overlay0=#9ca0b0 (156 160 176), overlay1=#8c8fa1 (140 143 161), blue=#1e66f5 (30 102 245) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --snurble-border: rgb(156 160 176 / 0.45);
+    --snurble-border-strong: rgb(140 143 161 / 0.75);
+    --snurble-selection: rgb(30 102 245 / 0.2);
+  }
+}

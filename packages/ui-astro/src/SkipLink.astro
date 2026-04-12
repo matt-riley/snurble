@@ -28,6 +28,12 @@ if (!href.startsWith("#")) {
     transition: transform 0.2s ease;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-skip-link {
+      transition: none;
+    }
+  }
+
   .snurble-skip-link:focus,
   .snurble-skip-link:focus-visible {
     transform: translateY(0);

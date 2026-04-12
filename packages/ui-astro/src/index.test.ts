@@ -261,6 +261,8 @@ describe("ui-astro package", () => {
     );
 
     expect(dataTableAstro).toContain("attr(data-label)");
+    expect(dataTableAstro).toContain(":global(td[data-label])");
+    expect(dataTableAstro).toContain(":global(td[data-label]::before)");
     expect(migrationPage).toContain('data-label="Local structure"');
     expect(migrationPage).toContain('data-label="Snurble replacement"');
     expect(migrationPage).toContain('data-label="Notes"');

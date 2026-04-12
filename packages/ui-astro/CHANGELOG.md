@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.4.0...ui-astro-v1.4.1) (2026-04-12)
+
+
+### Bug Fixes
+
+* improve DataTable mobile accessibility ([#21](https://github.com/matt-riley/snurble/issues/21)) ([5983e2b](https://github.com/matt-riley/snurble/commit/5983e2b8219cdc38ac83904214c8bc9da17ded45))
+
 ## [1.4.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.3.1...ui-astro-v1.4.0) (2026-04-12)
 
 

@@ -46,6 +46,7 @@ describe("ui-astro package", () => {
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');
+    expect(packageJson).toContain('"shiki"');
     expect(packageJson).toContain('"access": "public"');
     expect(packageJson).not.toContain('"private": true');
   });
@@ -56,6 +57,8 @@ describe("ui-astro package", () => {
 
     expect(uiPackageJson).toContain('"name": "@matt-riley/ui-astro"');
     expect(uiPackageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
+    expect(uiPackageJson).toContain('"dependencies"');
+    expect(uiPackageJson).toContain('"shiki"');
     expect(uiPackageJson).toContain('"peerDependencies"');
     expect(uiPackageJson).not.toContain('"workspace:*"');
     expect(tokenPackageJson).toContain('"name": "@matt-riley/design-tokens"');
@@ -282,20 +285,62 @@ describe("ui-astro package", () => {
       'variant: "inline" | "block";'
     );
     await expect(codeSnippetAstro).resolves.toContain("code: string;");
+    await expect(codeSnippetAstro).resolves.toContain("label?: string;");
+    await expect(codeSnippetAstro).resolves.toContain("language?: string;");
+    await expect(codeSnippetAstro).resolves.toContain(
+      'import { codeToHtml } from "shiki";'
+    );
     await expect(codeSnippetAstro).resolves.toContain("const normalizedCode =");
+    await expect(codeSnippetAstro).resolves.toContain(
+      "const normalizedLanguage ="
+    );
+    await expect(codeSnippetAstro).resolves.toContain("await codeToHtml(");
+    await expect(codeSnippetAstro).resolves.toContain('structure: "inline"');
+    await expect(codeSnippetAstro).resolves.toContain(
+      "const highlightThemes ="
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "themes: highlightThemes"
+    );
+    await expect(codeSnippetAstro).resolves.toContain("catppuccin-latte");
+    await expect(codeSnippetAstro).resolves.toContain("catppuccin-mocha");
     await expect(codeSnippetAstro).resolves.toContain(
       'throw new Error("CodeSnippet requires a non-empty `code` value.");'
     );
     await expect(codeSnippetAstro).resolves.toContain('variant === "inline"');
-    await expect(codeSnippetAstro).resolves.toContain("<code");
-    await expect(codeSnippetAstro).resolves.toContain("<pre");
-    await expect(codeSnippetAstro).resolves.toContain("<code>{code}</code>");
-    await expect(codeSnippetAstro).resolves.toContain("overflow-x: auto;");
+    await expect(codeSnippetAstro).resolves.toContain("<Fragment");
+    await expect(codeSnippetAstro).resolves.toContain("<figure");
+    await expect(codeSnippetAstro).resolves.toContain("<figcaption");
+    await expect(codeSnippetAstro).resolves.toContain(
+      "aria-label={normalizedLabel || undefined}"
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "set:html={highlightedInlineCode}"
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "set:html={highlightedBlockCode}"
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "overflow-wrap: anywhere;"
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "white-space: break-spaces;"
+    );
+    await expect(codeSnippetAstro).resolves.toContain(
+      "overscroll-behavior-x: contain;"
+    );
+    await expect(codeSnippetAstro).resolves.toContain("touch-action: pan-x;");
     await expect(codeSnippetAstro).resolves.toContain("white-space: pre;");
+    await expect(codeSnippetAstro).resolves.toContain(":focus-visible");
     await expect(codeSnippetAstro).resolves.not.toContain("slot");
     await expect(codeSnippetAstro).resolves.not.toContain("class?: string;");
-    await expect(codeSnippetAstro).resolves.not.toContain("language:");
     await expect(codeSnippetAstro).resolves.not.toContain("copy");
+    await expect(codeSnippetAstro).resolves.not.toContain(
+      "white-space: nowrap;"
+    );
+    await expect(codeSnippetAstro).resolves.not.toContain(
+      "display: inline-flex;"
+    );
   });
 
   it("adds the minimal Astro typing support for package exports", async () => {
@@ -338,9 +383,11 @@ describe("ui-astro package", () => {
     expect(homepage).toContain(
       'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
     );
-    expect(homepage).toContain(
-      '<CodeSnippet variant="block" code={installCommand} />'
-    );
+    expect(homepage).toContain('label="Install command"');
+    expect(homepage).toContain('language="bash"');
+    expect(homepage).toContain("<CodeSnippet");
+    expect(homepage).toContain('variant="block"');
+    expect(homepage).toContain("code={installCommand}");
     expect(homepage).toContain("Release/publishing");
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");

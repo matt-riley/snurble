@@ -206,7 +206,12 @@ const packageFamilies = [
                 <p class="text-sm text-[var(--snurble-text-muted)]">
                   Consumers adopt Snurble through the package entrypoints. Keep route data, metadata decisions, and app-specific behavior local unless a primitive page explicitly says Snurble owns that concern.
                 </p>
-                <CodeSnippet variant="block" code={installCommand} />
+                <CodeSnippet
+                  variant="block"
+                  code={installCommand}
+                  label="Install command"
+                  language="bash"
+                />
               </Stack>
             </Panel>
           </article>

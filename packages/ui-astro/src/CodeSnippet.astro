@@ -1,12 +1,18 @@
 ---
+import { codeToHtml } from "shiki";
+
 interface Props {
   variant: "inline" | "block";
   code: string;
+  label?: string;
+  language?: string;
 }
 
 const {props} = Astro;
-const { variant, code } = props;
+const { variant, code, label, language } = props;
 const normalizedCode = typeof code === "string" ? code.trim() : "";
+const normalizedLabel = typeof label === "string" ? label.trim() : "";
+const normalizedLanguage = typeof language === "string" ? language.trim() : "";
 
 if (!normalizedCode) {
   throw new Error("CodeSnippet requires a non-empty `code` value.");
@@ -15,13 +21,51 @@ if (!normalizedCode) {
 if (variant !== "inline" && variant !== "block") {
   throw new Error("CodeSnippet requires `variant` to be `inline` or `block`.");
 }
+
+const highlightThemes = {
+  dark: "catppuccin-mocha",
+  light: "catppuccin-latte",
+} as const;
+
+const highlightedInlineCode =
+  normalizedLanguage && variant === "inline"
+    ? await codeToHtml(code, {
+        defaultColor: "light-dark()",
+        lang: normalizedLanguage,
+        structure: "inline",
+        themes: highlightThemes,
+      })
+    : "";
+
+const highlightedBlockCode =
+  normalizedLanguage && variant === "block"
+    ? await codeToHtml(code, {
+        defaultColor: "light-dark()",
+        lang: normalizedLanguage,
+        themes: highlightThemes,
+      })
+    : "";
 ---
 
 {
   variant === "inline" ? (
-    <code class="snurble-code-snippet snurble-code-snippet--inline">{code}</code>
+    <code
+      class="snurble-code-snippet snurble-code-snippet--inline"
+      aria-label={normalizedLabel || undefined}
+    >
+      {highlightedInlineCode ? <Fragment set:html={highlightedInlineCode} /> : code}
+    </code>
   ) : (
-    <pre class="snurble-code-snippet snurble-code-snippet--block"><code>{code}</code></pre>
+    <figure class="snurble-code-snippet snurble-code-snippet--block">
+      {normalizedLabel ? (
+        <figcaption class="snurble-code-snippet__label">{normalizedLabel}</figcaption>
+      ) : null}
+      {highlightedBlockCode ? (
+        <Fragment set:html={highlightedBlockCode} />
+      ) : (
+        <pre class="snurble-code-snippet__surface" tabindex="0"><code>{code}</code></pre>
+      )}
+    </figure>
   )
 }
 
@@ -34,27 +78,62 @@ if (variant !== "inline" && variant !== "block") {
   }
 
   .snurble-code-snippet--inline {
-    display: inline-flex;
-    max-width: 100%;
+    display: inline;
     padding: var(--snurble-space-2) var(--snurble-space-3);
     vertical-align: baseline;
-    overflow-x: auto;
     border: 1px solid var(--snurble-border-strong);
-    border-radius: 999px;
+    border-radius: 0.75rem;
     background: var(--snurble-surface-strong);
-    white-space: nowrap;
+    white-space: break-spaces;
+    overflow-wrap: anywhere;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
   .snurble-code-snippet--block {
     margin: 0;
-    padding: var(--snurble-space-4);
-    overflow-x: auto;
+    max-width: 100%;
     border: 1px solid var(--snurble-border-strong);
     border-radius: 1rem;
     background: var(--snurble-surface-strong);
+    overflow: hidden;
   }
 
-  .snurble-code-snippet--block code {
+  .snurble-code-snippet__label {
+    display: block;
+    padding: var(--snurble-space-3) var(--snurble-space-4) 0;
+    font-size: 0.875em;
+    font-weight: 600;
+    color: var(--snurble-text-muted);
+  }
+
+  .snurble-code-snippet__surface {
+    background: transparent !important;
+  }
+
+  .snurble-code-snippet--block :global(.shiki),
+  .snurble-code-snippet__surface {
+    margin: 0;
+    max-width: 100%;
+    padding: clamp(var(--snurble-space-3), 3vw, var(--snurble-space-4));
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+
+  .snurble-code-snippet--block :global(.shiki) {
+    background: transparent !important;
+  }
+
+  .snurble-code-snippet--block :global(.shiki:focus-visible),
+  .snurble-code-snippet__surface:focus-visible {
+    outline: 2px solid var(--snurble-accent);
+    outline-offset: -2px;
+  }
+
+  .snurble-code-snippet--block :global(.shiki code),
+  .snurble-code-snippet__surface code {
     display: block;
     min-width: max-content;
     white-space: pre;

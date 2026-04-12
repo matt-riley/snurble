@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.3.1...design-tokens-v1.4.0) (2026-04-12)
+
+
+### Features
+
+* update layout ([62f9606](https://github.com/matt-riley/snurble/commit/62f9606f93440b5f93fd61fcac4adafb0d7f4b9d))
+
+
+### Bug Fixes
+
+* why changelog? ([a53cb42](https://github.com/matt-riley/snurble/commit/a53cb427854fcdf18558c4a331a2a31858f77bc0))
+
 ## [1.3.1](https://github.com/matt-riley/snurble/compare/design-tokens-v1.3.0...design-tokens-v1.3.1) (2026-04-10)
 
 ### Bug Fixes

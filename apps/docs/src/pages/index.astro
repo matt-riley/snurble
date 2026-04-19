@@ -223,28 +223,34 @@ const packageFamilies = [
                 <h3 id="adoption-links-heading" class="text-xl font-semibold">Next documents to read</h3>
                 <ul class="grid gap-4 text-sm text-[var(--snurble-text-muted)]">
                   <li>
-                    <Panel variant="bordered" padding={3}>
-                      <Stack space={2}>
-                        <span class="font-medium text-[var(--snurble-text)]">Adoption/migration</span>
-                        <p>Use the migration guide when replacing consumer-local presentation code with shared primitives.</p>
-                      </Stack>
-                    </Panel>
+                    <a href="/mattriley-tools-migration">
+                      <Panel variant="bordered" padding={3}>
+                        <Stack space={2}>
+                          <span class="font-medium text-[var(--snurble-text)]">Adoption/migration</span>
+                          <p>Use the migration guide when replacing consumer-local presentation code with shared primitives.</p>
+                        </Stack>
+                      </Panel>
+                    </a>
                   </li>
                   <li>
-                    <Panel variant="bordered" padding={3}>
-                      <Stack space={2}>
-                        <span class="font-medium text-[var(--snurble-text)]">Release/publishing</span>
-                        <p>Use the release guide when you need prerelease versions, registry installs, or publishing workflow details.</p>
-                      </Stack>
-                    </Panel>
+                    <a href="/release-readiness">
+                      <Panel variant="bordered" padding={3}>
+                        <Stack space={2}>
+                          <span class="font-medium text-[var(--snurble-text)]">Release/publishing</span>
+                          <p>Use the release guide when you need prerelease versions, registry installs, or publishing workflow details.</p>
+                        </Stack>
+                      </Panel>
+                    </a>
                   </li>
                   <li>
-                    <Panel variant="bordered" padding={3}>
-                      <Stack space={2}>
-                        <span class="font-medium text-[var(--snurble-text)]">Foundation alignment</span>
-                        <p>Use the foundation page to keep repo ownership and extraction status clear before planning new primitives.</p>
-                      </Stack>
-                    </Panel>
+                    <a href="/foundation">
+                      <Panel variant="bordered" padding={3}>
+                        <Stack space={2}>
+                          <span class="font-medium text-[var(--snurble-text)]">Foundation alignment</span>
+                          <p>Use the foundation page to keep repo ownership and extraction status clear before planning new primitives.</p>
+                        </Stack>
+                      </Panel>
+                    </a>
                   </li>
                 </ul>
               </Stack>

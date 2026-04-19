@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.4.0...design-tokens-v1.5.0) (2026-04-19)
+
+
+### Features
+
+* improve design system accessibility (WCAG AA compliance) ([bc77056](https://github.com/matt-riley/snurble/commit/bc7705662148ccb741e9dd27aebb9ac37379b826))
+
+
+### Bug Fixes
+
+* resolve oxlint and oxfmt issues in test and source files ([0c6478e](https://github.com/matt-riley/snurble/commit/0c6478e4625576ea21839220ce9b554edec6594c))
+
 ## [1.4.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.3.1...design-tokens-v1.4.0) (2026-04-12)
 
 

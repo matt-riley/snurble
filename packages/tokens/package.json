@@ -1,6 +1,6 @@
 {
   "name": "@matt-riley/design-tokens",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "files": [
     "src/*.css",
     "src/*.json",

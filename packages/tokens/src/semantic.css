@@ -26,6 +26,9 @@
   --snurble-link-hover: var(--snurble-palette-sky);
   --snurble-selection: rgb(137 180 250 / 0.22);
 
+  --snurble-shadow-card: var(--snurble-shadow-sm);
+  --snurble-shadow-card-hover: var(--snurble-shadow-md);
+
   --snurble-font-weight-display: 900;
 }
 

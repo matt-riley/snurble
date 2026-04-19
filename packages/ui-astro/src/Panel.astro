@@ -1,17 +1,62 @@
 ---
+interface Props {
+  variant?: "flat" | "bordered" | "elevated";
+  hover?: boolean;
+  padding?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  class?: string;
+}
+
+const { variant = "flat", hover = false, padding = 5, class: className } = Astro.props;
 ---
 
-<div class="snurble-panel">
+<div
+  class:list={[
+    "snurble-panel",
+    `snurble-panel--${variant}`,
+    hover && "snurble-panel--hover",
+    className,
+  ]}
+  style={`--snurble-panel-padding: var(--snurble-space-${padding});`}
+>
   <slot />
 </div>
 
 <style>
   .snurble-panel {
     min-width: 0;
-    padding: var(--snurble-space-5);
+    padding: var(--snurble-panel-padding, var(--snurble-space-5));
     color: var(--snurble-text);
     background: var(--snurble-surface-card);
-    border: 1px solid var(--snurble-border-card);
     border-radius: 0.5rem;
+    transition:
+      box-shadow var(--snurble-transition-base),
+      border-color var(--snurble-transition-base),
+      transform var(--snurble-transition-base);
+  }
+
+  /* Variants */
+  .snurble-panel--flat {
+    border: 1px solid transparent;
+  }
+
+  .snurble-panel--bordered {
+    border: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-panel--elevated {
+    border: 1px solid var(--snurble-border-card);
+    box-shadow: var(--snurble-shadow-md);
+  }
+
+  /* Hover States */
+  .snurble-panel--hover:hover {
+    cursor: pointer;
+    border-color: var(--snurble-border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--snurble-shadow-lg);
+  }
+
+  .snurble-panel--elevated.snurble-panel--hover:hover {
+    box-shadow: var(--snurble-shadow-lg);
   }
 </style>

@@ -5,19 +5,33 @@ interface TitledProps {
   title: string;
   headingId: string;
   decorated?: boolean;
+  variant?: "display" | "title";
   labelledBy?: never;
+  class?: string;
+  spacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 }
 
 interface AssociatedProps {
   title?: never;
   headingId?: never;
   decorated?: never;
+  variant?: never;
   labelledBy: string;
+  class?: string;
+  spacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 }
 
 type Props = TitledProps | AssociatedProps;
 
-const { title, headingId, labelledBy, decorated = false } = Astro.props;
+const {
+  title,
+  headingId,
+  labelledBy,
+  decorated = false,
+  variant = "title",
+  class: className,
+  spacing = 4,
+} = Astro.props;
 
 const normalizedTitle = typeof title === "string" ? title.trim() : "";
 const normalizedHeadingId = typeof headingId === "string" ? headingId.trim() : "";
@@ -38,14 +52,31 @@ if (hasTitle && !hasHeadingId) {
 const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
 ---
 
-<section aria-labelledby={resolvedHeadingId} class="snurble-section">
-  {hasTitle && decorated && (
-    <>
-      <h2 id={resolvedHeadingId} class="sr-only">{normalizedTitle}</h2>
-      <DecoratedHeading text={normalizedTitle} />
-    </>
-  )}
-  {hasTitle && !decorated && <h2 id={resolvedHeadingId} class="snurble-section__title">{normalizedTitle}</h2>}
+<section
+  aria-labelledby={resolvedHeadingId}
+  class:list={["snurble-section", className]}
+  style={`--snurble-section-gap: var(--snurble-space-${spacing});`}
+>
+  {
+    hasTitle && decorated && (
+      <>
+        <h2 id={resolvedHeadingId} class="sr-only">
+          {normalizedTitle}
+        </h2>
+        <DecoratedHeading text={normalizedTitle} />
+      </>
+    )
+  }
+  {
+    hasTitle && !decorated && (
+      <h2
+        id={resolvedHeadingId}
+        class:list={["snurble-section__title", `snurble-section__title--${variant}`]}
+      >
+        {normalizedTitle}
+      </h2>
+    )
+  }
   <div class="snurble-section__content">
     <slot />
   </div>
@@ -54,17 +85,27 @@ const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
 <style>
   .snurble-section {
     display: grid;
-    gap: var(--snurble-space-4);
+    gap: var(--snurble-section-gap, var(--snurble-space-4));
     margin: 0;
   }
 
   .snurble-section__title {
     margin: 0;
     color: var(--snurble-brand-heading);
-    font-family: var(--snurble-font-display);
-    font-size: clamp(1.5rem, 2vw, 2rem);
     line-height: 1.1;
     text-wrap: balance;
+  }
+
+  .snurble-section__title--display {
+    font-family: var(--snurble-font-display);
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    text-transform: uppercase;
+  }
+
+  .snurble-section__title--title {
+    font-family: var(--snurble-font-body);
+    font-size: clamp(1.25rem, 1.5vw, 1.75rem);
+    font-weight: 700;
   }
 
   .snurble-section__content {

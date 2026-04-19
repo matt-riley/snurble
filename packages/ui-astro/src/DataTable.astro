@@ -2,16 +2,21 @@
 interface LabelledByProps {
   labelledBy: string;
   ariaLabel?: never;
+  striped?: boolean;
+  class?: string;
 }
 
 interface AriaLabelProps {
   labelledBy?: never;
   ariaLabel: string;
+  striped?: boolean;
+  class?: string;
 }
 
 type Props = LabelledByProps | AriaLabelProps;
 
-const {props} = Astro;
+const { props } = Astro;
+const { striped = false, class: className } = props;
 const labelledBy =
   typeof props.labelledBy === "string" ? props.labelledBy.trim() || undefined : undefined;
 const ariaLabel =
@@ -25,7 +30,7 @@ if (hasLabelledBy === hasAriaLabel) {
 }
 ---
 
-<div class="snurble-data-table">
+<div class:list={["snurble-data-table", striped && "snurble-data-table--striped", className]}>
   <table aria-labelledby={labelledBy} aria-label={ariaLabel}>
     <thead class="snurble-data-table__head">
       <slot name="head" />
@@ -43,6 +48,7 @@ if (hasLabelledBy === hasAriaLabel) {
     border: 1px solid var(--snurble-border);
     border-radius: 0.5rem;
     background: var(--snurble-surface);
+    box-shadow: var(--snurble-shadow-sm);
   }
 
   .snurble-data-table table {
@@ -78,6 +84,11 @@ if (hasLabelledBy === hasAriaLabel) {
     line-height: 1.6;
   }
 
+  /* Striped variant */
+  .snurble-data-table--striped .snurble-data-table__body :global(tr:nth-child(even)) {
+    background: var(--snurble-surface-strong);
+  }
+
   .snurble-data-table__body :global(tr:last-child td) {
     border-block-end: 0;
   }
@@ -91,6 +102,7 @@ if (hasLabelledBy === hasAriaLabel) {
       overflow-x: visible;
       border: 0;
       background: transparent;
+      box-shadow: none;
     }
 
     .snurble-data-table table {
@@ -111,15 +123,16 @@ if (hasLabelledBy === hasAriaLabel) {
 
     .snurble-data-table__body {
       display: grid;
-      gap: var(--snurble-space-3);
+      gap: var(--snurble-space-4);
     }
 
     .snurble-data-table__body :global(tr) {
       display: block;
       border: 1px solid var(--snurble-border);
-      border-radius: 0.5rem;
+      border-radius: 0.75rem;
       background: var(--snurble-surface-card);
       overflow: hidden;
+      box-shadow: var(--snurble-shadow-md);
     }
 
     .snurble-data-table__body :global(td) {

@@ -2,20 +2,27 @@
 interface Props {
   title: string;
   lede?: string;
+  align?: "left" | "center";
+  variant?: "display" | "title";
+  class?: string;
 }
 
-const { title, lede } = Astro.props;
+const { title, lede, align = "left", variant = "title", class: className } = Astro.props;
 const hasSupportingContent = Astro.slots.has("default");
 ---
 
-<header class="snurble-hero">
-  <h1 class="snurble-hero__title">{title}</h1>
+<header class:list={["snurble-hero", `snurble-hero--${align}`, className]}>
+  <h1 class:list={["snurble-hero__title", `snurble-hero__title--${variant}`]}>
+    {title}
+  </h1>
   {lede && <p class="snurble-hero__lede">{lede}</p>}
-  {hasSupportingContent && (
-    <div class="snurble-hero__supporting">
-      <slot />
-    </div>
-  )}
+  {
+    hasSupportingContent && (
+      <div class="snurble-hero__supporting">
+        <slot />
+      </div>
+    )
+  }
 </header>
 
 <style>
@@ -25,15 +32,31 @@ const hasSupportingContent = Astro.slots.has("default");
     margin: 0 0 var(--snurble-space-7);
   }
 
+  .snurble-hero--center {
+    text-align: center;
+    justify-items: center;
+  }
+
   .snurble-hero__title {
     margin: 0;
     color: var(--snurble-brand-primary);
-    font-family: var(--snurble-font-display);
-    font-size: clamp(2.75rem, 8vw, 4.5rem);
     font-weight: var(--snurble-font-weight-display);
     line-height: 0.95;
     text-transform: uppercase;
     text-wrap: balance;
+  }
+
+  .snurble-hero__title--display {
+    font-family: var(--snurble-font-display);
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+  }
+
+  .snurble-hero__title--title {
+    font-family: var(--snurble-font-body);
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    line-height: 1.1;
   }
 
   .snurble-hero__lede {

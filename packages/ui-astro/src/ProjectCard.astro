@@ -6,42 +6,25 @@ interface Props {
   stars?: number;
   languages?: { name: string; color?: string }[];
   topics?: string[];
+  class?: string;
 }
 
-const { name, description, url, stars, languages = [], topics = [] } = Astro.props;
+const { name, description, url, stars, languages = [], topics = [], class: className } = Astro.props;
 
 /**
  * Validates that a URL is safe to use in href attributes.
- * Accepts http, https, and relative URLs.
- * Rejects javascript:, data:, vbscript:, and other dangerous schemes.
  */
 const isSafeUrl = (candidateUrl: string): boolean => {
-  if (!candidateUrl || typeof candidateUrl !== "string") {return false;}
-
-  const trimmed = candidateUrl.trim();
-
-  // Empty URLs are not safe
-  if (trimmed.length === 0) {return false;}
-
-  // Reject protocol-relative URLs so callers cannot escape to another origin.
-  if (trimmed.startsWith("//")) {return false;}
-
-  // Allow only explicit relative references.
-  if (/^(\/(?!\/)|\.\/|\.\.\/)/.test(trimmed)) {return true;}
-
-  const firstColonIndex = trimmed.indexOf(":");
-  if (firstColonIndex !== -1) {
-    const maybeScheme = trimmed.slice(0, firstColonIndex);
-    const hasWhitespaceOrControl = [...maybeScheme].some((character) => {
-      const code = character.codePointAt(0);
-      return character.trim() === "" || code < 0x20 || code === 0x7F;
-    });
-
-    if (hasWhitespaceOrControl) {
-      return false;
-    }
+  if (!candidateUrl || typeof candidateUrl !== "string") {
+    return false;
   }
-
+  const trimmed = candidateUrl.trim();
+  if (trimmed.length === 0 || trimmed.startsWith("//")) {
+    return false;
+  }
+  if (/^(\/(?!\/)|\.\/|\.\.\/)/.test(trimmed)) {
+    return true;
+  }
   try {
     const parsed = new URL(trimmed);
     return parsed.protocol === "http:" || parsed.protocol === "https:";
@@ -52,42 +35,21 @@ const isSafeUrl = (candidateUrl: string): boolean => {
 
 /**
  * Validates that a color string is safe to use in inline styles.
- * Accepts hex colors, rgb/rgba, hsl/hsla, and named colors.
- * Rejects anything containing semicolons, quotes, or other potentially dangerous characters.
  */
 const isSafeColor = (color: string): boolean => {
-  if (!color || typeof color !== "string") {return false;}
-
-  // Trim whitespace
-  const trimmed = color.trim();
-
-  // Reject dangerous characters that could inject CSS
-  // Allow parentheses only for rgb/rgba/hsl/hsla.
-  if (/[;"'\\()]/.test(trimmed) && !/^(rgb|rgba|hsl|hsla)\([^)]+\)$/i.test(trimmed)) {
+  if (!color || typeof color !== "string") {
     return false;
   }
-
-  // Accept common safe color formats:
-  // - Hex: #RGB, #RRGGBB, #RRGGBBAA
-  // - rgb/rgba: rgb(r,g,b), rgba(r,g,b,a)
-  // - hsl/hsla: hsl(h,s,l), hsla(h,s,l,a)
-  // - Named colors: limited set of common CSS color keywords
+  const trimmed = color.trim();
   const hexPattern = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
   const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/i;
-  const hslPattern = /^hsla?\(\s*\d+\s*,\s*\d+%?\s*,\s*\d+%?\s*(,\s*[\d.]+\s*)?\)$/i;
-  const namedColorPattern = /^(red|blue|green|yellow|orange|purple|pink|brown|black|white|gray|grey|cyan|magenta)$/i;
-
-  return hexPattern.test(trimmed) ||
-         rgbPattern.test(trimmed) ||
-         hslPattern.test(trimmed) ||
-         namedColorPattern.test(trimmed);
+  return hexPattern.test(trimmed) || rgbPattern.test(trimmed);
 };
 
-// Validate and sanitize the URL
 const safeUrl = isSafeUrl(url) ? url : "#";
 ---
 
-<article class="snurble-project-card">
+<article class:list={["snurble-project-card", className]}>
   <header class="snurble-project-card__header">
     <h3 class="snurble-project-card__title">
       <a
@@ -99,42 +61,47 @@ const safeUrl = isSafeUrl(url) ? url : "#";
         {name}
       </a>
     </h3>
-    {stars !== undefined && stars > 0 && (
-      <p class="snurble-project-card__stars">
-        <span aria-hidden="true">★</span>
-        <span class="sr-only">stars</span>
-        <span>{stars}</span>
-      </p>
-    )}
+    {
+      stars !== undefined && stars > 0 && (
+        <p class="snurble-project-card__stars">
+          <span aria-hidden="true">★</span>
+          <span class="sr-only">stars</span>
+          <span>{stars}</span>
+        </p>
+      )
+    }
   </header>
 
   <p class="snurble-project-card__description">{description}</p>
 
-  {languages.length > 0 && (
-    <ul class="snurble-project-card__languages">
-      {languages.map((language) => {
-        const safeColor = language.color && isSafeColor(language.color) ? language.color : undefined;
-        return (
-          <li
-            class="snurble-project-card__language-item"
-            style={safeColor ? `border-color: ${safeColor}; color: ${safeColor};` : undefined}
-          >
-            {language.name}
-          </li>
-        );
-      })}
-    </ul>
-  )}
+  {
+    languages.length > 0 && (
+      <ul class="snurble-project-card__languages">
+        {languages.map((language) => {
+          const safeColor =
+            language.color && isSafeColor(language.color) ? language.color : undefined;
+          return (
+            <li
+              class="snurble-project-card__language-item"
+              style={safeColor ? `border-color: ${safeColor}; color: ${safeColor};` : undefined}
+            >
+              {language.name}
+            </li>
+          );
+        })}
+      </ul>
+    )
+  }
 
-  {topics.length > 0 && (
-    <ul class="snurble-project-card__topics">
-      {topics.map((topic) => (
-        <li class="snurble-project-card__topic-item">
-          #{topic}
-        </li>
-      ))}
-    </ul>
-  )}
+  {
+    topics.length > 0 && (
+      <ul class="snurble-project-card__topics">
+        {topics.map((topic) => (
+          <li class="snurble-project-card__topic-item">#{topic}</li>
+        ))}
+      </ul>
+    )
+  }
 </article>
 
 <style>
@@ -146,7 +113,18 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     padding: var(--snurble-space-4);
     background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border);
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--snurble-shadow-sm);
+    transition:
+      transform var(--snurble-transition-base),
+      box-shadow var(--snurble-transition-base),
+      border-color var(--snurble-transition-base);
+  }
+
+  .snurble-project-card:hover {
+    border-color: var(--snurble-border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--snurble-shadow-md);
   }
 
   .snurble-project-card__header {
@@ -159,8 +137,8 @@ const safeUrl = isSafeUrl(url) ? url : "#";
   .snurble-project-card__title {
     margin: 0;
     font-size: 1.125rem;
-    font-weight: 900;
-    text-transform: uppercase;
+    font-weight: 700;
+    font-family: var(--snurble-font-body);
     color: var(--snurble-brand-heading);
   }
 
@@ -169,8 +147,14 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     text-decoration: none;
   }
 
+  .snurble-project-card__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
   .snurble-project-card__link:hover {
-    text-decoration: underline;
+    color: var(--snurble-accent);
   }
 
   .snurble-project-card__stars {
@@ -198,8 +182,9 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     color: var(--snurble-text-muted);
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    line-height: 1.5;
   }
 
   .snurble-project-card__languages {
@@ -209,6 +194,7 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     margin: 0;
     padding: 0;
     list-style: none;
+    margin-top: auto;
   }
 
   .snurble-project-card__language-item {

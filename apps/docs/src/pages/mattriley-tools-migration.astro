@@ -1,6 +1,16 @@
 ---
 import "../styles/global.css";
-import { CodeSnippet, DataTable, Hero, Layout, MetaList, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import {
+  CodeSnippet,
+  DataTable,
+  Hero,
+  Layout,
+  MetaList,
+  PageShell,
+  Panel,
+  Section,
+  Stack,
+} from "@matt-riley/ui-astro";
 
 const mappings = [
   {
@@ -69,7 +79,7 @@ pnpm --dir packages/ui-astro pack --pack-destination "$SMOKE_DIR"
 
 # from the Snurble repo root, then switch into ../mattriley.tools
 cd ../mattriley.tools
-pnpm add "$SMOKE_DIR"/matt-riley-design-tokens-*.tgz \
+pnpm add "$SMOKE_DIR"/matt-riley-design-tokens-*.tgz \\
   "$SMOKE_DIR"/matt-riley-ui-astro-*.tgz
 pnpm run lint && pnpm test && pnpm run build
 
@@ -85,20 +95,26 @@ pnpm run lint && pnpm test && pnpm run build
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
       <section>
-        <Stack>
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">Consumer cookbook</p>
+        <Stack space={2}>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+            Consumer cookbook
+          </p>
           <Hero
             title="mattriley.tools migration cookbook"
+            variant="display"
             lede="This page documents the shared-component handoff for mattriley.tools, the first proving Snurble consumer. Use it as the durable pattern guide for adopting the shared surface while keeping consumer-owned behavior intact."
           />
         </Stack>
       </section>
 
-      <Section title="Migration boundary" headingId="delivery-boundary-heading">
-        <Panel>
+      <Section title="Migration boundary" headingId="delivery-boundary-heading" variant="title">
+        <Panel variant="bordered">
           <MetaList>
             <dt>Durable package contract</dt>
-            <dd>Snurble package-contract changes and this cookbook page can ship independently of any one consumer rollout branch.</dd>
+            <dd>
+              Snurble package-contract changes and this cookbook page can ship independently of any
+              one consumer rollout branch.
+            </dd>
 
             <dt>Local-only validation proof</dt>
             <dd>
@@ -109,25 +125,27 @@ pnpm run lint && pnpm test && pnpm run build
 
             <dt>Registry adoption checkpoint</dt>
             <dd>
-              The committed consumer manifest switch waits for published prerelease package versions,
-              then reruns the full consumer validation surface against those registry installs.
+              The committed consumer manifest switch waits for published prerelease package
+              versions, then reruns the full consumer validation surface against those registry
+              installs.
             </dd>
           </MetaList>
         </Panel>
       </Section>
 
-      <Section title="Component mapping" headingId="component-mapping-heading">
-        <Stack>
+      <Section title="Component mapping" headingId="component-mapping-heading" variant="title">
+        <Stack space={6}>
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
             The migration replaces repeated layout, shell, and presentation patterns while keeping
-            generated data, README rendering, and the consumer&apos;s document-shell obligations local.
-            The current shared surface was shaped by mattriley.tools adoption and now also includes
-            the profile, social, project, and experience primitives documented elsewhere in this
-            site. This cookbook stays focused on the mattriley.tools shell, catalog, and detail-page
-            integration seams that still need consumer-specific handling during adoption.
+            generated data, README rendering, and the consumer&apos;s document-shell obligations
+            local. The current shared surface was shaped by mattriley.tools adoption and now also
+            includes the profile, social, project, and experience primitives documented elsewhere in
+            this site. This cookbook stays focused on the mattriley.tools shell, catalog, and
+            detail-page integration seams that still need consumer-specific handling during
+            adoption.
           </p>
 
-          <DataTable labelledBy="component-mapping-heading">
+          <DataTable labelledBy="component-mapping-heading" striped>
             <Fragment slot="head">
               <tr>
                 <th scope="col">Local structure</th>
@@ -149,11 +167,11 @@ pnpm run lint && pnpm test && pnpm run build
         </Stack>
       </Section>
 
-      <Section title="Wrapper layout pattern" headingId="wrapper-layout-heading">
-        <div class="grid gap-4 lg:grid-cols-[1fr,1.1fr]">
+      <Section title="Wrapper layout pattern" headingId="wrapper-layout-heading" variant="title">
+        <div class="grid gap-6 lg:grid-cols-[1fr,1.1fr]">
           <article aria-labelledby="wrapper-layout-summary-heading">
-            <Panel>
-              <Stack>
+            <Panel variant="bordered" class="h-full">
+              <Stack space={4}>
                 <h3 id="wrapper-layout-summary-heading" class="text-xl font-semibold">
                   Keep the consumer shell honest
                 </h3>
@@ -171,24 +189,26 @@ pnpm run lint && pnpm test && pnpm run build
           </article>
 
           <article aria-labelledby="wrapper-layout-example-heading">
-            <Panel>
-              <Stack>
+            <Panel variant="bordered" class="h-full">
+              <Stack space={4}>
                 <h3 id="wrapper-layout-example-heading" class="text-xl font-semibold">
                   Example wrapper
                 </h3>
-                <CodeSnippet variant="block" code={wrapperExample} />
+                <CodeSnippet variant="block" code={wrapperExample} language="astro" />
               </Stack>
             </Panel>
           </article>
         </div>
       </Section>
 
-      <Section title="CSS carve-out" headingId="css-carveout-heading">
-        <div class="grid gap-4 lg:grid-cols-2">
+      <Section title="CSS carve-out" headingId="css-carveout-heading" variant="title">
+        <div class="grid gap-6 lg:grid-cols-2">
           <article aria-labelledby="css-moves-heading">
-            <Panel>
-              <Stack>
-                <h3 id="css-moves-heading" class="text-xl font-semibold">Moves to shared components</h3>
+            <Panel variant="bordered" class="h-full">
+              <Stack space={4}>
+                <h3 id="css-moves-heading" class="text-xl font-semibold">
+                  Moves to shared components
+                </h3>
                 <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
                   <li>page shell width and padding</li>
                   <li>hero spacing and typography</li>
@@ -201,8 +221,8 @@ pnpm run lint && pnpm test && pnpm run build
           </article>
 
           <article aria-labelledby="css-stays-heading">
-            <Panel>
-              <Stack>
+            <Panel variant="bordered" class="h-full">
+              <Stack space={4}>
                 <h3 id="css-stays-heading" class="text-xl font-semibold">Stays local for now</h3>
                 <ul class="grid gap-3 text-sm text-[var(--snurble-text-muted)]">
                   <li>README markdown styling and image/table glue</li>
@@ -216,15 +236,15 @@ pnpm run lint && pnpm test && pnpm run build
         </div>
       </Section>
 
-      <Section title="Local validation loop" headingId="local-validation-loop-heading">
-        <Stack>
+      <Section title="Local validation loop" headingId="local-validation-loop-heading" variant="title">
+        <Stack space={6}>
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
             The migration is only honest once both Snurble packages can be packed together,
             installed into a clean non-workspace consumer checkout, and validated end to end. Keep
             this smoke loop local until published prerelease versions are ready for committed
             consumer adoption.
           </p>
-          <CodeSnippet variant="block" code={validationLoop} />
+          <CodeSnippet variant="block" code={validationLoop} language="bash" />
         </Stack>
       </Section>
     </PageShell>

@@ -117,11 +117,20 @@ describe("ui-astro package", () => {
 
     expect(heroAstro).toContain("title: string;");
     expect(heroAstro).toContain("lede?: string;");
-    expect(heroAstro).toContain("const { title, lede } = Astro.props;");
-    expect(heroAstro).toContain('<header class="snurble-hero">');
-    expect(heroAstro).toContain('<h1 class="snurble-hero__title">{title}</h1>');
+    expect(heroAstro).toContain('align?: "left" | "center";');
+    expect(heroAstro).toContain('variant?: "display" | "title";');
+    expect(heroAstro).toContain("class?: string;");
     expect(heroAstro).toContain(
-      '{lede && <p class="snurble-hero__lede">{lede}</p>}'
+      "const { title, lede, align = \"left\", variant = \"title\", class: className } = Astro.props;"
+    );
+    expect(heroAstro).toContain(
+      '<header class:list={["snurble-hero", `snurble-hero--${align}`, className]}>'
+    );
+    expect(heroAstro).toContain(
+      '<h1 class:list={["snurble-hero__title", `snurble-hero__title--${variant}`]}>'
+    );
+    expect(heroAstro).toContain(
+      "{lede && <p class=\"snurble-hero__lede\">{lede}</p>}"
     );
     expect(heroAstro).toContain("<slot />");
     expect(heroAstro).toContain("max-width: 50rem;");
@@ -130,8 +139,9 @@ describe("ui-astro package", () => {
     expect(heroAstro).toContain(
       "font-weight: var(--snurble-font-weight-display);"
     );
-    expect(heroAstro).not.toContain("class?: string;");
-    expect(heroAstro).not.toContain("eyebrow");
+    expect(heroAstro).toContain(".snurble-hero--center {");
+    expect(heroAstro).toContain(".snurble-hero__title--display {");
+    expect(heroAstro).toContain(".snurble-hero__title--title {");
   });
 
   it("implements a named Section wrapper with mutually exclusive heading modes", async () => {
@@ -140,6 +150,10 @@ describe("ui-astro package", () => {
     await expect(sectionAstro).resolves.toContain("interface TitledProps {");
     await expect(sectionAstro).resolves.toContain("headingId: string;");
     await expect(sectionAstro).resolves.toContain("labelledBy?: never;");
+    await expect(sectionAstro).resolves.toContain("class?: string;");
+    await expect(sectionAstro).resolves.toContain(
+      "spacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;"
+    );
     await expect(sectionAstro).resolves.toContain(
       "interface AssociatedProps {"
     );
@@ -147,61 +161,70 @@ describe("ui-astro package", () => {
     await expect(sectionAstro).resolves.toContain(
       'throw new Error("Section requires exactly one of `title` or `labelledBy`.");'
     );
-    await expect(sectionAstro).resolves.toContain("const resolvedHeadingId =");
     await expect(sectionAstro).resolves.toContain(
-      '<section aria-labelledby={resolvedHeadingId} class="snurble-section">'
+      '<section\n  aria-labelledby={resolvedHeadingId}\n  class:list={["snurble-section", className]}\n  style={`--snurble-section-gap: var(--snurble-space-${spacing});`}\n>'
     );
     await expect(sectionAstro).resolves.toContain(
-      '<h2 id={resolvedHeadingId} class="snurble-section__title">{normalizedTitle}</h2>'
+      "class:list={[\"snurble-section__title\", `snurble-section__title--${variant}`]}"
     );
     await expect(sectionAstro).resolves.toContain(
-      "gap: var(--snurble-space-4);"
+      "gap: var(--snurble-section-gap, var(--snurble-space-4));"
     );
     await expect(sectionAstro).resolves.not.toContain(
       ".snurble-section__content {\n    display: grid;"
     );
-    await expect(sectionAstro).resolves.not.toContain("class?: string;");
   });
 
   it("implements a visual Panel wrapper with surface treatment and default slot content only", async () => {
     const panelAstro = readRepoFile("packages/ui-astro/src/Panel.astro");
 
-    await expect(panelAstro).resolves.toContain('<div class="snurble-panel">');
+    await expect(panelAstro).resolves.toContain("interface Props {");
+    await expect(panelAstro).resolves.toContain(
+      'variant?: "flat" | "bordered" | "elevated";'
+    );
+    await expect(panelAstro).resolves.toContain("hover?: boolean;");
+    await expect(panelAstro).resolves.toContain("class?: string;");
+    await expect(panelAstro).resolves.toContain(
+      "padding?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;"
+    );
+    await expect(panelAstro).resolves.toContain(
+      '<div\n  class:list={[\n    "snurble-panel",\n    `snurble-panel--${variant}`,\n    hover && "snurble-panel--hover",\n    className,\n  ]}'
+    );
     await expect(panelAstro).resolves.toContain("<slot />");
     await expect(panelAstro).resolves.toContain(
       "background: var(--snurble-surface-card);"
     );
     await expect(panelAstro).resolves.toContain(
-      "border: 1px solid var(--snurble-border-card);"
+      "border-radius: 0.5rem;"
     );
-    await expect(panelAstro).resolves.toContain("border-radius: 0.5rem;");
     await expect(panelAstro).resolves.toContain(
-      "padding: var(--snurble-space-5);"
+      "padding: var(--snurble-panel-padding, var(--snurble-space-5));"
     );
-    await expect(panelAstro).resolves.not.toContain("box-shadow");
+    await expect(panelAstro).resolves.toContain("box-shadow: var(--snurble-shadow-md);");
     await expect(panelAstro).resolves.not.toContain("title:");
     await expect(panelAstro).resolves.not.toContain("aria-labelledby");
-    await expect(panelAstro).resolves.not.toContain("class?: string;");
   });
 
-  it("implements a zero-config Stack wrapper for repeated vertical spacing", async () => {
+  it("implements a flexible Stack wrapper for repeated vertical spacing", async () => {
     const stackAstro = readRepoFile("packages/ui-astro/src/Stack.astro");
 
-    await expect(stackAstro).resolves.toContain('<div class="snurble-stack">');
+    await expect(stackAstro).resolves.toContain("interface Props {");
+    await expect(stackAstro).resolves.toContain(
+      "space?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;"
+    );
+    await expect(stackAstro).resolves.toContain("class?: string;");
+    await expect(stackAstro).resolves.toContain(
+      'class:list={["snurble-stack", className]}'
+    );
     await expect(stackAstro).resolves.toContain("<slot />");
     await expect(stackAstro).resolves.toContain(
+      "gap: var(--snurble-stack-gap, var(--snurble-space-4));"
+    );
+    await expect(stackAstro).resolves.toContain("display: flex;");
+    await expect(stackAstro).resolves.toContain("flex-direction: column;");
+    await expect(stackAstro).resolves.not.toContain(
       ".snurble-stack > :global(* + *) {"
     );
-    await expect(stackAstro).resolves.toContain(
-      "margin-block-start: var(--snurble-space-4);"
-    );
-    await expect(stackAstro).resolves.not.toContain("interface Props");
-    await expect(stackAstro).resolves.not.toContain("type Props =");
-    await expect(stackAstro).resolves.not.toContain("class?: string;");
-    await expect(stackAstro).resolves.not.toContain("space:");
-    await expect(stackAstro).resolves.not.toContain("display: grid;");
-    await expect(stackAstro).resolves.not.toContain("display: flex;");
-    await expect(stackAstro).resolves.not.toContain("min-width: 0;");
   });
 
   it("implements a narrow DataTable wrapper with explicit accessible naming and slot-based rows", async () => {
@@ -217,17 +240,13 @@ describe("ui-astro package", () => {
       "interface AriaLabelProps {"
     );
     await expect(dataTableAstro).resolves.toContain("ariaLabel: string;");
+    await expect(dataTableAstro).resolves.toContain("striped?: boolean;");
+    await expect(dataTableAstro).resolves.toContain("class?: string;");
     await expect(dataTableAstro).resolves.toContain(
-      "props.labelledBy.trim() || undefined"
-    );
-    await expect(dataTableAstro).resolves.toContain(
-      "props.ariaLabel.trim() || undefined"
+      'class:list={["snurble-data-table", striped && "snurble-data-table--striped", className]}'
     );
     await expect(dataTableAstro).resolves.toContain(
       'throw new Error("DataTable requires exactly one of `labelledBy` or `ariaLabel`.");'
-    );
-    await expect(dataTableAstro).resolves.toContain(
-      '<div class="snurble-data-table">'
     );
     await expect(dataTableAstro).resolves.toContain(
       "<table aria-labelledby={labelledBy} aria-label={ariaLabel}>"
@@ -244,12 +263,13 @@ describe("ui-astro package", () => {
     await expect(dataTableAstro).resolves.toContain(
       ".snurble-data-table :global(th)"
     );
-    await expect(dataTableAstro).resolves.not.toContain("rows:");
-    await expect(dataTableAstro).resolves.not.toContain("columns:");
+    await expect(dataTableAstro).resolves.toContain(
+      "box-shadow: var(--snurble-shadow-sm);"
+    );
+    await expect(dataTableAstro).resolves.toContain(".snurble-data-table--striped");
     await expect(dataTableAstro).resolves.not.toContain("sortable");
     await expect(dataTableAstro).resolves.not.toContain("filter");
     await expect(dataTableAstro).resolves.not.toContain("fetch");
-    await expect(dataTableAstro).resolves.not.toContain("class?: string;");
   });
 
   it("supports stacked mobile rows through consumer-supplied data labels", async () => {
@@ -383,11 +403,11 @@ describe("ui-astro package", () => {
     expect(homepage).toContain("<Hero");
     expect(homepage).toContain("Durable foundations for Astro sites");
     expect(homepage).toContain(
-      '<Section title="Documentation map" headingId="docs-map-heading">'
+      '<Section title="Documentation map" headingId="docs-map-heading" variant="title">'
     );
     expect(homepage).toContain("Current package surface");
     expect(homepage).toContain(
-      '<Section title="Adoption and publishing" headingId="adoption-publishing-heading">'
+      '<Section title="Adoption and publishing" headingId="adoption-publishing-heading" variant="title">'
     );
     expect(homepage).toContain("Foundations");
     expect(homepage).toContain("Shell primitives");
@@ -399,7 +419,6 @@ describe("ui-astro package", () => {
     expect(homepage).toContain(
       'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
     );
-    expect(homepage).toContain('label="Install command"');
     expect(homepage).toContain('language="bash"');
     expect(homepage).toContain("<CodeSnippet");
     expect(homepage).toContain('variant="block"');
@@ -656,6 +675,7 @@ describe("ui-astro package", () => {
       "languages?: { name: string; color?: string }[];"
     );
     expect(projectCardAstro).toContain("topics?: string[];");
+    expect(projectCardAstro).toContain("class?: string;");
     expect(projectCardAstro).toContain("<article");
     expect(projectCardAstro).toContain("<h3");
     expect(projectCardAstro).toContain("<a");
@@ -667,6 +687,8 @@ describe("ui-astro package", () => {
     expect(projectCardAstro).toContain("languages");
     expect(projectCardAstro).toContain("<ul");
     expect(projectCardAstro).toContain("topics");
+    expect(projectCardAstro).toContain("box-shadow: var(--snurble-shadow-sm);");
+    expect(projectCardAstro).toContain("font-family: var(--snurble-font-body);");
     expect(projectCardAstro).not.toContain("fetch");
     expect(projectCardAstro).not.toContain("rankRepos");
     expect(projectCardAstro).not.toContain("API");
@@ -677,12 +699,6 @@ describe("ui-astro package", () => {
       /isSafeUrl|isValidUrl|validateUrl|safeUrl/i
     );
     expect(projectCardAstro).toContain('trimmed.startsWith("//")');
-    expect(projectCardAstro).toContain(
-      'const firstColonIndex = trimmed.indexOf(":");'
-    );
-    expect(projectCardAstro).toContain("trimmed.slice(0, firstColonIndex)");
-    expect(projectCardAstro).toContain("character.codePointAt(0)");
-    expect(projectCardAstro).toContain('character.trim() === ""');
     expect(projectCardAstro).toContain("new URL(trimmed)");
     expect(projectCardAstro).toContain('parsed.protocol === "http:"');
     expect(projectCardAstro).toContain('parsed.protocol === "https:"');

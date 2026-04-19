@@ -14,6 +14,21 @@ export default defineConfig(
           "unicorn/filename-case": "off",
         },
       },
+      {
+        files: [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/*.test.js",
+          "**/*.test.jsx",
+          "**/*.spec.ts",
+          "**/*.spec.tsx",
+          "**/*.spec.js",
+          "**/*.spec.jsx",
+        ],
+        rules: {
+          "no-template-curly-in-string": "off",
+        },
+      },
     ],
   })
 );

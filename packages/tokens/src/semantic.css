@@ -7,7 +7,7 @@
 
   --snurble-text: var(--snurble-palette-text);
   --snurble-text-muted: var(--snurble-palette-subtext0);
-  --snurble-text-tertiary: var(--snurble-palette-overlay1);
+  --snurble-text-tertiary: var(--snurble-palette-overlay2);
   --snurble-muted: var(--snurble-text-muted);
 
   --snurble-border: rgb(108 112 134 / 0.45);
@@ -32,9 +32,15 @@
   --snurble-font-weight-display: 900;
 }
 
-/* Latte overlay0=#9ca0b0 (156 160 176), overlay1=#8c8fa1 (140 143 161), blue=#1e66f5 (30 102 245) */
+/* Latte theme adjustments for accessibility (WCAG AA) */
 @media (prefers-color-scheme: light) {
   :root {
+    /* Use subtext0 for tertiary to meet 4.5:1 contrast in Latte */
+    --snurble-text-tertiary: var(--snurble-palette-subtext0);
+
+    /* Darker Peach for brand primary to meet 3:1 contrast for large text in Latte */
+    --snurble-brand-primary: #d65d0e;
+
     --snurble-border: rgb(156 160 176 / 0.45);
     --snurble-border-strong: rgb(140 143 161 / 0.75);
     --snurble-selection: rgb(30 102 245 / 0.2);

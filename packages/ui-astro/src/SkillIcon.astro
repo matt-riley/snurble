@@ -1,7 +1,17 @@
 ---
+interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
 ---
 
-<span class="snurble-skill-icon" aria-hidden="true">
+<span
+  class="snurble-skill-icon"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={!label}
+>
   <slot />
 </span>
 

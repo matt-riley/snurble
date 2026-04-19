@@ -1,6 +1,7 @@
 ---
 interface Props {
   logo: string;
+  logoAlt?: string;
   title: string;
   company: string;
   description: string;
@@ -8,12 +9,13 @@ interface Props {
   end: string;
 }
 
-const { logo, title, company, description, start, end } = Astro.props;
+const { logo, logoAlt, title, company, description, start, end } = Astro.props;
+const resolvedLogoAlt = logoAlt || `${company} logo`;
 ---
 
 <article class="snurble-experience-card">
   <div class="snurble-experience-card__logo">
-    <img src={logo} alt={title} />
+    <img src={logo} alt={resolvedLogoAlt} />
   </div>
   <div class="snurble-experience-card__content">
     <header class="snurble-experience-card__header">

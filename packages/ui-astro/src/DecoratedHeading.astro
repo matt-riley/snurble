@@ -8,7 +8,7 @@ const filterId = `decorated-heading-${crypto.randomUUID()}`;
 ---
 
 <div class="snurble-decorated-heading">
-  <svg width="300" height="60" viewBox="0 0 300 60" aria-hidden="true">
+  <svg viewBox="0 0 400 60" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
     <defs>
       <filter id={filterId}>
         <feMorphology
@@ -26,7 +26,7 @@ const filterId = `decorated-heading-${crypto.randomUUID()}`;
       </filter>
     </defs>
     <text
-      x="150"
+      x="200"
       y="45"
       text-anchor="middle"
       filter={`url(#${filterId})`}
@@ -44,6 +44,12 @@ const filterId = `decorated-heading-${crypto.randomUUID()}`;
     padding-block: var(--snurble-space-2);
     --snurble-decorated-heading-fill: var(--snurble-accent-danger);
     --snurble-decorated-heading-outline: var(--snurble-accent-success);
+  }
+
+  .snurble-decorated-heading svg {
+    width: 100%;
+    height: auto;
+    max-width: 30rem;
   }
 
   .snurble-decorated-heading__text {

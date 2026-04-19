@@ -27,6 +27,7 @@ export default defineConfig(
           "**/*.spec.jsx",
         ],
         rules: {
+          "no-template-curly-in-string": "off",
           "vitest/no-importing-vitest-globals": "off",
           "vitest/prefer-importing-vitest-globals": "off",
         },

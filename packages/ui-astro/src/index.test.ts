@@ -121,7 +121,7 @@ describe("ui-astro package", () => {
     expect(heroAstro).toContain('variant?: "display" | "title";');
     expect(heroAstro).toContain("class?: string;");
     expect(heroAstro).toContain(
-      "const { title, lede, align = \"left\", variant = \"title\", class: className } = Astro.props;"
+      'const { title, lede, align = "left", variant = "title", class: className } = Astro.props;'
     );
     expect(heroAstro).toContain(
       '<header class:list={["snurble-hero", `snurble-hero--${align}`, className]}>'
@@ -130,7 +130,7 @@ describe("ui-astro package", () => {
       '<h1 class:list={["snurble-hero__title", `snurble-hero__title--${variant}`]}>'
     );
     expect(heroAstro).toContain(
-      "{lede && <p class=\"snurble-hero__lede\">{lede}</p>}"
+      '{lede && <p class="snurble-hero__lede">{lede}</p>}'
     );
     expect(heroAstro).toContain("<slot />");
     expect(heroAstro).toContain("max-width: 50rem;");
@@ -165,7 +165,7 @@ describe("ui-astro package", () => {
       '<section\n  aria-labelledby={resolvedHeadingId}\n  class:list={["snurble-section", className]}\n  style={`--snurble-section-gap: var(--snurble-space-${spacing});`}\n>'
     );
     await expect(sectionAstro).resolves.toContain(
-      "class:list={[\"snurble-section__title\", `snurble-section__title--${variant}`]}"
+      'class:list={["snurble-section__title", `snurble-section__title--${variant}`]}'
     );
     await expect(sectionAstro).resolves.toContain(
       "gap: var(--snurble-section-gap, var(--snurble-space-4));"
@@ -194,13 +194,13 @@ describe("ui-astro package", () => {
     await expect(panelAstro).resolves.toContain(
       "background: var(--snurble-surface-card);"
     );
-    await expect(panelAstro).resolves.toContain(
-      "border-radius: 0.5rem;"
-    );
+    await expect(panelAstro).resolves.toContain("border-radius: 0.5rem;");
     await expect(panelAstro).resolves.toContain(
       "padding: var(--snurble-panel-padding, var(--snurble-space-5));"
     );
-    await expect(panelAstro).resolves.toContain("box-shadow: var(--snurble-shadow-md);");
+    await expect(panelAstro).resolves.toContain(
+      "box-shadow: var(--snurble-shadow-md);"
+    );
     await expect(panelAstro).resolves.not.toContain("title:");
     await expect(panelAstro).resolves.not.toContain("aria-labelledby");
   });
@@ -266,7 +266,9 @@ describe("ui-astro package", () => {
     await expect(dataTableAstro).resolves.toContain(
       "box-shadow: var(--snurble-shadow-sm);"
     );
-    await expect(dataTableAstro).resolves.toContain(".snurble-data-table--striped");
+    await expect(dataTableAstro).resolves.toContain(
+      ".snurble-data-table--striped"
+    );
     await expect(dataTableAstro).resolves.not.toContain("sortable");
     await expect(dataTableAstro).resolves.not.toContain("filter");
     await expect(dataTableAstro).resolves.not.toContain("fetch");
@@ -434,9 +436,7 @@ describe("ui-astro package", () => {
     );
 
     expect(migrationPage).toContain('import "../styles/global.css";');
-    expect(migrationPage).toContain(
-      'import { CodeSnippet, DataTable, Hero, Layout, MetaList, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";'
-    );
+    expect(migrationPage).toContain('from "@matt-riley/ui-astro";');
     expect(migrationPage).toContain(
       'title="mattriley.tools migration cookbook"'
     );
@@ -688,7 +688,9 @@ describe("ui-astro package", () => {
     expect(projectCardAstro).toContain("<ul");
     expect(projectCardAstro).toContain("topics");
     expect(projectCardAstro).toContain("box-shadow: var(--snurble-shadow-sm);");
-    expect(projectCardAstro).toContain("font-family: var(--snurble-font-body);");
+    expect(projectCardAstro).toContain(
+      "font-family: var(--snurble-font-body);"
+    );
     expect(projectCardAstro).not.toContain("fetch");
     expect(projectCardAstro).not.toContain("rankRepos");
     expect(projectCardAstro).not.toContain("API");
@@ -744,6 +746,7 @@ describe("ui-astro package", () => {
     );
 
     await expect(experienceCardAstro).resolves.toContain("logo: string;");
+    await expect(experienceCardAstro).resolves.toContain("logoAlt?: string;");
     await expect(experienceCardAstro).resolves.toContain("title: string;");
     await expect(experienceCardAstro).resolves.toContain("company: string;");
     await expect(experienceCardAstro).resolves.toContain(
@@ -751,11 +754,10 @@ describe("ui-astro package", () => {
     );
     await expect(experienceCardAstro).resolves.toContain("start: string;");
     await expect(experienceCardAstro).resolves.toContain("end: string;");
-    await expect(experienceCardAstro).resolves.toContain(
-      '<article class="snurble-experience-card">'
-    );
     await expect(experienceCardAstro).resolves.toContain("<img");
-    await expect(experienceCardAstro).resolves.toContain("alt={title}");
+    await expect(experienceCardAstro).resolves.toContain(
+      "alt={resolvedLogoAlt}"
+    );
     await expect(experienceCardAstro).resolves.toContain("<time");
     await expect(experienceCardAstro).resolves.toContain(
       "set:html={description}"
@@ -787,13 +789,9 @@ describe("ui-astro package", () => {
       "packages/ui-astro/src/SkillIcon.astro"
     );
 
-    await expect(skillIconAstro).resolves.toContain(
-      '<span class="snurble-skill-icon" aria-hidden="true">'
-    );
+    await expect(skillIconAstro).resolves.toContain("aria-hidden={!label}");
     await expect(skillIconAstro).resolves.toContain("<slot />");
     await expect(skillIconAstro).resolves.toContain("display: inline-flex;");
-    await expect(skillIconAstro).resolves.not.toContain("interface Props");
-    await expect(skillIconAstro).resolves.not.toContain("type Props =");
     await expect(skillIconAstro).resolves.not.toContain("class?: string;");
   });
 

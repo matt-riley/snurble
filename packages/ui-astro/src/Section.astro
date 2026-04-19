@@ -4,6 +4,7 @@ import DecoratedHeading from "./DecoratedHeading.astro";
 interface TitledProps {
   title: string;
   headingId: string;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
   decorated?: boolean;
   variant?: "display" | "title";
   labelledBy?: never;
@@ -14,6 +15,7 @@ interface TitledProps {
 interface AssociatedProps {
   title?: never;
   headingId?: never;
+  level?: never;
   decorated?: never;
   variant?: never;
   labelledBy: string;
@@ -27,6 +29,7 @@ const {
   title,
   headingId,
   labelledBy,
+  level = 2,
   decorated = false,
   variant = "title",
   class: className,
@@ -50,6 +53,7 @@ if (hasTitle && !hasHeadingId) {
 }
 
 const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
+const HeadingTag = `h${level}` as `h${1 | 2 | 3 | 4 | 5 | 6}`;
 ---
 
 <section
@@ -60,21 +64,21 @@ const resolvedHeadingId = hasTitle ? normalizedHeadingId : normalizedLabelledBy;
   {
     hasTitle && decorated && (
       <>
-        <h2 id={resolvedHeadingId} class="sr-only">
+        <HeadingTag id={resolvedHeadingId} class="sr-only">
           {normalizedTitle}
-        </h2>
+        </HeadingTag>
         <DecoratedHeading text={normalizedTitle} />
       </>
     )
   }
   {
     hasTitle && !decorated && (
-      <h2
+      <HeadingTag
         id={resolvedHeadingId}
         class:list={["snurble-section__title", `snurble-section__title--${variant}`]}
       >
         {normalizedTitle}
-      </h2>
+      </HeadingTag>
     )
   }
   <div class="snurble-section__content">

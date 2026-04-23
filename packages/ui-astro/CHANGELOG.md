@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.5.0...ui-astro-v1.6.0) (2026-04-23)
+
+
+### Features
+
+* **docs:** add LLM discovery surface ([183dcd6](https://github.com/matt-riley/snurble/commit/183dcd62f0b67b6ca20a8cc6d18f478ee5d98206))
+
 ## [1.5.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.4.1...ui-astro-v1.5.0) (2026-04-19)
 
 

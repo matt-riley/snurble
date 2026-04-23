@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# LLM-friendly static discovery routes
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml

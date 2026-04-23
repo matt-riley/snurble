@@ -1,9 +1,7 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   Hero,
-  Layout,
   PageShell,
   Panel,
   ProjectCard,
@@ -11,6 +9,9 @@ import {
   Section,
   Stack,
 } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { projectPrimitivesLlmPage } from "../llm/pages/project-primitives";
 
 const sampleProjects = [
   {
@@ -50,7 +51,8 @@ const sampleProjects = [
 ];
 ---
 
-<Layout
+<BaseLayout
+  llm={projectPrimitivesLlmPage}
   title="Project Primitives - Snurble"
   description="ProjectCard and ProjectGrid primitives for project and repository summaries"
 >
@@ -222,7 +224,7 @@ const sampleProjects = [
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>
 
 <style>
   .docs-shell {

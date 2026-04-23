@@ -1,6 +1,8 @@
 ---
-import "../styles/global.css";
-import { Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import { Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { foundationLlmPage } from "../llm/pages/foundation";
 
 const foundationCoverage = [
   {
@@ -91,7 +93,8 @@ const extractionStatusSummary = [
 ];
 ---
 
-<Layout
+<BaseLayout
+  llm={foundationLlmPage}
   title="Snurble foundations"
   description="Repo roles, foundation coverage, and extraction status for the Snurble design system."
 >
@@ -324,4 +327,4 @@ const extractionStatusSummary = [
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

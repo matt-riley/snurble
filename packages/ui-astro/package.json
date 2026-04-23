@@ -5,6 +5,8 @@
     "src/*.astro",
     "src/*.d.ts",
     "src/index.ts",
+    "src/AgentDiscoveryHint.astro",
+    "src/llm.ts",
     "README.md"
   ],
   "type": "module",

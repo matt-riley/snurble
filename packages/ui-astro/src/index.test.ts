@@ -393,11 +393,17 @@ describe("ui-astro package", () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
-    expect(homepage).toContain('import "../styles/global.css";');
     expect(homepage).toContain(
-      'import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";'
+      'import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";'
     );
-    expect(homepage).toContain("<Layout");
+    expect(homepage).toContain(
+      'import BaseLayout from "../layouts/BaseLayout.astro";'
+    );
+    expect(homepage).toContain(
+      'import { homeLlmPage } from "../llm/pages/home";'
+    );
+    expect(homepage).toContain("<BaseLayout");
+    expect(homepage).toContain("llm={homeLlmPage}");
     expect(homepage).toContain('title="Snurble design system"');
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
@@ -435,8 +441,15 @@ describe("ui-astro package", () => {
       "apps/docs/src/pages/mattriley-tools-migration.astro"
     );
 
-    expect(migrationPage).toContain('import "../styles/global.css";');
     expect(migrationPage).toContain('from "@matt-riley/ui-astro";');
+    expect(migrationPage).toContain(
+      'import BaseLayout from "../layouts/BaseLayout.astro";'
+    );
+    expect(migrationPage).toContain(
+      'import { migrationLlmPage } from "../llm/pages/migration";'
+    );
+    expect(migrationPage).toContain("<BaseLayout");
+    expect(migrationPage).toContain("llm={migrationLlmPage}");
     expect(migrationPage).toContain(
       'title="mattriley.tools migration cookbook"'
     );
@@ -451,6 +464,10 @@ describe("ui-astro package", () => {
     expect(migrationPage).toContain("matt-riley-design-tokens-*.tgz");
     expect(migrationPage).toContain("do not commit");
     expect(migrationPage).toContain("Component mapping");
+    expect(migrationPage).toContain("Consumer boundary invariants");
+    expect(migrationPage).toContain(
+      "Route inventory and Markdown generation stay site-local"
+    );
     expect(migrationPage).toContain("Wrapper layout pattern");
     expect(migrationPage).toContain("Local validation loop");
   });

@@ -1,16 +1,17 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   DataTable,
   Hero,
-  Layout,
   MetaList,
   PageShell,
   Panel,
   Section,
   Stack,
 } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { migrationLlmPage } from "../llm/pages/migration";
 
 const mappings = [
   {
@@ -86,9 +87,10 @@ pnpm run lint && pnpm test && pnpm run build
 # do not commit any file refs or lockfile changes created for this loop`;
 ---
 
-<Layout
+<BaseLayout
+  llm={migrationLlmPage}
   title="mattriley.tools migration cookbook"
-  description="Cookbook guidance for moving mattriley.tools onto Snurble's shared package surface without losing consumer-owned behavior."
+  description="Consumer boundary invariants and migration cookbook for moving Astro sites onto Snurble's shared package surface without losing consumer-owned behavior."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
 
@@ -102,7 +104,7 @@ pnpm run lint && pnpm test && pnpm run build
           <Hero
             title="mattriley.tools migration cookbook"
             variant="display"
-            lede="This page documents the shared-component handoff for mattriley.tools, the first proving Snurble consumer. Use it as the durable pattern guide for adopting the shared surface while keeping consumer-owned behavior intact."
+            lede="This page documents the shared-component handoff for mattriley.tools, the first proving Snurble consumer. It also serves as the durable repeatability guide for any sibling Astro consumer adopting the same shared surface: the four consumer boundary invariants below apply to every adopter, not just mattriley.tools."
           />
         </Stack>
       </section>
@@ -131,6 +133,51 @@ pnpm run lint && pnpm test && pnpm run build
             </dd>
           </MetaList>
         </Panel>
+      </Section>
+
+      <Section title="Consumer boundary invariants" headingId="consumer-boundary-heading" variant="title">
+        <Stack space={6}>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            These four invariants define the Snurble adoption boundary for every sibling Astro
+            consumer. They capture the approved architectural decisions that determine what belongs
+            in the shared package surface and what must stay local, regardless of which consumer is
+            adopting the packages.
+          </p>
+          <Panel variant="bordered">
+            <MetaList>
+              <dt>Shared helpers live in <code>packages/ui-astro</code></dt>
+              <dd>
+                Reusable presentation primitives belong in the published package, not reimplemented
+                locally. If a consumer finds itself duplicating shell, layout, or display logic,
+                that signals a candidate for extraction rather than a local workaround.
+              </dd>
+
+              <dt>Route inventory and Markdown generation stay site-local</dt>
+              <dd>
+                How a consumer discovers its pages, structures its route tree, and renders README or
+                Markdown content are all consumer-owned concerns. Snurble does not absorb data
+                fetching, file-system inventory, or content pipeline logic. Keep those in the
+                consumer repo alongside its own <code>src/pages</code> and data sources.
+              </dd>
+
+              <dt>Static-first; runtime negotiation is deferred</dt>
+              <dd>
+                The current shared surface targets fully static or prerendered output. Consumer
+                pages that rely on server-side rendering, dynamic route negotiation, or runtime API
+                calls remain the consumer&apos;s responsibility. Any runtime-negotiation layer in
+                Snurble is explicitly deferred and will be documented here when it is ready.
+              </dd>
+
+              <dt>Consumer-owned layout wrappers and metadata remain local</dt>
+              <dd>
+                Shared <code>Layout</code> handles token import and document scaffolding. Title
+                suffixes, favicon slots, <code>&lt;main&gt;</code> wrappers, analytics tags, and
+                app-specific head metadata stay in a consumer-owned wrapper, not generalized into
+                Snurble unless a primitive page explicitly says otherwise.
+              </dd>
+            </MetaList>
+          </Panel>
+        </Stack>
       </Section>
 
       <Section title="Component mapping" headingId="component-mapping-heading" variant="title">
@@ -249,4 +296,4 @@ pnpm run lint && pnpm test && pnpm run build
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

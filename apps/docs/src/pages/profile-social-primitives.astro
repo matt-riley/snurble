@@ -1,10 +1,8 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   DecoratedHeading,
   Hero,
-  Layout,
   PageShell,
   Panel,
   ProfileHero,
@@ -13,6 +11,9 @@ import {
   Stack,
 } from "@matt-riley/ui-astro";
 
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profileSocialPrimitivesLlmPage } from "../llm/pages/profile-social-primitives";
+
 const profileLinks = [
   { href: "https://github.com/matt-riley", icon: "GitHub", label: "GitHub profile" },
   { href: "https://linkedin.com/in/matthewjriley", icon: "LinkedIn", label: "LinkedIn profile" },
@@ -20,7 +21,8 @@ const profileLinks = [
 ];
 ---
 
-<Layout
+<BaseLayout
+  llm={profileSocialPrimitivesLlmPage}
   title="Profile & Social Primitives - Snurble"
   description="ProfileHero, SocialLinks, and DecoratedHeading primitives for profile headers, social navigation, and decorative headings"
 >
@@ -240,4 +242,4 @@ const profileLinks = [
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

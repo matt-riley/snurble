@@ -1,0 +1,41 @@
+---
+interface Props {
+  hint: string | readonly string[];
+}
+
+const hintValues = (Array.isArray(Astro.props.hint)
+  ? Astro.props.hint
+  : [Astro.props.hint]
+)
+  .map((value) => value.trim())
+  .filter(Boolean);
+
+if (hintValues.length === 0) {
+  throw new Error("AgentDiscoveryHint requires at least one non-empty hint.");
+}
+---
+
+<div
+  class:list={["snurble-agent-discovery-hint", "sr-only"]}
+  aria-hidden="true"
+  data-snurble-agent-discovery="hint"
+>
+  {hintValues.map((hint) => <p>{hint}</p>)}
+</div>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .snurble-agent-discovery-hint {
+    pointer-events: none;
+  }
+</style>

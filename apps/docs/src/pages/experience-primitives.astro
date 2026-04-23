@@ -1,11 +1,9 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   ExperienceCard,
   ExperienceList,
   Hero,
-  Layout,
   PageShell,
   Panel,
   Section,
@@ -13,9 +11,13 @@ import {
   SkillIconList,
   Stack,
 } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { experiencePrimitivesLlmPage } from "../llm/pages/experience-primitives";
 ---
 
-<Layout
+<BaseLayout
+  llm={experiencePrimitivesLlmPage}
   title="Experience Primitives - Snurble"
   description="ExperienceCard, ExperienceList, SkillIconList, and SkillIcon primitives for experience sections"
 >
@@ -227,4 +229,4 @@ import {
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

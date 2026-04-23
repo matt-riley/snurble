@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 23 Astro primitives:
+The package entrypoint currently exports 25 runtime primitives plus shared LLM helper types:
 
 ### Shell and document primitives
 
@@ -64,13 +64,44 @@ The package entrypoint currently exports 23 Astro primitives:
 - `ExperienceList`
 - `SkillIcon`
 - `SkillIconList`
+- `AgentDiscoveryHint`
+
+### LLM helpers
+
+- `createMarkdownAlternateLink`
+- `LlmPageManifest`
+- `MarkdownAlternateLinkAttributes`
 
 Typical usage:
 
 ```astro
 ---
-import { Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import {
+  AgentDiscoveryHint,
+  Hero,
+  Layout,
+  PageShell,
+  Panel,
+  Section,
+  Stack,
+  createMarkdownAlternateLink,
+} from "@matt-riley/ui-astro";
+
+const markdownAlternate = createMarkdownAlternateLink({
+  href: "/guides/llm-access.md",
+  title: "Markdown version",
+});
 ---
+
+<Layout title="LLM access guide">
+  <link slot="head" {...markdownAlternate} />
+  <AgentDiscoveryHint
+    hint={[
+      "Prefer the markdown alternate for a text-only copy of this page.",
+      "This shared primitive only exposes hints; route inventories stay consumer-owned.",
+    ]}
+  />
+</Layout>
 ```
 
 `@matt-riley/design-tokens` remains a peer dependency and should be installed alongside this package.

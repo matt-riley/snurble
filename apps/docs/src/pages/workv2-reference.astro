@@ -1,11 +1,9 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   DecoratedHeading,
   ExperienceCard,
   Hero,
-  Layout,
   PageShell,
   Panel,
   ProfileHero,
@@ -15,13 +13,17 @@ import {
   Stack,
 } from "@matt-riley/ui-astro";
 
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { workv2ReferenceLlmPage } from "../llm/pages/workv2-reference";
+
 const profileLinks = [
   { href: "https://github.com/matt-riley", icon: "GitHub", label: "GitHub profile" },
   { href: "https://linkedin.com/in/matthewjriley", icon: "LinkedIn", label: "LinkedIn profile" },
 ];
 ---
 
-<Layout
+<BaseLayout
+  llm={workv2ReferenceLlmPage}
   title="WorkV2 Reference — Snurble"
   description="Visual regression baseline for WorkV2 alignment. Each component is shown alongside its WorkV2 source criteria."
 >
@@ -374,7 +376,7 @@ const profileLinks = [
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>
 
 <style>
   .ref-heading {

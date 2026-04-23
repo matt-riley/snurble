@@ -1,17 +1,18 @@
 ---
-import "../styles/global.css";
 import {
   CodeSnippet,
   FontAssets,
   Hero,
   JsonLd,
-  Layout,
   PageShell,
   Panel,
   Section,
   SkipLink,
   Stack,
 } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { shellPrimitivesLlmPage } from "../llm/pages/shell-primitives";
 
 const sampleJsonLd = {
   "@context": "https://schema.org",
@@ -43,7 +44,8 @@ import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
 </Layout>`;
 ---
 
-<Layout
+<BaseLayout
+  llm={shellPrimitivesLlmPage}
   title="Shell Primitives - Snurble"
   description="FontAssets, JsonLd, and SkipLink primitives for fonts, structured data, and keyboard navigation"
 >
@@ -97,7 +99,7 @@ import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
             <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
-              code={`<Layout title="My Page">
+                code={`<Layout title="My Page">
   <Fragment slot="head">
     <FontAssets />
   </Fragment>
@@ -138,7 +140,7 @@ import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
             <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
-              code={`const profileData = {
+code={`const profileData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Matt Riley",
@@ -183,7 +185,7 @@ import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
             <h3 class="text-xl font-semibold mb-4">Example usage</h3>
             <CodeSnippet
               variant="block"
-              code={`<Layout title="My Page">
+                code={`<Layout title="My Page">
   <SkipLink href="#main-content">Skip to main content</SkipLink>
 
   <nav>
@@ -289,7 +291,7 @@ import { Layout, ServiceWorker } from "@matt-riley/ui-astro";
 
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>
 
 <style>
   .docs-shell {

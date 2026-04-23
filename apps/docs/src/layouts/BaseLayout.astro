@@ -1,23 +1,25 @@
 ---
 import "../styles/global.css";
 
+import { AgentDiscoveryHint, Layout } from "@matt-riley/ui-astro";
+
+import type { DocsLlmPage } from "../llm";
+
 interface Props {
   title: string;
   description?: string;
+  llm: DocsLlmPage;
 }
 
-const { title, description = "Snurble workspace baseline" } = Astro.props;
+const { title, description = "Snurble workspace baseline", llm } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-  </head>
-  <body>
-    <slot />
-  </body>
-</html>
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <link {...llm.alternateLink} />
+    <slot name="head" />
+  </Fragment>
+
+  <AgentDiscoveryHint hint={llm.discoveryHints} />
+  <slot />
+</Layout>

@@ -1,6 +1,8 @@
 ---
-import "../styles/global.css";
-import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { releaseReadinessLlmPage } from "../llm/pages/release-readiness";
 
 const prereleaseCommands = `NEXT_VERSION=<next-prerelease-version>
 
@@ -21,7 +23,8 @@ const consumerInstall = `@matt-riley:registry=https://npm.pkg.github.com
 pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease>`;
 ---
 
-<Layout
+<BaseLayout
+  llm={releaseReadinessLlmPage}
   title="Snurble release readiness"
   description="Publishing and adoption guidance for manual prerelease publication, consumer cutover preparation, and rollout gates."
 >
@@ -168,4 +171,4 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

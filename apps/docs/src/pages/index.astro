@@ -1,6 +1,8 @@
 ---
-import "../styles/global.css";
-import { CodeSnippet, Hero, Layout, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { homeLlmPage } from "../llm/pages/home";
 
 const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";
 
@@ -39,7 +41,7 @@ const documentationAreas = [
     href: "/mattriley-tools-migration",
     id: "adoption-migration",
     label: "Adoption/migration",
-    note: "Use the migration guide when moving a consumer onto the shared package surface.",
+    note: "Use the migration guide when moving a consumer onto the shared package surface. Consumer boundary invariants apply to every adopter.",
   },
   {
     href: "/release-readiness",
@@ -84,7 +86,8 @@ const packageFamilies = [
 ];
 ---
 
-<Layout
+<BaseLayout
+  llm={homeLlmPage}
   title="Snurble design system"
   description="Foundations, primitives, and adoption guidance for the Snurble design system."
 >
@@ -260,4 +263,4 @@ const packageFamilies = [
       </Section>
     </PageShell>
   </main>
-</Layout>
+</BaseLayout>

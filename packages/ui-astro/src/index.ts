@@ -21,3 +21,6 @@ export { default as ExperienceCard } from "./ExperienceCard.astro";
 export { default as ExperienceList } from "./ExperienceList.astro";
 export { default as SkillIcon } from "./SkillIcon.astro";
 export { default as SkillIconList } from "./SkillIconList.astro";
+export { default as AgentDiscoveryHint } from "./AgentDiscoveryHint.astro";
+export { createMarkdownAlternateLink } from "./llm";
+export type { LlmPageManifest, MarkdownAlternateLinkAttributes } from "./llm";

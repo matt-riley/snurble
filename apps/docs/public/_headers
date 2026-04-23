@@ -1,0 +1,62 @@
+/
+  Link: </index.md>; rel="alternate"; type="text/markdown"
+
+/foundation
+  Link: </foundation.md>; rel="alternate"; type="text/markdown"
+
+/foundation/
+  Link: </foundation.md>; rel="alternate"; type="text/markdown"
+
+/shell-primitives
+  Link: </shell-primitives.md>; rel="alternate"; type="text/markdown"
+
+/shell-primitives/
+  Link: </shell-primitives.md>; rel="alternate"; type="text/markdown"
+
+/profile-social-primitives
+  Link: </profile-social-primitives.md>; rel="alternate"; type="text/markdown"
+
+/profile-social-primitives/
+  Link: </profile-social-primitives.md>; rel="alternate"; type="text/markdown"
+
+/project-primitives
+  Link: </project-primitives.md>; rel="alternate"; type="text/markdown"
+
+/project-primitives/
+  Link: </project-primitives.md>; rel="alternate"; type="text/markdown"
+
+/experience-primitives
+  Link: </experience-primitives.md>; rel="alternate"; type="text/markdown"
+
+/experience-primitives/
+  Link: </experience-primitives.md>; rel="alternate"; type="text/markdown"
+
+/mattriley-tools-migration
+  Link: </mattriley-tools-migration.md>; rel="alternate"; type="text/markdown"
+
+/mattriley-tools-migration/
+  Link: </mattriley-tools-migration.md>; rel="alternate"; type="text/markdown"
+
+/release-readiness
+  Link: </release-readiness.md>; rel="alternate"; type="text/markdown"
+
+/release-readiness/
+  Link: </release-readiness.md>; rel="alternate"; type="text/markdown"
+
+/workv2-reference
+  Link: </workv2-reference.md>; rel="alternate"; type="text/markdown"
+
+/workv2-reference/
+  Link: </workv2-reference.md>; rel="alternate"; type="text/markdown"
+
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
+/llms.txt
+  Content-Type: text/markdown; charset=utf-8
+
+/llms-full.txt
+  Content-Type: text/markdown; charset=utf-8
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8

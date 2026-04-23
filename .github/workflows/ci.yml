@@ -16,7 +16,6 @@ jobs:
       require-lockfile: true
       verify-lockfile-clean: true
       run-build: true
-      concurrency-suffix: validate
 
   typecheck:
     uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@7bf33bf0eef269c4a4b1d85e1668dec14fb8ffff # v1
@@ -29,7 +28,6 @@ jobs:
       run-lint: false
       run-build: false
       test-script: typecheck
-      concurrency-suffix: typecheck
 
   deploy:
     needs:

@@ -31,7 +31,10 @@ const { sortOrder = null, label, class: className, ...rest } = Astro.props;
     color: var(--snurble-text);
     cursor: pointer;
     border-radius: var(--snurble-radius-sm);
-    transition: all 150ms ease-out;
+    transition:
+      background-color 150ms ease-out,
+      color 150ms ease-out,
+      opacity 150ms ease-out;
   }
 
   .sort-indicator:hover {

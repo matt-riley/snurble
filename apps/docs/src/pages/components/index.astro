@@ -1,0 +1,45 @@
+---
+import { Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import { componentDocs } from "../../component-docs/registry";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { componentsIndexLlmPage } from "../../llm/pages/components";
+
+const componentsByCategory = Object.groupBy(componentDocs, (entry) => entry.category);
+---
+
+<BaseLayout
+  llm={componentsIndexLlmPage}
+  title="Snurble components"
+  description="Component-by-component reference for @matt-riley/ui-astro."
+>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title="Component reference"
+        lede="Every @matt-riley/ui-astro component has a dedicated docs page with a curated example and compact reference notes."
+      />
+
+      {
+        Object.entries(componentsByCategory).map(([category, entries]) =>
+          entries ? (
+            <Section title={category} headingId={`${category.toLowerCase().replaceAll(" ", "-")}-heading`}>
+              <div class="grid gap-4 lg:grid-cols-2">
+                {entries.map((entry) => (
+                  <Panel variant="bordered">
+                    <Stack space={3}>
+                      <h2 class="text-xl font-semibold">
+                        <a href={`/components/${entry.slug}`}>{entry.name}</a>
+                      </h2>
+                      <p class="text-sm text-[var(--snurble-text-muted)]">{entry.summary}</p>
+                    </Stack>
+                  </Panel>
+                ))}
+              </div>
+            </Section>
+          ) : null
+        )
+      }
+    </PageShell>
+  </main>
+</BaseLayout>

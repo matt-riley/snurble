@@ -461,12 +461,12 @@ describe("ui-astro package", () => {
     expect(tsconfig).toContain('"src/**/*.d.ts"');
   });
 
-  it("documents durable foundations, package families, and adoption guidance on the docs homepage", async () => {
+  it("documents the component-first reference surface on the docs homepage", async () => {
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain(
-      'import {\n  Badge,\n  CodeSnippet,\n  Hero,\n  PageShell,\n  Panel,\n  Section,\n  Stack,\n  StatCard,\n} from "@matt-riley/ui-astro";'
+      'import { Hero, PageShell, Panel, Section, Stack, StatCard } from "@matt-riley/ui-astro";'
     );
     expect(homepage).toContain(
       'import BaseLayout from "../layouts/BaseLayout.astro";'
@@ -479,40 +479,17 @@ describe("ui-astro package", () => {
     expect(homepage).toContain('title="Snurble design system"');
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
-    expect(homepage).toContain("Snurble design system");
-    expect(homepage).toContain("<Hero");
-    expect(homepage).toContain("Durable foundations for Astro sites");
     expect(homepage).toContain(
-      '<Section title="Documentation map" headingId="docs-map-heading" variant="title">'
+      "A component-first reference for @matt-riley/ui-astro"
     );
-    expect(homepage).toContain("Current package surface");
-    expect(homepage).toContain("Component expansion stages");
-    expect(homepage).toContain(
-      '<Section title="Adoption and publishing" headingId="adoption-publishing-heading" variant="title">'
-    );
-    expect(homepage).toContain("Foundations");
-    expect(homepage).toContain("Shell primitives");
-    expect(homepage).toContain("Profile/social primitives");
-    expect(homepage).toContain("Project primitives");
-    expect(homepage).toContain("Experience primitives");
-    expect(homepage).toContain("Actions and status");
-    expect(homepage).toContain("Navigation and disclosure");
-    expect(homepage).toContain("Form foundation");
-    expect(homepage).toContain("Overlays and menus");
-    expect(homepage).toContain("Data display");
-    expect(homepage).toContain("56 Astro primitives");
-    expect(homepage).toContain("Stage 1");
-    expect(homepage).toContain("Stage 5");
-    expect(homepage).toContain("Install the shared packages");
-    expect(homepage).toContain("Next documents to read");
-    expect(homepage).toContain(
-      'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
-    );
-    expect(homepage).toContain('language="bash"');
-    expect(homepage).toContain("<CodeSnippet");
-    expect(homepage).toContain('variant="block"');
-    expect(homepage).toContain("code={installCommand}");
-    expect(homepage).toContain("Release/publishing");
+    expect(homepage).toContain('label="Documented components"');
+    expect(homepage).toContain("value={componentDocs.length}");
+    expect(homepage).toContain('href="/components"');
+    expect(homepage).toContain('href="/llm-helper"');
+    expect(homepage).toContain('href="/release-readiness"');
+    expect(homepage).toContain("Open component index");
+    expect(homepage).toContain("Open helper docs");
+    expect(homepage).toContain("Open release guide");
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).toContain(".docs-shell::before");
   });
@@ -553,23 +530,21 @@ describe("ui-astro package", () => {
     expect(migrationPage).toContain("Local validation loop");
   });
 
-  it("documents trusted URL and accessibility boundaries for profile and experience primitives", async () => {
-    const profileSocialPage = await readRepoFile(
-      "apps/docs/src/pages/profile-social-primitives.astro"
-    );
-    const experiencePage = await readRepoFile(
-      "apps/docs/src/pages/experience-primitives.astro"
+  it("documents trusted URL and accessibility boundaries in the component docs catalog", async () => {
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
     );
 
-    expect(profileSocialPage).toContain(
-      "passes each <code>href</code> straight through to the rendered"
+    expect(registry).toContain(
+      "Let the consumer choose which networks to expose."
     );
-    expect(profileSocialPage).toContain("Supply vetted external");
-    expect(profileSocialPage).toContain("ideally <code>https://</code>");
-    expect(experiencePage).toContain(
-      "uses the same <code>start</code> and <code>end</code> strings for both <code>datetime</code> attributes and visible text"
+    expect(registry).toContain(
+      "Use a meaningful avatarAlt string rather than decorative alt text."
     );
-    expect(experiencePage).toContain("Treat that as a limitation");
+    expect(registry).toContain(
+      "Keep long narrative or markdown outside the card."
+    );
+    expect(registry).toContain("Use concise role and company labels.");
   });
 
   it("exports the accepted foundation primitives through the package entrypoint", async () => {
@@ -826,16 +801,19 @@ describe("ui-astro package", () => {
   });
 
   it("demonstrates ProjectCard edge cases and security in docs", async () => {
-    const docsPage = await readRepoFile(
-      "apps/docs/src/pages/project-primitives.astro"
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
+    );
+    const demos = await readRepoFile(
+      "apps/docs/src/components/docs/ComponentDemo.astro"
     );
 
-    expect(docsPage).toMatch(/name=.*description=.*url=/s);
-    expect(docsPage).toContain("stars:");
-    expect(docsPage).toContain("languages:");
-    expect(docsPage).toContain("topics:");
-    expect(docsPage).toMatch(/consumer|Consumer/);
-    expect(docsPage).toMatch(/ranking|Ranking/);
+    expect(demos).toMatch(/name=.*description=.*url=/s);
+    expect(demos).toContain("stars={54}");
+    expect(demos).toContain('languages={[{ name: "TypeScript"');
+    expect(demos).toContain('topics={["astro", "design-system"]}');
+    expect(registry).toMatch(/consumer|Consumer/);
+    expect(registry).toMatch(/ranking|sorting|filtering/i);
   });
 
   it("implements ExperienceCard for displaying job/experience entries with logo, title, company, description, and skills", async () => {

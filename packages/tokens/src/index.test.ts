@@ -103,22 +103,19 @@ describe("design token package", () => {
 
   it("documents token package ownership and install guidance while Layout owns the baseline css import", async () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
-    const foundationPage = await readRepoFile(
-      "apps/docs/src/pages/foundation.astro"
-    );
     const homepage = await readRepoFile("apps/docs/src/pages/index.astro");
+    const releasePage = await readRepoFile(
+      "apps/docs/src/pages/release-readiness.astro"
+    );
 
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
-    expect(foundationPage).toContain('title="Snurble foundations"');
-    expect(foundationPage).toContain("<code>@matt-riley/design-tokens</code>");
-    expect(foundationPage).toContain("Shared packages stay narrow");
-    expect(foundationPage).toContain(
-      "Snurble owns reusable presentation contracts and design tokens."
-    );
     expect(homepage).toContain(
-      'const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";'
+      "A component-first reference for @matt-riley/ui-astro"
     );
-    expect(homepage).toContain("Install the shared packages");
+    expect(homepage).toContain("Open component index");
+    expect(releasePage).toContain("@matt-riley/design-tokens");
+    expect(releasePage).toContain("@matt-riley/ui-astro");
+    expect(releasePage).toContain("Registry install example");
   });
 });

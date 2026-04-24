@@ -58,8 +58,8 @@ interface Props {
 const { entry } = Astro.props;
 
 const breadcrumbItems = [
-  { label: "Docs", href: "/" },
-  { label: "Components", href: "/components" },
+  { href: "/", label: "Docs" },
+  { href: "/components", label: "Components" },
   { label: entry.name },
 ];
 
@@ -70,7 +70,7 @@ const tabs = [
 ];
 
 const accordionItems = [
-  { id: "contract", title: "What it does", expanded: true },
+  { expanded: true, id: "contract", title: "What it does" },
   { id: "ownership", title: "What stays consumer-owned" },
 ];
 

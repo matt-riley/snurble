@@ -101,6 +101,18 @@ describe("release readiness docs and packaging", () => {
     expect(readme).not.toContain("remain in the extraction backlog");
   });
 
+  it("keeps Accordion and Tabs compatible with Astro build-time slot rules", async () => {
+    const accordion = await readRepoFile(
+      "packages/ui-astro/src/Accordion.astro"
+    );
+    const tabs = await readRepoFile("packages/ui-astro/src/Tabs.astro");
+
+    expect(accordion).toContain("Astro.slots.render(item.id)");
+    expect(accordion).not.toContain("<slot name={item.id}");
+    expect(tabs).toContain("Astro.slots.render(tab.id)");
+    expect(tabs).not.toContain("<slot name={tab.id}");
+  });
+
   it("adds GitHub Packages registry metadata without tightening ui-astro's token range", async () => {
     const tokensPackageJson = await readRepoJson<{
       publishConfig: {

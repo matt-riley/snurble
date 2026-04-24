@@ -11,6 +11,11 @@ interface Props {
 }
 
 const { tabs, defaultTab = tabs[0]?.id, class: className } = Astro.props;
+const tabPanelContent = new Map(
+  await Promise.all(
+    tabs.map(async (tab) => [tab.id, await Astro.slots.render(tab.id)] as const)
+  )
+);
 ---
 
 <div class:list={["snurble-tabs", className]}>
@@ -39,7 +44,7 @@ const { tabs, defaultTab = tabs[0]?.id, class: className } = Astro.props;
         hidden={tab.id !== defaultTab}
         class="snurble-tabs__panel"
       >
-        <slot name={tab.id} />
+        <Fragment set:html={tabPanelContent.get(tab.id) ?? ""} />
       </div>
     ))}
   </div>

@@ -11,6 +11,11 @@ interface Props {
 }
 
 const { items, class: className } = Astro.props;
+const accordionItemContent = new Map(
+  await Promise.all(
+    items.map(async (item) => [item.id, await Astro.slots.render(item.id)] as const)
+  )
+);
 ---
 
 <div class:list={["snurble-accordion", className]}>
@@ -20,7 +25,7 @@ const { items, class: className } = Astro.props;
         {item.title}
       </summary>
       <div class="snurble-accordion__content" id={`snurble-accordion-content-${item.id}`}>
-        <slot name={item.id} />
+        <Fragment set:html={accordionItemContent.get(item.id) ?? ""} />
       </div>
     </details>
   ))}

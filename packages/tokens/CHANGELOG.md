@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.6.0...design-tokens-v1.7.0) (2026-04-24)
+
+
+### Features
+
+* **ui:** design-agency button states with distinct hover, active, and selected surfaces ([6d9b984](https://github.com/matt-riley/snurble/commit/6d9b98485de4f86910b7af1d6e9374ca9482686c))
+
 ## [1.6.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.5.0...design-tokens-v1.6.0) (2026-04-24)
 
 

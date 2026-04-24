@@ -1,16 +1,17 @@
 /* oxlint-disable vitest/no-importing-vitest-globals */
 
 import { execFile } from "node:child_process";
-import { access, readFile, readdir } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { promisify } from "node:util";
 
 import { describe, expect, it, vi } from "vitest";
 
+import { componentDocs } from "./component-docs/registry";
+
 const execFileAsync = promisify(execFile);
 const repoRoot = resolve(import.meta.dirname, "../../..");
 const docsRoot = resolve(repoRoot, "apps/docs");
-const docsPagesRoot = resolve(docsRoot, "src/pages");
 const docsDistRoot = resolve(docsRoot, "dist");
 
 vi.setConfig({ testTimeout: 60_000 });
@@ -24,26 +25,31 @@ const buildDocs = async (): Promise<void> => {
 const readDocsDistFile = (relativePath: string): Promise<string> =>
   readFile(resolve(docsDistRoot, relativePath), "utf-8");
 
-const listDocsPages = async (): Promise<string[]> => {
-  const entries = await readdir(docsPagesRoot, { withFileTypes: true });
+const getHtmlOutputPath = (route: string): string =>
+  route === "/" ? "index.html" : `${route.slice(1)}/index.html`;
 
-  return entries
-    .filter((entry) => entry.isFile() && entry.name.endsWith(".astro"))
-    .map((entry) => entry.name.replace(/\.astro$/u, ""))
-    .toSorted();
-};
+const getMarkdownOutputPath = (route: string): string =>
+  route === "/" ? "index.md" : `${route.slice(1)}.md`;
+
+const expectedRoutes = [
+  "/",
+  "/components",
+  ...componentDocs.map((entry) => `/components/${entry.slug}`),
+  "/llm-helper",
+  "/mattriley-tools-migration",
+  "/release-readiness",
+];
 
 describe("docs llm endpoints", () => {
   it("builds markdown twins and discovery indexes for every docs page", async () => {
-    const pageNames = await listDocsPages();
-
     await buildDocs();
 
-    for (const pageName of pageNames) {
-      const markdownOutput =
-        pageName === "index" ? "index.md" : `${pageName}.md`;
+    for (const route of expectedRoutes) {
       await expect(
-        access(resolve(docsDistRoot, markdownOutput))
+        access(resolve(docsDistRoot, getHtmlOutputPath(route)))
+      ).resolves.toBeUndefined();
+      await expect(
+        access(resolve(docsDistRoot, getMarkdownOutputPath(route)))
       ).resolves.toBeUndefined();
     }
 
@@ -54,23 +60,34 @@ describe("docs llm endpoints", () => {
     const headersFile = await readDocsDistFile("_headers");
 
     expect(llmsTxt).toContain("/index.md");
-    expect(llmsTxt).toContain("/foundation.md");
+    expect(llmsTxt).toContain("/components/button.md");
+    expect(llmsTxt).toContain("/llm-helper.md");
+    expect(llmsTxt).not.toContain("/foundation.md");
     expect(llmsTxt).toContain("/llms-full.txt");
     expect(llmsFull).toContain("# Snurble design system");
-    expect(llmsFull).toContain("# Snurble foundations");
+    expect(llmsFull).toContain("# Button");
+    expect(llmsFull).toContain("# LLM helper API");
     expect(sitemapXml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
     expect(sitemapXml).toContain(
-      "<loc>https://snurble.mattriley.tools/foundation</loc>"
+      "<loc>https://snurble.mattriley.tools/components/button</loc>"
     );
     expect(sitemapXml).toContain(
-      "<loc>https://snurble.mattriley.tools/foundation.md</loc>"
+      "<loc>https://snurble.mattriley.tools/components/button.md</loc>"
     );
     expect(robotsTxt).toContain("User-agent: *");
     expect(robotsTxt).toContain("Allow: /");
-    expect(headersFile).toContain("/foundation");
-    expect(headersFile).toContain(
-      'Link: </foundation.md>; rel="alternate"; type="text/markdown"'
+
+    const componentRoutes = expectedRoutes.filter((docsRoute) =>
+      docsRoute.startsWith("/components")
     );
+
+    for (const route of componentRoutes) {
+      expect(headersFile).toContain(route);
+      expect(headersFile).toContain(
+        `Link: <${getMarkdownOutputPath(route).startsWith("/") ? getMarkdownOutputPath(route) : `/${getMarkdownOutputPath(route)}`}>; rel="alternate"; type="text/markdown"`
+      );
+    }
+
     expect(headersFile).toContain("/llms.txt");
   });
 
@@ -78,16 +95,16 @@ describe("docs llm endpoints", () => {
     await buildDocs();
 
     const homepageHtml = await readDocsDistFile("index.html");
-    const foundationHtml = await readDocsDistFile("foundation/index.html");
+    const buttonHtml = await readDocsDistFile("components/button/index.html");
 
     expect(homepageHtml).toContain('rel="alternate"');
     expect(homepageHtml).toContain('type="text/markdown"');
     expect(homepageHtml).toContain('href="/index.md"');
     expect(homepageHtml).toContain('data-snurble-agent-discovery="hint"');
 
-    expect(foundationHtml).toContain('rel="alternate"');
-    expect(foundationHtml).toContain('type="text/markdown"');
-    expect(foundationHtml).toContain('href="/foundation.md"');
-    expect(foundationHtml).toContain('data-snurble-agent-discovery="hint"');
+    expect(buttonHtml).toContain('rel="alternate"');
+    expect(buttonHtml).toContain('type="text/markdown"');
+    expect(buttonHtml).toContain('href="/components/button.md"');
+    expect(buttonHtml).toContain('data-snurble-agent-discovery="hint"');
   });
 });

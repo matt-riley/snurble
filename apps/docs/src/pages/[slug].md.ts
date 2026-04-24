@@ -6,10 +6,12 @@ import type { DocsLlmPage } from "../llm";
 export const prerender = true;
 
 export const getStaticPaths: GetStaticPaths = () =>
-  docsLlmPages.map((page) => ({
-    params: { slug: page.slug },
-    props: { page },
-  }));
+  docsLlmPages
+    .filter((page) => page.route === "/" || !page.route.slice(1).includes("/"))
+    .map((page) => ({
+      params: { slug: page.slug },
+      props: { page },
+    }));
 
 export const GET: APIRoute<{ page: DocsLlmPage }> = ({ props }) =>
   new Response(renderPageMarkdown(props.page), {

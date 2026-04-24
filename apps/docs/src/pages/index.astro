@@ -1,371 +1,67 @@
 ---
-import {
-  Badge,
-  CodeSnippet,
-  Hero,
-  PageShell,
-  Panel,
-  Section,
-  Stack,
-  StatCard,
-} from "@matt-riley/ui-astro";
+import { Hero, PageShell, Panel, Section, Stack, StatCard } from "@matt-riley/ui-astro";
 
+import { componentDocs } from "../component-docs/registry";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { homeLlmPage } from "../llm/pages/home";
-
-const installCommand = "pnpm add @matt-riley/design-tokens @matt-riley/ui-astro";
-
-const documentationAreas = [
-  {
-    href: "/foundation",
-    id: "foundations",
-    label: "Foundations",
-    note: "Start with repo roles, foundation coverage, and the full five-stage component expansion.",
-  },
-  {
-    href: "/shell-primitives",
-    id: "shell-primitives",
-    label: "Shell primitives",
-    note: "FontAssets, JsonLd, and SkipLink cover shell-level accessibility, metadata, and font loading.",
-  },
-  {
-    href: "/profile-social-primitives",
-    id: "profile-social-primitives",
-    label: "Profile/social primitives",
-    note: "ProfileHero, SocialLinks, and DecoratedHeading carry the profile and social layer.",
-  },
-  {
-    href: "/project-primitives",
-    id: "project-primitives",
-    label: "Project primitives",
-    note: "ProjectCard and ProjectGrid separate shared display concerns from consumer-owned data logic.",
-  },
-  {
-    href: "/experience-primitives",
-    id: "experience-primitives",
-    label: "Experience primitives",
-    note: "ExperienceCard, ExperienceList, SkillIcon, and SkillIconList cover timeline and skill presentation.",
-  },
-  {
-    href: "/mattriley-tools-migration",
-    id: "adoption-migration",
-    label: "Adoption/migration",
-    note: "Use the migration guide when moving a consumer onto the shared package surface. Consumer boundary invariants apply to every adopter.",
-  },
-  {
-    href: "/release-readiness",
-    id: "release-publishing",
-    label: "Release/publishing",
-    note: "Review the prerelease contract, registry install path, and publishing expectations.",
-  },
-  {
-    href: "/workv2-reference",
-    id: "workv2-reference",
-    label: "WorkV2 reference",
-    note: "Visual regression baseline for WorkV2 alignment. Core reference components stay visible alongside the expanded package surface.",
-  },
-];
-
-const packageFamilies = [
-  {
-    id: "foundations",
-    label: "Foundations",
-    primitives: ["Layout", "PageShell", "Hero", "Section", "Panel", "Stack", "DataTable", "MetaList", "CodeSnippet"],
-  },
-  {
-    id: "shell-primitives",
-    label: "Shell primitives",
-    primitives: ["FontAssets", "JsonLd", "SkipLink"],
-  },
-  {
-    id: "profile-social-primitives",
-    label: "Profile/social primitives",
-    primitives: ["ProfileHero", "SocialLinks", "DecoratedHeading"],
-  },
-  {
-    id: "project-primitives",
-    label: "Project primitives",
-    primitives: ["ProjectCard", "ProjectGrid"],
-  },
-  {
-    id: "experience-primitives",
-    label: "Experience primitives",
-    primitives: ["ExperienceCard", "ExperienceList", "SkillIcon", "SkillIconList"],
-  },
-  {
-    id: "actions-status",
-    label: "Actions and status",
-    primitives: ["Button", "LinkButton", "IconButton", "Badge", "Alert", "Callout", "EmptyState", "Skeleton"],
-  },
-  {
-    id: "navigation-disclosure",
-    label: "Navigation and disclosure",
-    primitives: ["Breadcrumbs", "Tabs", "Accordion", "Pagination", "TableOfContents"],
-  },
-  {
-    id: "form-foundation",
-    label: "Form foundation",
-    primitives: ["Field", "Input", "Textarea", "Checkbox", "RadioGroup", "Select", "Switch", "FormHint", "FormError"],
-  },
-  {
-    id: "overlays-menus",
-    label: "Overlays and menus",
-    primitives: ["Dialog", "Drawer", "Popover", "DropdownMenu", "Tooltip"],
-  },
-  {
-    id: "data-display",
-    label: "Data display",
-    primitives: ["StatCard", "DescriptionList", "FilterBar", "SortIndicator"],
-  },
-];
-
-const stageSummaries = [
-  {
-    components: ["Button", "LinkButton", "IconButton", "Badge", "Alert", "Callout", "EmptyState", "Skeleton"],
-    count: 8,
-    id: "stage-1",
-    label: "Stage 1",
-    title: "Actions and status",
-  },
-  {
-    components: ["Breadcrumbs", "Tabs", "Accordion", "Pagination", "TableOfContents"],
-    count: 5,
-    id: "stage-2",
-    label: "Stage 2",
-    title: "Navigation and disclosure",
-  },
-  {
-    components: ["Field", "Input", "Textarea", "Checkbox", "RadioGroup", "Select", "Switch", "FormHint", "FormError"],
-    count: 9,
-    id: "stage-3",
-    label: "Stage 3",
-    title: "Form foundation",
-  },
-  {
-    components: ["Dialog", "Drawer", "Popover", "DropdownMenu", "Tooltip"],
-    count: 5,
-    id: "stage-4",
-    label: "Stage 4",
-    title: "Overlays and menus",
-  },
-  {
-    components: ["StatCard", "DescriptionList", "FilterBar", "SortIndicator"],
-    count: 4,
-    id: "stage-5",
-    label: "Stage 5",
-    title: "Data display",
-  },
-];
 ---
 
 <BaseLayout
   llm={homeLlmPage}
   title="Snurble design system"
-  description="Foundations, primitives, and adoption guidance for the Snurble design system."
+  description="Component-first reference docs for the Snurble design system."
 >
   <meta slot="head" name="theme-color" content="#11111b" />
 
   <main class="docs-shell min-h-screen">
     <PageShell class="flex flex-col gap-10">
-      <section>
-        <Stack space={2}>
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
-            Snurble design system
-          </p>
-          <Hero
-            title="Durable foundations for Astro sites"
-            variant="display"
-            lede="Snurble packages the shared design-system contract extracted from workv2 into design tokens and 56 Astro primitives across five component-expansion stages. Use this docs site to understand the foundations, browse primitive families, and plan adoption or publishing work without relying on one-off project history."
-          />
-        </Stack>
-      </section>
+      <Stack space={3}>
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+          Snurble design system
+        </p>
+        <Hero
+          title="A component-first reference for @matt-riley/ui-astro"
+          lede="Browse every shared Astro primitive on its own page, plus the LLM helper API and the release guides that support package adoption."
+        />
+      </Stack>
 
-      <Section title="Start here" headingId="start-here-heading" variant="title">
-        <div class="grid gap-6 lg:grid-cols-3">
-          <article aria-labelledby="foundation-entry-heading">
-            <Panel variant="elevated" hover class="h-full">
-              <Stack space={4}>
-                <h3 id="foundation-entry-heading" class="text-xl font-semibold">Foundations</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Begin with the foundation map to see how workv2, Snurble, and mattriley.tools fit together and which primitive families are already extracted.
-                </p>
-                <p>
-                  <a class="font-medium text-[var(--snurble-accent)]" href="/foundation">Open foundation guide →</a>
-                </p>
-              </Stack>
-            </Panel>
-          </article>
+      <div class="grid gap-4 lg:grid-cols-3">
+        <StatCard label="Documented components" value={componentDocs.length} />
+        <StatCard label="Docs mode" value="Dynamic" trend="neutral" trendValue="catalog-driven" />
+        <StatCard label="LLM surface" value="Enabled" trend="up" trendValue="markdown twins" />
+      </div>
 
-          <article aria-labelledby="family-entry-heading">
-            <Panel variant="elevated" hover class="h-full">
-              <Stack space={4}>
-                <h3 id="family-entry-heading" class="text-xl font-semibold">Primitive families</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Shell, profile/social, project, and experience pages document the durable component taxonomy rather than a temporary delivery snapshot.
-                </p>
-                <p>
-                  <a class="font-medium text-[var(--snurble-accent)]" href="#docs-map-heading">Browse documentation map →</a>
-                </p>
-              </Stack>
-            </Panel>
-          </article>
+      <Section title="Start here" headingId="start-here-heading">
+        <div class="grid gap-4 lg:grid-cols-3">
+          <Panel variant="elevated">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Components</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Visit the component index for dedicated docs pages covering every shared Astro primitive.
+              </p>
+              <a class="font-medium text-[var(--snurble-accent)]" href="/components">Open component index →</a>
+            </Stack>
+          </Panel>
 
-          <article aria-labelledby="adoption-entry-heading">
-            <Panel variant="elevated" hover class="h-full">
-              <Stack space={4}>
-                <h3 id="adoption-entry-heading" class="text-xl font-semibold">Adoption path</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  When you are ready to consume the packages, follow the adoption/migration and release/publishing docs to keep consumer-owned behavior and delivery workflow explicit.
-                </p>
-                <p>
-                  <a class="font-medium text-[var(--snurble-accent)]" href="/mattriley-tools-migration">Open adoption guide →</a>
-                </p>
-              </Stack>
-            </Panel>
-          </article>
-        </div>
-      </Section>
+          <Panel variant="elevated">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">LLM helper API</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Reference the markdown alternate helper used by the docs site and other machine-readable surfaces.
+              </p>
+              <a class="font-medium text-[var(--snurble-accent)]" href="/llm-helper">Open helper docs →</a>
+            </Stack>
+          </Panel>
 
-      <Section title="Documentation map" headingId="docs-map-heading" variant="title">
-        <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-          {
-            documentationAreas.map((area) => (
-              <article aria-labelledby={`${area.id}-heading`}>
-                <Panel variant="bordered" hover class="h-full">
-                  <Stack space={4}>
-                    <h3 id={`${area.id}-heading`} class="text-xl font-semibold">{area.label}</h3>
-                    <p class="text-sm text-[var(--snurble-text-muted)]">{area.note}</p>
-                    <p>
-                      <a class="font-medium text-[var(--snurble-accent)]" href={area.href}>
-                        Open {area.label.toLowerCase()} →
-                      </a>
-                    </p>
-                  </Stack>
-                </Panel>
-              </article>
-            ))
-          }
-        </div>
-      </Section>
-
-      <Section title="Current package surface" headingId="package-surface-heading" variant="title">
-        <Stack space={6}>
-          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
-            <code>@matt-riley/ui-astro</code> now exports 56 primitives organized into durable families. The goal is to make the shared package surface easy to scan before you dive into individual component pages.
-          </p>
-
-          <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            {
-              packageFamilies.map((family) => (
-                <article aria-labelledby={`${family.id}-surface-heading`}>
-                  <Panel variant="bordered" class="h-full">
-                    <Stack space={4}>
-                      <h3 id={`${family.id}-surface-heading`} class="text-xl font-semibold">{family.label}</h3>
-                      <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
-                        {family.primitives.map((primitive) => <li><code>{primitive}</code></li>)}
-                      </ul>
-                    </Stack>
-                  </Panel>
-                </article>
-              ))
-            }
-          </div>
-        </Stack>
-      </Section>
-
-      <Section title="Component expansion stages" headingId="component-stages-heading" variant="title">
-        <Stack space={6}>
-          <div class="grid gap-6 lg:grid-cols-3">
-            <StatCard label="Total stages" value={5} trend="neutral" trendValue="complete" />
-            <StatCard label="Stage primitives" value={31} trend="neutral" trendValue="plus shell/content families" />
-            <StatCard label="Shared package surface" value={56} trend="neutral" trendValue="runtime primitives" />
-          </div>
-
-          <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            {
-              stageSummaries.map((stage) => (
-                <article aria-labelledby={`${stage.id}-heading`}>
-                  <Panel variant="bordered" class="h-full">
-                    <Stack space={4}>
-                      <div class="flex items-center justify-between gap-3">
-                        <div>
-                          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-accent)]">
-                            {stage.label}
-                          </p>
-                          <h3 id={`${stage.id}-heading`} class="text-xl font-semibold">{stage.title}</h3>
-                        </div>
-                        <Badge variant="info">{stage.count} components</Badge>
-                      </div>
-                      <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
-                        {stage.components.map((component) => <li><code>{component}</code></li>)}
-                      </ul>
-                    </Stack>
-                  </Panel>
-                </article>
-              ))
-            }
-          </div>
-        </Stack>
-      </Section>
-
-      <Section title="Adoption and publishing" headingId="adoption-publishing-heading" variant="title">
-        <div class="grid gap-6 lg:grid-cols-[1.05fr,1fr]">
-          <article aria-labelledby="install-heading">
-            <Panel variant="bordered" class="h-full">
-              <Stack space={4}>
-                <h3 id="install-heading" class="text-xl font-semibold">Install the shared packages</h3>
-                <p class="text-sm text-[var(--snurble-text-muted)]">
-                  Consumers adopt Snurble through the package entrypoints. Keep route data, metadata decisions, and app-specific behavior local unless a primitive page explicitly says Snurble owns that concern.
-                </p>
-                <CodeSnippet
-                  variant="block"
-                  code={installCommand}
-                  label="Install command"
-                  language="bash"
-                />
-              </Stack>
-            </Panel>
-          </article>
-
-          <article aria-labelledby="adoption-links-heading">
-            <Panel variant="bordered" class="h-full">
-              <Stack space={4}>
-                <h3 id="adoption-links-heading" class="text-xl font-semibold">Next documents to read</h3>
-                <ul class="grid gap-4 text-sm text-[var(--snurble-text-muted)]">
-                  <li>
-                    <a href="/mattriley-tools-migration">
-                      <Panel variant="bordered" padding={3}>
-                        <Stack space={2}>
-                          <span class="font-medium text-[var(--snurble-text)]">Adoption/migration</span>
-                          <p>Use the migration guide when replacing consumer-local presentation code with shared primitives.</p>
-                        </Stack>
-                      </Panel>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/release-readiness">
-                      <Panel variant="bordered" padding={3}>
-                        <Stack space={2}>
-                          <span class="font-medium text-[var(--snurble-text)]">Release/publishing</span>
-                          <p>Use the release guide when you need prerelease versions, registry installs, or publishing workflow details.</p>
-                        </Stack>
-                      </Panel>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/foundation">
-                      <Panel variant="bordered" padding={3}>
-                        <Stack space={2}>
-                          <span class="font-medium text-[var(--snurble-text)]">Foundation alignment</span>
-                          <p>Use the foundation page to keep repo ownership and extraction status clear before planning new primitives.</p>
-                        </Stack>
-                      </Panel>
-                    </a>
-                  </li>
-                </ul>
-              </Stack>
-            </Panel>
-          </article>
+          <Panel variant="elevated">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Release guidance</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Keep publishing and consumer adoption aligned with the current package contract.
+              </p>
+              <a class="font-medium text-[var(--snurble-accent)]" href="/release-readiness">Open release guide →</a>
+            </Stack>
+          </Panel>
         </div>
       </Section>
     </PageShell>

@@ -1,0 +1,46 @@
+---
+import { Hero, PageShell, Section, Stack } from "@matt-riley/ui-astro";
+
+import { componentDocs } from "../../component-docs/registry";
+import type { ComponentDocEntry } from "../../component-docs/registry";
+import ComponentDemo from "../../components/docs/ComponentDemo.astro";
+import ComponentReference from "../../components/docs/ComponentReference.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { componentLlmPages } from "../../llm/pages/components";
+
+export const getStaticPaths = () =>
+  componentDocs.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+
+interface Props {
+  entry: ComponentDocEntry;
+}
+
+const { entry } = Astro.props;
+const llmPage = componentLlmPages.find((page) => page.route === `/components/${entry.slug}`);
+
+if (!llmPage) {
+  throw new Error(`Missing LLM page for component docs route: ${entry.slug}`);
+}
+---
+
+<BaseLayout llm={llmPage} title={`${entry.name} — Snurble`} description={entry.summary}>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Stack space={3}>
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+          {entry.category}
+        </p>
+        <Hero title={entry.name} lede={entry.summary} />
+      </Stack>
+
+      <Section title="Curated demo" headingId={`${entry.slug}-demo-heading`}>
+        <ComponentDemo entry={entry} />
+      </Section>
+
+      <ComponentReference entry={entry} />
+    </PageShell>
+  </main>
+</BaseLayout>

@@ -1,35 +1,17 @@
 /
   Link: </index.md>; rel="alternate"; type="text/markdown"
 
-/foundation
-  Link: </foundation.md>; rel="alternate"; type="text/markdown"
+/components
+  Link: </components.md>; rel="alternate"; type="text/markdown"
 
-/foundation/
-  Link: </foundation.md>; rel="alternate"; type="text/markdown"
+/components/
+  Link: </components.md>; rel="alternate"; type="text/markdown"
 
-/shell-primitives
-  Link: </shell-primitives.md>; rel="alternate"; type="text/markdown"
+/llm-helper
+  Link: </llm-helper.md>; rel="alternate"; type="text/markdown"
 
-/shell-primitives/
-  Link: </shell-primitives.md>; rel="alternate"; type="text/markdown"
-
-/profile-social-primitives
-  Link: </profile-social-primitives.md>; rel="alternate"; type="text/markdown"
-
-/profile-social-primitives/
-  Link: </profile-social-primitives.md>; rel="alternate"; type="text/markdown"
-
-/project-primitives
-  Link: </project-primitives.md>; rel="alternate"; type="text/markdown"
-
-/project-primitives/
-  Link: </project-primitives.md>; rel="alternate"; type="text/markdown"
-
-/experience-primitives
-  Link: </experience-primitives.md>; rel="alternate"; type="text/markdown"
-
-/experience-primitives/
-  Link: </experience-primitives.md>; rel="alternate"; type="text/markdown"
+/llm-helper/
+  Link: </llm-helper.md>; rel="alternate"; type="text/markdown"
 
 /mattriley-tools-migration
   Link: </mattriley-tools-migration.md>; rel="alternate"; type="text/markdown"
@@ -43,11 +25,335 @@
 /release-readiness/
   Link: </release-readiness.md>; rel="alternate"; type="text/markdown"
 
-/workv2-reference
-  Link: </workv2-reference.md>; rel="alternate"; type="text/markdown"
+/components/layout
+  Link: </components/layout.md>; rel="alternate"; type="text/markdown"
 
-/workv2-reference/
-  Link: </workv2-reference.md>; rel="alternate"; type="text/markdown"
+/components/layout/
+  Link: </components/layout.md>; rel="alternate"; type="text/markdown"
+
+/components/page-shell
+  Link: </components/page-shell.md>; rel="alternate"; type="text/markdown"
+
+/components/page-shell/
+  Link: </components/page-shell.md>; rel="alternate"; type="text/markdown"
+
+/components/hero
+  Link: </components/hero.md>; rel="alternate"; type="text/markdown"
+
+/components/hero/
+  Link: </components/hero.md>; rel="alternate"; type="text/markdown"
+
+/components/section
+  Link: </components/section.md>; rel="alternate"; type="text/markdown"
+
+/components/section/
+  Link: </components/section.md>; rel="alternate"; type="text/markdown"
+
+/components/panel
+  Link: </components/panel.md>; rel="alternate"; type="text/markdown"
+
+/components/panel/
+  Link: </components/panel.md>; rel="alternate"; type="text/markdown"
+
+/components/data-table
+  Link: </components/data-table.md>; rel="alternate"; type="text/markdown"
+
+/components/data-table/
+  Link: </components/data-table.md>; rel="alternate"; type="text/markdown"
+
+/components/meta-list
+  Link: </components/meta-list.md>; rel="alternate"; type="text/markdown"
+
+/components/meta-list/
+  Link: </components/meta-list.md>; rel="alternate"; type="text/markdown"
+
+/components/code-snippet
+  Link: </components/code-snippet.md>; rel="alternate"; type="text/markdown"
+
+/components/code-snippet/
+  Link: </components/code-snippet.md>; rel="alternate"; type="text/markdown"
+
+/components/stack
+  Link: </components/stack.md>; rel="alternate"; type="text/markdown"
+
+/components/stack/
+  Link: </components/stack.md>; rel="alternate"; type="text/markdown"
+
+/components/font-assets
+  Link: </components/font-assets.md>; rel="alternate"; type="text/markdown"
+
+/components/font-assets/
+  Link: </components/font-assets.md>; rel="alternate"; type="text/markdown"
+
+/components/json-ld
+  Link: </components/json-ld.md>; rel="alternate"; type="text/markdown"
+
+/components/json-ld/
+  Link: </components/json-ld.md>; rel="alternate"; type="text/markdown"
+
+/components/skip-link
+  Link: </components/skip-link.md>; rel="alternate"; type="text/markdown"
+
+/components/skip-link/
+  Link: </components/skip-link.md>; rel="alternate"; type="text/markdown"
+
+/components/seo-meta
+  Link: </components/seo-meta.md>; rel="alternate"; type="text/markdown"
+
+/components/seo-meta/
+  Link: </components/seo-meta.md>; rel="alternate"; type="text/markdown"
+
+/components/service-worker
+  Link: </components/service-worker.md>; rel="alternate"; type="text/markdown"
+
+/components/service-worker/
+  Link: </components/service-worker.md>; rel="alternate"; type="text/markdown"
+
+/components/profile-hero
+  Link: </components/profile-hero.md>; rel="alternate"; type="text/markdown"
+
+/components/profile-hero/
+  Link: </components/profile-hero.md>; rel="alternate"; type="text/markdown"
+
+/components/social-links
+  Link: </components/social-links.md>; rel="alternate"; type="text/markdown"
+
+/components/social-links/
+  Link: </components/social-links.md>; rel="alternate"; type="text/markdown"
+
+/components/decorated-heading
+  Link: </components/decorated-heading.md>; rel="alternate"; type="text/markdown"
+
+/components/decorated-heading/
+  Link: </components/decorated-heading.md>; rel="alternate"; type="text/markdown"
+
+/components/project-card
+  Link: </components/project-card.md>; rel="alternate"; type="text/markdown"
+
+/components/project-card/
+  Link: </components/project-card.md>; rel="alternate"; type="text/markdown"
+
+/components/project-grid
+  Link: </components/project-grid.md>; rel="alternate"; type="text/markdown"
+
+/components/project-grid/
+  Link: </components/project-grid.md>; rel="alternate"; type="text/markdown"
+
+/components/experience-card
+  Link: </components/experience-card.md>; rel="alternate"; type="text/markdown"
+
+/components/experience-card/
+  Link: </components/experience-card.md>; rel="alternate"; type="text/markdown"
+
+/components/experience-list
+  Link: </components/experience-list.md>; rel="alternate"; type="text/markdown"
+
+/components/experience-list/
+  Link: </components/experience-list.md>; rel="alternate"; type="text/markdown"
+
+/components/skill-icon
+  Link: </components/skill-icon.md>; rel="alternate"; type="text/markdown"
+
+/components/skill-icon/
+  Link: </components/skill-icon.md>; rel="alternate"; type="text/markdown"
+
+/components/skill-icon-list
+  Link: </components/skill-icon-list.md>; rel="alternate"; type="text/markdown"
+
+/components/skill-icon-list/
+  Link: </components/skill-icon-list.md>; rel="alternate"; type="text/markdown"
+
+/components/agent-discovery-hint
+  Link: </components/agent-discovery-hint.md>; rel="alternate"; type="text/markdown"
+
+/components/agent-discovery-hint/
+  Link: </components/agent-discovery-hint.md>; rel="alternate"; type="text/markdown"
+
+/components/button
+  Link: </components/button.md>; rel="alternate"; type="text/markdown"
+
+/components/button/
+  Link: </components/button.md>; rel="alternate"; type="text/markdown"
+
+/components/icon-button
+  Link: </components/icon-button.md>; rel="alternate"; type="text/markdown"
+
+/components/icon-button/
+  Link: </components/icon-button.md>; rel="alternate"; type="text/markdown"
+
+/components/link-button
+  Link: </components/link-button.md>; rel="alternate"; type="text/markdown"
+
+/components/link-button/
+  Link: </components/link-button.md>; rel="alternate"; type="text/markdown"
+
+/components/badge
+  Link: </components/badge.md>; rel="alternate"; type="text/markdown"
+
+/components/badge/
+  Link: </components/badge.md>; rel="alternate"; type="text/markdown"
+
+/components/alert
+  Link: </components/alert.md>; rel="alternate"; type="text/markdown"
+
+/components/alert/
+  Link: </components/alert.md>; rel="alternate"; type="text/markdown"
+
+/components/callout
+  Link: </components/callout.md>; rel="alternate"; type="text/markdown"
+
+/components/callout/
+  Link: </components/callout.md>; rel="alternate"; type="text/markdown"
+
+/components/empty-state
+  Link: </components/empty-state.md>; rel="alternate"; type="text/markdown"
+
+/components/empty-state/
+  Link: </components/empty-state.md>; rel="alternate"; type="text/markdown"
+
+/components/skeleton
+  Link: </components/skeleton.md>; rel="alternate"; type="text/markdown"
+
+/components/skeleton/
+  Link: </components/skeleton.md>; rel="alternate"; type="text/markdown"
+
+/components/breadcrumbs
+  Link: </components/breadcrumbs.md>; rel="alternate"; type="text/markdown"
+
+/components/breadcrumbs/
+  Link: </components/breadcrumbs.md>; rel="alternate"; type="text/markdown"
+
+/components/tabs
+  Link: </components/tabs.md>; rel="alternate"; type="text/markdown"
+
+/components/tabs/
+  Link: </components/tabs.md>; rel="alternate"; type="text/markdown"
+
+/components/accordion
+  Link: </components/accordion.md>; rel="alternate"; type="text/markdown"
+
+/components/accordion/
+  Link: </components/accordion.md>; rel="alternate"; type="text/markdown"
+
+/components/pagination
+  Link: </components/pagination.md>; rel="alternate"; type="text/markdown"
+
+/components/pagination/
+  Link: </components/pagination.md>; rel="alternate"; type="text/markdown"
+
+/components/table-of-contents
+  Link: </components/table-of-contents.md>; rel="alternate"; type="text/markdown"
+
+/components/table-of-contents/
+  Link: </components/table-of-contents.md>; rel="alternate"; type="text/markdown"
+
+/components/field
+  Link: </components/field.md>; rel="alternate"; type="text/markdown"
+
+/components/field/
+  Link: </components/field.md>; rel="alternate"; type="text/markdown"
+
+/components/input
+  Link: </components/input.md>; rel="alternate"; type="text/markdown"
+
+/components/input/
+  Link: </components/input.md>; rel="alternate"; type="text/markdown"
+
+/components/textarea
+  Link: </components/textarea.md>; rel="alternate"; type="text/markdown"
+
+/components/textarea/
+  Link: </components/textarea.md>; rel="alternate"; type="text/markdown"
+
+/components/checkbox
+  Link: </components/checkbox.md>; rel="alternate"; type="text/markdown"
+
+/components/checkbox/
+  Link: </components/checkbox.md>; rel="alternate"; type="text/markdown"
+
+/components/radio-group
+  Link: </components/radio-group.md>; rel="alternate"; type="text/markdown"
+
+/components/radio-group/
+  Link: </components/radio-group.md>; rel="alternate"; type="text/markdown"
+
+/components/select
+  Link: </components/select.md>; rel="alternate"; type="text/markdown"
+
+/components/select/
+  Link: </components/select.md>; rel="alternate"; type="text/markdown"
+
+/components/switch
+  Link: </components/switch.md>; rel="alternate"; type="text/markdown"
+
+/components/switch/
+  Link: </components/switch.md>; rel="alternate"; type="text/markdown"
+
+/components/form-hint
+  Link: </components/form-hint.md>; rel="alternate"; type="text/markdown"
+
+/components/form-hint/
+  Link: </components/form-hint.md>; rel="alternate"; type="text/markdown"
+
+/components/form-error
+  Link: </components/form-error.md>; rel="alternate"; type="text/markdown"
+
+/components/form-error/
+  Link: </components/form-error.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog
+  Link: </components/dialog.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog/
+  Link: </components/dialog.md>; rel="alternate"; type="text/markdown"
+
+/components/drawer
+  Link: </components/drawer.md>; rel="alternate"; type="text/markdown"
+
+/components/drawer/
+  Link: </components/drawer.md>; rel="alternate"; type="text/markdown"
+
+/components/popover
+  Link: </components/popover.md>; rel="alternate"; type="text/markdown"
+
+/components/popover/
+  Link: </components/popover.md>; rel="alternate"; type="text/markdown"
+
+/components/dropdown-menu
+  Link: </components/dropdown-menu.md>; rel="alternate"; type="text/markdown"
+
+/components/dropdown-menu/
+  Link: </components/dropdown-menu.md>; rel="alternate"; type="text/markdown"
+
+/components/tooltip
+  Link: </components/tooltip.md>; rel="alternate"; type="text/markdown"
+
+/components/tooltip/
+  Link: </components/tooltip.md>; rel="alternate"; type="text/markdown"
+
+/components/stat-card
+  Link: </components/stat-card.md>; rel="alternate"; type="text/markdown"
+
+/components/stat-card/
+  Link: </components/stat-card.md>; rel="alternate"; type="text/markdown"
+
+/components/description-list
+  Link: </components/description-list.md>; rel="alternate"; type="text/markdown"
+
+/components/description-list/
+  Link: </components/description-list.md>; rel="alternate"; type="text/markdown"
+
+/components/filter-bar
+  Link: </components/filter-bar.md>; rel="alternate"; type="text/markdown"
+
+/components/filter-bar/
+  Link: </components/filter-bar.md>; rel="alternate"; type="text/markdown"
+
+/components/sort-indicator
+  Link: </components/sort-indicator.md>; rel="alternate"; type="text/markdown"
+
+/components/sort-indicator/
+  Link: </components/sort-indicator.md>; rel="alternate"; type="text/markdown"
 
 /*.md
   Content-Type: text/markdown; charset=utf-8

@@ -1,0 +1,33 @@
+---
+import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import { llmHelperDocDetails } from "../component-docs/registry";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { llmHelperLlmPage } from "../llm/pages/components";
+---
+
+<BaseLayout
+  llm={llmHelperLlmPage}
+  title="LLM helper API — Snurble"
+  description={llmHelperDocDetails.summary}
+>
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Hero
+        title={llmHelperDocDetails.title}
+        lede={llmHelperDocDetails.summary}
+      />
+
+      <Section title="Reference" headingId="llm-helper-reference-heading">
+        <Panel variant="bordered">
+          <Stack space={3}>
+            <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+              {llmHelperDocDetails.notes.map((note) => <li>{note}</li>)}
+            </ul>
+            <CodeSnippet variant="block" code={llmHelperDocDetails.exampleCode} />
+          </Stack>
+        </Panel>
+      </Section>
+    </PageShell>
+  </main>
+</BaseLayout>

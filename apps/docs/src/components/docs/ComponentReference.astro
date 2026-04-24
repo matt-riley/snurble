@@ -1,0 +1,28 @@
+---
+import { CodeSnippet, Panel, Section, Stack } from "@matt-riley/ui-astro";
+
+import type { ComponentDocEntry } from "../../component-docs/registry";
+
+interface Props {
+  entry: ComponentDocEntry;
+}
+
+const { entry } = Astro.props;
+---
+
+<Stack space={6}>
+  <Section title="Reference" headingId={`${entry.slug}-reference-heading`}>
+    <Panel variant="bordered">
+      <Stack space={3}>
+        <p class="text-sm text-[var(--snurble-text-muted)]">{entry.summary}</p>
+        <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+          {entry.notes.map((note) => <li>{note}</li>)}
+        </ul>
+      </Stack>
+    </Panel>
+  </Section>
+
+  <Section title="Example snippet" headingId={`${entry.slug}-snippet-heading`}>
+    <CodeSnippet variant="block" code={entry.exampleCode} />
+  </Section>
+</Stack>

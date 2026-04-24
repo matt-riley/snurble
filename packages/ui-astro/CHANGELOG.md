@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.7.0...ui-astro-v1.8.0) (2026-04-24)
+
+
+### Features
+
+* **ui-astro:** add data display primitives ([9aee925](https://github.com/matt-riley/snurble/commit/9aee9255443ea0786898e527cda78aac10cbb120))
+* **ui-astro:** add overlay and menu primitives ([38572cf](https://github.com/matt-riley/snurble/commit/38572cfa32ca44b59db7839021543481f68a1bb0))
+
+
+### Bug Fixes
+
+* **ci:** restore docs workflow and build stability ([5c268fb](https://github.com/matt-riley/snurble/commit/5c268fbde1a2adc916250de231c137b922120cdb))
+
 ## [1.7.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.6.0...ui-astro-v1.7.0) (2026-04-24)
 
 

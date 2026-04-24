@@ -11,104 +11,185 @@ interface Props extends HTMLAttributes<"div"> {
 }
 
 const { label, value, trend, trendValue, icon, href, class: className, ...rest } = Astro.props;
-let trendColor = "var(--snurble-text-secondary)";
+let trendColor = "var(--snurble-text-muted)";
 if (trend === "up") {
-  trendColor = "var(--snurble-success)";
+  trendColor = "var(--snurble-accent-success)";
 } else if (trend === "down") {
-  trendColor = "var(--snurble-error)";
+  trendColor = "var(--snurble-accent-danger)";
+}
+
+let trendArrow: string | undefined;
+if (trend === "up") {
+  trendArrow = "↑";
+} else if (trend === "down") {
+  trendArrow = "↓";
+} else if (trend === "neutral") {
+  trendArrow = "→";
 }
 ---
 
 <div class={`stat-card ${className || ""}`} {...rest}>
-  <div class="stat-card-header">
-    {icon && <span class="stat-card-icon" set:html={icon} />}
-    <span class="stat-card-label">{label}</span>
-  </div>
-  <div class="stat-card-body">
-    <span class="stat-card-value">{value}</span>
-    {trendValue && (
-      <span class="stat-card-trend" style={`color: ${trendColor}`}>
-        {trend === "up" && "↑"}
-        {trend === "down" && "↓"}
-        {trend === "neutral" && "→"}
-        {trendValue}
-      </span>
-    )}
+  <div class="stat-card-surface">
+    <div class="stat-card-header">
+      {icon && <span class="stat-card-icon" set:html={icon} />}
+      <span class="stat-card-label">{label}</span>
+    </div>
+    <div class="stat-card-body">
+      <span class="stat-card-value">{value}</span>
+      {trendValue && (
+        <span class="stat-card-meta" style={`--stat-card-trend-color: ${trendColor};`}>
+          {trendArrow && <span class="stat-card-arrow">{trendArrow}</span>}
+          <span class="stat-card-trend">{trendValue}</span>
+        </span>
+      )}
+    </div>
   </div>
 </div>
 
 <style>
   .stat-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--snurble-spacing-sm);
-    padding: var(--snurble-spacing-md);
-    background: var(--snurble-surface-secondary);
-    border: 1px solid var(--snurble-border);
-    border-radius: var(--snurble-radius);
-    transition:
-      background-color 200ms ease-out,
-      border-color 200ms ease-out,
-      box-shadow 200ms ease-out;
+    min-width: 0;
   }
 
-  .stat-card:hover {
-    background: var(--snurble-surface-tertiary);
-    border-color: var(--snurble-accent);
+  .stat-card-surface {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-4);
+    min-height: 100%;
+    overflow: hidden;
+    padding: var(--snurble-space-5);
+    border: 1px solid var(--snurble-border);
+    border-radius: 1rem;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0) 100%),
+      linear-gradient(180deg, var(--snurble-surface-card) 0%, var(--snurble-surface) 100%);
+    box-shadow: var(--snurble-shadow-md);
+    backdrop-filter: blur(16px);
+    transition:
+      transform var(--snurble-transition-base),
+      border-color var(--snurble-transition-base),
+      box-shadow var(--snurble-transition-base);
+  }
+
+  .stat-card-surface::before {
+    content: "";
+    position: absolute;
+    inset: -35% auto auto 55%;
+    width: 10rem;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, var(--snurble-selection) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .stat-card-surface::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
+    pointer-events: none;
+  }
+
+  .stat-card:hover .stat-card-surface {
+    transform: translateY(-2px);
+    border-color: var(--snurble-border-strong);
+    box-shadow: var(--snurble-shadow-lg);
   }
 
   .stat-card-header {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
-    gap: var(--snurble-spacing-xs);
-    font-size: 0.875rem;
-    color: var(--snurble-text-secondary);
+    gap: var(--snurble-space-2);
   }
 
   .stat-card-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
+    color: var(--snurble-accent);
   }
 
   .stat-card-label {
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.18em;
+    color: var(--snurble-text-tertiary);
   }
 
   .stat-card-body {
+    position: relative;
+    z-index: 1;
     display: flex;
-    align-items: baseline;
-    gap: var(--snurble-spacing-sm);
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--snurble-space-3);
   }
 
   .stat-card-value {
-    font-size: 2rem;
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
     font-weight: 700;
+    line-height: 0.95;
     color: var(--snurble-text);
-    line-height: 1;
     font-variant-numeric: tabular-nums;
+  }
+
+  .stat-card-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--snurble-space-2);
+    max-width: 100%;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.05);
+    color: var(--snurble-text-muted);
+  }
+
+  .stat-card-arrow {
+    flex-shrink: 0;
+    color: var(--stat-card-trend-color, var(--snurble-text-muted));
+    font-size: 0.95rem;
+    line-height: 1;
   }
 
   .stat-card-trend {
     font-size: 0.875rem;
     font-weight: 600;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
+    color: var(--snurble-text);
+    overflow-wrap: anywhere;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .stat-card {
-      background: var(--snurble-surface);
-      border-color: var(--snurble-border);
+  @media (max-width: 48rem) {
+    .stat-card-surface {
+      padding: var(--snurble-space-4);
     }
 
-    .stat-card:hover {
-      background: var(--snurble-surface-secondary);
+    .stat-card-body {
+      align-items: flex-start;
+    }
+
+    .stat-card-value {
+      font-size: clamp(2.25rem, 10vw, 3rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-card-surface {
+      transition:
+        border-color var(--snurble-transition-base),
+        box-shadow var(--snurble-transition-base);
+      backdrop-filter: none;
+    }
+
+    .stat-card:hover .stat-card-surface {
+      transform: none;
     }
   }
 </style>

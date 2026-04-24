@@ -631,3 +631,19 @@ export const componentDocs = componentDocCatalog.map((entry) => ({
   ...entry,
   ...componentContentByName[entry.name],
 })) satisfies readonly ComponentDocEntry[];
+
+export const llmHelperDocDetails = {
+  exampleCode: `const alternate = createMarkdownAlternateLink({ href: "/components/button.md", title: "Button markdown twin" });`,
+  notes: [
+    "Use absolute or app-valid markdown paths that match a real alternate route.",
+    "The helper only returns link attributes; the page still owns placement in the head slot.",
+  ],
+  summary:
+    "Build the link attributes for a markdown alternate so HTML pages can advertise text-first twins to LLM-oriented clients.",
+  title: "LLM helper API",
+} as const;
+
+export const getComponentDocBySlug = (
+  slug: string
+): ComponentDocEntry | undefined =>
+  componentDocs.find((entry) => entry.slug === slug);

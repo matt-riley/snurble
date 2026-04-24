@@ -1,0 +1,409 @@
+---
+import {
+  Accordion,
+  Alert,
+  Badge,
+  Breadcrumbs,
+  Button,
+  Callout,
+  Checkbox,
+  DataTable,
+  DecoratedHeading,
+  DescriptionList,
+  Dialog,
+  Drawer,
+  DropdownMenu,
+  EmptyState,
+  ExperienceCard,
+  ExperienceList,
+  Field,
+  FilterBar,
+  FormError,
+  FormHint,
+  Hero,
+  IconButton,
+  Input,
+  LinkButton,
+  MetaList,
+  PageShell,
+  Pagination,
+  Panel,
+  Popover,
+  ProfileHero,
+  ProjectCard,
+  ProjectGrid,
+  RadioGroup,
+  Section,
+  Select,
+  Skeleton,
+  SkillIcon,
+  SkillIconList,
+  SocialLinks,
+  SortIndicator,
+  Stack,
+  StatCard,
+  Switch,
+  TableOfContents,
+  Tabs,
+  Textarea,
+  Tooltip,
+} from "@matt-riley/ui-astro";
+
+import type { ComponentDocEntry } from "../../component-docs/registry";
+
+interface Props {
+  entry: ComponentDocEntry;
+}
+
+const { entry } = Astro.props;
+
+const breadcrumbItems = [
+  { label: "Docs", href: "/" },
+  { label: "Components", href: "/components" },
+  { label: entry.name },
+];
+
+const tabs = [
+  { id: "overview", label: "Overview" },
+  { id: "usage", label: "Usage" },
+  { id: "notes", label: "Notes" },
+];
+
+const accordionItems = [
+  { id: "contract", title: "What it does", expanded: true },
+  { id: "ownership", title: "What stays consumer-owned" },
+];
+
+const radioOptions = [
+  { id: "radio-docs", label: "Docs", value: "docs" },
+  { id: "radio-components", label: "Components", value: "components" },
+];
+
+const selectOptions = [
+  { label: "Foundation", value: "foundation" },
+  { label: "Forms", value: "forms" },
+  { label: "Overlays", value: "overlays" },
+];
+
+const menuItems = [
+  { label: "Duplicate", value: "duplicate" },
+  { label: "Archive", value: "archive" },
+  { label: "Delete", value: "delete", variant: "danger" as const },
+];
+
+const tocItems = [
+  { id: "overview", label: "Overview", level: 1 },
+  { id: "demo", label: "Curated demo", level: 1 },
+  { id: "reference", label: "Reference", level: 1 },
+];
+
+const socialLinks = [
+  { href: "https://github.com/matt-riley", icon: "github", label: "GitHub profile" },
+  { href: "https://linkedin.com/in/matthewjriley", icon: "linkedin", label: "LinkedIn profile" },
+];
+---
+
+<Stack space={4}>
+  {entry.name === "Layout" && (
+    <Panel variant="bordered">
+      <Stack space={3}>
+        <p class="text-sm text-[var(--snurble-text-muted)]">
+          This page is already rendered inside <code>Layout</code> via <code>BaseLayout</code>.
+          The live shell around this content is the demonstration.
+        </p>
+      </Stack>
+    </Panel>
+  )}
+
+  {entry.name === "PageShell" && (
+    <PageShell class="flex flex-col gap-4 rounded-lg border border-[var(--snurble-border)] p-4">
+      <Panel variant="bordered">PageShell controls readable page width and section rhythm.</Panel>
+      <Panel variant="bordered">Use it as the main wrapper for a full page.</Panel>
+    </PageShell>
+  )}
+
+  {entry.name === "Hero" && <Hero title="Component docs" lede="Hero introduces a page with high-signal context." />}
+
+  {entry.name === "Section" && (
+    <Section title="Overview" headingId="section-demo-heading">
+      <Panel variant="bordered">Section wraps titled content blocks with a stable heading contract.</Panel>
+    </Section>
+  )}
+
+  {entry.name === "Panel" && <Panel variant="elevated">Panels provide shared bordered or elevated surfaces.</Panel>}
+
+  {entry.name === "DataTable" && (
+    <div>
+      <h3 id="data-table-demo-heading" class="mb-3 text-lg font-semibold">Release matrix</h3>
+      <DataTable labelledBy="data-table-demo-heading" striped>
+        <tr slot="head">
+          <th>Surface</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td data-label="Surface">Docs app</td>
+          <td data-label="Status">Ready</td>
+        </tr>
+        <tr>
+          <td data-label="Surface">UI package</td>
+          <td data-label="Status">Stable</td>
+        </tr>
+      </DataTable>
+    </div>
+  )}
+
+  {entry.name === "MetaList" && (
+    <MetaList>
+      <dt>Status</dt>
+      <dd>Stable</dd>
+      <dt>Registry</dt>
+      <dd>GitHub Packages</dd>
+    </MetaList>
+  )}
+
+  {entry.name === "CodeSnippet" && (
+    <Panel variant="bordered">
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        The reference section below includes a live <code>CodeSnippet</code> block.
+      </p>
+    </Panel>
+  )}
+
+  {entry.name === "Stack" && (
+    <Stack space={3}>
+      <Panel variant="bordered">First item</Panel>
+      <Panel variant="bordered">Second item</Panel>
+      <Panel variant="bordered">Third item</Panel>
+    </Stack>
+  )}
+
+  {["FontAssets", "JsonLd", "SkipLink", "SeoMeta", "ServiceWorker", "AgentDiscoveryHint"].includes(entry.name) && (
+    <Panel variant="bordered">
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        {entry.name} works at the document or page shell layer. Its primary effect is part of the
+        current route wiring rather than a visible in-body widget.
+      </p>
+    </Panel>
+  )}
+
+  {entry.name === "ProfileHero" && (
+    <ProfileHero
+      name="Matt Riley"
+      subtitle="Senior Software Engineer in Leeds, West Yorkshire"
+      avatarSrc="https://github.com/matt-riley.png"
+      avatarAlt="Matt Riley"
+    />
+  )}
+
+  {entry.name === "SocialLinks" && <SocialLinks links={socialLinks} />}
+
+  {entry.name === "DecoratedHeading" && <DecoratedHeading text="Snurble" />}
+
+  {entry.name === "ProjectCard" && (
+    <ProjectCard
+      name="Snurble"
+      description="Shared Astro design tokens and UI primitives."
+      url="https://github.com/matt-riley/snurble"
+      stars={54}
+      languages={[{ name: "TypeScript", color: "#3178c6" }]}
+      topics={["astro", "design-system"]}
+    />
+  )}
+
+  {entry.name === "ProjectGrid" && (
+    <ProjectGrid>
+      <li>
+        <ProjectCard
+          name="Snurble"
+          description="Shared Astro design tokens and UI primitives."
+          url="https://github.com/matt-riley/snurble"
+          topics={["astro"]}
+        />
+      </li>
+      <li>
+        <ProjectCard
+          name="workv2"
+          description="Reference implementation that shaped the shared system."
+          url="https://github.com/matt-riley/workv2"
+          topics={["reference"]}
+        />
+      </li>
+    </ProjectGrid>
+  )}
+
+  {entry.name === "ExperienceCard" && (
+    <ExperienceCard
+      logo="https://github.com/matt-riley.png"
+      title="Senior Engineer"
+      company="Example Corp"
+      description="<p>Built shared UI systems and delivery tooling.</p>"
+      start="2023-01"
+      end="present"
+    />
+  )}
+
+  {entry.name === "ExperienceList" && (
+    <ExperienceList>
+      <li>
+        <ExperienceCard
+          logo="https://github.com/matt-riley.png"
+          title="Senior Engineer"
+          company="Example Corp"
+          description="<p>Built shared UI systems and delivery tooling.</p>"
+          start="2023-01"
+          end="present"
+        />
+      </li>
+    </ExperienceList>
+  )}
+
+  {entry.name === "SkillIcon" && (
+    <SkillIcon label="TypeScript">
+      <span aria-hidden="true">TS</span>
+    </SkillIcon>
+  )}
+
+  {entry.name === "SkillIconList" && (
+    <SkillIconList title="Core skills">
+      <SkillIcon label="TypeScript">
+        <span aria-hidden="true">TS</span>
+      </SkillIcon>
+      <SkillIcon label="Astro">
+        <span aria-hidden="true">AS</span>
+      </SkillIcon>
+    </SkillIconList>
+  )}
+
+  {entry.name === "Button" && <Button>Ship it</Button>}
+  {entry.name === "IconButton" && <IconButton ariaLabel="Open menu"><span aria-hidden="true">☰</span></IconButton>}
+  {entry.name === "LinkButton" && <LinkButton href="/components/button">Button docs</LinkButton>}
+  {entry.name === "Badge" && <Badge variant="success">Stable</Badge>}
+  {entry.name === "Alert" && <Alert title="Heads up" description="Tokens ship separately." variant="info" />}
+  {entry.name === "Callout" && <Callout title="Consumer-owned">Route metadata stays local.</Callout>}
+  {entry.name === "EmptyState" && (
+    <EmptyState title="No releases yet" description="Publish a prerelease to get started.">
+      <Button>Publish next</Button>
+    </EmptyState>
+  )}
+  {entry.name === "Skeleton" && <Skeleton width="100%" height="2.5rem" />}
+  {entry.name === "Breadcrumbs" && <Breadcrumbs items={breadcrumbItems} />}
+  {entry.name === "Tabs" && (
+    <Tabs tabs={tabs} defaultTab="overview">
+      <Fragment slot="overview">
+        <Panel variant="bordered">Overview content lives in named slots.</Panel>
+      </Fragment>
+      <Fragment slot="usage">
+        <Panel variant="bordered">Usage content can be switched client-light.</Panel>
+      </Fragment>
+      <Fragment slot="notes">
+        <Panel variant="bordered">Keep tab labels concise and stable.</Panel>
+      </Fragment>
+    </Tabs>
+  )}
+  {entry.name === "Accordion" && (
+    <Accordion items={accordionItems}>
+      <Fragment slot="contract">
+        <p>Accordion reveals supporting sections progressively.</p>
+      </Fragment>
+      <Fragment slot="ownership">
+        <p>Pages still own the section order and content.</p>
+      </Fragment>
+    </Accordion>
+  )}
+  {entry.name === "Pagination" && <Pagination currentPage={2} totalPages={8} />}
+  {entry.name === "TableOfContents" && <TableOfContents headings={tocItems} />}
+
+  {entry.name === "Field" && (
+    <Field
+      label="Email"
+      htmlFor="field-demo-email"
+      description="We only use this for release notes."
+    >
+      <Input id="field-demo-email" type="email" placeholder="matt@example.com" />
+    </Field>
+  )}
+  {entry.name === "Input" && <Input id="input-demo" type="email" placeholder="matt@example.com" />}
+  {entry.name === "Textarea" && <Textarea id="textarea-demo" placeholder="Tell us more..." rows={4} />}
+  {entry.name === "Checkbox" && <Checkbox id="checkbox-demo" label="Email me release updates" checked />}
+  {entry.name === "RadioGroup" && (
+    <RadioGroup name="demo-surface" options={radioOptions} defaultValue="components" />
+  )}
+  {entry.name === "Select" && (
+    <Select id="select-demo" options={selectOptions} defaultValue="forms" placeholder="Choose a category" />
+  )}
+  {entry.name === "Switch" && <Switch id="switch-demo" label="Enable announcements" checked />}
+  {entry.name === "FormHint" && (
+    <Field label="Email" htmlFor="hint-demo-email">
+      <Input id="hint-demo-email" type="email" placeholder="matt@example.com" />
+      <FormHint id="hint-demo-email-hint" text="We only use this for release updates." />
+    </Field>
+  )}
+  {entry.name === "FormError" && (
+    <Field label="Email" htmlFor="error-demo-email" error="Enter a valid email address.">
+      <Input id="error-demo-email" type="email" value="invalid" />
+      <FormError id="error-demo-email-error" text="Enter a valid email address." />
+    </Field>
+  )}
+
+  {entry.name === "Dialog" && (
+    <Dialog open title="Delete release">
+      <Stack space={3}>
+        <p>This cannot be undone.</p>
+        <div class="flex gap-3">
+          <Button variant="secondary">Cancel</Button>
+          <Button variant="danger">Delete</Button>
+        </div>
+      </Stack>
+    </Dialog>
+  )}
+
+  {entry.name === "Drawer" && (
+    <Drawer open title="Filters">
+      <Stack space={3}>
+        <Checkbox id="drawer-checkbox" label="Only stable components" checked />
+        <Checkbox id="drawer-checkbox-2" label="Show shell helpers" />
+      </Stack>
+    </Drawer>
+  )}
+
+  {entry.name === "Popover" && (
+    <div class="relative min-h-40">
+      <Popover open title="Popover details">
+        <p>Popover content stays short and contextual.</p>
+      </Popover>
+    </div>
+  )}
+
+  {entry.name === "DropdownMenu" && <DropdownMenu open items={menuItems} />}
+
+  {entry.name === "Tooltip" && (
+    <div class="relative min-h-24">
+      <button aria-describedby="tooltip-demo" type="button" class="rounded border px-3 py-2">
+        Copy
+      </button>
+      <Tooltip id="tooltip-demo" text="Copy install command" />
+    </div>
+  )}
+
+  {entry.name === "StatCard" && (
+    <StatCard label="Published components" value="54" trend="up" trendValue="+5" />
+  )}
+
+  {entry.name === "DescriptionList" && (
+    <DescriptionList
+      items={[
+        { term: "Registry", description: "GitHub Packages" },
+        { term: "Validation", description: "pnpm run validate" },
+      ]}
+    />
+  )}
+
+  {entry.name === "FilterBar" && (
+    <FilterBar>
+      <Button variant="secondary" size="sm">Newest</Button>
+      <Button variant="secondary" size="sm">Stable only</Button>
+    </FilterBar>
+  )}
+
+  {entry.name === "SortIndicator" && <SortIndicator label="Updated" sortOrder="desc" />}
+</Stack>

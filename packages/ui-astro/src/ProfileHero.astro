@@ -35,6 +35,7 @@ const { name, subtitle, avatarSrc, avatarAlt } = Astro.props;
     border-radius: 50%;
     border: 4px solid var(--snurble-accent-success);
     object-fit: cover;
+    box-shadow: var(--snurble-shadow-md);
   }
 
   .snurble-profile-hero__name {
@@ -54,5 +55,6 @@ const { name, subtitle, avatarSrc, avatarAlt } = Astro.props;
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 700;
     line-height: 1.4;
+    text-wrap: pretty;
   }
 </style>

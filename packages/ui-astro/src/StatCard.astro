@@ -46,7 +46,10 @@ if (trend === "up") {
     background: var(--snurble-surface-secondary);
     border: 1px solid var(--snurble-border);
     border-radius: var(--snurble-radius);
-    transition: all 200ms ease-out;
+    transition:
+      background-color 200ms ease-out,
+      border-color 200ms ease-out,
+      box-shadow 200ms ease-out;
   }
 
   .stat-card:hover {
@@ -88,12 +91,14 @@ if (trend === "up") {
     font-weight: 700;
     color: var(--snurble-text);
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
   .stat-card-trend {
     font-size: 0.875rem;
     font-weight: 600;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   @media (prefers-color-scheme: dark) {

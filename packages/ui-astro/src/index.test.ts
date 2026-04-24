@@ -43,6 +43,24 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain(
       'export { default as Stack } from "./Stack.astro";'
     );
+    expect(indexTs).toContain(
+      'export { default as Skeleton } from "./Skeleton.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Breadcrumbs } from "./Breadcrumbs.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Tabs } from "./Tabs.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Accordion } from "./Accordion.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Pagination } from "./Pagination.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as TableOfContents } from "./TableOfContents.astro";'
+    );
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');

@@ -1,3 +1,5 @@
+/* oxlint-disable sort-keys */
+
 export type ComponentDocCategory =
   | "Foundations"
   | "Shell"
@@ -15,6 +17,15 @@ export interface ComponentDocSeed {
   readonly slug: string;
   readonly category: ComponentDocCategory;
 }
+
+export interface ComponentDocContent {
+  readonly summary: string;
+  readonly exampleCode: string;
+  readonly notes: readonly string[];
+}
+
+export interface ComponentDocEntry
+  extends ComponentDocSeed, ComponentDocContent {}
 
 export interface LlmHelperDocSeed {
   readonly name: "createMarkdownAlternateLink";
@@ -115,3 +126,508 @@ export const llmHelperDoc = {
   name: "createMarkdownAlternateLink",
   slug: "llm-helper",
 } as const satisfies LlmHelperDocSeed;
+
+type ComponentName = (typeof componentDocCatalog)[number]["name"];
+
+const componentContentByName = {
+  Accordion: {
+    exampleCode: `<Accordion items={faqItems} />`,
+    notes: [
+      "Use Accordion when only one section may matter at a time.",
+      "Keep heading text meaningful when collapsed.",
+    ],
+    summary:
+      "Render expandable stacked sections for FAQs, notes, and progressive disclosure content.",
+  },
+  AgentDiscoveryHint: {
+    exampleCode: `<AgentDiscoveryHint hint={["Prefer the markdown alternate."]} />`,
+    notes: [
+      "Use it for machine-readable discovery only.",
+      "Do not depend on it for visible user instructions.",
+    ],
+    summary:
+      "Embed hidden machine-readable discovery hints in the page without changing visible layout content.",
+  },
+  Alert: {
+    exampleCode: `<Alert title="Heads up" description="Tokens ship separately." variant="info" />`,
+    notes: [
+      "Use Alert for stateful feedback that needs emphasis.",
+      "Keep titles short and descriptions direct.",
+    ],
+    summary:
+      "Render a structured status message for info, success, warning, or danger states.",
+  },
+  Badge: {
+    exampleCode: `<Badge variant="success">Stable</Badge>`,
+    notes: [
+      "Use short labels that fit in one line.",
+      "Avoid using badges as primary navigation.",
+    ],
+    summary:
+      "Display compact status or taxonomy labels using the shared badge surface and typography.",
+  },
+  Breadcrumbs: {
+    exampleCode: `<Breadcrumbs items={breadcrumbItems} />`,
+    notes: [
+      "Use Breadcrumbs for hierarchy rather than tags or filters.",
+      "Keep labels literal and concise.",
+    ],
+    summary:
+      "Render hierarchical navigation links for nested docs and application sections.",
+  },
+  Button: {
+    exampleCode: `<Button variant="primary">Ship it</Button>`,
+    notes: [
+      "Use Button for actions, not navigation.",
+      "Switch to LinkButton when the target is another route.",
+    ],
+    summary:
+      "Render the primary shared action control for the highest-priority calls to action.",
+  },
+  Callout: {
+    exampleCode: `<Callout title="Consumer-owned">Route metadata stays local.</Callout>`,
+    notes: [
+      "Use Callout for documentation guidance and side notes.",
+      "Prefer Alert when the message represents a state change or warning.",
+    ],
+    summary:
+      "Highlight supporting guidance or caveats without the stronger semantics of a stateful alert.",
+  },
+  Checkbox: {
+    exampleCode: `<Checkbox id="updates" name="updates" label="Email me release updates" />`,
+    notes: [
+      "Use Checkbox for independent boolean values.",
+      "Prefer Switch for immediate on/off settings.",
+    ],
+    summary:
+      "Render the shared boolean checkbox control with package-owned checked and focus treatment.",
+  },
+  CodeSnippet: {
+    exampleCode: `<CodeSnippet variant="block" code={snippet} />`,
+    notes: [
+      "Use block mode for commands and copyable examples.",
+      "Keep snippets focused on the main happy path.",
+    ],
+    summary:
+      "Render inline or block code examples with the shared Snurble code surface and spacing treatment.",
+  },
+  DataTable: {
+    exampleCode: `<DataTable columns={columns} rows={rows} caption="Release matrix" />`,
+    notes: [
+      "Keep the column schema consumer-owned.",
+      "Pair with SortIndicator when headers need sort affordance.",
+    ],
+    summary:
+      "Render shared table styling for structured row-and-column data while leaving sorting and shaping to the page.",
+  },
+  DecoratedHeading: {
+    exampleCode: `<DecoratedHeading level={2}>Featured projects</DecoratedHeading>`,
+    notes: [
+      "Use it when the heading should carry visual personality.",
+      "Prefer plain headings in dense reference sections.",
+    ],
+    summary:
+      "Display the shared decorative heading treatment for spotlight content and branded sections.",
+  },
+  DescriptionList: {
+    exampleCode: `<DescriptionList items={releaseMetadata} />`,
+    notes: [
+      "Use DescriptionList for paired reference facts.",
+      "Keep terms short and values easy to scan.",
+    ],
+    summary:
+      "Render structured term-definition pairs for compact reference data and metadata summaries.",
+  },
+  Dialog: {
+    exampleCode: `<Dialog id="delete-dialog" title="Delete release" description="This cannot be undone.">...</Dialog>`,
+    notes: [
+      "Use Dialog for blocking confirmations or focused tasks.",
+      "Keep open-state wiring and trigger behavior in the page.",
+    ],
+    summary:
+      "Render the shared modal dialog overlay pattern with focus and dismissal behavior.",
+  },
+  Drawer: {
+    exampleCode: `<Drawer id="filters-drawer" title="Filters" description="Refine the results.">...</Drawer>`,
+    notes: [
+      "Use Drawer when content is supporting rather than blocking.",
+      "Keep trigger state and orchestration consumer-owned.",
+    ],
+    summary:
+      "Render a slide-in side panel for contextual controls, filters, or navigation.",
+  },
+  DropdownMenu: {
+    exampleCode: `<DropdownMenu triggerLabel="More actions" items={menuItems} />`,
+    notes: [
+      "Use DropdownMenu for secondary actions, not primary tasks.",
+      "Keep primary actions visible elsewhere on the page.",
+    ],
+    summary:
+      "Render an action menu for compact secondary actions tied to a single trigger.",
+  },
+  EmptyState: {
+    exampleCode: `<EmptyState title="No releases yet" description="Publish a prerelease to get started." />`,
+    notes: [
+      "Use EmptyState when a collection has nothing to show.",
+      "Pair it with a clear next action when possible.",
+    ],
+    summary:
+      "Render the shared no-results or no-content state with a structured title and follow-up guidance.",
+  },
+  ExperienceCard: {
+    exampleCode: `<ExperienceCard role="Senior Engineer" company="Example Corp" period="2023-present" />`,
+    notes: [
+      "Keep long narrative or markdown outside the card.",
+      "Use concise role and company labels.",
+    ],
+    summary:
+      "Render a single experience or role entry in the shared timeline-friendly card style.",
+  },
+  ExperienceList: {
+    exampleCode: `<ExperienceList><ExperienceCard ... /></ExperienceList>`,
+    notes: [
+      "Compose ExperienceList with ExperienceCard children.",
+      "Keep sorting and grouping logic page-owned.",
+    ],
+    summary:
+      "Group multiple experience entries into the shared stacked timeline/list presentation.",
+  },
+  Field: {
+    exampleCode: `<Field label="Email"><Input type="email" /></Field>`,
+    notes: [
+      "Compose Field with the actual input control.",
+      "Keep validation orchestration in the consumer.",
+    ],
+    summary:
+      "Provide the wrapper contract for labels, hints, errors, and child controls in shared forms.",
+  },
+  FilterBar: {
+    exampleCode: `<FilterBar><Input type="search" placeholder="Filter components" /></FilterBar>`,
+    notes: [
+      "Use FilterBar as a layout wrapper for filtering controls.",
+      "Keep actual filter logic and state in the page.",
+    ],
+    summary:
+      "Render the shared search-and-filter container for collection pages and dense catalog views.",
+  },
+  FontAssets: {
+    exampleCode: `<Fragment slot="head"><FontAssets /></Fragment>`,
+    notes: [
+      "Render it once per document.",
+      "Keep font-origin and privacy decisions consumer-owned.",
+    ],
+    summary:
+      "Inject the shared font-face declarations used by the Snurble typography contract.",
+  },
+  FormError: {
+    exampleCode: `<FormError id="email-error">Enter a valid email address.</FormError>`,
+    notes: [
+      "Render FormError only when validation fails.",
+      "Reference it with aria-describedby and aria-invalid.",
+    ],
+    summary:
+      "Render validation feedback with the shared error color and spacing treatment.",
+  },
+  FormHint: {
+    exampleCode: `<FormHint id="email-hint">We only use this for release updates.</FormHint>`,
+    notes: [
+      "Keep hint text short and instructional.",
+      "Reference it with aria-describedby on the field.",
+    ],
+    summary:
+      "Render supporting field guidance that explains acceptable values or expected formatting.",
+  },
+  Hero: {
+    exampleCode: `<Hero title="Button" lede="Primary shared action control." />`,
+    notes: [
+      "Use Hero for top-of-page intros, not repeated in-page headings.",
+      "Keep ledes short enough to scan quickly.",
+    ],
+    summary:
+      "Render the page-level introduction block for landing pages, guides, and component docs.",
+  },
+  IconButton: {
+    exampleCode: `<IconButton ariaLabel="Open menu"><span aria-hidden="true">☰</span></IconButton>`,
+    notes: [
+      "Always pass ariaLabel for accessible naming.",
+      "Reserve icon-only controls for compact secondary actions.",
+    ],
+    summary:
+      "Render a compact icon-only action with shared focus, hover, and press treatment.",
+  },
+  Input: {
+    exampleCode: `<Input type="email" name="email" placeholder="matt@example.com" />`,
+    notes: [
+      "Use Field for labels, hints, and errors around the control.",
+      "Pass native input attributes through from the consumer.",
+    ],
+    summary:
+      "Render the shared single-line text input surface and typography treatment.",
+  },
+  JsonLd: {
+    exampleCode: `<JsonLd jsonld={profileSchema} />`,
+    notes: [
+      "Only publish intentional data that should be public.",
+      "Non-serializable input should fail fast rather than silently degrade.",
+    ],
+    summary:
+      "Publish structured data in the document head from a JSON-serializable value.",
+  },
+  Layout: {
+    exampleCode: `<Layout title="Button docs"><main>...</main></Layout>`,
+    notes: [
+      "Use the head slot for route-owned metadata.",
+      "Keep favicons, theme-color, and app-specific head tags consumer-owned.",
+    ],
+    summary:
+      "Own the document shell and head slot while leaving page-specific metadata and route policies in the consumer.",
+  },
+  LinkButton: {
+    exampleCode: `<LinkButton href="/components/button">Button docs</LinkButton>`,
+    notes: [
+      "Use LinkButton for navigation rather than form submission.",
+      "Set external when linking to a new tab target.",
+    ],
+    summary:
+      "Render navigation styled like a button without collapsing link semantics into a click handler.",
+  },
+  MetaList: {
+    exampleCode: `<MetaList items={[{ label: "Status", value: "Stable" }]} />`,
+    notes: [
+      "Use MetaList for dense supporting facts rather than long prose.",
+      "Prefer short single-line values.",
+    ],
+    summary:
+      "Display compact metadata rows for dates, labels, and secondary facts that should scan quickly.",
+  },
+  PageShell: {
+    exampleCode: `<PageShell class="flex flex-col gap-8"><slot /></PageShell>`,
+    notes: [
+      "Use it as the main content container for full pages.",
+      "Let local pages decide section order and surrounding landmarks.",
+    ],
+    summary:
+      "Provide the shared page-width and vertical rhythm wrapper used by docs pages and app-level content surfaces.",
+  },
+  Pagination: {
+    exampleCode: `<Pagination currentPage={2} totalPages={8} baseUrl="/components?page=" />`,
+    notes: [
+      "Use real URLs instead of button handlers.",
+      "Keep currentPage and totalPages page-owned.",
+    ],
+    summary:
+      "Render previous/next and page-link navigation for paginated collections.",
+  },
+  Panel: {
+    exampleCode: `<Panel variant="bordered"><p>Panel content</p></Panel>`,
+    notes: [
+      "Use bordered panels for reference content and elevated panels for featured content.",
+      "Keep structural page layout outside the panel itself.",
+    ],
+    summary:
+      "Provide the shared bordered or elevated surface wrapper for examples, cards, and supporting content.",
+  },
+  Popover: {
+    exampleCode: `<Popover label="Details">Popover content</Popover>`,
+    notes: [
+      "Use Popover for small supporting content blocks.",
+      "Do not hide critical workflow steps inside a popover.",
+    ],
+    summary:
+      "Render a lightweight anchored overlay for brief contextual information.",
+  },
+  ProfileHero: {
+    exampleCode: `<ProfileHero name="Matt Riley" subtitle="Senior Software Engineer" avatarSrc={avatar} avatarAlt="Matt Riley" />`,
+    notes: [
+      "Keep longer biography copy outside the primitive.",
+      "Use a meaningful avatarAlt string rather than decorative alt text.",
+    ],
+    summary:
+      "Render the shared profile banner pattern for name, subtitle, and avatar presentation.",
+  },
+  ProjectCard: {
+    exampleCode: `<ProjectCard title="Snurble" description="Shared Astro design system" href="/projects/snurble" />`,
+    notes: [
+      "Use short project descriptions that scan quickly.",
+      "Keep collection sorting and filtering page-owned.",
+    ],
+    summary:
+      "Render a single project summary card while keeping selection, ranking, and data fetch logic outside the component.",
+  },
+  ProjectGrid: {
+    exampleCode: `<ProjectGrid><ProjectCard ... /></ProjectGrid>`,
+    notes: [
+      "Compose ProjectGrid with ProjectCard children.",
+      "Let the page own surrounding headings and empty states.",
+    ],
+    summary:
+      "Lay out project cards in the shared responsive grid used by portfolio-style pages.",
+  },
+  RadioGroup: {
+    exampleCode: `<RadioGroup name="channel" options={channelOptions} />`,
+    notes: [
+      "Use RadioGroup when all choices should stay visible.",
+      "Keep option labels and values consumer-owned.",
+    ],
+    summary:
+      "Render a grouped single-choice input set with consistent spacing and labeling.",
+  },
+  Section: {
+    exampleCode: `<Section title="Overview" headingId="overview-heading"><p>...</p></Section>`,
+    notes: [
+      "Always pass a stable headingId so other navigation can target it.",
+      "Prefer multiple sections over one long undifferentiated content block.",
+    ],
+    summary:
+      "Create titled content sections with a stable heading contract and optional decoration control.",
+  },
+  Select: {
+    exampleCode: `<Select id="category" name="category"><option>Docs</option></Select>`,
+    notes: [
+      "Use Select for longer or denser choice lists.",
+      "Prefer RadioGroup when all options should remain visible.",
+    ],
+    summary:
+      "Render the shared select control wrapper for compact choice lists.",
+  },
+  SeoMeta: {
+    exampleCode: `<SeoMeta slot="head" title="Docs" description="Component reference" url="https://example.com/docs" />`,
+    notes: [
+      "Use absolute URLs for canonical and image fields.",
+      "Keep route-specific copy and canonical ownership in the consumer.",
+    ],
+    summary:
+      "Emit Open Graph and Twitter metadata from route-owned absolute URL inputs.",
+  },
+  ServiceWorker: {
+    exampleCode: `<ServiceWorker src="/sw.js" scope="/" />`,
+    notes: [
+      "Treat service worker registration as additive.",
+      "Do not assume every consumer wants offline behavior.",
+    ],
+    summary:
+      "Register a PWA service worker from the shell without changing the surrounding layout API.",
+  },
+  Skeleton: {
+    exampleCode: `<Skeleton width="100%" height="2.5rem" />`,
+    notes: [
+      "Use Skeleton only while real content is pending.",
+      "Match the final content shape as closely as possible.",
+    ],
+    summary:
+      "Render a loading placeholder surface that matches the package spacing and radius contract.",
+  },
+  SkillIcon: {
+    exampleCode: `<SkillIcon name="TypeScript" icon="TypeScript" />`,
+    notes: [
+      "Use accessible labels for icon-only affordances.",
+      "Keep skill taxonomy ownership in the consumer.",
+    ],
+    summary:
+      "Render a single skill or technology badge with the shared icon-and-label treatment.",
+  },
+  SkillIconList: {
+    exampleCode: `<SkillIconList><SkillIcon ... /></SkillIconList>`,
+    notes: [
+      "Compose SkillIconList with SkillIcon children.",
+      "Prefer short, scan-friendly skill labels.",
+    ],
+    summary:
+      "Arrange multiple skill icons in the shared compact layout used by profile and experience pages.",
+  },
+  SkipLink: {
+    exampleCode: `<SkipLink href="#main-content">Skip to main content</SkipLink>`,
+    notes: [
+      "Use only internal hash targets.",
+      "Make the destination focusable when it is not normally tabbable.",
+    ],
+    summary:
+      "Provide a hidden-until-focus anchor that helps keyboard users jump directly to main content.",
+  },
+  SocialLinks: {
+    exampleCode: `<SocialLinks links={links} />`,
+    notes: [
+      "Pass accessible labels for each link.",
+      "Let the consumer choose which networks to expose.",
+    ],
+    summary:
+      "Render the package-owned social link list with semantic navigation and focus treatment.",
+  },
+  SortIndicator: {
+    exampleCode: `<SortIndicator direction="ascending" />`,
+    notes: [
+      "Pair SortIndicator with a clickable header or navigation control.",
+      "Keep sorting state and behavior outside the primitive.",
+    ],
+    summary:
+      "Render sort direction affordance for sortable table or list headers.",
+  },
+  Stack: {
+    exampleCode: `<Stack space={4}><p>First</p><p>Second</p></Stack>`,
+    notes: [
+      "Use Stack to normalize spacing between siblings.",
+      "Keep semantic structure in the child elements themselves.",
+    ],
+    summary:
+      "Apply consistent vertical spacing between related elements without page-specific wrapper CSS.",
+  },
+  StatCard: {
+    exampleCode: `<StatCard title="Published components" value="54" trend="+5 this month" />`,
+    notes: [
+      "Use StatCard when the primary value should dominate the presentation.",
+      "Keep interpretation and surrounding narrative outside the card.",
+    ],
+    summary:
+      "Render a headline metric with optional trend or supporting context for scan-friendly data display.",
+  },
+  Switch: {
+    exampleCode: `<Switch id="announcements" name="announcements" label="Enable announcements" />`,
+    notes: [
+      "Use Switch for settings toggles that read as on/off.",
+      "Pair it with surrounding context that explains the effect.",
+    ],
+    summary:
+      "Render the shared immediate-toggle switch control for settings-style affordances.",
+  },
+  TableOfContents: {
+    exampleCode: `<TableOfContents items={tocItems} />`,
+    notes: [
+      "Use it only when the page has enough sections to justify navigation.",
+      "Generate items from page-owned headings or route content.",
+    ],
+    summary:
+      "Render a page-local heading index for long-form docs and guide pages.",
+  },
+  Tabs: {
+    exampleCode: `<Tabs tabs={tabs} />`,
+    notes: [
+      "Provide stable ids for each tab/panel pair.",
+      "Keep tab labels short enough to scan quickly.",
+    ],
+    summary:
+      "Render a named-panel disclosure pattern for switching between related views or content groups.",
+  },
+  Textarea: {
+    exampleCode: `<Textarea name="message" rows={4} placeholder="Tell us more..." />`,
+    notes: [
+      "Use Textarea for longer freeform input.",
+      "Keep validation feedback outside the control surface.",
+    ],
+    summary:
+      "Render the shared multiline text-entry control without taking over validation logic.",
+  },
+  Tooltip: {
+    exampleCode: `<Tooltip text="Copy install command"><button type="button">Copy</button></Tooltip>`,
+    notes: [
+      "Use Tooltip for supplemental, non-essential copy only.",
+      "Never hide critical instructions in a tooltip.",
+    ],
+    summary:
+      "Render a small hover or focus tooltip for supplemental descriptions of compact controls.",
+  },
+} as const satisfies Record<ComponentName, ComponentDocContent>;
+
+export const componentDocs = componentDocCatalog.map((entry) => ({
+  ...entry,
+  ...componentContentByName[entry.name],
+})) satisfies readonly ComponentDocEntry[];

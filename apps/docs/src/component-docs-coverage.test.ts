@@ -3,7 +3,11 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { componentDocCatalog, llmHelperDoc } from "./component-docs/registry";
+import {
+  componentDocCatalog,
+  componentDocs,
+  llmHelperDoc,
+} from "./component-docs/registry";
 
 const repoRoot = resolve(import.meta.dirname, "../../..");
 const uiAstroIndexPath = resolve(repoRoot, "packages/ui-astro/src/index.ts");
@@ -26,5 +30,15 @@ describe("component docs coverage", () => {
 
     expect(documentedExports).toStrictEqual(runtimeExports);
     expect(new Set(documentedExports).size).toBe(documentedExports.length);
+  });
+
+  it("hydrates every catalog seed into a summary, notes, and example snippet", () => {
+    expect(componentDocs).toHaveLength(componentDocCatalog.length);
+
+    for (const entry of componentDocs) {
+      expect(entry.summary.length).toBeGreaterThan(24);
+      expect(entry.notes.length).toBeGreaterThan(0);
+      expect(entry.exampleCode).toContain("<");
+    }
   });
 });

@@ -466,7 +466,7 @@ describe("ui-astro package", () => {
     const globalCss = await readRepoFile("apps/docs/src/styles/global.css");
 
     expect(homepage).toContain(
-      'import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";'
+      'import {\n  Badge,\n  CodeSnippet,\n  Hero,\n  PageShell,\n  Panel,\n  Section,\n  Stack,\n  StatCard,\n} from "@matt-riley/ui-astro";'
     );
     expect(homepage).toContain(
       'import BaseLayout from "../layouts/BaseLayout.astro";'
@@ -486,6 +486,7 @@ describe("ui-astro package", () => {
       '<Section title="Documentation map" headingId="docs-map-heading" variant="title">'
     );
     expect(homepage).toContain("Current package surface");
+    expect(homepage).toContain("Component expansion stages");
     expect(homepage).toContain(
       '<Section title="Adoption and publishing" headingId="adoption-publishing-heading" variant="title">'
     );
@@ -494,6 +495,14 @@ describe("ui-astro package", () => {
     expect(homepage).toContain("Profile/social primitives");
     expect(homepage).toContain("Project primitives");
     expect(homepage).toContain("Experience primitives");
+    expect(homepage).toContain("Actions and status");
+    expect(homepage).toContain("Navigation and disclosure");
+    expect(homepage).toContain("Form foundation");
+    expect(homepage).toContain("Overlays and menus");
+    expect(homepage).toContain("Data display");
+    expect(homepage).toContain("56 Astro primitives");
+    expect(homepage).toContain("Stage 1");
+    expect(homepage).toContain("Stage 5");
     expect(homepage).toContain("Install the shared packages");
     expect(homepage).toContain("Next documents to read");
     expect(homepage).toContain(

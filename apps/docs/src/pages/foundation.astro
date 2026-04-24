@@ -1,5 +1,5 @@
 ---
-import { Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import { Badge, Hero, PageShell, Panel, Section, Stack, StatCard } from "@matt-riley/ui-astro";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { foundationLlmPage } from "../llm/pages/foundation";
@@ -38,6 +38,41 @@ const foundationCoverage = [
     docsHref: "/experience-primitives",
     note: "Shared timeline and skill presentation primitives for experience-heavy pages.",
     primitives: "ExperienceCard, ExperienceList, SkillIcon, SkillIconList",
+    status: "Shipped",
+  },
+  {
+    area: "Actions and status",
+    docsHref: "/foundation",
+    note: "Stage 1 established the shared action vocabulary used by docs, adopters, and future app surfaces.",
+    primitives: "Button, LinkButton, IconButton, Badge, Alert, Callout, EmptyState, Skeleton",
+    status: "Shipped",
+  },
+  {
+    area: "Navigation and disclosure",
+    docsHref: "/foundation",
+    note: "Stage 2 added navigation helpers and disclosure patterns for richer information architecture.",
+    primitives: "Breadcrumbs, Tabs, Accordion, Pagination, TableOfContents",
+    status: "Shipped",
+  },
+  {
+    area: "Form foundation",
+    docsHref: "/foundation",
+    note: "Stage 3 introduced reusable field and control primitives while keeping validation ownership in the consumer.",
+    primitives: "Field, Input, Textarea, Checkbox, RadioGroup, Select, Switch, FormHint, FormError",
+    status: "Shipped",
+  },
+  {
+    area: "Overlays and menus",
+    docsHref: "/foundation",
+    note: "Stage 4 added higher-interaction primitives with focus management, keyboard support, and Astro-friendly boundaries.",
+    primitives: "Dialog, Drawer, Popover, DropdownMenu, Tooltip",
+    status: "Shipped",
+  },
+  {
+    area: "Data display",
+    docsHref: "/foundation",
+    note: "Stage 5 completed the shared surface with data-display and app-shell crossover primitives.",
+    primitives: "StatCard, DescriptionList, FilterBar, SortIndicator",
     status: "Shipped",
   },
   {
@@ -83,12 +118,50 @@ const extractionStatusSummary = [
   {
     area: "Foundation families",
     status: "Shipped",
-    summary: "Shell, profile/social, project, and experience primitive families all have dedicated shared-package coverage and docs pages.",
+    summary: "Shell, profile/social, project, experience, and all five component-expansion stages now ship from the shared package surface.",
   },
   {
     area: "Remaining boundaries",
     status: "Relevant",
     summary: "Consumer-owned data fetching, ranking, README rendering, and app-specific metadata policy still stay outside the shared package surface.",
+  },
+];
+
+const componentStages = [
+  {
+    components: ["Button", "LinkButton", "IconButton", "Badge", "Alert", "Callout", "EmptyState", "Skeleton"],
+    count: 8,
+    id: "stage-1",
+    summary: "Low-risk, high-reuse action primitives that established the shared interaction vocabulary.",
+    title: "Stage 1 — Actions and status",
+  },
+  {
+    components: ["Breadcrumbs", "Tabs", "Accordion", "Pagination", "TableOfContents"],
+    count: 5,
+    id: "stage-2",
+    summary: "Navigation helpers and disclosure patterns for docs and long-form content surfaces.",
+    title: "Stage 2 — Navigation and disclosure",
+  },
+  {
+    components: ["Field", "Input", "Textarea", "Checkbox", "RadioGroup", "Select", "Switch", "FormHint", "FormError"],
+    count: 9,
+    id: "stage-3",
+    summary: "A narrow form contract that keeps validation orchestration consumer-owned.",
+    title: "Stage 3 — Form foundation",
+  },
+  {
+    components: ["Dialog", "Drawer", "Popover", "DropdownMenu", "Tooltip"],
+    count: 5,
+    id: "stage-4",
+    summary: "Higher-complexity overlays and menus with focus management, dismissal, and keyboard support.",
+    title: "Stage 4 — Overlays and menus",
+  },
+  {
+    components: ["StatCard", "DescriptionList", "FilterBar", "SortIndicator"],
+    count: 4,
+    id: "stage-5",
+    summary: "Data-display primitives that make the shared package usable for product and app-adjacent pages.",
+    title: "Stage 5 — Data display",
   },
 ];
 ---
@@ -275,6 +348,41 @@ const extractionStatusSummary = [
                     <Stack space={4}>
                       <h3 id={`${note.id}-heading`} class="text-xl font-semibold">{note.title}</h3>
                       <p class="text-sm text-[var(--snurble-text-muted)]">{note.body}</p>
+                    </Stack>
+                  </Panel>
+                </article>
+              ))
+            }
+          </div>
+        </Stack>
+      </Section>
+
+      <Section title="Component expansion stages" headingId="component-expansion-heading" variant="title">
+        <Stack space={6}>
+          <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
+            The shared package no longer stops at the original shell and profile families. These five stages expanded Snurble into a broader UI kit while keeping the contract static-first and consumer boundaries explicit.
+          </p>
+
+          <div class="grid gap-6 lg:grid-cols-3">
+            <StatCard label="Total primitives" value={56} trend="neutral" trendValue="current ui-astro runtime surface" />
+            <StatCard label="Expansion stages" value={5} trend="neutral" trendValue="all shipped" />
+            <StatCard label="Stage-added components" value={31} trend="neutral" trendValue="beyond shell/content foundations" />
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {
+              componentStages.map((stage) => (
+                <article aria-labelledby={`${stage.id}-heading`}>
+                  <Panel variant="bordered" class="h-full">
+                    <Stack space={4}>
+                      <div class="flex items-center justify-between gap-3">
+                        <h3 id={`${stage.id}-heading`} class="text-xl font-semibold">{stage.title}</h3>
+                        <Badge variant="info">{stage.count} components</Badge>
+                      </div>
+                      <p class="text-sm text-[var(--snurble-text-muted)]">{stage.summary}</p>
+                      <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                        {stage.components.map((component) => <li><code>{component}</code></li>)}
+                      </ul>
                     </Stack>
                   </Panel>
                 </article>

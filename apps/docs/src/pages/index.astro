@@ -1,5 +1,14 @@
 ---
-import { CodeSnippet, Hero, PageShell, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import {
+  Badge,
+  CodeSnippet,
+  Hero,
+  PageShell,
+  Panel,
+  Section,
+  Stack,
+  StatCard,
+} from "@matt-riley/ui-astro";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { homeLlmPage } from "../llm/pages/home";
@@ -11,7 +20,7 @@ const documentationAreas = [
     href: "/foundation",
     id: "foundations",
     label: "Foundations",
-    note: "Start with repo roles, foundation coverage, and the current package surface.",
+    note: "Start with repo roles, foundation coverage, and the full five-stage component expansion.",
   },
   {
     href: "/shell-primitives",
@@ -53,7 +62,7 @@ const documentationAreas = [
     href: "/workv2-reference",
     id: "workv2-reference",
     label: "WorkV2 reference",
-    note: "Visual regression baseline for WorkV2 alignment. Each component alongside its acceptance criteria.",
+    note: "Visual regression baseline for WorkV2 alignment. Core reference components stay visible alongside the expanded package surface.",
   },
 ];
 
@@ -83,6 +92,69 @@ const packageFamilies = [
     label: "Experience primitives",
     primitives: ["ExperienceCard", "ExperienceList", "SkillIcon", "SkillIconList"],
   },
+  {
+    id: "actions-status",
+    label: "Actions and status",
+    primitives: ["Button", "LinkButton", "IconButton", "Badge", "Alert", "Callout", "EmptyState", "Skeleton"],
+  },
+  {
+    id: "navigation-disclosure",
+    label: "Navigation and disclosure",
+    primitives: ["Breadcrumbs", "Tabs", "Accordion", "Pagination", "TableOfContents"],
+  },
+  {
+    id: "form-foundation",
+    label: "Form foundation",
+    primitives: ["Field", "Input", "Textarea", "Checkbox", "RadioGroup", "Select", "Switch", "FormHint", "FormError"],
+  },
+  {
+    id: "overlays-menus",
+    label: "Overlays and menus",
+    primitives: ["Dialog", "Drawer", "Popover", "DropdownMenu", "Tooltip"],
+  },
+  {
+    id: "data-display",
+    label: "Data display",
+    primitives: ["StatCard", "DescriptionList", "FilterBar", "SortIndicator"],
+  },
+];
+
+const stageSummaries = [
+  {
+    components: ["Button", "LinkButton", "IconButton", "Badge", "Alert", "Callout", "EmptyState", "Skeleton"],
+    count: 8,
+    id: "stage-1",
+    label: "Stage 1",
+    title: "Actions and status",
+  },
+  {
+    components: ["Breadcrumbs", "Tabs", "Accordion", "Pagination", "TableOfContents"],
+    count: 5,
+    id: "stage-2",
+    label: "Stage 2",
+    title: "Navigation and disclosure",
+  },
+  {
+    components: ["Field", "Input", "Textarea", "Checkbox", "RadioGroup", "Select", "Switch", "FormHint", "FormError"],
+    count: 9,
+    id: "stage-3",
+    label: "Stage 3",
+    title: "Form foundation",
+  },
+  {
+    components: ["Dialog", "Drawer", "Popover", "DropdownMenu", "Tooltip"],
+    count: 5,
+    id: "stage-4",
+    label: "Stage 4",
+    title: "Overlays and menus",
+  },
+  {
+    components: ["StatCard", "DescriptionList", "FilterBar", "SortIndicator"],
+    count: 4,
+    id: "stage-5",
+    label: "Stage 5",
+    title: "Data display",
+  },
 ];
 ---
 
@@ -103,7 +175,7 @@ const packageFamilies = [
           <Hero
             title="Durable foundations for Astro sites"
             variant="display"
-            lede="Snurble packages the shared design-system contract extracted from workv2 into design tokens and 21 Astro primitives. Use this docs site to understand the foundations, browse primitive families, and plan adoption or publishing work without relying on one-off project history."
+            lede="Snurble packages the shared design-system contract extracted from workv2 into design tokens and 56 Astro primitives across five component-expansion stages. Use this docs site to understand the foundations, browse primitive families, and plan adoption or publishing work without relying on one-off project history."
           />
         </Stack>
       </section>
@@ -179,7 +251,7 @@ const packageFamilies = [
       <Section title="Current package surface" headingId="package-surface-heading" variant="title">
         <Stack space={6}>
           <p class="max-w-3xl text-sm text-[var(--snurble-text-muted)]">
-            <code>@matt-riley/ui-astro</code> currently exports 21 primitives organized into durable families. The goal is to make the shared package surface easy to scan before you dive into individual component pages.
+            <code>@matt-riley/ui-astro</code> now exports 56 primitives organized into durable families. The goal is to make the shared package surface easy to scan before you dive into individual component pages.
           </p>
 
           <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
@@ -191,6 +263,41 @@ const packageFamilies = [
                       <h3 id={`${family.id}-surface-heading`} class="text-xl font-semibold">{family.label}</h3>
                       <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
                         {family.primitives.map((primitive) => <li><code>{primitive}</code></li>)}
+                      </ul>
+                    </Stack>
+                  </Panel>
+                </article>
+              ))
+            }
+          </div>
+        </Stack>
+      </Section>
+
+      <Section title="Component expansion stages" headingId="component-stages-heading" variant="title">
+        <Stack space={6}>
+          <div class="grid gap-6 lg:grid-cols-3">
+            <StatCard label="Total stages" value={5} trend="neutral" trendValue="complete" />
+            <StatCard label="Stage primitives" value={31} trend="neutral" trendValue="plus shell/content families" />
+            <StatCard label="Shared package surface" value={56} trend="neutral" trendValue="runtime primitives" />
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {
+              stageSummaries.map((stage) => (
+                <article aria-labelledby={`${stage.id}-heading`}>
+                  <Panel variant="bordered" class="h-full">
+                    <Stack space={4}>
+                      <div class="flex items-center justify-between gap-3">
+                        <div>
+                          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--snurble-accent)]">
+                            {stage.label}
+                          </p>
+                          <h3 id={`${stage.id}-heading`} class="text-xl font-semibold">{stage.title}</h3>
+                        </div>
+                        <Badge variant="info">{stage.count} components</Badge>
+                      </div>
+                      <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                        {stage.components.map((component) => <li><code>{component}</code></li>)}
                       </ul>
                     </Stack>
                   </Panel>

@@ -36,7 +36,13 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
     border-radius: 0.375rem;
     background-color: var(--snurble-surface-badge);
     cursor: pointer;
-    transition: all 150ms ease-out;
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out,
+      transform 150ms ease-out,
+      box-shadow 150ms ease-out,
+      opacity 150ms ease-out;
     outline-offset: 2px;
   }
 
@@ -50,7 +56,7 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
   }
 
   .snurble-icon-button:active:not(:disabled) {
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
 
   .snurble-icon-button--sm {

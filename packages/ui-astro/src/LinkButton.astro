@@ -38,7 +38,13 @@ const { href, variant = "primary", size = "md", external = false, class: classNa
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
-    transition: all 150ms ease-out;
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out,
+      transform 150ms ease-out,
+      box-shadow 150ms ease-out,
+      opacity 150ms ease-out;
     outline-offset: 2px;
   }
 
@@ -47,8 +53,8 @@ const { href, variant = "primary", size = "md", external = false, class: classNa
   }
 
   .snurble-link-button:active {
-    transform: translateY(0);
-    opacity: 0.9;
+    transform: translateY(0) scale(0.96);
+    opacity: 0.96;
   }
 
   .snurble-link-button:focus-visible {

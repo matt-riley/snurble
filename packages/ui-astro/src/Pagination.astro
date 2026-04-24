@@ -124,7 +124,11 @@ const pageNumbers = getPageNumbers(currentPage, totalPages);
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
-    transition: all 150ms ease-out;
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out,
+      opacity 150ms ease-out;
     outline-offset: 2px;
   }
 

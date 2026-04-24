@@ -1,0 +1,109 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  label: string;
+  value: string | number;
+  trend?: "up" | "down" | "neutral";
+  trendValue?: string;
+  icon?: string;
+  href?: string;
+}
+
+const { label, value, trend, trendValue, icon, href, class: className, ...rest } = Astro.props;
+let trendColor = "var(--snurble-text-secondary)";
+if (trend === "up") {
+  trendColor = "var(--snurble-success)";
+} else if (trend === "down") {
+  trendColor = "var(--snurble-error)";
+}
+---
+
+<div class={`stat-card ${className || ""}`} {...rest}>
+  <div class="stat-card-header">
+    {icon && <span class="stat-card-icon" set:html={icon} />}
+    <span class="stat-card-label">{label}</span>
+  </div>
+  <div class="stat-card-body">
+    <span class="stat-card-value">{value}</span>
+    {trendValue && (
+      <span class="stat-card-trend" style={`color: ${trendColor}`}>
+        {trend === "up" && "↑"}
+        {trend === "down" && "↓"}
+        {trend === "neutral" && "→"}
+        {trendValue}
+      </span>
+    )}
+  </div>
+</div>
+
+<style>
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-spacing-sm);
+    padding: var(--snurble-spacing-md);
+    background: var(--snurble-surface-secondary);
+    border: 1px solid var(--snurble-border);
+    border-radius: var(--snurble-radius);
+    transition: all 200ms ease-out;
+  }
+
+  .stat-card:hover {
+    background: var(--snurble-surface-tertiary);
+    border-color: var(--snurble-accent);
+  }
+
+  .stat-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-spacing-xs);
+    font-size: 0.875rem;
+    color: var(--snurble-text-secondary);
+  }
+
+  .stat-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .stat-card-label {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-card-body {
+    display: flex;
+    align-items: baseline;
+    gap: var(--snurble-spacing-sm);
+  }
+
+  .stat-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--snurble-text);
+    line-height: 1;
+  }
+
+  .stat-card-trend {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .stat-card {
+      background: var(--snurble-surface);
+      border-color: var(--snurble-border);
+    }
+
+    .stat-card:hover {
+      background: var(--snurble-surface-secondary);
+    }
+  }
+</style>

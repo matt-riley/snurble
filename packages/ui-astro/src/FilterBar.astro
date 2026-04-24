@@ -1,0 +1,104 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  placeholder?: string;
+  variant?: "default" | "compact";
+}
+
+const { placeholder = "Search or filter...", variant = "default", class: className, ...rest } = Astro.props;
+---
+
+<div class={`filter-bar filter-bar-${variant} ${className || ""}`} data-component="filter-bar" {...rest}>
+  <div class="filter-bar-search">
+    <svg class="filter-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <input
+      type="search"
+      class="filter-bar-input"
+      placeholder={placeholder}
+      aria-label="Search or filter"
+    />
+  </div>
+  <div class="filter-bar-controls">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-spacing-md);
+    padding: var(--snurble-spacing-md);
+    background: var(--snurble-surface-secondary);
+    border: 1px solid var(--snurble-border);
+    border-radius: var(--snurble-radius);
+  }
+
+  .filter-bar-search {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-spacing-sm);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .filter-bar-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: var(--snurble-text-secondary);
+  }
+
+  .filter-bar-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--snurble-text);
+    outline: none;
+  }
+
+  .filter-bar-input::placeholder {
+    color: var(--snurble-text-secondary);
+  }
+
+  .filter-bar-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-spacing-sm);
+  }
+
+  .filter-bar-compact {
+    padding: var(--snurble-spacing-sm);
+    gap: var(--snurble-spacing-sm);
+  }
+
+  .filter-bar-compact .filter-bar-input {
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 48rem) {
+    .filter-bar {
+      flex-direction: column;
+      gap: var(--snurble-spacing-sm);
+    }
+
+    .filter-bar-controls {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .filter-bar {
+      background: var(--snurble-surface);
+      border-color: var(--snurble-border);
+    }
+  }
+</style>

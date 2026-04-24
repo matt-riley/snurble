@@ -103,6 +103,18 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain(
       'export { default as Tooltip } from "./Tooltip.astro";'
     );
+    expect(indexTs).toContain(
+      'export { default as StatCard } from "./StatCard.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as DescriptionList } from "./DescriptionList.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as FilterBar } from "./FilterBar.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as SortIndicator } from "./SortIndicator.astro";'
+    );
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');

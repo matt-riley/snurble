@@ -1,0 +1,62 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"dl"> {
+  items: {
+    term: string;
+    description: string;
+  }[];
+}
+
+const { items, class: className, ...rest } = Astro.props;
+---
+
+<dl class={`description-list ${className || ""}`} {...rest}>
+  {items.map((item) => (
+    <>
+      <dt class="description-list-term">{item.term}</dt>
+      <dd class="description-list-description">{item.description}</dd>
+    </>
+  ))}
+</dl>
+
+<style>
+  .description-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--snurble-spacing-sm) var(--snurble-spacing-md);
+    margin: 0;
+    padding: 0;
+  }
+
+  .description-list-term {
+    font-weight: 600;
+    color: var(--snurble-text);
+  }
+
+  .description-list-description {
+    margin: 0;
+    color: var(--snurble-text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 48rem) {
+    .description-list {
+      grid-template-columns: 1fr;
+      gap: var(--snurble-spacing-md);
+    }
+
+    .description-list-term {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--snurble-text-secondary);
+    }
+
+    .description-list-description {
+      font-size: 1rem;
+      color: var(--snurble-text);
+      margin-bottom: var(--snurble-spacing-md);
+    }
+  }
+</style>

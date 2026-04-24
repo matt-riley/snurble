@@ -1,6 +1,6 @@
 # Snurble
 
-Snurble is an Astro design-system monorepo for durable site foundations. The repository packages shared design tokens and reusable Astro primitives, with a docs app that explains the foundations, primitive families, adoption path, and release workflow.
+Snurble is an Astro design-system monorepo for durable site foundations. The repository packages shared design tokens and reusable Astro primitives, with a docs app that now leads with component-by-component reference routes, the LLM helper API, and the release and adoption guides that support package rollout.
 
 The root workspace is private, but the current shared surface is split into two publishable packages:
 
@@ -39,6 +39,8 @@ Reusable Astro UI primitives extracted into a shared contract. The package curre
 
 See [`packages/ui-astro/README.md`](./packages/ui-astro/README.md) for the full surface area, install guidance, and consumer rules.
 
+The docs site now exposes these primitives through a component index and dedicated per-component reference pages rather than a showcase-style landing surface.
+
 ## Use the packages in a consumer
 
 Point the `@matt-riley` scope at GitHub Packages, then install explicit package versions:
@@ -52,8 +54,10 @@ Point the `@matt-riley` scope at GitHub Packages, then install explicit package 
 pnpm add @matt-riley/design-tokens@<version> @matt-riley/ui-astro@<version>
 ```
 
-For adoption guidance, component documentation, and release expectations, use the docs site:
+For package discovery, component documentation, and release expectations, start with the docs site:
 
+- Component index: https://snurble.mattriley.tools/components
+- LLM helper API: https://snurble.mattriley.tools/llm-helper
 - Foundation guide: https://snurble.mattriley.tools/foundation
 - Adoption and migration: https://snurble.mattriley.tools/mattriley-tools-migration
 - Release readiness: https://snurble.mattriley.tools/release-readiness
@@ -106,4 +110,5 @@ pnpm run build
 
 - [`packages/tokens/README.md`](./packages/tokens/README.md)
 - [`packages/ui-astro/README.md`](./packages/ui-astro/README.md)
+- https://snurble.mattriley.tools/components
 - https://snurble.mattriley.tools

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.8.0...ui-astro-v1.9.0) (2026-04-24)
+
+
+### Features
+
+* **ui-astro:** polish action controls ([bebf128](https://github.com/matt-riley/snurble/commit/bebf12843186f583e4ee7acbf3d876342277ba90))
+* **ui-astro:** refine surfaces and overlays ([5071630](https://github.com/matt-riley/snurble/commit/5071630f2a5531411c2a2e81dd9a6ad585a8067e))
+* **ui-astro:** refine typography and imagery ([978ebf6](https://github.com/matt-riley/snurble/commit/978ebf6c88ef1c974eeff4950212c9fe54a6a0c1))
+* **ui-astro:** tighten form and navigation affordances ([5022c01](https://github.com/matt-riley/snurble/commit/5022c0196e86d2fe8cb9fd2f65cae693caf658b5))
+
 ## [1.8.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.7.0...ui-astro-v1.8.0) (2026-04-24)
 
 

@@ -501,6 +501,7 @@ describe("ui-astro package", () => {
 
     expect(statCardAstro).toContain('class="stat-card-surface"');
     expect(statCardAstro).toContain('class="stat-card-meta"');
+    expect(statCardAstro).toContain("<a href={href}");
     expect(statCardAstro).toContain("linear-gradient(180deg");
     expect(statCardAstro).toContain("backdrop-filter: blur(16px);");
     expect(statCardAstro).toContain("font-size: clamp(2.5rem, 6vw, 3.75rem);");

@@ -17,7 +17,44 @@
   --snurble-accent: var(--snurble-palette-blue);
   --snurble-accent-success: var(--snurble-palette-green);
   --snurble-accent-danger: var(--snurble-palette-red);
+  --snurble-accent-warning: var(--snurble-palette-yellow);
   --snurble-focus-ring: var(--snurble-palette-green);
+  --snurble-on-accent: var(--snurble-palette-crust);
+  --snurble-on-warning: var(--snurble-palette-crust);
+  --snurble-on-strong: var(--snurble-palette-crust);
+  --snurble-on-brand-primary: var(--snurble-palette-crust);
+  --snurble-switch-thumb: var(--snurble-palette-text);
+
+  --snurble-action-primary: linear-gradient(
+    135deg,
+    var(--snurble-palette-blue),
+    var(--snurble-palette-lavender)
+  );
+  --snurble-action-primary-hover: linear-gradient(
+    135deg,
+    var(--snurble-palette-sky),
+    var(--snurble-palette-mauve)
+  );
+  --snurble-action-primary-text: var(--snurble-palette-crust);
+  --snurble-action-primary-border: rgb(137 180 250 / 0.75);
+  --snurble-action-secondary: rgb(88 91 112 / 0.72);
+  --snurble-action-secondary-hover: rgb(69 71 90 / 0.92);
+  --snurble-action-secondary-text: var(--snurble-text);
+  --snurble-action-secondary-border: rgb(186 194 222 / 0.2);
+  --snurble-action-danger: linear-gradient(
+    135deg,
+    var(--snurble-palette-red),
+    var(--snurble-palette-maroon)
+  );
+  --snurble-action-danger-hover: linear-gradient(
+    135deg,
+    var(--snurble-palette-maroon),
+    var(--snurble-palette-red)
+  );
+  --snurble-action-danger-text: var(--snurble-palette-crust);
+  --snurble-action-danger-border: rgb(243 139 168 / 0.72);
+  --snurble-action-shadow: 0 0.75rem 1.75rem rgb(17 17 27 / 0.3);
+  --snurble-action-shadow-hover: 0 1rem 2.5rem rgb(17 17 27 / 0.42);
 
   --snurble-brand-primary: var(--snurble-palette-peach);
   --snurble-brand-heading: var(--snurble-palette-mauve);
@@ -40,9 +77,29 @@
 
     /* Darker Peach for brand primary to meet 3:1 contrast for large text in Latte */
     --snurble-brand-primary: #d65d0e;
+    --snurble-on-accent: #ffffff;
+    --snurble-on-warning: #11111b;
+    --snurble-on-strong: #ffffff;
+    --snurble-on-brand-primary: #11111b;
+    --snurble-switch-thumb: #ffffff;
 
     --snurble-border: rgb(156 160 176 / 0.45);
     --snurble-border-strong: rgb(140 143 161 / 0.75);
     --snurble-selection: rgb(30 102 245 / 0.2);
+
+    --snurble-action-primary: linear-gradient(135deg, #1e66f5, #6c4bd8);
+    --snurble-action-primary-hover: linear-gradient(135deg, #174fbf, #5a32c7);
+    --snurble-action-primary-text: #ffffff;
+    --snurble-action-primary-border: rgb(30 102 245 / 0.5);
+    --snurble-action-secondary: rgb(239 241 245 / 0.88);
+    --snurble-action-secondary-hover: rgb(230 233 239 / 0.96);
+    --snurble-action-secondary-text: var(--snurble-palette-text);
+    --snurble-action-secondary-border: rgb(76 79 105 / 0.22);
+    --snurble-action-danger: linear-gradient(135deg, #d20f39, #b10b2e);
+    --snurble-action-danger-hover: linear-gradient(135deg, #b10b2e, #970824);
+    --snurble-action-danger-text: #ffffff;
+    --snurble-action-danger-border: rgb(210 15 57 / 0.5);
+    --snurble-action-shadow: 0 0.75rem 1.75rem rgb(76 79 105 / 0.16);
+    --snurble-action-shadow-hover: 0 1rem 2.25rem rgb(76 79 105 / 0.24);
   }
 }

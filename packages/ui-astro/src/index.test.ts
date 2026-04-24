@@ -159,6 +159,42 @@ describe("ui-astro package", () => {
     expect(layoutAstro).toContain("class:list");
   });
 
+  it("keeps action primitives on readable semantic action tokens", async () => {
+    const actionPrimitivePaths = [
+      "packages/ui-astro/src/Button.astro",
+      "packages/ui-astro/src/IconButton.astro",
+      "packages/ui-astro/src/LinkButton.astro",
+    ];
+
+    for (const primitivePath of actionPrimitivePaths) {
+      const primitiveSource = await readRepoFile(primitivePath);
+
+      expect(primitiveSource).toContain("var(--snurble-action-primary)");
+      expect(primitiveSource).toContain("var(--snurble-action-primary-text)");
+      expect(primitiveSource).toContain("var(--snurble-action-secondary)");
+      expect(primitiveSource).toContain("var(--snurble-action-danger)");
+      expect(primitiveSource).not.toContain("var(--snurble-base)");
+    }
+  });
+
+  it("does not reference the old undefined base color token", async () => {
+    const tokenConsumerPaths = [
+      "packages/ui-astro/src/Badge.astro",
+      "packages/ui-astro/src/Button.astro",
+      "packages/ui-astro/src/IconButton.astro",
+      "packages/ui-astro/src/LinkButton.astro",
+      "packages/ui-astro/src/Pagination.astro",
+      "packages/ui-astro/src/Switch.astro",
+      "packages/ui-astro/src/Tooltip.astro",
+    ];
+
+    for (const tokenConsumerPath of tokenConsumerPaths) {
+      const tokenConsumerSource = await readRepoFile(tokenConsumerPath);
+
+      expect(tokenConsumerSource).not.toContain("var(--snurble-base)");
+    }
+  });
+
   it("implements a neutral PageShell container for width and padding only", async () => {
     const pageShellAstro = await readRepoFile(
       "packages/ui-astro/src/PageShell.astro"

@@ -29,15 +29,17 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     padding: 0;
     border: 1px solid transparent;
-    border-radius: 0.375rem;
-    background-color: var(--snurble-surface-badge);
+    border-radius: 999px;
+    background: var(--snurble-action-secondary);
+    color: var(--snurble-action-secondary-text);
     cursor: pointer;
+    box-shadow: var(--snurble-action-shadow);
     transition:
-      background-color 150ms ease-out,
+      background 180ms ease-out,
       border-color 150ms ease-out,
       color 150ms ease-out,
       transform 150ms ease-out,
@@ -47,40 +49,48 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
   }
 
   .snurble-icon-button:focus-visible {
-    outline: 2px solid var(--snurble-accent-success);
+    outline: 3px solid var(--snurble-focus-ring);
   }
 
   .snurble-icon-button:hover:not(:disabled) {
-    background-color: var(--snurble-surface-card);
-    transform: scale(1.05);
+    background: var(--snurble-action-secondary-hover);
+    box-shadow: var(--snurble-action-shadow-hover);
+    transform: translateY(-1px);
   }
 
   .snurble-icon-button:active:not(:disabled) {
-    transform: scale(0.96);
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--snurble-action-shadow);
   }
 
   .snurble-icon-button--sm {
-    width: 2rem;
-    height: 2rem;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .snurble-icon-button--lg {
-    width: 3rem;
-    height: 3rem;
+    width: 3.25rem;
+    height: 3.25rem;
   }
 
   .snurble-icon-button--primary {
-    background-color: var(--snurble-accent);
-    color: var(--snurble-base);
+    background: var(--snurble-action-primary);
+    color: var(--snurble-action-primary-text);
+    border-color: var(--snurble-action-primary-border);
   }
 
   .snurble-icon-button--primary:hover:not(:disabled) {
-    background-color: var(--snurble-brand-primary);
+    background: var(--snurble-action-primary-hover);
   }
 
   .snurble-icon-button--danger {
-    background-color: var(--snurble-accent-danger);
-    color: var(--snurble-base);
+    background: var(--snurble-action-danger);
+    color: var(--snurble-action-danger-text);
+    border-color: var(--snurble-action-danger-border);
+  }
+
+  .snurble-icon-button--danger:hover:not(:disabled) {
+    background: var(--snurble-action-danger-hover);
   }
 
   .snurble-icon-button--disabled,

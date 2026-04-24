@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   validate:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@3fbb1be103ed7978d9755fb2e1931a1d94b51d4f # v1
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@88b73ab838aa7ba439a7ec594717bba43014e5d4 # v1
     with:
       node-version: "24"
       package-manager: pnpm
@@ -24,7 +24,7 @@ jobs:
       node_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
   typecheck:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@3fbb1be103ed7978d9755fb2e1931a1d94b51d4f # v1
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@88b73ab838aa7ba439a7ec594717bba43014e5d4 # v1
     with:
       node-version: "24"
       package-manager: pnpm

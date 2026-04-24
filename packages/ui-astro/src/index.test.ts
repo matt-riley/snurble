@@ -530,6 +530,21 @@ describe("ui-astro package", () => {
     expect(globalCss).toContain(".docs-shell::before");
   });
 
+  it("refreshes StatCard with layered surfaces and stable metadata layout", async () => {
+    const statCardAstro = await readRepoFile(
+      "packages/ui-astro/src/StatCard.astro"
+    );
+
+    expect(statCardAstro).toContain('class="stat-card-surface"');
+    expect(statCardAstro).toContain('class="stat-card-meta"');
+    expect(statCardAstro).toContain("<a href={href}");
+    expect(statCardAstro).toContain("linear-gradient(180deg");
+    expect(statCardAstro).toContain("backdrop-filter: blur(16px);");
+    expect(statCardAstro).toContain("font-size: clamp(2.5rem, 6vw, 3.75rem);");
+    expect(statCardAstro).toContain("flex-wrap: wrap;");
+    expect(statCardAstro).toContain("@media (prefers-reduced-motion: reduce)");
+  });
+
   it("adds a migration cookbook page for durable consumer adoption guidance", async () => {
     const migrationPage = await readRepoFile(
       "apps/docs/src/pages/mattriley-tools-migration.astro"

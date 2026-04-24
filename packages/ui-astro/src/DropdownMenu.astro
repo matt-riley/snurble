@@ -108,7 +108,10 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
     text-align: left;
     font-size: 0.875rem;
     color: var(--snurble-text);
-    transition: all 150ms ease-out;
+    transition:
+      background-color 150ms ease-out,
+      color 150ms ease-out,
+      opacity 150ms ease-out;
     position: relative;
   }
 

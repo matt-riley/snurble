@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.10.0...ui-astro-v1.11.0) (2026-04-24)
+
+
+### Features
+
+* refresh stat card presentation ([#38](https://github.com/matt-riley/snurble/issues/38)) ([5120547](https://github.com/matt-riley/snurble/commit/5120547c57e2fd22f285b8b56634b2b78bec6f92))
+
 ## [1.10.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.9.0...ui-astro-v1.10.0) (2026-04-24)
 
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.6.0...ui-astro-v1.7.0) (2026-04-24)
+
+
+### Features
+
+* Stage 1 action and status components ([3327a5e](https://github.com/matt-riley/snurble/commit/3327a5e936558d2a550a6362fe42ef06320f0a88))
+* Stage 2 navigation and disclosure primitives ([7a69ebf](https://github.com/matt-riley/snurble/commit/7a69ebfcf015a58ce8cf7daed88a51031a2d2837))
+* Stage 3 form foundation primitives ([51db169](https://github.com/matt-riley/snurble/commit/51db1694b58e5974bafe33141beb467b518289bd))
+
 ## [1.6.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.5.0...ui-astro-v1.6.0) (2026-04-23)
 
 

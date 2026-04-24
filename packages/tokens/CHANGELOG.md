@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.5.0...design-tokens-v1.6.0) (2026-04-24)
+
+
+### Features
+
+* replace showcase docs with component reference routes ([#36](https://github.com/matt-riley/snurble/issues/36)) ([d0314b9](https://github.com/matt-riley/snurble/commit/d0314b97129bc1a25c0ff9acb5e88821cb4a1e57))
+
 ## [1.5.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.4.0...design-tokens-v1.5.0) (2026-04-19)
 
 

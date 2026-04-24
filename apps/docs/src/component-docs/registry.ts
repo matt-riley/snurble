@@ -298,9 +298,13 @@ const componentContentByName = {
       "Render a single experience or role entry in the shared timeline-friendly card style.",
   },
   ExperienceList: {
-    exampleCode: `<ExperienceList><ExperienceCard ... /></ExperienceList>`,
+    exampleCode: `<ExperienceList>
+  <li>
+    <ExperienceCard ... />
+  </li>
+</ExperienceList>`,
     notes: [
-      "Compose ExperienceList with ExperienceCard children.",
+      "Compose ExperienceList with li children that contain ExperienceCard.",
       "Keep sorting and grouping logic page-owned.",
     ],
     summary:
@@ -480,9 +484,13 @@ const componentContentByName = {
       "Render a single project summary card while keeping selection, ranking, and data fetch logic outside the component.",
   },
   ProjectGrid: {
-    exampleCode: `<ProjectGrid><ProjectCard ... /></ProjectGrid>`,
+    exampleCode: `<ProjectGrid>
+  <li>
+    <ProjectCard ... />
+  </li>
+</ProjectGrid>`,
     notes: [
-      "Compose ProjectGrid with ProjectCard children.",
+      "Compose ProjectGrid with li children that contain ProjectCard.",
       "Let the page own surrounding headings and empty states.",
     ],
     summary:
@@ -573,6 +581,8 @@ const componentContentByName = {
     exampleCode: `<SocialLinks links={links} />`,
     notes: [
       "Pass accessible labels for each link.",
+      "Only pass trusted, consumer-validated URLs in each href; vet schemes and reject malformed or untrusted values before rendering SocialLinks.",
+      'Use expected lowercase network keywords for each icon value (for example "github", "linkedin", or "x") because styling is matched via `data-icon*="..."` selectors.',
       "Let the consumer choose which networks to expose.",
     ],
     summary:

@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 25 runtime primitives plus shared LLM helper types:
+The package entrypoint currently exports 33 runtime primitives plus shared LLM helper types:
 
 ### Shell and document primitives
 
@@ -53,6 +53,17 @@ The package entrypoint currently exports 25 runtime primitives plus shared LLM h
 - `CodeSnippet`
 - `DataTable`
 - `MetaList`
+
+### Action and status feedback primitives
+
+- `Button`
+- `IconButton`
+- `LinkButton`
+- `Badge`
+- `Alert`
+- `Callout`
+- `EmptyState`
+- `Skeleton`
 
 ### Content and profile primitives
 
@@ -78,6 +89,8 @@ Typical usage:
 ---
 import {
   AgentDiscoveryHint,
+  Button,
+  Alert,
   Hero,
   Layout,
   PageShell,
@@ -101,6 +114,10 @@ const markdownAlternate = createMarkdownAlternateLink({
       "This shared primitive only exposes hints; route inventories stay consumer-owned.",
     ]}
   />
+  <Hero title="Getting started">
+    <Alert title="Welcome" description="Read the guide below to learn more." />
+  </Hero>
+  <Button>Learn more</Button>
 </Layout>
 ```
 

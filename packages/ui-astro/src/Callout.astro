@@ -1,0 +1,68 @@
+---
+interface Props {
+  title?: string;
+  variant?: "info" | "tip" | "warning" | "danger";
+  class?: string;
+}
+
+const { title, variant = "info", class: className } = Astro.props;
+---
+
+<aside class:list={["snurble-callout", `snurble-callout--${variant}`, className]}>
+  <div class="snurble-callout__icon">
+    <slot name="icon" />
+  </div>
+  <div class="snurble-callout__content">
+    {title && <strong class="snurble-callout__title">{title}</strong>}
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .snurble-callout {
+    display: flex;
+    gap: var(--snurble-space-3);
+    padding: var(--snurble-space-4);
+    border-radius: 0.375rem;
+    border: 1px solid;
+    background-color: var(--snurble-surface-card);
+  }
+
+  .snurble-callout--info {
+    border-color: var(--snurble-accent);
+  }
+
+  .snurble-callout--tip {
+    border-color: var(--snurble-accent-success);
+  }
+
+  .snurble-callout--warning {
+    border-color: #f9ca24;
+  }
+
+  .snurble-callout--danger {
+    border-color: var(--snurble-accent-danger);
+  }
+
+  .snurble-callout__icon {
+    flex-shrink: 0;
+    font-size: 1.5rem;
+  }
+
+  .snurble-callout__content {
+    display: grid;
+    gap: var(--snurble-space-2);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .snurble-callout__content :global(p) {
+    margin: 0;
+  }
+
+  .snurble-callout__title {
+    display: block;
+    margin: 0;
+    font-weight: 600;
+  }
+</style>

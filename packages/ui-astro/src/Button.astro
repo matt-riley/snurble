@@ -1,0 +1,104 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "danger";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  class?: string;
+}
+
+const { variant = "primary", size = "md", disabled = false, class: className } = Astro.props;
+---
+
+<button
+  disabled={disabled}
+  class:list={[
+    "snurble-button",
+    `snurble-button--${variant}`,
+    `snurble-button--${size}`,
+    disabled && "snurble-button--disabled",
+    className,
+  ]}
+>
+  <slot />
+</button>
+
+<style>
+  .snurble-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--snurble-space-2);
+    padding: var(--snurble-space-3) var(--snurble-space-4);
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-family: var(--snurble-font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .snurble-button:active:not(:disabled) {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+
+  .snurble-button:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  /* Variants */
+  .snurble-button--primary {
+    background-color: var(--snurble-accent);
+    color: var(--snurble-base);
+    border-color: var(--snurble-accent);
+  }
+
+  .snurble-button--primary:hover:not(:disabled) {
+    background-color: var(--snurble-brand-primary);
+  }
+
+  .snurble-button--secondary {
+    background-color: var(--snurble-surface-badge);
+    color: var(--snurble-text);
+    border-color: var(--snurble-border-card);
+  }
+
+  .snurble-button--secondary:hover:not(:disabled) {
+    background-color: var(--snurble-surface-card);
+  }
+
+  .snurble-button--danger {
+    background-color: var(--snurble-accent-danger);
+    color: var(--snurble-base);
+    border-color: var(--snurble-accent-danger);
+  }
+
+  .snurble-button--danger:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  /* Sizes */
+  .snurble-button--sm {
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    font-size: 0.875rem;
+  }
+
+  .snurble-button--lg {
+    padding: var(--snurble-space-4) var(--snurble-space-5);
+    font-size: 1.125rem;
+  }
+
+  /* Disabled */
+  .snurble-button--disabled,
+  .snurble-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+</style>

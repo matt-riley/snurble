@@ -1,0 +1,94 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "danger";
+  size?: "sm" | "md" | "lg";
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = "primary", size = "md", external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  rel={external ? "noopener noreferrer" : undefined}
+  target={external ? "_blank" : undefined}
+  class:list={[
+    "snurble-link-button",
+    `snurble-link-button--${variant}`,
+    `snurble-link-button--${size}`,
+    className,
+  ]}
+>
+  <slot />
+</a>
+
+<style>
+  .snurble-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--snurble-space-2);
+    padding: var(--snurble-space-3) var(--snurble-space-4);
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-family: var(--snurble-font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-link-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .snurble-link-button:active {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+
+  .snurble-link-button:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  /* Variants match Button */
+  .snurble-link-button--primary {
+    background-color: var(--snurble-accent);
+    color: var(--snurble-base);
+    border-color: var(--snurble-accent);
+  }
+
+  .snurble-link-button--primary:hover {
+    background-color: var(--snurble-brand-primary);
+  }
+
+  .snurble-link-button--secondary {
+    background-color: var(--snurble-surface-badge);
+    color: var(--snurble-text);
+    border-color: var(--snurble-border-card);
+  }
+
+  .snurble-link-button--secondary:hover {
+    background-color: var(--snurble-surface-card);
+  }
+
+  .snurble-link-button--danger {
+    background-color: var(--snurble-accent-danger);
+    color: var(--snurble-base);
+  }
+
+  /* Sizes */
+  .snurble-link-button--sm {
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    font-size: 0.875rem;
+  }
+
+  .snurble-link-button--lg {
+    padding: var(--snurble-space-4) var(--snurble-space-5);
+    font-size: 1.125rem;
+  }
+</style>

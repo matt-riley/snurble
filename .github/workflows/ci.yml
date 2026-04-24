@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   validate:
     uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@7bf33bf0eef269c4a4b1d85e1668dec14fb8ffff # v1
@@ -16,6 +20,8 @@ jobs:
       require-lockfile: true
       verify-lockfile-clean: true
       run-build: true
+    secrets:
+      node_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
   typecheck:
     uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@7bf33bf0eef269c4a4b1d85e1668dec14fb8ffff # v1
@@ -28,6 +34,8 @@ jobs:
       run-lint: false
       run-build: false
       test-script: typecheck
+    secrets:
+      node_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     needs:

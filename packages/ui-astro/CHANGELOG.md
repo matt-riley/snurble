@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.11.0...ui-astro-v1.12.0) (2026-04-24)
+
+
+### Features
+
+* **ui:** design-agency button states with distinct hover, active, and selected surfaces ([6d9b984](https://github.com/matt-riley/snurble/commit/6d9b98485de4f86910b7af1d6e9374ca9482686c))
+
 ## [1.11.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.10.0...ui-astro-v1.11.0) (2026-04-24)
 
 

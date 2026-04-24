@@ -76,10 +76,18 @@ describe("docs llm endpoints", () => {
     );
     expect(robotsTxt).toContain("User-agent: *");
     expect(robotsTxt).toContain("Allow: /");
-    expect(headersFile).toContain("/components/button");
-    expect(headersFile).toContain(
-      'Link: </components/button.md>; rel="alternate"; type="text/markdown"'
+
+    const componentRoutes = expectedRoutes.filter((docsRoute) =>
+      docsRoute.startsWith("/components")
     );
+
+    for (const route of componentRoutes) {
+      expect(headersFile).toContain(route);
+      expect(headersFile).toContain(
+        `Link: <${getMarkdownOutputPath(route).startsWith("/") ? getMarkdownOutputPath(route) : `/${getMarkdownOutputPath(route)}`}>; rel="alternate"; type="text/markdown"`
+      );
+    }
+
     expect(headersFile).toContain("/llms.txt");
   });
 

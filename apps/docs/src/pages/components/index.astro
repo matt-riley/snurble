@@ -5,7 +5,13 @@ import { componentDocs } from "../../component-docs/registry";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { componentsIndexLlmPage } from "../../llm/pages/components";
 
-const componentsByCategory = Object.groupBy(componentDocs, (entry) => entry.category);
+const componentsByCategory = {} as Partial<
+  Record<(typeof componentDocs)[number]["category"], (typeof componentDocs)[number][]>
+>;
+
+for (const entry of componentDocs) {
+  (componentsByCategory[entry.category] ??= []).push(entry);
+}
 ---
 
 <BaseLayout

@@ -212,16 +212,25 @@ const componentContentByName = {
       "Render inline or block code examples with the shared Snurble code surface and spacing treatment.",
   },
   DataTable: {
-    exampleCode: `<DataTable columns={columns} rows={rows} caption="Release matrix" />`,
+    exampleCode: `<DataTable ariaLabel="Release matrix">
+  <tr slot="head">
+    <th scope="col">Surface</th>
+    <th scope="col">Status</th>
+  </tr>
+  <tr>
+    <td data-label="Surface">Docs app</td>
+    <td data-label="Status">Ready</td>
+  </tr>
+</DataTable>`,
     notes: [
-      "Keep the column schema consumer-owned.",
+      "Pass exactly one of labelledBy or ariaLabel so the table has an accessible name.",
       "Pair with SortIndicator when headers need sort affordance.",
     ],
     summary:
       "Render shared table styling for structured row-and-column data while leaving sorting and shaping to the page.",
   },
   DecoratedHeading: {
-    exampleCode: `<DecoratedHeading level={2}>Featured projects</DecoratedHeading>`,
+    exampleCode: `<DecoratedHeading text="Featured projects" />`,
     notes: [
       "Use it when the heading should carry visual personality.",
       "Prefer plain headings in dense reference sections.",
@@ -239,7 +248,9 @@ const componentContentByName = {
       "Render structured term-definition pairs for compact reference data and metadata summaries.",
   },
   Dialog: {
-    exampleCode: `<Dialog id="delete-dialog" title="Delete release" description="This cannot be undone.">...</Dialog>`,
+    exampleCode: `<Dialog open title="Delete release" closeOnBackdropClick>
+  <p>This cannot be undone.</p>
+</Dialog>`,
     notes: [
       "Use Dialog for blocking confirmations or focused tasks.",
       "Keep open-state wiring and trigger behavior in the page.",
@@ -248,7 +259,9 @@ const componentContentByName = {
       "Render the shared modal dialog overlay pattern with focus and dismissal behavior.",
   },
   Drawer: {
-    exampleCode: `<Drawer id="filters-drawer" title="Filters" description="Refine the results.">...</Drawer>`,
+    exampleCode: `<Drawer open title="Filters" position="right">
+  <p>Refine the results.</p>
+</Drawer>`,
     notes: [
       "Use Drawer when content is supporting rather than blocking.",
       "Keep trigger state and orchestration consumer-owned.",
@@ -257,7 +270,7 @@ const componentContentByName = {
       "Render a slide-in side panel for contextual controls, filters, or navigation.",
   },
   DropdownMenu: {
-    exampleCode: `<DropdownMenu triggerLabel="More actions" items={menuItems} />`,
+    exampleCode: `<DropdownMenu open items={menuItems} />`,
     notes: [
       "Use DropdownMenu for secondary actions, not primary tasks.",
       "Keep primary actions visible elsewhere on the page.",
@@ -275,10 +288,11 @@ const componentContentByName = {
       "Render the shared no-results or no-content state with a structured title and follow-up guidance.",
   },
   ExperienceCard: {
-    exampleCode: `<ExperienceCard role="Senior Engineer" company="Example Corp" period="2023-present" />`,
+    exampleCode: `<ExperienceCard logo="/logos/example-corp.svg" logoAlt="Example Corp logo" title="Senior Engineer" company="Example Corp" description={trustedDescriptionHtml} start="2023-01" end="present" />`,
     notes: [
-      "Keep long narrative or markdown outside the card.",
+      "Pass only trusted HTML to description; prepare and validate it outside the card.",
       "Use concise role and company labels.",
+      "Keep long narrative or markdown outside the card.",
     ],
     summary:
       "Render a single experience or role entry in the shared timeline-friendly card style.",
@@ -392,7 +406,10 @@ const componentContentByName = {
       "Render navigation styled like a button without collapsing link semantics into a click handler.",
   },
   MetaList: {
-    exampleCode: `<MetaList items={[{ label: "Status", value: "Stable" }]} />`,
+    exampleCode: `<MetaList>
+  <dt>Status</dt>
+  <dd>Stable</dd>
+</MetaList>`,
     notes: [
       "Use MetaList for dense supporting facts rather than long prose.",
       "Prefer short single-line values.",
@@ -410,9 +427,9 @@ const componentContentByName = {
       "Provide the shared page-width and vertical rhythm wrapper used by docs pages and app-level content surfaces.",
   },
   Pagination: {
-    exampleCode: `<Pagination currentPage={2} totalPages={8} baseUrl="/components?page=" />`,
+    exampleCode: `<Pagination currentPage={2} totalPages={8} />`,
     notes: [
-      "Use real URLs instead of button handlers.",
+      "Use onPageChange when you need controlled pagination behavior.",
       "Keep currentPage and totalPages page-owned.",
     ],
     summary:
@@ -428,7 +445,9 @@ const componentContentByName = {
       "Provide the shared bordered or elevated surface wrapper for examples, cards, and supporting content.",
   },
   Popover: {
-    exampleCode: `<Popover label="Details">Popover content</Popover>`,
+    exampleCode: `<Popover open position="bottom" title="Details">
+  <p>Popover content stays short and contextual.</p>
+</Popover>`,
     notes: [
       "Use Popover for small supporting content blocks.",
       "Do not hide critical workflow steps inside a popover.",
@@ -446,7 +465,7 @@ const componentContentByName = {
       "Render the shared profile banner pattern for name, subtitle, and avatar presentation.",
   },
   ProjectCard: {
-    exampleCode: `<ProjectCard title="Snurble" description="Shared Astro design system" href="/projects/snurble" />`,
+    exampleCode: `<ProjectCard name="Snurble" description="Shared Astro design tokens and UI primitives." url="https://github.com/matt-riley/snurble" />`,
     notes: [
       "Use short project descriptions that scan quickly.",
       "Keep collection sorting and filtering page-owned.",
@@ -518,7 +537,7 @@ const componentContentByName = {
       "Render a loading placeholder surface that matches the package spacing and radius contract.",
   },
   SkillIcon: {
-    exampleCode: `<SkillIcon name="TypeScript" icon="TypeScript" />`,
+    exampleCode: `<SkillIcon label="TypeScript"><span aria-hidden="true">TS</span></SkillIcon>`,
     notes: [
       "Use accessible labels for icon-only affordances.",
       "Keep skill taxonomy ownership in the consumer.",
@@ -554,7 +573,7 @@ const componentContentByName = {
       "Render the package-owned social link list with semantic navigation and focus treatment.",
   },
   SortIndicator: {
-    exampleCode: `<SortIndicator direction="ascending" />`,
+    exampleCode: `<SortIndicator label="Updated" sortOrder="desc" />`,
     notes: [
       "Pair SortIndicator with a clickable header or navigation control.",
       "Keep sorting state and behavior outside the primitive.",
@@ -572,7 +591,7 @@ const componentContentByName = {
       "Apply consistent vertical spacing between related elements without page-specific wrapper CSS.",
   },
   StatCard: {
-    exampleCode: `<StatCard title="Published components" value="54" trend="+5 this month" />`,
+    exampleCode: `<StatCard label="Published components" value="54" trend="up" trendValue="+5 this month" />`,
     notes: [
       "Use StatCard when the primary value should dominate the presentation.",
       "Keep interpretation and surrounding narrative outside the card.",
@@ -617,7 +636,8 @@ const componentContentByName = {
       "Render the shared multiline text-entry control without taking over validation logic.",
   },
   Tooltip: {
-    exampleCode: `<Tooltip text="Copy install command"><button type="button">Copy</button></Tooltip>`,
+    exampleCode: `<button type="button" aria-describedby="copy-tooltip">Copy</button>
+<Tooltip id="copy-tooltip" text="Copy install command" />`,
     notes: [
       "Use Tooltip for supplemental, non-essential copy only.",
       "Never hide critical instructions in a tooltip.",

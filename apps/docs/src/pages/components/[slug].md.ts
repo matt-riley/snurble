@@ -6,17 +6,29 @@ import { componentLlmPages } from "../../llm/pages/components";
 
 export const prerender = true;
 
-export const getStaticPaths: GetStaticPaths = () =>
-  componentDocs.map((entry) => ({
-    params: { slug: entry.slug },
-    props: {
-      page: componentLlmPages.find(
-        (llmPage) => llmPage.route === `/components/${entry.slug}`
-      ),
-    },
-  }));
+interface ComponentMarkdownPageProps {
+  page: (typeof componentLlmPages)[number];
+}
 
-export const GET: APIRoute = ({ props }) =>
+export const getStaticPaths = (() =>
+  componentDocs.map((entry) => {
+    const page = componentLlmPages.find(
+      (llmPage) => llmPage.route === `/components/${entry.slug}`
+    );
+
+    if (!page) {
+      throw new Error(
+        `Missing LLM page for component slug "${entry.slug}" at route "/components/${entry.slug}"`
+      );
+    }
+
+    return {
+      params: { slug: entry.slug },
+      props: { page },
+    };
+  })) satisfies GetStaticPaths;
+
+export const GET: APIRoute<ComponentMarkdownPageProps> = ({ props }) =>
   new Response(renderPageMarkdown(props.page), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",

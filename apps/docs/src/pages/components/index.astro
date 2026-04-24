@@ -28,9 +28,9 @@ const componentsByCategory = Object.groupBy(componentDocs, (entry) => entry.cate
                 {entries.map((entry) => (
                   <Panel variant="bordered">
                     <Stack space={3}>
-                      <h2 class="text-xl font-semibold">
+                      <h3 class="text-xl font-semibold">
                         <a href={`/components/${entry.slug}`}>{entry.name}</a>
-                      </h2>
+                      </h3>
                       <p class="text-sm text-[var(--snurble-text-muted)]">{entry.summary}</p>
                     </Stack>
                   </Panel>

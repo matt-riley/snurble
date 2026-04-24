@@ -1,0 +1,103 @@
+---
+interface RadioOption {
+  id: string;
+  label: string;
+  value: string;
+}
+
+interface Props {
+  name: string;
+  options: RadioOption[];
+  disabled?: boolean;
+  required?: boolean;
+  defaultValue?: string;
+  class?: string;
+}
+
+const {
+  name,
+  options,
+  disabled = false,
+  required = false,
+  defaultValue,
+  class: className,
+} = Astro.props;
+---
+
+<fieldset class:list={["snurble-radio-group", className]}>
+  <div class="snurble-radio-group__options">
+    {options.map((option) => (
+      <div class="snurble-radio-group__option">
+        <input
+          id={option.id}
+          type="radio"
+          name={name}
+          value={option.value}
+          disabled={disabled}
+          required={required}
+          checked={option.value === defaultValue}
+          class="snurble-radio-group__input"
+        />
+        <label for={option.id} class="snurble-radio-group__label">
+          {option.label}
+        </label>
+      </div>
+    ))}
+  </div>
+</fieldset>
+
+<style>
+  .snurble-radio-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .snurble-radio-group__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-3);
+  }
+
+  .snurble-radio-group__option {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-2);
+  }
+
+  .snurble-radio-group__input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--snurble-brand-primary);
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-radio-group__input:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-radio-group__input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-radio-group__label {
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+    cursor: pointer;
+    user-select: none;
+    transition: color 150ms ease-out;
+  }
+
+  .snurble-radio-group__input:disabled ~ .snurble-radio-group__label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-radio-group__input:hover:not(:disabled) ~ .snurble-radio-group__label {
+    color: var(--snurble-brand-primary);
+  }
+</style>

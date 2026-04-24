@@ -1,0 +1,249 @@
+---
+/**
+ * Dialog - Modal overlay component
+ * 
+ * Renders a semantic modal dialog with backdrop, focus management via data attributes,
+ * and keyboard escape support via JavaScript event listener.
+ * 
+ * Usage:
+ * <Dialog open={true} title="Confirm action" onClose={() => {}}>
+ *   <p>Are you sure?</p>
+ *   <Button onclick="close()">Cancel</Button>
+ *   <Button variant="primary" onclick="submitAndClose()">Confirm</Button>
+ * </Dialog>
+ */
+
+export interface Props {
+  /** Whether the dialog is open */
+  open?: boolean;
+  /** Dialog title (used for accessibility) */
+  title?: string;
+  /** Whether clicking the backdrop dismisses the dialog */
+  closeOnBackdropClick?: boolean;
+  /** Optional CSS class for the dialog container */
+  class?: string;
+}
+
+const { open = false, title, closeOnBackdropClick = true, class: className } = Astro.props;
+---
+
+<dialog
+  class:list={[
+    'snurble-dialog',
+    className,
+  ]}
+  aria-labelledby={title ? 'snurble-dialog-title' : undefined}
+  open={open || undefined}
+  data-component="dialog"
+>
+  {/* Backdrop with optional click-to-close */}
+  <div
+    class="snurble-dialog-backdrop"
+    data-backdrop
+    data-close-on-click={closeOnBackdropClick}
+    aria-hidden="true"
+  />
+
+  {/* Dialog box */}
+  <div class="snurble-dialog-box">
+    {/* Title bar if provided */}
+    {title && (
+      <div class="snurble-dialog-header">
+        <h1 id="snurble-dialog-title" class="snurble-dialog-title">
+          {title}
+        </h1>
+        <button
+          class="snurble-dialog-close"
+          aria-label="Close dialog"
+          data-close-button
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {/* Content slot */}
+    <div class="snurble-dialog-content">
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .snurble-dialog {
+    all: revert;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--snurble-space-4);
+    background: transparent;
+  }
+
+  .snurble-dialog:not([open]) {
+    display: none;
+  }
+
+  .snurble-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    animation: snurble-fade-in 150ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-dialog-backdrop {
+      animation: none;
+    }
+  }
+
+  .snurble-dialog-box {
+    position: relative;
+    z-index: 1001;
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-md, 8px);
+    box-shadow: var(--snurble-shadow-lg);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    animation: snurble-scale-fade-in 150ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-dialog-box {
+      animation: none;
+    }
+  }
+
+  .snurble-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--snurble-space-4);
+    border-bottom: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-dialog-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--snurble-text);
+  }
+
+  .snurble-dialog-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--snurble-text-muted);
+    border-radius: 4px;
+    transition: all 150ms ease-out;
+  }
+
+  .snurble-dialog-close:hover {
+    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    color: var(--snurble-text);
+  }
+
+  .snurble-dialog-close:focus-visible {
+    outline: 2px solid var(--snurble-brand-primary);
+    outline-offset: 2px;
+  }
+
+  .snurble-dialog-close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .snurble-dialog-content {
+    padding: var(--snurble-space-4);
+  }
+
+  @keyframes snurble-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes snurble-scale-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
+
+<script>
+  const initDialog = (el: HTMLDialogElement) => {
+    const backdrop = el.querySelector('[data-backdrop]');
+    const closeButton = el.querySelector('[data-close-button]');
+
+    const close = () => {
+      el.close();
+    };
+
+    // Close on backdrop click
+    if (backdrop && backdrop.dataset.closeOnClick === 'true') {
+      backdrop.addEventListener('click', close);
+    }
+
+    // Close button
+    if (closeButton) {
+      closeButton.addEventListener('click', close);
+    }
+
+    // Escape key
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && el.open) {
+        close();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Cleanup
+    return () => {
+      if (backdrop) {
+        backdrop.removeEventListener('click', close);
+      }
+      if (closeButton) {
+        closeButton.removeEventListener('click', close);
+      }
+      document.removeEventListener('keydown', handleEscape);
+    };
+  };
+
+  // Initialize all dialogs on page load
+  const dialogs = document.querySelectorAll('[data-component="dialog"]');
+  for (const el of dialogs) {
+    if (el instanceof HTMLDialogElement) {
+      initDialog(el);
+    }
+  }
+</script>
+  });
+</script>

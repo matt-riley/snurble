@@ -1,0 +1,77 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  disabled?: boolean;
+  checked?: boolean;
+  required?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  disabled = false,
+  checked = false,
+  required = false,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={["snurble-checkbox", className]}>
+  <input
+    id={id}
+    type="checkbox"
+    disabled={disabled}
+    checked={checked}
+    required={required}
+    class="snurble-checkbox__input"
+  />
+  <label for={id} class="snurble-checkbox__label">
+    {label}
+  </label>
+</div>
+
+<style>
+  .snurble-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-2);
+  }
+
+  .snurble-checkbox__input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--snurble-brand-primary);
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-checkbox__input:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-checkbox__input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-checkbox__label {
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+    cursor: pointer;
+    user-select: none;
+    transition: color 150ms ease-out;
+  }
+
+  .snurble-checkbox__input:disabled ~ .snurble-checkbox__label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-checkbox__input:hover:not(:disabled) ~ .snurble-checkbox__label {
+    color: var(--snurble-brand-primary);
+  }
+</style>

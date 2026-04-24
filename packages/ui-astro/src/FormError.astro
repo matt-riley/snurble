@@ -1,0 +1,22 @@
+---
+interface Props {
+  id: string;
+  text: string;
+  class?: string;
+}
+
+const { id, text, class: className } = Astro.props;
+---
+
+<p class:list={["snurble-form-error", className]} id={id} role="alert">
+  {text}
+</p>
+
+<style>
+  .snurble-form-error {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--snurble-accent-danger);
+    line-height: 1.5;
+  }
+</style>

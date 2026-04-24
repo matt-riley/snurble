@@ -1,0 +1,242 @@
+---
+/**
+ * DropdownMenu - Floating menu with keyboard navigation
+ * 
+ * Renders a dropdown menu with arrow key navigation, selection, and focus management.
+ * Use with MenuButton for complete dropdown experience.
+ * 
+ * Usage:
+ * <DropdownMenu
+ *   id="main-menu"
+ *   open={true}
+ *   items={[
+ *     { label: 'Edit', icon: 'edit' },
+ *     { label: 'Delete', icon: 'trash', variant: 'danger' }
+ *   ]}
+ *   onSelect={(item) => { ... }}
+ * />
+ */
+
+export interface MenuItem {
+  label: string;
+  value?: string;
+  icon?: string;
+  variant?: 'default' | 'danger';
+  disabled?: boolean;
+}
+
+export interface Props {
+  id?: string;
+  open?: boolean;
+  items: MenuItem[];
+  onSelect?: (item: MenuItem) => void;
+  class?: string;
+}
+
+const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items = [], class: className } = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={[
+    'snurble-dropdown-menu',
+    className,
+  ]}
+  data-component="dropdown-menu"
+  data-open={open}
+  role="menu"
+  aria-orientation="vertical"
+>
+  <div class="snurble-dropdown-menu-box">
+    {items.map((item, idx) => (
+      <button
+        class:list={[
+          'snurble-dropdown-menu-item',
+          `snurble-dropdown-menu-item-${item.variant || 'default'}`,
+        ]}
+        role="menuitem"
+        aria-disabled={item.disabled}
+        disabled={item.disabled}
+        data-index={idx}
+        data-value={item.value || item.label}
+      >
+        {item.label}
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .snurble-dropdown-menu {
+    position: absolute;
+    min-width: 200px;
+    opacity: 0;
+    pointer-events: none;
+    animation: snurble-menu-exit 150ms ease-out forwards;
+    z-index: 999;
+  }
+
+  .snurble-dropdown-menu[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+    animation: snurble-menu-enter 150ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-dropdown-menu {
+      animation: none;
+    }
+  }
+
+  .snurble-dropdown-menu-box {
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 6px;
+    box-shadow: var(--snurble-shadow-md);
+    overflow: hidden;
+    padding: 4px 0;
+  }
+
+  .snurble-dropdown-menu-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+    transition: all 150ms ease-out;
+    position: relative;
+  }
+
+  .snurble-dropdown-menu-item:hover {
+    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+  }
+
+  .snurble-dropdown-menu-item:focus-visible {
+    outline: none;
+    background: var(--snurble-brand-primary);
+    color: white;
+  }
+
+  .snurble-dropdown-menu-item:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-dropdown-menu-item-danger {
+    color: var(--snurble-accent-danger);
+  }
+
+  .snurble-dropdown-menu-item-danger:focus-visible {
+    background: var(--snurble-accent-danger);
+    color: white;
+  }
+
+  @keyframes snurble-menu-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes snurble-menu-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+</style>
+
+<script>
+  const initDropdownMenu = (el: Element) => {
+    const items = [...el.querySelectorAll('[role="menuitem"]')] as HTMLButtonElement[];
+    let currentIndex = -1;
+
+    const selectItem = (item: HTMLButtonElement) => {
+      const { value } = item.dataset;
+      el.dataset.open = 'false';
+    };
+
+    const focusItem = (rawIndex: number) => {
+      let index = rawIndex;
+      if (index < 0) {
+        index = items.length - 1;
+      }
+      if (index >= items.length) {
+        index = 0;
+      }
+      currentIndex = index;
+      for (const item of items) {
+        if (items.indexOf(item) === index) {
+          item.focus();
+        }
+      }
+    };
+
+    // Arrow key navigation
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (el.dataset.open !== 'true') {
+        return;
+      }
+
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault();
+          focusItem(currentIndex + 1);
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          focusItem(currentIndex - 1);
+          break;
+        }
+        case 'Enter':
+        case ' ': {
+          e.preventDefault();
+          if (currentIndex >= 0) {
+            selectItem(items[currentIndex]);
+          }
+          break;
+        }
+        case 'Escape': {
+          e.preventDefault();
+          el.dataset.open = 'false';
+          break;
+        }
+        default:
+      }
+    };
+
+    // Click to select
+    for (const item of items) {
+      item.addEventListener('click', () => selectItem(item));
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Set initial focus
+    el.addEventListener('click', () => {
+      if (el.dataset.open === 'true') {
+        focusItem(0);
+      }
+    });
+  };
+
+  // Initialize all dropdowns
+  const menus = document.querySelectorAll('[data-component="dropdown-menu"]');
+  for (const menu of menus) {
+    initDropdownMenu(menu);
+  }
+</script>

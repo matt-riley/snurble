@@ -1,0 +1,87 @@
+---
+interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  id: string;
+  options: SelectOption[];
+  disabled?: boolean;
+  required?: boolean;
+  defaultValue?: string;
+  placeholder?: string;
+  class?: string;
+}
+
+const {
+  id,
+  options,
+  disabled = false,
+  required = false,
+  defaultValue,
+  placeholder,
+  class: className,
+} = Astro.props;
+---
+
+<select
+  id={id}
+  disabled={disabled}
+  required={required}
+  aria-describedby={`${id}-description ${id}-error`}
+  class:list={[
+    "snurble-select",
+    disabled && "snurble-select--disabled",
+    className,
+  ]}
+>
+  {placeholder && <option value="">{placeholder}</option>}
+  {options.map((option) => (
+    <option value={option.value} disabled={option.disabled} selected={option.value === defaultValue}>
+      {option.label}
+    </option>
+  ))}
+</select>
+
+<style>
+  .snurble-select {
+    padding: var(--snurble-space-3) var(--snurble-space-3);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 0.375rem;
+    background-color: var(--snurble-surface-card);
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.25rem 1.25rem;
+    padding-right: 2.5rem;
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    appearance: none;
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-select:focus {
+    border-color: var(--snurble-brand-primary);
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-select:invalid:not(:placeholder-shown) {
+    border-color: var(--snurble-accent-danger);
+  }
+
+  .snurble-select--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-select option {
+    background-color: var(--snurble-surface-card);
+    color: var(--snurble-text);
+  }
+</style>

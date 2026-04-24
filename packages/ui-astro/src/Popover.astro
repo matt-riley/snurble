@@ -1,0 +1,292 @@
+---
+/**
+ * Popover - Positioned floating overlay attached to a trigger element
+ * 
+ * Renders a floating panel positioned relative to a trigger element
+ * with backdrop, arrow, and keyboard dismiss support.
+ * 
+ * Usage:
+ * <Popover
+ *   id="my-popover"
+ *   triggerSelector="#popover-trigger"
+ *   position="bottom"
+ *   title="Help"
+ * >
+ *   <p>Helpful content goes here</p>
+ * </Popover>
+ * <button id="popover-trigger">Open help</button>
+ */
+
+export interface Props {
+  /** Unique ID for the popover */
+  id?: string;
+  /** Whether popover is open by default */
+  open?: boolean;
+  /** Position relative to trigger: top, bottom, left, right */
+  position?: 'top' | 'bottom' | 'left' | 'right';
+  /** Optional title */
+  title?: string;
+  /** Whether clicking outside closes the popover */
+  closeOnOutsideClick?: boolean;
+  /** Optional CSS class */
+  class?: string;
+}
+
+const {
+  id = `popover-${Math.random().toString(36).slice(2)}`,
+  open = false,
+  position = 'bottom',
+  title,
+  closeOnOutsideClick = true,
+  class: className,
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={[
+    'snurble-popover',
+    `snurble-popover-${position}`,
+    className,
+  ]}
+  data-component="popover"
+  data-open={open}
+  data-position={position}
+  data-close-on-outside={closeOnOutsideClick}
+  role="presentation"
+>
+  {/* Arrow pointing to trigger */}
+  <div class="snurble-popover-arrow" aria-hidden="true" />
+
+  {/* Content box */}
+  <div class="snurble-popover-box">
+    {/* Header if provided */}
+    {title && (
+      <div class="snurble-popover-header">
+        <h3 class="snurble-popover-title">{title}</h3>
+        <button
+          class="snurble-popover-close"
+          aria-label="Close popover"
+          data-close-button
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {/* Content */}
+    <div class="snurble-popover-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .snurble-popover {
+    position: fixed;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    animation: snurble-popover-exit 150ms ease-out forwards;
+  }
+
+  .snurble-popover[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+    animation: snurble-popover-enter 150ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-popover {
+      animation: none;
+    }
+  }
+
+  .snurble-popover-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  /* Arrow positioning by direction */
+  .snurble-popover-top .snurble-popover-arrow {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0 6px;
+    border-color: var(--snurble-surface-card) transparent transparent transparent;
+  }
+
+  .snurble-popover-bottom .snurble-popover-arrow {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent var(--snurble-surface-card) transparent;
+  }
+
+  .snurble-popover-left .snurble-popover-arrow {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 6px;
+    border-color: transparent transparent transparent var(--snurble-surface-card);
+  }
+
+  .snurble-popover-right .snurble-popover-arrow {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 6px 6px 0;
+    border-color: transparent var(--snurble-surface-card) transparent transparent;
+  }
+
+  .snurble-popover-box {
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 6px;
+    box-shadow: var(--snurble-shadow-md);
+    max-width: 320px;
+  }
+
+  .snurble-popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--snurble-space-3);
+    border-bottom: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-popover-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--snurble-text);
+  }
+
+  .snurble-popover-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--snurble-text-muted);
+    border-radius: 4px;
+    transition: all 150ms ease-out;
+  }
+
+  .snurble-popover-close:hover {
+    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    color: var(--snurble-text);
+  }
+
+  .snurble-popover-close:focus-visible {
+    outline: 2px solid var(--snurble-brand-primary);
+    outline-offset: 2px;
+  }
+
+  .snurble-popover-close svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .snurble-popover-content {
+    padding: var(--snurble-space-3);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--snurble-text);
+  }
+
+  @keyframes snurble-popover-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes snurble-popover-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+</style>
+
+<script>
+  const initPopover = (el: Element) => {
+    const closeButton = el.querySelector('[data-close-button]');
+    const closeOnOutside = el.dataset.closeOnOutside === 'true';
+
+    const close = () => {
+      el.dataset.open = 'false';
+    };
+
+    const open = () => {
+      el.dataset.open = 'true';
+    };
+
+    // Close button
+    if (closeButton) {
+      closeButton.addEventListener('click', close);
+    }
+
+    // Click outside
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        closeOnOutside &&
+        el.dataset.open === 'true' &&
+        !el.contains(e.target as Node)
+      ) {
+        close();
+      }
+    };
+
+    // Escape key
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && el.dataset.open === 'true') {
+        close();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    // Cleanup
+    return () => {
+      if (closeButton) {
+        closeButton.removeEventListener('click', close);
+      }
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  };
+
+  // Initialize all popovers
+  const popovers = document.querySelectorAll('[data-component="popover"]');
+  for (const popover of popovers) {
+    initPopover(popover);
+  }
+</script>

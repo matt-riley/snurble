@@ -1,0 +1,74 @@
+---
+interface Props {
+  label: string;
+  htmlFor: string;
+  required?: boolean;
+  description?: string;
+  error?: string;
+  class?: string;
+}
+
+const {
+  label,
+  htmlFor,
+  required = false,
+  description,
+  error,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={["snurble-field", error && "snurble-field--error", className]}>
+  <label for={htmlFor} class="snurble-field__label">
+    {label}
+    {required && <span class="snurble-field__required" aria-label="required">*</span>}
+  </label>
+  {description && (
+    <p class="snurble-field__description" id={`${htmlFor}-description`}>
+      {description}
+    </p>
+  )}
+  <slot />
+  {error && (
+    <p class="snurble-field__error" id={`${htmlFor}-error`} role="alert">
+      {error}
+    </p>
+  )}
+</div>
+
+<style>
+  .snurble-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-2);
+  }
+
+  .snurble-field__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--snurble-text);
+  }
+
+  .snurble-field__required {
+    color: var(--snurble-accent-danger);
+    margin-left: 0.25rem;
+  }
+
+  .snurble-field__description {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--snurble-text-muted);
+    line-height: 1.5;
+  }
+
+  .snurble-field__error {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--snurble-accent-danger);
+    line-height: 1.5;
+  }
+
+  .snurble-field--error .snurble-field__label {
+    color: var(--snurble-accent-danger);
+  }
+</style>

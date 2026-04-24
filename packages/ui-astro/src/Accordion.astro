@@ -1,0 +1,94 @@
+---
+interface AccordionItem {
+  id: string;
+  title: string;
+  expanded?: boolean;
+}
+
+interface Props {
+  items: AccordionItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<div class:list={["snurble-accordion", className]}>
+  {items.map((item) => (
+    <details class="snurble-accordion__item" open={item.expanded}>
+      <summary class="snurble-accordion__trigger" id={`snurble-accordion-trigger-${item.id}`}>
+        {item.title}
+      </summary>
+      <div class="snurble-accordion__content" id={`snurble-accordion-content-${item.id}`}>
+        <slot name={item.id} />
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .snurble-accordion {
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .snurble-accordion__item {
+    border-bottom: 1px solid var(--snurble-border-card);
+    transition: all 150ms ease-out;
+  }
+
+  .snurble-accordion__item:last-child {
+    border-bottom: none;
+  }
+
+  .snurble-accordion__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--snurble-space-4);
+    background: transparent;
+    border: none;
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: color 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-accordion__trigger:hover {
+    background-color: var(--snurble-surface-badge);
+  }
+
+  .snurble-accordion__trigger:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-accordion__trigger::after {
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: var(--snurble-space-3);
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    transition: transform 150ms ease-out;
+    flex-shrink: 0;
+  }
+
+  .snurble-accordion__item[open] .snurble-accordion__trigger::after {
+    transform: rotate(180deg);
+  }
+
+  .snurble-accordion__content {
+    padding: 0 var(--snurble-space-4) var(--snurble-space-4);
+    color: var(--snurble-text-muted);
+    line-height: 1.6;
+  }
+</style>

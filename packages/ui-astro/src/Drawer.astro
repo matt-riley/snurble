@@ -1,0 +1,316 @@
+---
+/**
+ * Drawer (Sheet) - Slide-in overlay from screen edge
+ * 
+ * Renders a slide-out panel from the side (default: right) with backdrop,
+ * focus management, and keyboard escape support.
+ * 
+ * Usage:
+ * <Drawer open={true} title="Menu" position="left">
+ *   <nav>...</nav>
+ * </Drawer>
+ */
+
+export interface Props {
+  /** Whether the drawer is open */
+  open?: boolean;
+  /** Drawer title */
+  title?: string;
+  /** Which side to slide from */
+  position?: 'left' | 'right';
+  /** Whether clicking the backdrop dismisses the drawer */
+  closeOnBackdropClick?: boolean;
+  /** Optional CSS class */
+  class?: string;
+}
+
+const {
+  open = false,
+  title,
+  position = 'right',
+  closeOnBackdropClick = true,
+  class: className,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'snurble-drawer',
+    `snurble-drawer-${position}`,
+    className,
+  ]}
+  data-component="drawer"
+  data-open={open}
+  aria-labelledby={title ? 'snurble-drawer-title' : undefined}
+  role="presentation"
+>
+  {/* Backdrop */}
+  <div
+    class="snurble-drawer-backdrop"
+    data-backdrop
+    data-close-on-click={closeOnBackdropClick}
+    aria-hidden="true"
+  />
+
+  {/* Drawer panel */}
+  <div class="snurble-drawer-panel">
+    {/* Header if provided */}
+    {title && (
+      <div class="snurble-drawer-header">
+        <h2 id="snurble-drawer-title" class="snurble-drawer-title">
+          {title}
+        </h2>
+        <button
+          class="snurble-drawer-close"
+          aria-label="Close drawer"
+          data-close-button
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {/* Content */}
+    <div class="snurble-drawer-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .snurble-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .snurble-drawer[data-open='false'] .snurble-drawer-backdrop,
+  .snurble-drawer[data-open='false'] .snurble-drawer-panel {
+    pointer-events: none;
+  }
+
+  .snurble-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    opacity: 1;
+    animation: snurble-fade-in 150ms ease-out;
+  }
+
+  .snurble-drawer[data-open='false'] .snurble-drawer-backdrop {
+    opacity: 0;
+    animation: snurble-fade-out 150ms ease-out forwards;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-drawer-backdrop {
+      animation: none;
+    }
+  }
+
+  .snurble-drawer-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: min(100%, 420px);
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    box-shadow: var(--snurble-shadow-lg);
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    z-index: 1001;
+  }
+
+  .snurble-drawer-left .snurble-drawer-panel {
+    left: 0;
+    animation: snurble-slide-in-left 150ms ease-out;
+    border-right: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-drawer[data-open='false'] .snurble-drawer-left .snurble-drawer-panel {
+    animation: snurble-slide-out-left 150ms ease-out forwards;
+  }
+
+  .snurble-drawer-right .snurble-drawer-panel {
+    right: 0;
+    animation: snurble-slide-in-right 150ms ease-out;
+    border-left: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-drawer[data-open='false'] .snurble-drawer-right .snurble-drawer-panel {
+    animation: snurble-slide-out-right 150ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-drawer-panel {
+      animation: none !important;
+    }
+  }
+
+  .snurble-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--snurble-space-4);
+    border-bottom: 1px solid var(--snurble-border-card);
+    flex-shrink: 0;
+  }
+
+  .snurble-drawer-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--snurble-text);
+  }
+
+  .snurble-drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--snurble-text-muted);
+    border-radius: 4px;
+    transition: all 150ms ease-out;
+    flex-shrink: 0;
+  }
+
+  .snurble-drawer-close:hover {
+    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    color: var(--snurble-text);
+  }
+
+  .snurble-drawer-close:focus-visible {
+    outline: 2px solid var(--snurble-brand-primary);
+    outline-offset: 2px;
+  }
+
+  .snurble-drawer-close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .snurble-drawer-content {
+    padding: var(--snurble-space-4);
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  @keyframes snurble-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes snurble-fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes snurble-slide-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes snurble-slide-out-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes snurble-slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes snurble-slide-out-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+</style>
+
+<script>
+  const initDrawer = (el: Element) => {
+    const backdrop = el.querySelector('[data-backdrop]');
+    const closeButton = el.querySelector('[data-close-button]');
+
+    const close = () => {
+      el.dataset.open = 'false';
+    };
+
+    // Close on backdrop click
+    if (backdrop && backdrop.dataset.closeOnClick === 'true') {
+      backdrop.addEventListener('click', close);
+    }
+
+    // Close button
+    if (closeButton) {
+      closeButton.addEventListener('click', close);
+    }
+
+    // Escape key
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && el.dataset.open === 'true') {
+        close();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Cleanup
+    return () => {
+      if (backdrop) {
+        backdrop.removeEventListener('click', close);
+      }
+      if (closeButton) {
+        closeButton.removeEventListener('click', close);
+      }
+      document.removeEventListener('keydown', handleEscape);
+    };
+  };
+
+  // Initialize all drawers
+  const drawers = document.querySelectorAll('[data-component="drawer"]');
+  for (const drawer of drawers) {
+    initDrawer(drawer);
+  }
+</script>

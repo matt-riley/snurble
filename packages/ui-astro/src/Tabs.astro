@@ -1,0 +1,100 @@
+---
+interface TabItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  tabs: TabItem[];
+  defaultTab?: string;
+  class?: string;
+}
+
+const { tabs, defaultTab = tabs[0]?.id, class: className } = Astro.props;
+---
+
+<div class:list={["snurble-tabs", className]}>
+  <div class="snurble-tabs__tablist" role="tablist">
+    {tabs.map((tab) => (
+      <button
+        role="tab"
+        aria-selected={tab.id === defaultTab}
+        aria-controls={`snurble-tab-panel-${tab.id}`}
+        id={`snurble-tab-${tab.id}`}
+        class:list={[
+          "snurble-tabs__tab",
+          tab.id === defaultTab && "snurble-tabs__tab--active",
+        ]}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+  <div class="snurble-tabs__panels">
+    {tabs.map((tab) => (
+      <div
+        role="tabpanel"
+        id={`snurble-tab-panel-${tab.id}`}
+        aria-labelledby={`snurble-tab-${tab.id}`}
+        hidden={tab.id !== defaultTab}
+        class="snurble-tabs__panel"
+      >
+        <slot name={tab.id} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .snurble-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .snurble-tabs__tablist {
+    display: flex;
+    gap: var(--snurble-space-1);
+    border-bottom: 1px solid var(--snurble-border-card);
+    overflow-x: auto;
+  }
+
+  .snurble-tabs__tab {
+    flex-shrink: 0;
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--snurble-text-muted);
+    font-family: var(--snurble-font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-tabs__tab:hover {
+    color: var(--snurble-text);
+  }
+
+  .snurble-tabs__tab:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-tabs__tab--active {
+    color: var(--snurble-text);
+    border-bottom-color: var(--snurble-brand-primary);
+  }
+
+  .snurble-tabs__panels {
+    padding-top: var(--snurble-space-4);
+  }
+
+  .snurble-tabs__panel {
+    display: contents;
+  }
+
+  .snurble-tabs__panel[hidden] {
+    display: none;
+  }
+</style>

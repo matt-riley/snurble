@@ -1,0 +1,81 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  separator?: string;
+  class?: string;
+}
+
+const { items, separator = "/", class: className } = Astro.props;
+---
+
+<nav aria-label="Breadcrumbs" class:list={["snurble-breadcrumbs", className]}>
+  <ol class="snurble-breadcrumbs__list">
+    {items.map((item, index) => (
+      <li class="snurble-breadcrumbs__item" aria-current={index === items.length - 1 ? "page" : undefined}>
+        {item.href ? (
+          <a href={item.href} class="snurble-breadcrumbs__link">{item.label}</a>
+        ) : (
+          <span class="snurble-breadcrumbs__label">{item.label}</span>
+        )}
+        {index < items.length - 1 && (
+          <span class="snurble-breadcrumbs__separator" aria-hidden="true">
+            {separator}
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .snurble-breadcrumbs {
+    margin: 0;
+  }
+
+  .snurble-breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--snurble-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snurble-breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-1);
+    font-size: 0.875rem;
+  }
+
+  .snurble-breadcrumbs__link {
+    color: var(--snurble-brand-primary);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+
+  .snurble-breadcrumbs__link:hover {
+    color: var(--snurble-accent);
+    text-decoration: underline;
+  }
+
+  .snurble-breadcrumbs__link:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .snurble-breadcrumbs__label {
+    color: var(--snurble-text);
+  }
+
+  .snurble-breadcrumbs__separator {
+    color: var(--snurble-text-muted);
+  }
+</style>

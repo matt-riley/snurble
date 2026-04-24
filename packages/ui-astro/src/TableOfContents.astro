@@ -1,0 +1,91 @@
+---
+interface HeadingItem {
+  id: string;
+  label: string;
+  level: number;
+}
+
+interface Props {
+  headings: HeadingItem[];
+  title?: string;
+  class?: string;
+}
+
+const { headings, title = "Contents", class: className } = Astro.props;
+---
+
+<nav aria-label={title} class:list={["snurble-toc", className]}>
+  {title && <h2 class="snurble-toc__title">{title}</h2>}
+  <ol class="snurble-toc__list">
+    {headings.map((heading) => (
+      <li
+        class:list={[
+          "snurble-toc__item",
+          `snurble-toc__item--level-${heading.level}`,
+        ]}
+      >
+        <a href={`#${heading.id}`} class="snurble-toc__link">
+          {heading.label}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .snurble-toc {
+    padding: var(--snurble-space-4);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 0.5rem;
+    background-color: var(--snurble-surface-badge);
+  }
+
+  .snurble-toc__title {
+    margin: 0 0 var(--snurble-space-3) 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--snurble-text-muted);
+  }
+
+  .snurble-toc__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snurble-toc__item {
+    margin: 0;
+    padding: var(--snurble-space-1) 0;
+  }
+
+  .snurble-toc__item--level-2 {
+    margin-left: var(--snurble-space-4);
+  }
+
+  .snurble-toc__item--level-3 {
+    margin-left: var(--snurble-space-5);
+  }
+
+  .snurble-toc__item--level-4 {
+    margin-left: var(--snurble-space-6);
+  }
+
+  .snurble-toc__link {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-toc__link:hover {
+    color: var(--snurble-brand-primary);
+  }
+
+  .snurble-toc__link:focus-visible {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+</style>

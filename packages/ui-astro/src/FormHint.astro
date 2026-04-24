@@ -1,0 +1,22 @@
+---
+interface Props {
+  id: string;
+  text: string;
+  class?: string;
+}
+
+const { id, text, class: className } = Astro.props;
+---
+
+<p class:list={["snurble-form-hint", className]} id={id}>
+  {text}
+</p>
+
+<style>
+  .snurble-form-hint {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--snurble-text-muted);
+    line-height: 1.5;
+  }
+</style>

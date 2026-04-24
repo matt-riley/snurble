@@ -1,0 +1,155 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  onPageChange?: (page: number) => void;
+  class?: string;
+}
+
+const { currentPage, totalPages, class: className } = Astro.props;
+
+const getPageNumbers = (current: number, total: number): (number | string)[] => {
+  const delta = 2;
+  const range = [];
+  const rangeWithDots = [];
+
+  for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i += 1) {
+    range.push(i);
+  }
+
+  if (Math.max(2, current - delta) < 2) {
+    rangeWithDots.push(1);
+  }
+
+  if (Math.max(2, current - delta) > 2) {
+    rangeWithDots.push("...");
+  }
+
+  rangeWithDots.push(...range);
+
+  if (Math.min(total - 1, current + delta) < total - 1) {
+    rangeWithDots.push("...");
+  }
+
+  if (total > Math.min(total - 1, current + delta)) {
+    rangeWithDots.push(total);
+  }
+
+  return rangeWithDots;
+};
+
+const pageNumbers = getPageNumbers(currentPage, totalPages);
+---
+
+<nav aria-label="Pagination" class:list={["snurble-pagination", className]}>
+  <ul class="snurble-pagination__list">
+    <li>
+      <a
+        href="#"
+        class:list={[
+          "snurble-pagination__link",
+          "snurble-pagination__link--prev",
+          currentPage === 1 && "snurble-pagination__link--disabled",
+        ]}
+        aria-disabled={currentPage === 1}
+        data-page={currentPage - 1}
+      >
+        Previous
+      </a>
+    </li>
+
+    {pageNumbers.map((page) => (
+      <li>
+        {typeof page === "number" ? (
+          <a
+            href="#"
+            class:list={[
+              "snurble-pagination__link",
+              page === currentPage && "snurble-pagination__link--active",
+            ]}
+            aria-current={page === currentPage ? "page" : undefined}
+            data-page={page}
+          >
+            {page}
+          </a>
+        ) : (
+          <span class="snurble-pagination__ellipsis">{page}</span>
+        )}
+      </li>
+    ))}
+
+    <li>
+      <a
+        href="#"
+        class:list={[
+          "snurble-pagination__link",
+          "snurble-pagination__link--next",
+          currentPage === totalPages && "snurble-pagination__link--disabled",
+        ]}
+        aria-disabled={currentPage === totalPages}
+        data-page={currentPage + 1}
+      >
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .snurble-pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  .snurble-pagination__list {
+    display: flex;
+    gap: var(--snurble-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .snurble-pagination__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: 0.375rem;
+    background-color: var(--snurble-surface-card);
+    color: var(--snurble-text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 150ms ease-out;
+    outline-offset: 2px;
+  }
+
+  .snurble-pagination__link:hover:not(.snurble-pagination__link--disabled) {
+    border-color: var(--snurble-border-strong);
+    background-color: var(--snurble-surface-badge);
+  }
+
+  .snurble-pagination__link:focus-visible:not(.snurble-pagination__link--disabled) {
+    outline: 2px solid var(--snurble-accent-success);
+  }
+
+  .snurble-pagination__link--active {
+    background-color: var(--snurble-brand-primary);
+    color: var(--snurble-base);
+    border-color: var(--snurble-brand-primary);
+  }
+
+  .snurble-pagination__link--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-pagination__ellipsis {
+    padding: var(--snurble-space-2) var(--snurble-space-1);
+    color: var(--snurble-text-muted);
+  }
+</style>

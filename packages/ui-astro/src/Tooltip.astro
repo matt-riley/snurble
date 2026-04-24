@@ -1,0 +1,193 @@
+---
+/**
+ * Tooltip - Small floating label for supplementary information
+ * 
+ * Renders a compact tooltip that appears on hover/focus with automatic positioning.
+ * Attach to a trigger element via data attributes.
+ * 
+ * Usage:
+ * <button aria-describedby="tooltip-save">Save</button>
+ * <Tooltip id="tooltip-save" text="Save your changes" position="top" />
+ */
+
+export interface Props {
+  id?: string;
+  /** Tooltip text content */
+  text: string;
+  /** Position relative to trigger */
+  position?: 'top' | 'bottom' | 'left' | 'right';
+  /** Delay before showing (ms) */
+  delay?: number;
+  /** Optional CSS class */
+  class?: string;
+}
+
+const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 'top', delay = 300, class: className } = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={[
+    'snurble-tooltip',
+    `snurble-tooltip-${position}`,
+    className,
+  ]}
+  data-component="tooltip"
+  data-position={position}
+  data-delay={delay}
+  role="tooltip"
+  aria-hidden="true"
+>
+  {/* Arrow */}
+  <div class="snurble-tooltip-arrow" aria-hidden="true" />
+
+  {/* Text */}
+  <div class="snurble-tooltip-box">
+    {text}
+  </div>
+</div>
+
+<style>
+  .snurble-tooltip {
+    position: fixed;
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    animation: snurble-tooltip-exit 150ms ease-out forwards;
+  }
+
+  .snurble-tooltip.show {
+    opacity: 1;
+    animation: snurble-tooltip-enter 150ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-tooltip {
+      animation: none;
+    }
+  }
+
+  .snurble-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  /* Arrow positioning */
+  .snurble-tooltip-top .snurble-tooltip-arrow {
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0 4px;
+    border-color: var(--snurble-text) transparent transparent transparent;
+  }
+
+  .snurble-tooltip-bottom .snurble-tooltip-arrow {
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 4px 4px 4px;
+    border-color: transparent transparent var(--snurble-text) transparent;
+  }
+
+  .snurble-tooltip-left .snurble-tooltip-arrow {
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 4px 0 4px 4px;
+    border-color: transparent transparent transparent var(--snurble-text);
+  }
+
+  .snurble-tooltip-right .snurble-tooltip-arrow {
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 4px 4px 4px 0;
+    border-color: transparent var(--snurble-text) transparent transparent;
+  }
+
+  .snurble-tooltip-box {
+    background: var(--snurble-text);
+    color: var(--snurble-base);
+    padding: var(--snurble-space-1) var(--snurble-space-2);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  @keyframes snurble-tooltip-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes snurble-tooltip-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+</style>
+
+<script define:vars={{ delay }}>
+  const initTooltip = (el: Element) => {
+    const triggerId = el.getAttribute('aria-describedby');
+    const trigger = triggerId ? document.querySelector(`#${triggerId}`) : null;
+
+    if (!trigger) {
+      return;
+    }
+
+    let showTimeout: ReturnType<typeof setTimeout>;
+
+    const show = () => {
+      showTimeout = setTimeout(() => {
+        el.classList.add('show');
+      }, delay);
+    };
+
+    const hide = () => {
+      clearTimeout(showTimeout);
+      el.classList.remove('show');
+    };
+
+    trigger.addEventListener('mouseenter', show);
+    trigger.addEventListener('mouseleave', hide);
+    trigger.addEventListener('focus', show);
+    trigger.addEventListener('blur', hide);
+
+    // Cleanup
+    return () => {
+      trigger.removeEventListener('mouseenter', show);
+      trigger.removeEventListener('mouseleave', hide);
+      trigger.removeEventListener('focus', show);
+      trigger.removeEventListener('blur', hide);
+    };
+  };
+
+  // Find tooltip by aria-describedby relationship
+  const tooltips = document.querySelectorAll('[data-component="tooltip"]');
+  for (const el of tooltips) {
+    // Find any element that references this tooltip
+    const triggerId = el.id;
+    if (triggerId) {
+      const trigger = document.querySelector(`[aria-describedby="${triggerId}"]`);
+      if (trigger) {
+        // Initialize tooltip
+        initTooltip(el);
+      }
+    }
+  }
+</script>

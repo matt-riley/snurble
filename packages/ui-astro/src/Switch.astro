@@ -1,0 +1,99 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  disabled?: boolean;
+  checked?: boolean;
+  required?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  disabled = false,
+  checked = false,
+  required = false,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={["snurble-switch", className]}>
+  <input
+    id={id}
+    type="checkbox"
+    role="switch"
+    aria-checked={checked}
+    disabled={disabled}
+    checked={checked}
+    required={required}
+    class="snurble-switch__input"
+  />
+  <label for={id} class="snurble-switch__label">
+    <span class="snurble-switch__toggle" />
+    {label}
+  </label>
+</div>
+
+<style>
+  .snurble-switch {
+    display: flex;
+    align-items: center;
+  }
+
+  .snurble-switch__input {
+    display: none;
+  }
+
+  .snurble-switch__label {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-2);
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .snurble-switch__toggle {
+    position: relative;
+    display: inline-block;
+    width: 2.5rem;
+    height: 1.5rem;
+    background-color: var(--snurble-border-card);
+    border-radius: 9999px;
+    transition: background-color 150ms ease-out;
+  }
+
+  .snurble-switch__toggle::before {
+    content: "";
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--snurble-base);
+    border-radius: 50%;
+    transition: transform 150ms ease-out;
+    box-shadow: var(--snurble-shadow-sm);
+  }
+
+  .snurble-switch__input:checked ~ .snurble-switch__label .snurble-switch__toggle {
+    background-color: var(--snurble-brand-primary);
+  }
+
+  .snurble-switch__input:checked ~ .snurble-switch__label .snurble-switch__toggle::before {
+    transform: translateX(1rem);
+  }
+
+  .snurble-switch__input:focus-visible ~ .snurble-switch__label {
+    outline: 2px solid var(--snurble-accent-success);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .snurble-switch__input:disabled ~ .snurble-switch__label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>

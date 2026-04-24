@@ -88,6 +88,21 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain(
       'export { default as FormError } from "./FormError.astro";'
     );
+    expect(indexTs).toContain(
+      'export { default as Dialog } from "./Dialog.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Drawer } from "./Drawer.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Popover } from "./Popover.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as DropdownMenu } from "./DropdownMenu.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Tooltip } from "./Tooltip.astro";'
+    );
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');

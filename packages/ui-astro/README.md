@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 38 runtime primitives plus shared LLM helper types:
+The package entrypoint currently exports 47 runtime primitives plus shared LLM helper types:
 
 ### Shell and document primitives
 
@@ -72,6 +72,18 @@ The package entrypoint currently exports 38 runtime primitives plus shared LLM h
 - `Accordion`
 - `Pagination`
 - `TableOfContents`
+
+### Form foundation primitives
+
+- `Field`
+- `Input`
+- `Textarea`
+- `Checkbox`
+- `RadioGroup`
+- `Select`
+- `Switch`
+- `FormHint`
+- `FormError`
 
 ### Content and profile primitives
 

@@ -61,6 +61,33 @@ describe("ui-astro package", () => {
     expect(indexTs).toContain(
       'export { default as TableOfContents } from "./TableOfContents.astro";'
     );
+    expect(indexTs).toContain(
+      'export { default as Field } from "./Field.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Input } from "./Input.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Textarea } from "./Textarea.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Checkbox } from "./Checkbox.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as RadioGroup } from "./RadioGroup.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Select } from "./Select.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as Switch } from "./Switch.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as FormHint } from "./FormHint.astro";'
+    );
+    expect(indexTs).toContain(
+      'export { default as FormError } from "./FormError.astro";'
+    );
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
     expect(packageJson).toContain('"astro": "^6.0.0"');

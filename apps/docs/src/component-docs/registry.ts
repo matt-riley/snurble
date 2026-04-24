@@ -194,7 +194,7 @@ const componentContentByName = {
       "Highlight supporting guidance or caveats without the stronger semantics of a stateful alert.",
   },
   Checkbox: {
-    exampleCode: `<Checkbox id="updates" name="updates" label="Email me release updates" />`,
+    exampleCode: `<Checkbox id="updates" label="Email me release updates" />`,
     notes: [
       "Use Checkbox for independent boolean values.",
       "Prefer Switch for immediate on/off settings.",
@@ -307,18 +307,22 @@ const componentContentByName = {
       "Group multiple experience entries into the shared stacked timeline/list presentation.",
   },
   Field: {
-    exampleCode: `<Field label="Email"><Input type="email" /></Field>`,
+    exampleCode: `<Field label="Email" htmlFor="email">
+  <Input id="email" type="email" placeholder="matt@example.com" />
+</Field>`,
     notes: [
-      "Compose Field with the actual input control.",
+      "Compose Field with the actual input control and matching htmlFor/id values.",
       "Keep validation orchestration in the consumer.",
     ],
     summary:
       "Provide the wrapper contract for labels, hints, errors, and child controls in shared forms.",
   },
   FilterBar: {
-    exampleCode: `<FilterBar><Input type="search" placeholder="Filter components" /></FilterBar>`,
+    exampleCode: `<FilterBar>
+  <Button variant="secondary" size="sm">Stable only</Button>
+</FilterBar>`,
     notes: [
-      "Use FilterBar as a layout wrapper for filtering controls.",
+      "Use FilterBar as a layout wrapper for extra filtering controls alongside its built-in search field.",
       "Keep actual filter logic and state in the page.",
     ],
     summary:
@@ -334,18 +338,20 @@ const componentContentByName = {
       "Inject the shared font-face declarations used by the Snurble typography contract.",
   },
   FormError: {
-    exampleCode: `<FormError id="email-error">Enter a valid email address.</FormError>`,
+    exampleCode: `<FormError id="email-error" text="Enter a valid email address." />`,
     notes: [
       "Render FormError only when validation fails.",
+      "Pass the message copy with the required text prop.",
       "Reference it with aria-describedby and aria-invalid.",
     ],
     summary:
       "Render validation feedback with the shared error color and spacing treatment.",
   },
   FormHint: {
-    exampleCode: `<FormHint id="email-hint">We only use this for release updates.</FormHint>`,
+    exampleCode: `<FormHint id="email-hint" text="We only use this for release updates." />`,
     notes: [
       "Keep hint text short and instructional.",
+      "Pass the guidance copy with the required text prop.",
       "Reference it with aria-describedby on the field.",
     ],
     summary:
@@ -370,10 +376,10 @@ const componentContentByName = {
       "Render a compact icon-only action with shared focus, hover, and press treatment.",
   },
   Input: {
-    exampleCode: `<Input type="email" name="email" placeholder="matt@example.com" />`,
+    exampleCode: `<Input id="email" type="email" placeholder="matt@example.com" />`,
     notes: [
       "Use Field for labels, hints, and errors around the control.",
-      "Pass native input attributes through from the consumer.",
+      "Always provide the required id so labels and described-by relationships can target the control.",
     ],
     summary:
       "Render the shared single-line text input surface and typography treatment.",
@@ -501,7 +507,7 @@ const componentContentByName = {
       "Create titled content sections with a stable heading contract and optional decoration control.",
   },
   Select: {
-    exampleCode: `<Select id="category" name="category"><option>Docs</option></Select>`,
+    exampleCode: `<Select id="category" options={categoryOptions} placeholder="Choose a category" defaultValue="docs" />`,
     notes: [
       "Use Select for longer or denser choice lists.",
       "Prefer RadioGroup when all options should remain visible.",
@@ -600,7 +606,7 @@ const componentContentByName = {
       "Render a headline metric with optional trend or supporting context for scan-friendly data display.",
   },
   Switch: {
-    exampleCode: `<Switch id="announcements" name="announcements" label="Enable announcements" />`,
+    exampleCode: `<Switch id="announcements" label="Enable announcements" />`,
     notes: [
       "Use Switch for settings toggles that read as on/off.",
       "Pair it with surrounding context that explains the effect.",
@@ -627,7 +633,7 @@ const componentContentByName = {
       "Render a named-panel disclosure pattern for switching between related views or content groups.",
   },
   Textarea: {
-    exampleCode: `<Textarea name="message" rows={4} placeholder="Tell us more..." />`,
+    exampleCode: `<Textarea id="message" rows={4} placeholder="Tell us more..." />`,
     notes: [
       "Use Textarea for longer freeform input.",
       "Keep validation feedback outside the control surface.",

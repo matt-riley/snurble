@@ -1,3 +1,4 @@
+import { componentDocs } from "../../component-docs/registry";
 import { defineDocsLlmPage } from "../define-page";
 
 export const homeLlmPage = defineDocsLlmPage({
@@ -15,7 +16,7 @@ Snurble packages the shared design-system contract extracted from workv2 into de
 
 The shared package surface currently includes:
 
-- 54 Astro runtime primitives under /components
+- ${componentDocs.length} Astro runtime primitives under /components
 - 1 LLM helper API route under /llm-helper
 - markdown twins for the docs front door, top-level guides, and every component page
 

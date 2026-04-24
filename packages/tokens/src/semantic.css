@@ -27,20 +27,57 @@
 
   --snurble-action-primary: linear-gradient(
     135deg,
-    var(--snurble-palette-blue),
-    var(--snurble-palette-lavender)
+    var(--snurble-palette-pink) 0%,
+    var(--snurble-palette-mauve) 48%,
+    var(--snurble-palette-blue) 100%
   );
   --snurble-action-primary-hover: linear-gradient(
     135deg,
-    var(--snurble-palette-sky),
-    var(--snurble-palette-mauve)
+    var(--snurble-palette-red) 0%,
+    var(--snurble-palette-mauve) 42%,
+    var(--snurble-palette-sky) 100%
+  );
+  --snurble-action-primary-active: linear-gradient(
+    135deg,
+    var(--snurble-palette-maroon) 0%,
+    var(--snurble-palette-mauve) 45%,
+    var(--snurble-palette-sapphire) 100%
+  );
+  --snurble-action-primary-selected: linear-gradient(
+    135deg,
+    var(--snurble-palette-peach) 0%,
+    var(--snurble-palette-pink) 46%,
+    var(--snurble-palette-lavender) 100%
   );
   --snurble-action-primary-text: var(--snurble-palette-crust);
   --snurble-action-primary-border: rgb(137 180 250 / 0.75);
-  --snurble-action-secondary: rgb(88 91 112 / 0.72);
-  --snurble-action-secondary-hover: rgb(69 71 90 / 0.92);
+  --snurble-action-primary-border-hover: rgb(203 166 247 / 0.92);
+  --snurble-action-primary-border-selected: rgb(250 179 135 / 0.95);
+  --snurble-action-secondary: linear-gradient(
+    135deg,
+    rgb(49 50 68 / 0.98),
+    rgb(69 71 90 / 0.94)
+  );
+  --snurble-action-secondary-hover: linear-gradient(
+    135deg,
+    rgb(69 71 90 / 0.98),
+    rgb(88 91 112 / 0.94)
+  );
+  --snurble-action-secondary-active: linear-gradient(
+    135deg,
+    rgb(24 24 37 / 0.98),
+    rgb(49 50 68 / 0.94)
+  );
+  --snurble-action-secondary-selected: linear-gradient(
+    135deg,
+    var(--snurble-palette-teal),
+    var(--snurble-palette-sapphire)
+  );
   --snurble-action-secondary-text: var(--snurble-text);
   --snurble-action-secondary-border: rgb(186 194 222 / 0.2);
+  --snurble-action-secondary-border-hover: rgb(203 166 247 / 0.56);
+  --snurble-action-secondary-border-selected: rgb(148 226 213 / 0.9);
+  --snurble-action-secondary-selected-text: var(--snurble-palette-crust);
   --snurble-action-danger: linear-gradient(
     135deg,
     var(--snurble-palette-red),
@@ -51,10 +88,32 @@
     var(--snurble-palette-maroon),
     var(--snurble-palette-red)
   );
+  --snurble-action-danger-active: linear-gradient(
+    135deg,
+    var(--snurble-palette-maroon),
+    var(--snurble-palette-red)
+  );
+  --snurble-action-danger-selected: linear-gradient(
+    135deg,
+    var(--snurble-palette-red),
+    var(--snurble-palette-peach)
+  );
   --snurble-action-danger-text: var(--snurble-palette-crust);
   --snurble-action-danger-border: rgb(243 139 168 / 0.72);
-  --snurble-action-shadow: 0 0.75rem 1.75rem rgb(17 17 27 / 0.3);
-  --snurble-action-shadow-hover: 0 1rem 2.5rem rgb(17 17 27 / 0.42);
+  --snurble-action-danger-border-hover: rgb(243 139 168 / 0.95);
+  --snurble-action-danger-border-selected: rgb(250 179 135 / 0.95);
+  --snurble-action-shadow:
+    0 0.75rem 1.75rem rgb(17 17 27 / 0.34),
+    0 0 0 1px rgb(255 255 255 / 0.05) inset;
+  --snurble-action-shadow-hover:
+    0 1rem 2.5rem rgb(17 17 27 / 0.5), 0 0 1.5rem rgb(137 180 250 / 0.24),
+    0 0 0 1px rgb(255 255 255 / 0.14) inset;
+  --snurble-action-shadow-active:
+    0 0.45rem 1rem rgb(17 17 27 / 0.34),
+    0 0.25rem 0.75rem rgb(17 17 27 / 0.26) inset;
+  --snurble-action-shadow-selected:
+    0 1rem 2.75rem rgb(17 17 27 / 0.5), 0 0 2rem rgb(250 179 135 / 0.3),
+    0 0 0 1px rgb(255 255 255 / 0.18) inset;
 
   --snurble-brand-primary: var(--snurble-palette-peach);
   --snurble-brand-heading: var(--snurble-palette-mauve);
@@ -87,19 +146,81 @@
     --snurble-border-strong: rgb(140 143 161 / 0.75);
     --snurble-selection: rgb(30 102 245 / 0.2);
 
-    --snurble-action-primary: linear-gradient(135deg, #1e66f5, #6c4bd8);
-    --snurble-action-primary-hover: linear-gradient(135deg, #174fbf, #5a32c7);
+    --snurble-action-primary: linear-gradient(
+      135deg,
+      #4338ca 0%,
+      #7c3aed 52%,
+      #c2410c 100%
+    );
+    --snurble-action-primary-hover: linear-gradient(
+      135deg,
+      #3730a3 0%,
+      #6d28d9 46%,
+      #9a3412 100%
+    );
+    --snurble-action-primary-active: linear-gradient(
+      135deg,
+      #312e81 0%,
+      #581c87 48%,
+      #7c2d12 100%
+    );
+    --snurble-action-primary-selected: linear-gradient(
+      135deg,
+      #7c2d12 0%,
+      #be185d 48%,
+      #4338ca 100%
+    );
     --snurble-action-primary-text: #ffffff;
-    --snurble-action-primary-border: rgb(30 102 245 / 0.5);
-    --snurble-action-secondary: rgb(239 241 245 / 0.88);
-    --snurble-action-secondary-hover: rgb(230 233 239 / 0.96);
+    --snurble-action-primary-border: rgb(67 56 202 / 0.72);
+    --snurble-action-primary-border-hover: rgb(124 58 237 / 0.88);
+    --snurble-action-primary-border-selected: rgb(194 65 12 / 0.85);
+    --snurble-action-secondary: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #eef2ff 58%,
+      #fff7ed 100%
+    );
+    --snurble-action-secondary-hover: linear-gradient(
+      135deg,
+      #eef2ff 0%,
+      #e0e7ff 52%,
+      #ffedd5 100%
+    );
+    --snurble-action-secondary-active: linear-gradient(
+      135deg,
+      #dbeafe 0%,
+      #c7d2fe 52%,
+      #fed7aa 100%
+    );
+    --snurble-action-secondary-selected: linear-gradient(
+      135deg,
+      #4338ca 0%,
+      #0f766e 100%
+    );
     --snurble-action-secondary-text: var(--snurble-palette-text);
-    --snurble-action-secondary-border: rgb(76 79 105 / 0.22);
+    --snurble-action-secondary-border: rgb(99 102 241 / 0.34);
+    --snurble-action-secondary-border-hover: rgb(99 102 241 / 0.62);
+    --snurble-action-secondary-border-selected: rgb(15 118 110 / 0.74);
+    --snurble-action-secondary-selected-text: #ffffff;
     --snurble-action-danger: linear-gradient(135deg, #d20f39, #b10b2e);
-    --snurble-action-danger-hover: linear-gradient(135deg, #b10b2e, #970824);
+    --snurble-action-danger-hover: linear-gradient(135deg, #b10b2e, #9f1239);
+    --snurble-action-danger-active: linear-gradient(135deg, #970824, #881337);
+    --snurble-action-danger-selected: linear-gradient(135deg, #9f1239, #c2410c);
     --snurble-action-danger-text: #ffffff;
     --snurble-action-danger-border: rgb(210 15 57 / 0.5);
-    --snurble-action-shadow: 0 0.75rem 1.75rem rgb(76 79 105 / 0.16);
-    --snurble-action-shadow-hover: 0 1rem 2.25rem rgb(76 79 105 / 0.24);
+    --snurble-action-danger-border-hover: rgb(210 15 57 / 0.72);
+    --snurble-action-danger-border-selected: rgb(194 65 12 / 0.72);
+    --snurble-action-shadow:
+      0 0.75rem 1.75rem rgb(76 79 105 / 0.18),
+      0 0 0 1px rgb(255 255 255 / 0.75) inset;
+    --snurble-action-shadow-hover:
+      0 1rem 2.35rem rgb(76 79 105 / 0.28), 0 0 1.5rem rgb(99 102 241 / 0.18),
+      0 0 0 1px rgb(255 255 255 / 0.92) inset;
+    --snurble-action-shadow-active:
+      0 0.45rem 1rem rgb(76 79 105 / 0.2),
+      0 0.25rem 0.75rem rgb(49 46 129 / 0.16) inset;
+    --snurble-action-shadow-selected:
+      0 1rem 2.6rem rgb(49 46 129 / 0.28), 0 0 1.85rem rgb(234 88 12 / 0.2),
+      0 0 0 1px rgb(255 255 255 / 0.88) inset;
   }
 }

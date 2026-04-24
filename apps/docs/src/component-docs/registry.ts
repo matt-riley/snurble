@@ -176,10 +176,11 @@ const componentContentByName = {
       "Render hierarchical navigation links for nested docs and application sections.",
   },
   Button: {
-    exampleCode: `<Button variant="primary">Ship it</Button>`,
+    exampleCode: `<Button variant="primary" selected>Ship it</Button>`,
     notes: [
       "Use Button for actions, not navigation.",
       "Switch to LinkButton when the target is another route.",
+      "Use selected when a button represents the active pressed state.",
     ],
     summary:
       "Render the primary shared action control for the highest-priority calls to action.",
@@ -371,10 +372,11 @@ const componentContentByName = {
       "Render the page-level introduction block for landing pages, guides, and component docs.",
   },
   IconButton: {
-    exampleCode: `<IconButton ariaLabel="Open menu"><span aria-hidden="true">☰</span></IconButton>`,
+    exampleCode: `<IconButton ariaLabel="Open menu" selected><span aria-hidden="true">☰</span></IconButton>`,
     notes: [
       "Always pass ariaLabel for accessible naming.",
       "Reserve icon-only controls for compact secondary actions.",
+      "Use selected for toggle-style icon controls so the pressed state is announced.",
     ],
     summary:
       "Render a compact icon-only action with shared focus, hover, and press treatment.",
@@ -407,10 +409,11 @@ const componentContentByName = {
       "Own the document shell and head slot while leaving page-specific metadata and route policies in the consumer.",
   },
   LinkButton: {
-    exampleCode: `<LinkButton href="/components/button">Button docs</LinkButton>`,
+    exampleCode: `<LinkButton href="/components/button" selected>Button docs</LinkButton>`,
     notes: [
       "Use LinkButton for navigation rather than form submission.",
       "Set external when linking to a new tab target.",
+      "Use selected for the current destination so link state stays visible and semantic.",
     ],
     summary:
       "Render navigation styled like a button without collapsing link semantics into a click handler.",

@@ -4,19 +4,29 @@ interface Props {
   variant?: "primary" | "secondary" | "danger";
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  selected?: boolean;
   class?: string;
 }
 
-const { ariaLabel, variant = "primary", size = "md", disabled = false, class: className } = Astro.props;
+const {
+  ariaLabel,
+  variant = "primary",
+  size = "md",
+  disabled = false,
+  selected = false,
+  class: className,
+} = Astro.props;
 ---
 
 <button
   aria-label={ariaLabel}
+  aria-pressed={selected ? "true" : undefined}
   disabled={disabled}
   class:list={[
     "snurble-icon-button",
     `snurble-icon-button--${variant}`,
     `snurble-icon-button--${size}`,
+    selected && "snurble-icon-button--selected",
     disabled && "snurble-icon-button--disabled",
     className,
   ]}
@@ -26,16 +36,30 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
 
 <style>
   .snurble-icon-button {
+    --snurble-icon-button-background: var(--snurble-action-secondary);
+    --snurble-icon-button-background-hover: var(--snurble-action-secondary-hover);
+    --snurble-icon-button-background-active: var(--snurble-action-secondary-active);
+    --snurble-icon-button-background-selected: var(--snurble-action-secondary-selected);
+    --snurble-icon-button-color: var(--snurble-action-secondary-text);
+    --snurble-icon-button-color-selected: var(--snurble-action-secondary-selected-text);
+    --snurble-icon-button-border: var(--snurble-action-secondary-border);
+    --snurble-icon-button-border-hover: var(--snurble-action-secondary-border-hover);
+    --snurble-icon-button-border-selected: var(--snurble-action-secondary-border-selected);
+
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    isolation: isolate;
+    overflow: hidden;
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
     border: 1px solid transparent;
     border-radius: 999px;
-    background: var(--snurble-action-secondary);
-    color: var(--snurble-action-secondary-text);
+    background: var(--snurble-icon-button-background);
+    color: var(--snurble-icon-button-color);
+    border-color: var(--snurble-icon-button-border);
     cursor: pointer;
     box-shadow: var(--snurble-action-shadow);
     transition:
@@ -48,19 +72,51 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
     outline-offset: 2px;
   }
 
+  .snurble-icon-button::before {
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: radial-gradient(circle at 28% 22%, rgb(255 255 255 / 0.48), transparent 38%);
+    content: "";
+    opacity: 0.48;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease-out,
+      transform 220ms ease-out;
+  }
+
   .snurble-icon-button:focus-visible {
     outline: 3px solid var(--snurble-focus-ring);
   }
 
   .snurble-icon-button:hover:not(:disabled) {
-    background: var(--snurble-action-secondary-hover);
+    background: var(--snurble-icon-button-background-hover);
+    border-color: var(--snurble-icon-button-border-hover);
     box-shadow: var(--snurble-action-shadow-hover);
-    transform: translateY(-1px);
+    filter: saturate(1.08);
+    transform: translateY(-2px);
+  }
+
+  .snurble-icon-button:hover:not(:disabled)::before {
+    opacity: 0.78;
+    transform: scale(1.18);
   }
 
   .snurble-icon-button:active:not(:disabled) {
-    transform: translateY(0) scale(0.98);
-    box-shadow: var(--snurble-action-shadow);
+    background: var(--snurble-icon-button-background-active);
+    border-color: var(--snurble-icon-button-border-hover);
+    box-shadow: var(--snurble-action-shadow-active);
+    filter: saturate(0.98) brightness(0.96);
+    transform: translateY(1px) scale(0.95);
+  }
+
+  .snurble-icon-button--selected,
+  .snurble-icon-button[aria-pressed="true"] {
+    background: var(--snurble-icon-button-background-selected);
+    color: var(--snurble-icon-button-color-selected);
+    border-color: var(--snurble-icon-button-border-selected);
+    box-shadow: var(--snurble-action-shadow-selected);
+    transform: translateY(-1px);
   }
 
   .snurble-icon-button--sm {
@@ -74,23 +130,27 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
   }
 
   .snurble-icon-button--primary {
-    background: var(--snurble-action-primary);
-    color: var(--snurble-action-primary-text);
-    border-color: var(--snurble-action-primary-border);
-  }
-
-  .snurble-icon-button--primary:hover:not(:disabled) {
-    background: var(--snurble-action-primary-hover);
+    --snurble-icon-button-background: var(--snurble-action-primary);
+    --snurble-icon-button-background-hover: var(--snurble-action-primary-hover);
+    --snurble-icon-button-background-active: var(--snurble-action-primary-active);
+    --snurble-icon-button-background-selected: var(--snurble-action-primary-selected);
+    --snurble-icon-button-color: var(--snurble-action-primary-text);
+    --snurble-icon-button-color-selected: var(--snurble-action-primary-text);
+    --snurble-icon-button-border: var(--snurble-action-primary-border);
+    --snurble-icon-button-border-hover: var(--snurble-action-primary-border-hover);
+    --snurble-icon-button-border-selected: var(--snurble-action-primary-border-selected);
   }
 
   .snurble-icon-button--danger {
-    background: var(--snurble-action-danger);
-    color: var(--snurble-action-danger-text);
-    border-color: var(--snurble-action-danger-border);
-  }
-
-  .snurble-icon-button--danger:hover:not(:disabled) {
-    background: var(--snurble-action-danger-hover);
+    --snurble-icon-button-background: var(--snurble-action-danger);
+    --snurble-icon-button-background-hover: var(--snurble-action-danger-hover);
+    --snurble-icon-button-background-active: var(--snurble-action-danger-active);
+    --snurble-icon-button-background-selected: var(--snurble-action-danger-selected);
+    --snurble-icon-button-color: var(--snurble-action-danger-text);
+    --snurble-icon-button-color-selected: var(--snurble-action-danger-text);
+    --snurble-icon-button-border: var(--snurble-action-danger-border);
+    --snurble-icon-button-border-hover: var(--snurble-action-danger-border-hover);
+    --snurble-icon-button-border-selected: var(--snurble-action-danger-border-selected);
   }
 
   .snurble-icon-button--disabled,
@@ -98,5 +158,19 @@ const { ariaLabel, variant = "primary", size = "md", disabled = false, class: cl
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-icon-button,
+    .snurble-icon-button::before {
+      transition: none;
+    }
+
+    .snurble-icon-button:hover:not(:disabled),
+    .snurble-icon-button:active:not(:disabled),
+    .snurble-icon-button--selected,
+    .snurble-icon-button[aria-pressed="true"] {
+      transform: none;
+    }
   }
 </style>

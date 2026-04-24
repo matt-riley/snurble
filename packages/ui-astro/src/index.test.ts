@@ -170,9 +170,28 @@ describe("ui-astro package", () => {
       const primitiveSource = await readRepoFile(primitivePath);
 
       expect(primitiveSource).toContain("var(--snurble-action-primary)");
+      expect(primitiveSource).toContain("var(--snurble-action-primary-active)");
+      expect(primitiveSource).toContain(
+        "var(--snurble-action-primary-selected)"
+      );
       expect(primitiveSource).toContain("var(--snurble-action-primary-text)");
       expect(primitiveSource).toContain("var(--snurble-action-secondary)");
+      expect(primitiveSource).toContain(
+        "var(--snurble-action-secondary-active)"
+      );
+      expect(primitiveSource).toContain(
+        "var(--snurble-action-secondary-selected)"
+      );
       expect(primitiveSource).toContain("var(--snurble-action-danger)");
+      expect(primitiveSource).toContain("var(--snurble-action-danger-active)");
+      expect(primitiveSource).toContain(
+        "var(--snurble-action-danger-selected)"
+      );
+      expect(primitiveSource).toContain("var(--snurble-action-shadow-active)");
+      expect(primitiveSource).toContain(
+        "var(--snurble-action-shadow-selected)"
+      );
+      expect(primitiveSource).toContain("prefers-reduced-motion: reduce");
       expect(primitiveSource).not.toContain("var(--snurble-base)");
     }
   });

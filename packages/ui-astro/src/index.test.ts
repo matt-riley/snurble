@@ -214,6 +214,31 @@ describe("ui-astro package", () => {
     }
   });
 
+  it("keeps Badge readable across themes and documents every variant", async () => {
+    const badgeAstro = await readRepoFile("packages/ui-astro/src/Badge.astro");
+    const semanticCss = await readRepoFile("packages/tokens/src/semantic.css");
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
+    );
+    const componentDemo = await readRepoFile(
+      "apps/docs/src/components/docs/ComponentDemo.astro"
+    );
+
+    expect(semanticCss).toContain("--snurble-badge-on-fill:");
+    expect(semanticCss).toContain("--snurble-badge-on-warning:");
+    expect(badgeAstro).toContain("font-size: 0.875rem;");
+    expect(badgeAstro).toContain("line-height: 1;");
+    expect(badgeAstro).toContain("font-weight: 700;");
+    expect(badgeAstro).toContain("color: var(--snurble-badge-on-fill);");
+    expect(badgeAstro).toContain("color: var(--snurble-badge-on-warning);");
+    expect(registry).toContain("<Badge>Default</Badge>");
+    expect(registry).toContain('<Badge variant="success">Success</Badge>');
+    expect(registry).toContain('<Badge variant="warning">Warning</Badge>');
+    expect(registry).toContain('<Badge variant="danger">Danger</Badge>');
+    expect(registry).toContain('<Badge variant="info">Info</Badge>');
+    expect(componentDemo).toContain("const badgeVariants = [");
+  });
+
   it("implements a neutral PageShell container for width and padding only", async () => {
     const pageShellAstro = await readRepoFile(
       "packages/ui-astro/src/PageShell.astro"

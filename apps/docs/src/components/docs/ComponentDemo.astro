@@ -103,6 +103,14 @@ const socialLinks = [
   { href: "https://linkedin.com/in/matthewjriley", icon: "linkedin", label: "LinkedIn profile" },
 ];
 
+const badgeVariants = [
+  { label: "Default", variant: "default" },
+  { label: "Success", variant: "success" },
+  { label: "Warning", variant: "warning" },
+  { label: "Danger", variant: "danger" },
+  { label: "Info", variant: "info" },
+] as const;
+
 const codeSnippetDemo = `const publishTag = "next";
 
 console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
@@ -277,7 +285,13 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   {entry.name === "Button" && <Button>Ship it</Button>}
   {entry.name === "IconButton" && <IconButton ariaLabel="Open menu"><span aria-hidden="true">☰</span></IconButton>}
   {entry.name === "LinkButton" && <LinkButton href="/components/button">Button docs</LinkButton>}
-  {entry.name === "Badge" && <Badge variant="success">Stable</Badge>}
+  {entry.name === "Badge" && (
+    <div class="flex flex-wrap gap-3">
+      {badgeVariants.map(({ label, variant }) => (
+        <Badge variant={variant}>{label}</Badge>
+      ))}
+    </div>
+  )}
   {entry.name === "Alert" && <Alert title="Heads up" description="Tokens ship separately." variant="info" />}
   {entry.name === "Callout" && <Callout title="Consumer-owned">Route metadata stays local.</Callout>}
   {entry.name === "EmptyState" && (

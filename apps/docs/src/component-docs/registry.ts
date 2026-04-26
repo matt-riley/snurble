@@ -160,7 +160,13 @@ const componentContentByName = {
       "Render a structured status message for info, success, warning, or danger states.",
   },
   Badge: {
-    exampleCode: `<Badge variant="success">Stable</Badge>`,
+    exampleCode: `<div class="flex flex-wrap gap-3">
+  <Badge>Default</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="danger">Danger</Badge>
+  <Badge variant="info">Info</Badge>
+</div>`,
     notes: [
       "Use short labels that fit in one line.",
       "Avoid using badges as primary navigation.",

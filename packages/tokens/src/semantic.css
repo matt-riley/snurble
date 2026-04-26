@@ -22,6 +22,8 @@
   --snurble-on-accent: var(--snurble-palette-crust);
   --snurble-on-warning: var(--snurble-palette-crust);
   --snurble-on-strong: var(--snurble-palette-crust);
+  --snurble-badge-on-fill: var(--snurble-palette-crust);
+  --snurble-badge-on-warning: var(--snurble-palette-crust);
   --snurble-on-brand-primary: var(--snurble-palette-crust);
   --snurble-switch-thumb: var(--snurble-palette-text);
 
@@ -139,6 +141,8 @@
     --snurble-on-accent: #ffffff;
     --snurble-on-warning: #11111b;
     --snurble-on-strong: #ffffff;
+    --snurble-badge-on-fill: #ffffff;
+    --snurble-badge-on-warning: #11111b;
     --snurble-on-brand-primary: #11111b;
     --snurble-switch-thumb: #ffffff;
 

@@ -1039,6 +1039,9 @@ describe("ui-astro package", () => {
       "packages/ui-astro/src/organisms/ExperienceCard.astro"
     );
 
+    await expect(experienceCardAstro).resolves.toContain(
+      'import SkillIconList from "../molecules/SkillIconList.astro";'
+    );
     await expect(experienceCardAstro).resolves.toContain("logo: string;");
     await expect(experienceCardAstro).resolves.toContain("logoAlt?: string;");
     await expect(experienceCardAstro).resolves.toContain("title: string;");
@@ -1056,7 +1059,14 @@ describe("ui-astro package", () => {
     await expect(experienceCardAstro).resolves.toContain(
       "set:html={description}"
     );
+    await expect(experienceCardAstro).resolves.toContain(
+      'const hasSkills = await Astro.slots.has("skills");'
+    );
     await expect(experienceCardAstro).resolves.toContain("<slot />");
+    await expect(experienceCardAstro).resolves.toContain(
+      '<slot name="skills" />'
+    );
+    await expect(experienceCardAstro).resolves.toContain("<SkillIconList>");
     await expect(experienceCardAstro).resolves.not.toContain("class?: string;");
   });
 

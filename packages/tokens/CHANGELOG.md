@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.1...design-tokens-v1.7.2) (2026-04-26)
+
+
+### Bug Fixes
+
+* **badge:** restore status badge contrast ([e33ccdd](https://github.com/matt-riley/snurble/commit/e33ccddc54e63c1a915da8e46174fb38faac0334))
+
 ## [1.7.1](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.0...design-tokens-v1.7.1) (2026-04-26)
 
 

@@ -19,7 +19,11 @@ const iconAsset = resolveSkillIcon(name);
   <span class="snurble-skill-icon__shell" aria-hidden="true">
     <span class="snurble-skill-icon__clip">
       <span class="snurble-skill-icon__icon">
-        <svg viewBox="0 0 24 24" focusable="false">
+        <svg
+          viewBox="0 0 24 24"
+          focusable="false"
+          data-variant={iconAsset.variant}
+        >
           <path d={iconAsset.path}></path>
         </svg>
       </span>
@@ -83,10 +87,18 @@ const iconAsset = resolveSkillIcon(name);
   .snurble-skill-icon__icon svg {
     width: 100%;
     height: 100%;
+  }
+
+  .snurble-skill-icon__icon svg[data-variant="stroke"] {
     fill: none;
     stroke: currentColor;
     stroke-width: 1.75;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .snurble-skill-icon__icon svg[data-variant="fill"] {
+    fill: currentColor;
+    stroke: none;
   }
 </style>

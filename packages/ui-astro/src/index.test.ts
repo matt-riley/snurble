@@ -996,24 +996,31 @@ describe("ui-astro package", () => {
     await expect(skillIconAstro).resolves.toContain(
       "const iconAsset = resolveSkillIcon(name);"
     );
+    await expect(skillIconAstro).resolves.toContain("<svg");
+    await expect(skillIconAstro).resolves.toContain('viewBox="0 0 24 24"');
+    await expect(skillIconAstro).resolves.toContain('focusable="false"');
     await expect(skillIconAstro).resolves.toContain(
-      '<svg viewBox="0 0 24 24" focusable="false">'
+      "data-variant={iconAsset.variant}"
     );
     await expect(skillIconAstro).resolves.toContain(
       "snurble-skill-icon__shell"
     );
     await expect(skillIconAstro).resolves.toContain("fill: none;");
+    await expect(skillIconAstro).resolves.toContain("fill: currentColor;");
+    await expect(skillIconAstro).resolves.toContain('svg[data-variant="fill"]');
     await expect(skillIconAstro).resolves.not.toContain("<slot />");
 
     await expect(skillIconsTs).resolves.toContain("const SKILL_ICON_MAP = {");
     await expect(skillIconsTs).resolves.toContain("typescript:");
     await expect(skillIconsTs).resolves.toContain("astro:");
     await expect(skillIconsTs).resolves.toContain("fallback:");
+    await expect(skillIconsTs).resolves.toContain('variant: "fill"');
+    await expect(skillIconsTs).resolves.toContain('variant: "stroke"');
     await expect(skillIconsTs).resolves.toContain(
-      "M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+      "M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75"
     );
     await expect(skillIconsTs).resolves.toContain(
-      "M14.5 17c.5 .5 2.5 .5 2.5 -1c0 -1 -2 -1.125 -2 -2.025c0 -.893 1.5 -.82 2 0"
+      "h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"
     );
     await expect(skillIconsTs).resolves.toContain(
       "M14.972 3.483c.163 .196 .247 .46 .413 .987l3.64 11.53"

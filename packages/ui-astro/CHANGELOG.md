@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.0...ui-astro-v1.15.1) (2026-04-26)
+
+
+### Bug Fixes
+
+* render TypeScript SkillIcon as filled logo ([9637a41](https://github.com/matt-riley/snurble/commit/9637a41eca3ea33ee1e871b7515dc0046bb8a6d0))
+* use correct SkillIcon brand paths ([5643335](https://github.com/matt-riley/snurble/commit/56433351c1d339b6105dab9681790fd5229718dc))
+
 ## [1.15.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.14.1...ui-astro-v1.15.0) (2026-04-26)
 
 

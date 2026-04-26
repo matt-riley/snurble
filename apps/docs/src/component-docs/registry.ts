@@ -556,16 +556,16 @@ const componentContentByName = {
       "Render a loading placeholder surface that matches the package spacing and radius contract.",
   },
   SkillIcon: {
-    exampleCode: `<SkillIcon label="TypeScript"><span aria-hidden="true">TS</span></SkillIcon>`,
+    exampleCode: `<SkillIcon name="typescript" label="TypeScript" />`,
     notes: [
-      "Use accessible labels for icon-only affordances.",
-      "Keep skill taxonomy ownership in the consumer.",
+      "Pass supported icon name and accessible label for icon-only usage.",
+      "Unknown names render visible fallback glyph during development.",
     ],
     summary:
-      "Render a single skill or technology badge with the shared icon-and-label treatment.",
+      "Render single skill or technology icon with shared circular stroke treatment.",
   },
   SkillIconList: {
-    exampleCode: `<SkillIconList><SkillIcon ... /></SkillIconList>`,
+    exampleCode: `<SkillIconList><SkillIcon name="typescript" label="TypeScript" /></SkillIconList>`,
     notes: [
       "Compose SkillIconList with SkillIcon children.",
       "Prefer short, scan-friendly skill labels.",

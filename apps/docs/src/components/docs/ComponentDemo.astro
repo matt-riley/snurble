@@ -264,19 +264,13 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   )}
 
   {entry.name === "SkillIcon" && (
-    <SkillIcon label="TypeScript">
-      <span aria-hidden="true">TS</span>
-    </SkillIcon>
+    <SkillIcon name="typescript" label="TypeScript" />
   )}
 
   {entry.name === "SkillIconList" && (
     <SkillIconList title="Core skills">
-      <SkillIcon label="TypeScript">
-        <span aria-hidden="true">TS</span>
-      </SkillIcon>
-      <SkillIcon label="Astro">
-        <span aria-hidden="true">AS</span>
-      </SkillIcon>
+      <SkillIcon name="typescript" label="TypeScript" />
+      <SkillIcon name="astro" label="Astro" />
     </SkillIconList>
   )}
 

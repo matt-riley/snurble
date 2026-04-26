@@ -74,15 +74,19 @@ const {
 
   .snurble-icon-button::before {
     position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    background: radial-gradient(circle at 28% 22%, rgb(255 255 255 / 0.48), transparent 38%);
+    inset: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(255 255 255 / 0.24), transparent 70%);
     content: "";
-    opacity: 0.48;
+    opacity: 0;
     pointer-events: none;
+    transform: translate(-50%, -50%);
     transition:
-      opacity 180ms ease-out,
-      transform 220ms ease-out;
+      width 200ms ease-out,
+      height 200ms ease-out,
+      opacity 180ms ease-out;
   }
 
   .snurble-icon-button:focus-visible {
@@ -93,21 +97,20 @@ const {
     background: var(--snurble-icon-button-background-hover);
     border-color: var(--snurble-icon-button-border-hover);
     box-shadow: var(--snurble-action-shadow-hover);
-    filter: saturate(1.08);
     transform: translateY(-2px);
   }
 
   .snurble-icon-button:hover:not(:disabled)::before {
-    opacity: 0.78;
-    transform: scale(1.18);
+    width: 90%;
+    height: 90%;
+    opacity: 1;
   }
 
   .snurble-icon-button:active:not(:disabled) {
     background: var(--snurble-icon-button-background-active);
     border-color: var(--snurble-icon-button-border-hover);
     box-shadow: var(--snurble-action-shadow-active);
-    filter: saturate(0.98) brightness(0.96);
-    transform: translateY(1px) scale(0.95);
+    transform: translateY(0px) scale(0.97);
   }
 
   .snurble-icon-button--selected,

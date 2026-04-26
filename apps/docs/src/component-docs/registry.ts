@@ -471,12 +471,24 @@ const componentContentByName = {
       "Provide the shared bordered or elevated surface wrapper for examples, cards, and supporting content.",
   },
   Popover: {
-    exampleCode: `<Popover open position="bottom" title="Details">
+    exampleCode: `---
+const popoverPosition = "right";
+const showPopoverTitle = true;
+const closePopoverOnOutsideClick = false;
+---
+
+<Popover
+  open
+  position={popoverPosition}
+  title={showPopoverTitle ? "Details" : undefined}
+  closeOnOutsideClick={closePopoverOnOutsideClick}
+>
   <p>Popover content stays short and contextual.</p>
 </Popover>`,
     notes: [
       "Use Popover for small supporting content blocks.",
-      "Do not hide critical workflow steps inside a popover.",
+      "Add a title when content needs a visible label and dismiss button.",
+      "Only disable outside-click dismissal when another obvious close path exists.",
     ],
     summary:
       "Render a lightweight anchored overlay for brief contextual information.",

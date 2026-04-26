@@ -656,6 +656,31 @@ describe("ui-astro package", () => {
     expect(registry).toContain("Use concise role and company labels.");
   });
 
+  it("shows Popover variation controls in docs and expanded reference example", async () => {
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
+    );
+    const componentDemo = await readRepoFile(
+      "apps/docs/src/components/docs/ComponentDemo.astro"
+    );
+
+    expect(registry).toContain('const popoverPosition = "right";');
+    expect(registry).toContain(
+      'title={showPopoverTitle ? "Details" : undefined}'
+    );
+    expect(registry).toContain(
+      "closeOnOutsideClick={closePopoverOnOutsideClick}"
+    );
+    expect(registry).toContain(
+      "Only disable outside-click dismissal when another obvious close path exists."
+    );
+    expect(componentDemo).toContain("data-popover-docs-demo");
+    expect(componentDemo).toContain("Position");
+    expect(componentDemo).toContain("Show title");
+    expect(componentDemo).toContain("Close on outside click");
+    expect(componentDemo).toContain("Open popover");
+  });
+
   it("renders a live CodeSnippet demo and assigns explicit languages to docs snippets", async () => {
     const registry = await readRepoFile(
       "apps/docs/src/component-docs/registry.ts"

@@ -71,6 +71,7 @@ describe("release readiness docs and packaging", () => {
     const archiveEntries = await packPackage("packages/ui-astro");
 
     expect(archiveEntries).toContain("package/README.md");
+    expect(archiveEntries).toContain("package/src/skill-icons.ts");
     expect(archiveEntries).not.toContain("package/src/index.test.ts");
     expect(archiveEntries).not.toContain(
       "package/src/release-readiness.test.ts"

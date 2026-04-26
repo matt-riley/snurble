@@ -118,6 +118,13 @@ const alertVariants = [
   { description: "Production build needs attention before retry.", title: "Deploy failed", variant: "danger" },
 ] as const;
 
+const popoverPositions = [
+  { label: "Top", value: "top" },
+  { label: "Bottom", value: "bottom" },
+  { label: "Left", value: "left" },
+  { label: "Right", value: "right" },
+] as const;
+
 const codeSnippetDemo = `const publishTag = "next";
 
 console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
@@ -394,10 +401,81 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   )}
 
   {entry.name === "Popover" && (
-    <div class="relative min-h-40">
-      <Popover open title="Popover details">
-        <p>Popover content stays short and contextual.</p>
-      </Popover>
+    <div
+      class="popover-docs-demo rounded-lg border border-[var(--snurble-border)] bg-[var(--snurble-surface-card)] p-4"
+      data-popover-docs-demo
+    >
+      <div class="popover-docs-controls">
+        <label class="popover-docs-field">
+          <span class="popover-docs-field-label">Position</span>
+          <select
+            class="popover-docs-select"
+            data-popover-position
+            aria-label="Popover position"
+          >
+            {popoverPositions.map((option) => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class="popover-docs-checkbox">
+          <input type="checkbox" data-popover-title checked />
+          <span>Show title</span>
+        </label>
+
+        <label class="popover-docs-checkbox">
+          <input type="checkbox" data-popover-outside checked />
+          <span>Close on outside click</span>
+        </label>
+      </div>
+
+      <div
+        class="popover-docs-stage rounded-lg border border-dashed border-[var(--snurble-border)]"
+      >
+        <div class="popover-docs-anchor">
+          <button
+            type="button"
+            class="popover-docs-open rounded-md border border-[var(--snurble-border)] px-3 py-2 text-sm font-medium text-[var(--snurble-text)]"
+            data-popover-open
+          >
+            Open popover
+          </button>
+          <p class="text-center text-xs text-[var(--snurble-text-muted)]">
+            Click empty stage to test outside click behavior.
+          </p>
+        </div>
+
+        <div data-popover-wrapper="titled">
+          <Popover
+            open
+            title="Popover details"
+            class="popover-docs-surface popover-docs-surface-titled"
+          >
+            <Stack space={2}>
+              <p>Popover content stays short and contextual.</p>
+              <p class="text-xs text-[var(--snurble-text-muted)]">
+                Titled variant includes built-in close button.
+              </p>
+            </Stack>
+          </Popover>
+        </div>
+
+        <div data-popover-wrapper="untitled" hidden>
+          <Popover open class="popover-docs-surface popover-docs-surface-untitled">
+            <Stack space={2}>
+              <p>Popover content stays short and contextual.</p>
+              <p class="text-xs text-[var(--snurble-text-muted)]">
+                Untitled variant keeps chrome lighter for brief supporting copy.
+              </p>
+            </Stack>
+          </Popover>
+        </div>
+      </div>
+
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        Toggle title, placement, and outside-click dismissal, then reopen preview as needed.
+      </p>
     </div>
   )}
 
@@ -434,3 +512,214 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
 
   {entry.name === "SortIndicator" && <SortIndicator label="Updated" sortOrder="desc" />}
 </Stack>
+
+<style>
+  .popover-docs-demo {
+    display: grid;
+    gap: var(--snurble-space-4);
+  }
+
+  .popover-docs-controls {
+    display: grid;
+    gap: var(--snurble-space-3);
+  }
+
+  .popover-docs-field {
+    display: grid;
+    gap: var(--snurble-space-2);
+  }
+
+  .popover-docs-field-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .popover-docs-select {
+    min-height: 2.5rem;
+    border: 1px solid var(--snurble-border);
+    border-radius: 0.5rem;
+    background: var(--snurble-surface);
+    color: var(--snurble-text);
+    padding-inline: var(--snurble-space-3);
+  }
+
+  .popover-docs-checkbox {
+    display: inline-flex;
+    gap: var(--snurble-space-2);
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--snurble-text);
+  }
+
+  .popover-docs-stage {
+    position: relative;
+    min-height: 19rem;
+    padding: var(--snurble-space-5);
+    background:
+      radial-gradient(circle at center, rgba(89, 131, 254, 0.12), transparent 55%),
+      var(--snurble-surface);
+    overflow: hidden;
+  }
+
+  .popover-docs-anchor {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: grid;
+    gap: var(--snurble-space-2);
+    justify-items: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .popover-docs-open {
+    background: var(--snurble-surface-card);
+    transition:
+      background-color 150ms ease-out,
+      transform 150ms ease-out;
+  }
+
+  .popover-docs-open:hover {
+    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.08));
+  }
+
+  .popover-docs-open:active {
+    transform: scale(0.98);
+  }
+
+  .popover-docs-open:focus-visible,
+  .popover-docs-select:focus-visible {
+    outline: 2px solid var(--snurble-brand-primary);
+    outline-offset: 2px;
+  }
+
+  .popover-docs-demo :global(.popover-docs-surface.snurble-popover) {
+    position: absolute;
+    inset: auto;
+    max-width: min(20rem, calc(100% - 2rem));
+    animation: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .popover-docs-demo :global(.popover-docs-surface.snurble-popover-top) {
+    bottom: calc(50% + 3rem);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .popover-docs-demo :global(.popover-docs-surface.snurble-popover-bottom) {
+    top: calc(50% + 3rem);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .popover-docs-demo :global(.popover-docs-surface.snurble-popover-left) {
+    top: 50%;
+    right: calc(50% + 4rem);
+    transform: translateY(-50%);
+  }
+
+  .popover-docs-demo :global(.popover-docs-surface.snurble-popover-right) {
+    top: 50%;
+    left: calc(50% + 4rem);
+    transform: translateY(-50%);
+  }
+
+  @media (min-width: 48rem) {
+    .popover-docs-controls {
+      grid-template-columns: minmax(0, 12rem) repeat(2, auto);
+      align-items: end;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .popover-docs-open {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const popoverPositions = ["top", "bottom", "left", "right"];
+
+  const syncPopoverDemo = (demo: HTMLElement) => {
+    const positionControl = demo.querySelector("[data-popover-position]");
+    const titleControl = demo.querySelector("[data-popover-title]");
+    const outsideControl = demo.querySelector("[data-popover-outside]");
+    const openButton = demo.querySelector("[data-popover-open]");
+    const titledWrapper = demo.querySelector('[data-popover-wrapper="titled"]');
+    const untitledWrapper = demo.querySelector('[data-popover-wrapper="untitled"]');
+    const titledPopover =
+      titledWrapper instanceof HTMLElement
+        ? titledWrapper.querySelector(".snurble-popover")
+        : null;
+    const untitledPopover =
+      untitledWrapper instanceof HTMLElement
+        ? untitledWrapper.querySelector(".snurble-popover")
+        : null;
+
+    if (
+      !(positionControl instanceof HTMLSelectElement) ||
+      !(titleControl instanceof HTMLInputElement) ||
+      !(outsideControl instanceof HTMLInputElement) ||
+      !(openButton instanceof HTMLButtonElement) ||
+      !(titledWrapper instanceof HTMLElement) ||
+      !(untitledWrapper instanceof HTMLElement) ||
+      !(titledPopover instanceof HTMLElement) ||
+      !(untitledPopover instanceof HTMLElement)
+    ) {
+      return;
+    }
+
+    const popovers = {
+      titled: { popover: titledPopover, wrapper: titledWrapper },
+      untitled: { popover: untitledPopover, wrapper: untitledWrapper },
+    };
+
+    const setPositionClass = (popover: HTMLElement, position: string) => {
+      for (const value of popoverPositions) {
+        popover.classList.remove(`snurble-popover-${value}`);
+      }
+
+      popover.classList.add(`snurble-popover-${position}`);
+      popover.dataset.position = position;
+    };
+
+    const apply = () => {
+      const position = positionControl.value;
+      const closeOnOutsideClick = String(outsideControl.checked);
+      const activeKey = titleControl.checked ? "titled" : "untitled";
+
+      for (const [key, entry] of Object.entries(popovers)) {
+        const isActive = key === activeKey;
+
+        entry.wrapper.hidden = !isActive;
+        entry.popover.dataset.closeOnOutside = closeOnOutsideClick;
+        entry.popover.dataset.open = isActive ? "true" : "false";
+        setPositionClass(entry.popover, position);
+      }
+    };
+
+    openButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const activePopover = titleControl.checked
+        ? popovers.titled.popover
+        : popovers.untitled.popover;
+
+      activePopover.dataset.open = "true";
+    });
+
+    positionControl.addEventListener("change", apply);
+    titleControl.addEventListener("change", apply);
+    outsideControl.addEventListener("change", apply);
+
+    apply();
+  };
+
+  for (const demo of document.querySelectorAll("[data-popover-docs-demo]")) {
+    if (demo instanceof HTMLElement) {
+      syncPopoverDemo(demo);
+    }
+  }
+</script>

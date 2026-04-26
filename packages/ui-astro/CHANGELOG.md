@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.14.0...ui-astro-v1.14.1) (2026-04-26)
+
+
+### Bug Fixes
+
+* **docs:** show highlighted code snippets ([b7bffc3](https://github.com/matt-riley/snurble/commit/b7bffc3ca987013021288445c64734ec8f3645b2))
+
 ## [1.14.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.13.0...ui-astro-v1.14.0) (2026-04-26)
 
 

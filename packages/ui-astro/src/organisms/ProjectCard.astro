@@ -111,20 +111,21 @@ const safeUrl = isSafeUrl(url) ? url : "#";
     gap: var(--snurble-space-3);
     height: 100%;
     padding: var(--snurble-space-4);
-    background: var(--snurble-surface-card);
+    background: var(--snurble-surface-glass-card, var(--snurble-surface-card));
+    backdrop-filter: var(--snurble-backdrop-blur, blur(12px));
     border: 1px solid var(--snurble-border);
     border-radius: 0.75rem;
     box-shadow: var(--snurble-shadow-sm);
     transition:
-      transform var(--snurble-transition-base),
-      box-shadow var(--snurble-transition-base),
-      border-color var(--snurble-transition-base);
+      transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color 200ms ease-out;
   }
 
   .snurble-project-card:hover {
-    border-color: var(--snurble-border-strong);
-    transform: translateY(-2px);
-    box-shadow: var(--snurble-shadow-md);
+    border-color: var(--snurble-action-primary-border, var(--snurble-border-strong));
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--snurble-shadow-glow-primary, var(--snurble-shadow-md));
   }
 
   .snurble-project-card__header {

@@ -46,7 +46,7 @@ describe("llm shared surface", () => {
 
   it("implements a visually hidden hint primitive for conversational agent discovery", async () => {
     const component = await readRepoFile(
-      "packages/ui-astro/src/AgentDiscoveryHint.astro"
+      "packages/ui-astro/src/atoms/AgentDiscoveryHint.astro"
     );
 
     expect(component).toContain("hint: string | readonly string[];");
@@ -66,7 +66,7 @@ describe("llm shared surface", () => {
     const readme = await readRepoFile("packages/ui-astro/README.md");
 
     expect(indexTs).toContain(
-      'export { default as AgentDiscoveryHint } from "./AgentDiscoveryHint.astro";'
+      'export { default as AgentDiscoveryHint } from "./atoms/AgentDiscoveryHint.astro";'
     );
     expect(indexTs).toContain(
       'export { createMarkdownAlternateLink } from "./llm";'

@@ -17,103 +17,103 @@ describe("ui-astro package", () => {
     const packageJson = await readRepoFile("packages/ui-astro/package.json");
 
     expect(indexTs).toContain(
-      'export { default as Layout } from "./Layout.astro";'
+      'export { default as Layout } from "./templates/Layout.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as PageShell } from "./PageShell.astro";'
+      'export { default as PageShell } from "./templates/PageShell.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Hero } from "./Hero.astro";'
+      'export { default as Hero } from "./organisms/Hero.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Section } from "./Section.astro";'
+      'export { default as Section } from "./templates/Section.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Panel } from "./Panel.astro";'
+      'export { default as Panel } from "./molecules/Panel.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as DataTable } from "./DataTable.astro";'
+      'export { default as DataTable } from "./organisms/DataTable.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as MetaList } from "./MetaList.astro";'
+      'export { default as MetaList } from "./molecules/MetaList.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as CodeSnippet } from "./CodeSnippet.astro";'
+      'export { default as CodeSnippet } from "./atoms/CodeSnippet.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Stack } from "./Stack.astro";'
+      'export { default as Stack } from "./atoms/Stack.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Skeleton } from "./Skeleton.astro";'
+      'export { default as Skeleton } from "./atoms/Skeleton.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Breadcrumbs } from "./Breadcrumbs.astro";'
+      'export { default as Breadcrumbs } from "./molecules/Breadcrumbs.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Tabs } from "./Tabs.astro";'
+      'export { default as Tabs } from "./molecules/Tabs.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Accordion } from "./Accordion.astro";'
+      'export { default as Accordion } from "./molecules/Accordion.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Pagination } from "./Pagination.astro";'
+      'export { default as Pagination } from "./molecules/Pagination.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as TableOfContents } from "./TableOfContents.astro";'
+      'export { default as TableOfContents } from "./molecules/TableOfContents.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Field } from "./Field.astro";'
+      'export { default as Field } from "./molecules/Field.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Input } from "./Input.astro";'
+      'export { default as Input } from "./atoms/Input.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Textarea } from "./Textarea.astro";'
+      'export { default as Textarea } from "./atoms/Textarea.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Checkbox } from "./Checkbox.astro";'
+      'export { default as Checkbox } from "./atoms/Checkbox.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as RadioGroup } from "./RadioGroup.astro";'
+      'export { default as RadioGroup } from "./molecules/RadioGroup.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Select } from "./Select.astro";'
+      'export { default as Select } from "./molecules/Select.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Switch } from "./Switch.astro";'
+      'export { default as Switch } from "./atoms/Switch.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as FormHint } from "./FormHint.astro";'
+      'export { default as FormHint } from "./atoms/FormHint.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as FormError } from "./FormError.astro";'
+      'export { default as FormError } from "./atoms/FormError.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Dialog } from "./Dialog.astro";'
+      'export { default as Dialog } from "./organisms/Dialog.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Drawer } from "./Drawer.astro";'
+      'export { default as Drawer } from "./organisms/Drawer.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Popover } from "./Popover.astro";'
+      'export { default as Popover } from "./molecules/Popover.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as DropdownMenu } from "./DropdownMenu.astro";'
+      'export { default as DropdownMenu } from "./organisms/DropdownMenu.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as Tooltip } from "./Tooltip.astro";'
+      'export { default as Tooltip } from "./atoms/Tooltip.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as StatCard } from "./StatCard.astro";'
+      'export { default as StatCard } from "./organisms/StatCard.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as DescriptionList } from "./DescriptionList.astro";'
+      'export { default as DescriptionList } from "./molecules/DescriptionList.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as FilterBar } from "./FilterBar.astro";'
+      'export { default as FilterBar } from "./organisms/FilterBar.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SortIndicator } from "./SortIndicator.astro";'
+      'export { default as SortIndicator } from "./atoms/SortIndicator.astro";'
     );
     expect(indexTs).not.toContain("workspaceBaseline");
     expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
@@ -140,7 +140,7 @@ describe("ui-astro package", () => {
 
   it("implements a minimal shared layout shell with package-owned token import", async () => {
     const layoutAstro = await readRepoFile(
-      "packages/ui-astro/src/Layout.astro"
+      "packages/ui-astro/src/templates/Layout.astro"
     );
 
     expect(layoutAstro).toContain('import "@matt-riley/design-tokens";');
@@ -161,9 +161,9 @@ describe("ui-astro package", () => {
 
   it("keeps action primitives on readable semantic action tokens", async () => {
     const actionPrimitivePaths = [
-      "packages/ui-astro/src/Button.astro",
-      "packages/ui-astro/src/IconButton.astro",
-      "packages/ui-astro/src/LinkButton.astro",
+      "packages/ui-astro/src/atoms/Button.astro",
+      "packages/ui-astro/src/atoms/IconButton.astro",
+      "packages/ui-astro/src/atoms/LinkButton.astro",
     ];
 
     for (const primitivePath of actionPrimitivePaths) {
@@ -198,13 +198,13 @@ describe("ui-astro package", () => {
 
   it("does not reference the old undefined base color token", async () => {
     const tokenConsumerPaths = [
-      "packages/ui-astro/src/Badge.astro",
-      "packages/ui-astro/src/Button.astro",
-      "packages/ui-astro/src/IconButton.astro",
-      "packages/ui-astro/src/LinkButton.astro",
-      "packages/ui-astro/src/Pagination.astro",
-      "packages/ui-astro/src/Switch.astro",
-      "packages/ui-astro/src/Tooltip.astro",
+      "packages/ui-astro/src/atoms/Badge.astro",
+      "packages/ui-astro/src/atoms/Button.astro",
+      "packages/ui-astro/src/atoms/IconButton.astro",
+      "packages/ui-astro/src/atoms/LinkButton.astro",
+      "packages/ui-astro/src/molecules/Pagination.astro",
+      "packages/ui-astro/src/atoms/Switch.astro",
+      "packages/ui-astro/src/atoms/Tooltip.astro",
     ];
 
     for (const tokenConsumerPath of tokenConsumerPaths) {
@@ -216,7 +216,7 @@ describe("ui-astro package", () => {
 
   it("wires Tooltip to aria-describedby triggers and positions it beside the trigger", async () => {
     const tooltipAstro = await readRepoFile(
-      "packages/ui-astro/src/Tooltip.astro"
+      "packages/ui-astro/src/atoms/Tooltip.astro"
     );
 
     expect(tooltipAstro).toContain('[aria-describedby~="${tooltipId}"]');
@@ -230,7 +230,9 @@ describe("ui-astro package", () => {
   });
 
   it("keeps Badge readable across themes and documents every variant", async () => {
-    const badgeAstro = await readRepoFile("packages/ui-astro/src/Badge.astro");
+    const badgeAstro = await readRepoFile(
+      "packages/ui-astro/src/atoms/Badge.astro"
+    );
     const semanticCss = await readRepoFile("packages/tokens/src/semantic.css");
     const registry = await readRepoFile(
       "apps/docs/src/component-docs/registry.ts"
@@ -266,7 +268,7 @@ describe("ui-astro package", () => {
 
   it("implements a neutral PageShell container for width and padding only", async () => {
     const pageShellAstro = await readRepoFile(
-      "packages/ui-astro/src/PageShell.astro"
+      "packages/ui-astro/src/templates/PageShell.astro"
     );
 
     expect(pageShellAstro).toContain(
@@ -290,7 +292,9 @@ describe("ui-astro package", () => {
   });
 
   it("implements a semantic Hero intro block with optional lede and trailing slot content", async () => {
-    const heroAstro = await readRepoFile("packages/ui-astro/src/Hero.astro");
+    const heroAstro = await readRepoFile(
+      "packages/ui-astro/src/organisms/Hero.astro"
+    );
 
     expect(heroAstro).toContain("title: string;");
     expect(heroAstro).toContain("lede?: string;");
@@ -322,7 +326,9 @@ describe("ui-astro package", () => {
   });
 
   it("implements a named Section wrapper with mutually exclusive heading modes", async () => {
-    const sectionAstro = readRepoFile("packages/ui-astro/src/Section.astro");
+    const sectionAstro = readRepoFile(
+      "packages/ui-astro/src/templates/Section.astro"
+    );
 
     await expect(sectionAstro).resolves.toContain("interface TitledProps {");
     await expect(sectionAstro).resolves.toContain("headingId: string;");
@@ -353,7 +359,9 @@ describe("ui-astro package", () => {
   });
 
   it("implements a visual Panel wrapper with surface treatment and default slot content only", async () => {
-    const panelAstro = readRepoFile("packages/ui-astro/src/Panel.astro");
+    const panelAstro = readRepoFile(
+      "packages/ui-astro/src/molecules/Panel.astro"
+    );
 
     await expect(panelAstro).resolves.toContain("interface Props {");
     await expect(panelAstro).resolves.toContain(
@@ -383,7 +391,7 @@ describe("ui-astro package", () => {
   });
 
   it("implements a flexible Stack wrapper for repeated vertical spacing", async () => {
-    const stackAstro = readRepoFile("packages/ui-astro/src/Stack.astro");
+    const stackAstro = readRepoFile("packages/ui-astro/src/atoms/Stack.astro");
 
     await expect(stackAstro).resolves.toContain("interface Props {");
     await expect(stackAstro).resolves.toContain(
@@ -406,7 +414,7 @@ describe("ui-astro package", () => {
 
   it("implements a narrow DataTable wrapper with explicit accessible naming and slot-based rows", async () => {
     const dataTableAstro = readRepoFile(
-      "packages/ui-astro/src/DataTable.astro"
+      "packages/ui-astro/src/organisms/DataTable.astro"
     );
 
     await expect(dataTableAstro).resolves.toContain(
@@ -453,7 +461,7 @@ describe("ui-astro package", () => {
 
   it("supports stacked mobile rows through consumer-supplied data labels", async () => {
     const dataTableAstro = await readRepoFile(
-      "packages/ui-astro/src/DataTable.astro"
+      "packages/ui-astro/src/organisms/DataTable.astro"
     );
     const migrationPage = await readRepoFile(
       "apps/docs/src/pages/mattriley-tools-migration.astro"
@@ -468,7 +476,9 @@ describe("ui-astro package", () => {
   });
 
   it("implements a narrow MetaList wrapper with semantic dl markup and consumer-owned dt/dd pairs", async () => {
-    const metaListAstro = readRepoFile("packages/ui-astro/src/MetaList.astro");
+    const metaListAstro = readRepoFile(
+      "packages/ui-astro/src/molecules/MetaList.astro"
+    );
 
     await expect(metaListAstro).resolves.toContain(
       '<dl class="snurble-meta-list">'
@@ -493,7 +503,7 @@ describe("ui-astro package", () => {
 
   it("implements a narrow CodeSnippet primitive with explicit variant semantics and non-empty code validation", async () => {
     const codeSnippetAstro = readRepoFile(
-      "packages/ui-astro/src/CodeSnippet.astro"
+      "packages/ui-astro/src/atoms/CodeSnippet.astro"
     );
 
     await expect(codeSnippetAstro).resolves.toContain(
@@ -601,7 +611,7 @@ describe("ui-astro package", () => {
 
   it("refreshes StatCard with layered surfaces and stable metadata layout", async () => {
     const statCardAstro = await readRepoFile(
-      "packages/ui-astro/src/StatCard.astro"
+      "packages/ui-astro/src/organisms/StatCard.astro"
     );
 
     expect(statCardAstro).toContain('class="stat-card-surface"');
@@ -739,46 +749,46 @@ describe("ui-astro package", () => {
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     expect(indexTs).toContain(
-      'export { default as FontAssets } from "./FontAssets.astro";'
+      'export { default as FontAssets } from "./atoms/FontAssets.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as JsonLd } from "./JsonLd.astro";'
+      'export { default as JsonLd } from "./atoms/JsonLd.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SkipLink } from "./SkipLink.astro";'
+      'export { default as SkipLink } from "./atoms/SkipLink.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ProfileHero } from "./ProfileHero.astro";'
+      'export { default as ProfileHero } from "./organisms/ProfileHero.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SocialLinks } from "./SocialLinks.astro";'
+      'export { default as SocialLinks } from "./molecules/SocialLinks.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as DecoratedHeading } from "./DecoratedHeading.astro";'
+      'export { default as DecoratedHeading } from "./molecules/DecoratedHeading.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ProjectCard } from "./ProjectCard.astro";'
+      'export { default as ProjectCard } from "./organisms/ProjectCard.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ProjectGrid } from "./ProjectGrid.astro";'
+      'export { default as ProjectGrid } from "./organisms/ProjectGrid.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ExperienceCard } from "./ExperienceCard.astro";'
+      'export { default as ExperienceCard } from "./organisms/ExperienceCard.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ExperienceList } from "./ExperienceList.astro";'
+      'export { default as ExperienceList } from "./molecules/ExperienceList.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SkillIcon } from "./SkillIcon.astro";'
+      'export { default as SkillIcon } from "./atoms/SkillIcon.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SkillIconList } from "./SkillIconList.astro";'
+      'export { default as SkillIconList } from "./molecules/SkillIconList.astro";'
     );
   });
 
   it("implements a reusable FontAssets component for font-face declarations", async () => {
     const fontAssetsAstro = readRepoFile(
-      "packages/ui-astro/src/FontAssets.astro"
+      "packages/ui-astro/src/atoms/FontAssets.astro"
     );
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
@@ -789,12 +799,14 @@ describe("ui-astro package", () => {
     await expect(fontAssetsAstro).resolves.not.toContain("interface Props");
     await expect(fontAssetsAstro).resolves.not.toContain("Astro.props");
     expect(indexTs).toContain(
-      'export { default as FontAssets } from "./FontAssets.astro";'
+      'export { default as FontAssets } from "./atoms/FontAssets.astro";'
     );
   });
 
   it("implements a reusable JsonLd component for structured data injection", async () => {
-    const jsonLdAstro = readRepoFile("packages/ui-astro/src/JsonLd.astro");
+    const jsonLdAstro = readRepoFile(
+      "packages/ui-astro/src/atoms/JsonLd.astro"
+    );
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     await expect(jsonLdAstro).resolves.toContain('type="application/ld+json"');
@@ -811,12 +823,14 @@ describe("ui-astro package", () => {
       'throw new Error("JsonLd requires a valid `jsonld` value that can be serialized to JSON.")'
     );
     expect(indexTs).toContain(
-      'export { default as JsonLd } from "./JsonLd.astro";'
+      'export { default as JsonLd } from "./atoms/JsonLd.astro";'
     );
   });
 
   it("implements a reusable SkipLink component for keyboard navigation", async () => {
-    const skipLinkAstro = readRepoFile("packages/ui-astro/src/SkipLink.astro");
+    const skipLinkAstro = readRepoFile(
+      "packages/ui-astro/src/atoms/SkipLink.astro"
+    );
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     await expect(skipLinkAstro).resolves.toContain("skip-link");
@@ -831,13 +845,13 @@ describe("ui-astro package", () => {
       'throw new Error("SkipLink requires an internal anchor `href` starting with #.")'
     );
     expect(indexTs).toContain(
-      'export { default as SkipLink } from "./SkipLink.astro";'
+      'export { default as SkipLink } from "./atoms/SkipLink.astro";'
     );
   });
 
   it("implements ProfileHero for avatar-based profile headers with name and subtitle", async () => {
     const profileHeroAstro = readRepoFile(
-      "packages/ui-astro/src/ProfileHero.astro"
+      "packages/ui-astro/src/organisms/ProfileHero.astro"
     );
 
     await expect(profileHeroAstro).resolves.toContain("name: string;");
@@ -864,7 +878,7 @@ describe("ui-astro package", () => {
 
   it("implements SocialLinks for icon-based social profile navigation", async () => {
     const socialLinksAstro = readRepoFile(
-      "packages/ui-astro/src/SocialLinks.astro"
+      "packages/ui-astro/src/molecules/SocialLinks.astro"
     );
 
     await expect(socialLinksAstro).resolves.toContain(
@@ -913,7 +927,7 @@ describe("ui-astro package", () => {
 
   it("implements DecoratedHeading for SVG text effects", async () => {
     const decoratedHeadingAstro = readRepoFile(
-      "packages/ui-astro/src/DecoratedHeading.astro"
+      "packages/ui-astro/src/molecules/DecoratedHeading.astro"
     );
 
     await expect(decoratedHeadingAstro).resolves.toContain("text: string;");
@@ -939,16 +953,16 @@ describe("ui-astro package", () => {
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     expect(indexTs).toContain(
-      'export { default as ProjectCard } from "./ProjectCard.astro";'
+      'export { default as ProjectCard } from "./organisms/ProjectCard.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ProjectGrid } from "./ProjectGrid.astro";'
+      'export { default as ProjectGrid } from "./organisms/ProjectGrid.astro";'
     );
   });
 
   it("implements a ProjectCard display primitive derived from workv2 RepoCard", async () => {
     const projectCardAstro = await readRepoFile(
-      "packages/ui-astro/src/ProjectCard.astro"
+      "packages/ui-astro/src/organisms/ProjectCard.astro"
     );
 
     expect(projectCardAstro).toContain("name: string;");
@@ -996,7 +1010,7 @@ describe("ui-astro package", () => {
 
   it("implements a ProjectGrid wrapper for laying out ProjectCard components", async () => {
     const projectGridAstro = await readRepoFile(
-      "packages/ui-astro/src/ProjectGrid.astro"
+      "packages/ui-astro/src/organisms/ProjectGrid.astro"
     );
 
     expect(projectGridAstro).toContain("<slot />");
@@ -1029,7 +1043,7 @@ describe("ui-astro package", () => {
 
   it("implements ExperienceCard for displaying job/experience entries with logo, title, company, description, and skills", async () => {
     const experienceCardAstro = readRepoFile(
-      "packages/ui-astro/src/ExperienceCard.astro"
+      "packages/ui-astro/src/organisms/ExperienceCard.astro"
     );
 
     await expect(experienceCardAstro).resolves.toContain("logo: string;");
@@ -1055,11 +1069,11 @@ describe("ui-astro package", () => {
 
   it("implements ExperienceList for wrapping multiple experience cards with semantic list markup", async () => {
     const experienceListAstro = readRepoFile(
-      "packages/ui-astro/src/ExperienceList.astro"
+      "packages/ui-astro/src/molecules/ExperienceList.astro"
     );
 
     await expect(experienceListAstro).resolves.toContain(
-      '<ul class="snurble-experience-list">'
+      '<ul class="snurble-experience-list snurble-animate-stagger">'
     );
     await expect(experienceListAstro).resolves.toContain("<slot />");
     await expect(experienceListAstro).resolves.toContain(
@@ -1073,13 +1087,13 @@ describe("ui-astro package", () => {
 
   it("implements SkillIcon as a named built-in icon renderer", async () => {
     const skillIconAstro = readRepoFile(
-      "packages/ui-astro/src/SkillIcon.astro"
+      "packages/ui-astro/src/atoms/SkillIcon.astro"
     );
     const skillIconsTs = readRepoFile("packages/ui-astro/src/skill-icons.ts");
 
     await expect(skillIconAstro).resolves.toContain("name: string;");
     await expect(skillIconAstro).resolves.toContain(
-      'import { resolveSkillIcon } from "./skill-icons";'
+      'import { resolveSkillIcon } from "../skill-icons";'
     );
     await expect(skillIconAstro).resolves.toContain(
       "const iconAsset = resolveSkillIcon(name);"
@@ -1120,7 +1134,7 @@ describe("ui-astro package", () => {
 
   it("implements SkillIconList for wrapping skill icons with semantic list markup", async () => {
     const skillIconListAstro = readRepoFile(
-      "packages/ui-astro/src/SkillIconList.astro"
+      "packages/ui-astro/src/molecules/SkillIconList.astro"
     );
 
     await expect(skillIconListAstro).resolves.toContain("title?: string;");
@@ -1139,21 +1153,23 @@ describe("ui-astro package", () => {
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     expect(indexTs).toContain(
-      'export { default as ExperienceCard } from "./ExperienceCard.astro";'
+      'export { default as ExperienceCard } from "./organisms/ExperienceCard.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as ExperienceList } from "./ExperienceList.astro";'
+      'export { default as ExperienceList } from "./molecules/ExperienceList.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SkillIcon } from "./SkillIcon.astro";'
+      'export { default as SkillIcon } from "./atoms/SkillIcon.astro";'
     );
     expect(indexTs).toContain(
-      'export { default as SkillIconList } from "./SkillIconList.astro";'
+      'export { default as SkillIconList } from "./molecules/SkillIconList.astro";'
     );
   });
 
   it("implements SeoMeta for Open Graph and Twitter Card metadata injection", async () => {
-    const seoMetaAstro = readRepoFile("packages/ui-astro/src/SeoMeta.astro");
+    const seoMetaAstro = readRepoFile(
+      "packages/ui-astro/src/atoms/SeoMeta.astro"
+    );
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
     await expect(seoMetaAstro).resolves.toContain("title: string;");
@@ -1184,13 +1200,13 @@ describe("ui-astro package", () => {
       "SeoMeta: image must be an absolute http/https URL"
     );
     expect(indexTs).toContain(
-      'export { default as SeoMeta } from "./SeoMeta.astro";'
+      'export { default as SeoMeta } from "./atoms/SeoMeta.astro";'
     );
   });
 
   it("implements ServiceWorker for Progressive Web App service worker registration", async () => {
     const serviceWorkerAstro = readRepoFile(
-      "packages/ui-astro/src/ServiceWorker.astro"
+      "packages/ui-astro/src/atoms/ServiceWorker.astro"
     );
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 
@@ -1211,7 +1227,7 @@ describe("ui-astro package", () => {
     await expect(serviceWorkerAstro).resolves.toContain("console.error");
     await expect(serviceWorkerAstro).resolves.not.toContain("console.log");
     expect(indexTs).toContain(
-      'export { default as ServiceWorker } from "./ServiceWorker.astro";'
+      'export { default as ServiceWorker } from "./atoms/ServiceWorker.astro";'
     );
   });
 });

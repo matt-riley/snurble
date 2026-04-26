@@ -104,9 +104,11 @@ describe("release readiness docs and packaging", () => {
 
   it("keeps Accordion and Tabs compatible with Astro build-time slot rules", async () => {
     const accordion = await readRepoFile(
-      "packages/ui-astro/src/Accordion.astro"
+      "packages/ui-astro/src/molecules/Accordion.astro"
     );
-    const tabs = await readRepoFile("packages/ui-astro/src/Tabs.astro");
+    const tabs = await readRepoFile(
+      "packages/ui-astro/src/molecules/Tabs.astro"
+    );
 
     expect(accordion).toContain("Astro.slots.render(item.id)");
     expect(accordion).not.toContain("<slot name={item.id}");
@@ -116,7 +118,7 @@ describe("release readiness docs and packaging", () => {
 
   it("keeps Accordion's single-open behavior scoped to each component instance", async () => {
     const accordion = await readRepoFile(
-      "packages/ui-astro/src/Accordion.astro"
+      "packages/ui-astro/src/molecules/Accordion.astro"
     );
 
     expect(accordion).toContain("data-snurble-accordion");

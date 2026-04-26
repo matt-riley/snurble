@@ -5,6 +5,10 @@
   --snurble-surface-badge: hsl(var(--snurble-palette-surface2));
   --snurble-surface-card: hsl(var(--snurble-palette-surface1));
 
+  --snurble-surface-glass: hsl(var(--snurble-palette-base) / 0.65);
+  --snurble-surface-glass-card: hsl(var(--snurble-palette-surface1) / 0.7);
+  --snurble-backdrop-blur: blur(12px);
+
   --snurble-text: hsl(var(--snurble-palette-text));
   --snurble-text-muted: hsl(var(--snurble-palette-subtext0));
   --snurble-text-tertiary: hsl(var(--snurble-palette-overlay2));
@@ -141,6 +145,20 @@
 
   --snurble-shadow-card: var(--snurble-shadow-sm);
   --snurble-shadow-card-hover: var(--snurble-shadow-md);
+
+  --snurble-shadow-glow-primary:
+    0 0 20px hsl(var(--snurble-palette-mauve) / 0.35),
+    0 0 40px hsl(var(--snurble-palette-pink) / 0.15);
+  --snurble-shadow-glow-accent:
+    0 0 20px hsl(var(--snurble-palette-blue) / 0.35),
+    0 0 40px hsl(var(--snurble-palette-teal) / 0.15);
+
+  --snurble-text-gradient-primary: linear-gradient(
+    135deg,
+    hsl(var(--snurble-palette-pink)) 0%,
+    hsl(var(--snurble-palette-mauve)) 50%,
+    hsl(var(--snurble-palette-blue)) 100%
+  );
 
   --snurble-font-weight-display: 900;
 }

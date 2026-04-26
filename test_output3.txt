@@ -1,0 +1,194 @@
+ WARN  Issue while reading "/Users/mattriley/Documents/projects/personal/snurble/.npmrc". Failed to replace env in config: ${NODE_AUTH_TOKEN}
+ WARN  Issue while reading "/Users/mattriley/Documents/projects/personal/snurble/.npmrc". Failed to replace env in config: ${NODE_AUTH_TOKEN}
+
+> @matt-riley/snurble@ test /Users/mattriley/Documents/projects/personal/snurble
+> pnpm exec vitest run
+
+ WARN  Issue while reading "/Users/mattriley/Documents/projects/personal/snurble/.npmrc". Failed to replace env in config: ${NODE_AUTH_TOKEN}
+ WARN  Issue while reading "/Users/mattriley/Documents/projects/personal/snurble/.npmrc". Failed to replace env in config: ${NODE_AUTH_TOKEN}
+
+ RUN  v4.1.5 /Users/mattriley/Documents/projects/personal/snurble
+
+ ✓ packages/tokens/src/index.test.ts (4 tests) 7ms
+ ✓ packages/ui-astro/src/llm-surface.test.ts (4 tests) 5ms
+ ✓ apps/docs/src/component-docs-coverage.test.ts (2 tests) 5ms
+ ❯ packages/ui-astro/src/index.test.ts (42 tests | 1 failed) 50ms
+     ✓ exposes the durable foundation primitives through the package entrypoint 2ms
+     ✓ keeps both package manifests packable for external consumers 0ms
+     ✓ implements a minimal shared layout shell with package-owned token import 0ms
+     ✓ keeps action primitives on readable semantic action tokens 1ms
+     ✓ does not reference the old undefined base color token 3ms
+     ✓ wires Tooltip to aria-describedby triggers and positions it beside the trigger 0ms
+     ✓ keeps Badge readable across themes and documents every variant 1ms
+     ✓ implements a neutral PageShell container for width and padding only 2ms
+     ✓ implements a semantic Hero intro block with optional lede and trailing slot content 1ms
+     ✓ implements a named Section wrapper with mutually exclusive heading modes 1ms
+     ✓ implements a visual Panel wrapper with surface treatment and default slot content only 1ms
+     ✓ implements a flexible Stack wrapper for repeated vertical spacing 2ms
+     ✓ implements a narrow DataTable wrapper with explicit accessible naming and slot-based rows 1ms
+     ✓ supports stacked mobile rows through consumer-supplied data labels 1ms
+     ✓ implements a narrow MetaList wrapper with semantic dl markup and consumer-owned dt/dd pairs 1ms
+     ✓ implements a narrow CodeSnippet primitive with explicit variant semantics and non-empty code validation 2ms
+     ✓ adds the minimal Astro typing support for package exports 2ms
+     ✓ documents the component-first reference surface on the docs homepage 1ms
+     ✓ refreshes StatCard with layered surfaces and stable metadata layout 0ms
+     ✓ adds a migration cookbook page for durable consumer adoption guidance 0ms
+     ✓ documents trusted URL and accessibility boundaries in the component docs catalog 0ms
+     ✓ documents Accordion's enforced single-open guidance in the component docs catalog 0ms
+     ✓ shows Popover variation controls in docs and expanded reference example 0ms
+     ✓ renders a live CodeSnippet demo and assigns explicit languages to docs snippets 1ms
+     ✓ exports the accepted foundation primitives through the package entrypoint 0ms
+     ✓ implements a reusable FontAssets component for font-face declarations 0ms
+     ✓ implements a reusable JsonLd component for structured data injection 0ms
+     ✓ implements a reusable SkipLink component for keyboard navigation 1ms
+     ✓ implements ProfileHero for avatar-based profile headers with name and subtitle 0ms
+     ✓ implements SocialLinks for icon-based social profile navigation 1ms
+     ✓ implements DecoratedHeading for SVG text effects 4ms
+     ✓ exports ProjectCard and ProjectGrid primitives through the package entrypoint 0ms
+     ✓ implements a ProjectCard display primitive derived from workv2 RepoCard 1ms
+     ✓ implements a ProjectGrid wrapper for laying out ProjectCard components 0ms
+     ✓ demonstrates ProjectCard edge cases and security in docs 0ms
+     ✓ implements ExperienceCard for displaying job/experience entries with logo, title, company, description, and skills 1ms
+     ✓ implements ExperienceList for wrapping multiple experience cards with semantic list markup 1ms
+     × implements SkillIcon as a named built-in icon renderer 8ms
+     ✓ implements SkillIconList for wrapping skill icons with semantic list markup 1ms
+     ✓ exports experience primitives through the package entrypoint 1ms
+     ✓ implements SeoMeta for Open Graph and Twitter Card metadata injection 1ms
+     ✓ implements ServiceWorker for Progressive Web App service worker registration 1ms
+ ✓ packages/ui-astro/src/release-readiness.test.ts (10 tests) 546ms
+ ✓ apps/docs/src/llm-endpoints.test.ts (2 tests) 6075ms
+     ✓ builds markdown twins and discovery indexes for every docs page  3136ms
+     ✓ wires page html discovery to markdown alternates and hidden llm hints  2938ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/ui-astro/src/index.test.ts > ui-astro package > implements SkillIcon as a named built-in icon renderer
+AssertionError: expected '---\nimport { resolveSkillIcon } from…' to contain 'import { resolveSkillIcon } from "./s…'
+
+- Expected
++ Received
+
+- import { resolveSkillIcon } from "./skill-icons";
++ ---
++ import { resolveSkillIcon } from "../skill-icons";
++
++ interface Props {
++   name: string;
++   label?: string;
++ }
++
++ const { name, label } = Astro.props;
++ const iconAsset = resolveSkillIcon(name);
++ ---
++
++ <span
++   class="snurble-skill-icon"
++   role={label ? "img" : undefined}
++   aria-label={label}
++   aria-hidden={label ? undefined : "true"}
++ >
++   <span class="snurble-skill-icon__shell" aria-hidden="true">
++     <span class="snurble-skill-icon__clip">
++       <span class="snurble-skill-icon__icon">
++         <svg
++           viewBox="0 0 24 24"
++           focusable="false"
++           data-variant={iconAsset.variant}
++         >
++           <path d={iconAsset.path}></path>
++         </svg>
++       </span>
++     </span>
++   </span>
++ </span>
++
++ <style>
++   .snurble-skill-icon {
++     display: inline-flex;
++     align-items: center;
++     justify-content: center;
++   }
++
++   .snurble-skill-icon__shell {
++     position: relative;
++     display: inline-flex;
++     width: 3.5rem;
++     height: 3.5rem;
++     align-items: center;
++     justify-content: center;
++     border-radius: 999px;
++   }
++
++   .snurble-skill-icon__shell::before,
++   .snurble-skill-icon__shell::after {
++     position: absolute;
++     inset: 0;
++     border-radius: inherit;
++     content: "";
++     pointer-events: none;
++   }
++
++   .snurble-skill-icon__shell::before {
++     border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
++     opacity: 0.55;
++   }
++
++   .snurble-skill-icon__shell::after {
++     border: 2px solid currentColor;
++     opacity: 0.3;
++     transform: scale(0.94);
++   }
++
++   .snurble-skill-icon__clip {
++     display: inline-flex;
++     align-items: center;
++     justify-content: center;
++     overflow: hidden;
++     border-radius: inherit;
++   }
++
++   .snurble-skill-icon__icon {
++     display: inline-flex;
++     width: 3rem;
++     height: 3rem;
++     align-items: center;
++     justify-content: center;
++   }
++
++   .snurble-skill-icon__icon svg {
++     width: 100%;
++     height: 100%;
++   }
++
++   .snurble-skill-icon__icon svg[data-variant="stroke"] {
++     fill: none;
++     stroke: currentColor;
++     stroke-width: 1.75;
++     stroke-linecap: round;
++     stroke-linejoin: round;
++   }
++
++   .snurble-skill-icon__icon svg[data-variant="fill"] {
++     fill: currentColor;
++     stroke: none;
++   }
++ </style>
++
+
+ ❯ packages/ui-astro/src/index.test.ts:1081:33
+    1079|
+    1080|     await expect(skillIconAstro).resolves.toContain("name: string;");
+    1081|     await expect(skillIconAstro).resolves.toContain(
+       |                                 ^
+    1082|       'import { resolveSkillIcon } from "./skill-icons";'
+    1083|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 63 passed (64)
+   Start at  22:33:50
+   Duration  6.28s (transform 326ms, setup 0ms, import 392ms, tests 6.69s, environment 0ms)
+
+ ELIFECYCLE  Test failed. See above for more details.

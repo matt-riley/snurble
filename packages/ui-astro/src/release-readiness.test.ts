@@ -114,6 +114,23 @@ describe("release readiness docs and packaging", () => {
     expect(tabs).not.toContain("<slot name={tab.id}");
   });
 
+  it("keeps Accordion's single-open behavior scoped to each component instance", async () => {
+    const accordion = await readRepoFile(
+      "packages/ui-astro/src/Accordion.astro"
+    );
+
+    expect(accordion).toContain("data-snurble-accordion");
+    expect(accordion).toContain("data-snurble-accordion-chevron");
+    expect(accordion).toContain("let hasExpandedItem = false;");
+    expect(accordion).toContain("expanded: item.expanded && !hasExpandedItem");
+    expect(accordion).toContain(
+      'accordionRoot.querySelectorAll(":scope > .snurble-accordion__item")'
+    );
+    expect(accordion).toContain('accordionItem.addEventListener("toggle"');
+    expect(accordion).toContain("otherItem.open = false;");
+    expect(accordion).toContain("prefers-reduced-motion: reduce");
+  });
+
   it("adds GitHub Packages registry metadata without tightening ui-astro's token range", async () => {
     const tokensPackageJson = await readRepoJson<{
       publishConfig: {

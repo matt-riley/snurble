@@ -224,11 +224,21 @@ describe("ui-astro package", () => {
       "apps/docs/src/components/docs/ComponentDemo.astro"
     );
 
+    expect(semanticCss).toContain("--snurble-badge-fill-success:");
+    expect(semanticCss).toContain("--snurble-badge-on-success:");
+    expect(semanticCss).toContain("--snurble-badge-fill-warning:");
     expect(semanticCss).toContain("--snurble-badge-on-fill:");
     expect(semanticCss).toContain("--snurble-badge-on-warning:");
     expect(badgeAstro).toContain("font-size: 0.875rem;");
     expect(badgeAstro).toContain("line-height: 1;");
     expect(badgeAstro).toContain("font-weight: 700;");
+    expect(badgeAstro).toContain(
+      "background-color: var(--snurble-badge-fill-success);"
+    );
+    expect(badgeAstro).toContain("color: var(--snurble-badge-on-success);");
+    expect(badgeAstro).toContain(
+      "background-color: var(--snurble-badge-fill-warning);"
+    );
     expect(badgeAstro).toContain("color: var(--snurble-badge-on-fill);");
     expect(badgeAstro).toContain("color: var(--snurble-badge-on-warning);");
     expect(registry).toContain("<Badge>Default</Badge>");

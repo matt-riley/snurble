@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.4](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.3...ui-astro-v1.15.4) (2026-04-26)
+
+
+### Bug Fixes
+
+* **ui-astro:** restore tooltip display ([2ee351b](https://github.com/matt-riley/snurble/commit/2ee351bf5b978778a5bea5a09ed0c49556d9a6c4))
+
 ## [1.15.3](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.2...ui-astro-v1.15.3) (2026-04-26)
 
 

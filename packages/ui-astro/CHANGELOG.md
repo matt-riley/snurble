@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.16.0...ui-astro-v1.17.0) (2026-04-26)
+
+
+### Features
+
+* add ExperienceCard skills rail ([c7f61c9](https://github.com/matt-riley/snurble/commit/c7f61c9fa206da632dbe237056d621790ccea4b6))
+
 ## [1.16.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.5...ui-astro-v1.16.0) (2026-04-26)
 
 

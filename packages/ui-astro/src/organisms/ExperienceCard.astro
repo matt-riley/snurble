@@ -1,4 +1,6 @@
 ---
+import SkillIconList from "../molecules/SkillIconList.astro";
+
 interface Props {
   logo: string;
   logoAlt?: string;
@@ -11,6 +13,7 @@ interface Props {
 
 const { logo, logoAlt, title, company, description, start, end } = Astro.props;
 const resolvedLogoAlt = logoAlt || `${company} logo`;
+const hasSkills = await Astro.slots.has("skills");
 ---
 
 <article class="snurble-experience-card">
@@ -36,6 +39,13 @@ const resolvedLogoAlt = logoAlt || `${company} logo`;
     comes from a trusted source before using set:html.
   -->
   <div class="snurble-experience-card__description" set:html={description} />
+  {hasSkills && (
+    <div class="snurble-experience-card__skills">
+      <SkillIconList>
+        <slot name="skills" />
+      </SkillIconList>
+    </div>
+  )}
 </article>
 
 <style>
@@ -123,6 +133,12 @@ const resolvedLogoAlt = logoAlt || `${company} logo`;
     grid-column: 1 / -1;
     padding: var(--snurble-space-2);
     text-align: justify;
+  }
+
+  .snurble-experience-card__skills {
+    grid-column: 1 / -1;
+    padding: var(--snurble-space-2);
+    padding-top: 0;
   }
 
   @media (max-width: 768px) {

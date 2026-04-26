@@ -224,6 +224,9 @@ describe("ui-astro package", () => {
     expect(tooltipAstro).toContain("el.getBoundingClientRect()");
     expect(tooltipAstro).toContain("el.style.left =");
     expect(tooltipAstro).toContain("el.style.top =");
+    expect(tooltipAstro).not.toContain("value: number");
+    expect(tooltipAstro).not.toContain("trigger: HTMLElement");
+    expect(tooltipAstro).not.toContain("ReturnType<typeof setTimeout>");
   });
 
   it("keeps Badge readable across themes and documents every variant", async () => {

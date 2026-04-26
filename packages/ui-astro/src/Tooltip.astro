@@ -144,10 +144,10 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
 <script define:vars={{ delay }}>
   const tooltipOffset = 8;
 
-  const clamp = (value: number, min: number, max: number) =>
+  const clamp = (value, min, max) =>
     Math.min(Math.max(value, min), max);
 
-  const positionTooltip = (trigger: HTMLElement, el: HTMLElement) => {
+  const positionTooltip = (trigger, el) => {
     const triggerRect = trigger.getBoundingClientRect();
     const tooltipRect = el.getBoundingClientRect();
     const tooltipPosition = el.dataset.position ?? 'top';
@@ -182,7 +182,7 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
     el.style.top = `${clamp(top, tooltipOffset, maxTop)}px`;
   };
 
-  const initTooltip = (el: Element) => {
+  const initTooltip = (el) => {
     if (!(el instanceof HTMLElement) || !el.id) {
       return;
     }
@@ -193,7 +193,7 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
       return;
     }
 
-    let showTimeout: ReturnType<typeof setTimeout> | undefined;
+    let showTimeout;
 
     const updatePosition = () => {
       positionTooltip(trigger, el);

@@ -983,15 +983,35 @@ describe("ui-astro package", () => {
     await expect(experienceListAstro).resolves.not.toContain("type Props =");
   });
 
-  it("implements SkillIcon as a minimal slot-based container for icons", async () => {
+  it("implements SkillIcon as a named built-in icon renderer", async () => {
     const skillIconAstro = readRepoFile(
       "packages/ui-astro/src/SkillIcon.astro"
     );
+    const skillIconsTs = readRepoFile("packages/ui-astro/src/skill-icons.ts");
 
-    await expect(skillIconAstro).resolves.toContain("aria-hidden={!label}");
-    await expect(skillIconAstro).resolves.toContain("<slot />");
-    await expect(skillIconAstro).resolves.toContain("display: inline-flex;");
-    await expect(skillIconAstro).resolves.not.toContain("class?: string;");
+    await expect(skillIconAstro).resolves.toContain("name: string;");
+    await expect(skillIconAstro).resolves.toContain(
+      'import { resolveSkillIcon } from "./skill-icons";'
+    );
+    await expect(skillIconAstro).resolves.toContain(
+      "const iconAsset = resolveSkillIcon(name);"
+    );
+    await expect(skillIconAstro).resolves.toContain(
+      '<svg viewBox="0 0 24 24" focusable="false">'
+    );
+    await expect(skillIconAstro).resolves.toContain(
+      "snurble-skill-icon__shell"
+    );
+    await expect(skillIconAstro).resolves.toContain("fill: none;");
+    await expect(skillIconAstro).resolves.not.toContain("<slot />");
+
+    await expect(skillIconsTs).resolves.toContain("const SKILL_ICON_MAP = {");
+    await expect(skillIconsTs).resolves.toContain("typescript:");
+    await expect(skillIconsTs).resolves.toContain("astro:");
+    await expect(skillIconsTs).resolves.toContain("fallback:");
+    await expect(skillIconsTs).resolves.toContain(
+      "export const resolveSkillIcon ="
+    );
   });
 
   it("implements SkillIconList for wrapping skill icons with semantic list markup", async () => {

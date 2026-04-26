@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.0...design-tokens-v1.7.1) (2026-04-26)
+
+
+### Bug Fixes
+
+* **badge:** improve contrast and docs ([31eb953](https://github.com/matt-riley/snurble/commit/31eb953f827457c0258d7abefad69d435a2d6888))
+
 ## [1.7.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.6.0...design-tokens-v1.7.0) (2026-04-24)
 
 

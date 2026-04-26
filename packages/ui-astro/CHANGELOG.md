@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.2](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.1...ui-astro-v1.15.2) (2026-04-26)
+
+
+### Bug Fixes
+
+* **badge:** improve contrast and docs ([31eb953](https://github.com/matt-riley/snurble/commit/31eb953f827457c0258d7abefad69d435a2d6888))
+
 ## [1.15.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.0...ui-astro-v1.15.1) (2026-04-26)
 
 

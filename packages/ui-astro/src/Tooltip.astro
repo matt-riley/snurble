@@ -142,52 +142,104 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
 </style>
 
 <script define:vars={{ delay }}>
-  const initTooltip = (el: Element) => {
-    const triggerId = el.getAttribute('aria-describedby');
-    const trigger = triggerId ? document.querySelector(`#${triggerId}`) : null;
+  const tooltipOffset = 8;
 
-    if (!trigger) {
+  const clamp = (value: number, min: number, max: number) =>
+    Math.min(Math.max(value, min), max);
+
+  const positionTooltip = (trigger: HTMLElement, el: HTMLElement) => {
+    const triggerRect = trigger.getBoundingClientRect();
+    const tooltipRect = el.getBoundingClientRect();
+    const tooltipPosition = el.dataset.position ?? 'top';
+
+    let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
+    let top = triggerRect.top - tooltipRect.height - tooltipOffset;
+
+    switch (tooltipPosition) {
+      case 'bottom': {
+        top = triggerRect.bottom + tooltipOffset;
+        break;
+      }
+      case 'left': {
+        left = triggerRect.left - tooltipRect.width - tooltipOffset;
+        top = triggerRect.top + triggerRect.height / 2 - tooltipRect.height / 2;
+        break;
+      }
+      case 'right': {
+        left = triggerRect.right + tooltipOffset;
+        top = triggerRect.top + triggerRect.height / 2 - tooltipRect.height / 2;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    const maxLeft = Math.max(window.innerWidth - tooltipRect.width - tooltipOffset, tooltipOffset);
+    const maxTop = Math.max(window.innerHeight - tooltipRect.height - tooltipOffset, tooltipOffset);
+
+    el.style.left = `${clamp(left, tooltipOffset, maxLeft)}px`;
+    el.style.top = `${clamp(top, tooltipOffset, maxTop)}px`;
+  };
+
+  const initTooltip = (el: Element) => {
+    if (!(el instanceof HTMLElement) || !el.id) {
       return;
     }
 
-    let showTimeout: ReturnType<typeof setTimeout>;
+    const tooltipId = el.id;
+    const trigger = document.querySelector(`[aria-describedby~="${tooltipId}"]`);
+    if (!(trigger instanceof HTMLElement)) {
+      return;
+    }
+
+    let showTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    const updatePosition = () => {
+      positionTooltip(trigger, el);
+    };
 
     const show = () => {
       showTimeout = setTimeout(() => {
+        updatePosition();
+        el.setAttribute('aria-hidden', 'false');
         el.classList.add('show');
       }, delay);
     };
 
     const hide = () => {
-      clearTimeout(showTimeout);
+      if (showTimeout !== undefined) {
+        clearTimeout(showTimeout);
+      }
+      el.setAttribute('aria-hidden', 'true');
       el.classList.remove('show');
+    };
+
+    const handleViewportChange = () => {
+      if (el.classList.contains('show')) {
+        updatePosition();
+      }
     };
 
     trigger.addEventListener('mouseenter', show);
     trigger.addEventListener('mouseleave', hide);
     trigger.addEventListener('focus', show);
     trigger.addEventListener('blur', hide);
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('scroll', handleViewportChange, true);
 
-    // Cleanup
     return () => {
       trigger.removeEventListener('mouseenter', show);
       trigger.removeEventListener('mouseleave', hide);
       trigger.removeEventListener('focus', show);
       trigger.removeEventListener('blur', hide);
+      window.removeEventListener('resize', handleViewportChange);
+      window.removeEventListener('scroll', handleViewportChange, true);
     };
   };
 
-  // Find tooltip by aria-describedby relationship
   const tooltips = document.querySelectorAll('[data-component="tooltip"]');
   for (const el of tooltips) {
-    // Find any element that references this tooltip
-    const triggerId = el.id;
-    if (triggerId) {
-      const trigger = document.querySelector(`[aria-describedby="${triggerId}"]`);
-      if (trigger) {
-        // Initialize tooltip
-        initTooltip(el);
-      }
-    }
+    initTooltip(el);
   }
 </script>

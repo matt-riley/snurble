@@ -214,6 +214,18 @@ describe("ui-astro package", () => {
     }
   });
 
+  it("wires Tooltip to aria-describedby triggers and positions it beside the trigger", async () => {
+    const tooltipAstro = await readRepoFile(
+      "packages/ui-astro/src/Tooltip.astro"
+    );
+
+    expect(tooltipAstro).toContain('[aria-describedby~="${tooltipId}"]');
+    expect(tooltipAstro).toContain("trigger.getBoundingClientRect()");
+    expect(tooltipAstro).toContain("el.getBoundingClientRect()");
+    expect(tooltipAstro).toContain("el.style.left =");
+    expect(tooltipAstro).toContain("el.style.top =");
+  });
+
   it("keeps Badge readable across themes and documents every variant", async () => {
     const badgeAstro = await readRepoFile("packages/ui-astro/src/Badge.astro");
     const semanticCss = await readRepoFile("packages/tokens/src/semantic.css");

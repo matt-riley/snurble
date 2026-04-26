@@ -666,9 +666,7 @@ describe("ui-astro package", () => {
     );
 
     expect(registry).toContain("exampleCode: `<SocialLinks links={links} />`");
-    expect(registry).toContain(
-      'Use the optional effect prop with "halo" (default) or "slide" to choose the hover motion style.'
-    );
+    expect(registry).toContain("Only pass trusted, consumer-validated URLs.");
     expect(registry).toContain(
       "Let the consumer choose which networks to expose."
     );
@@ -687,10 +685,10 @@ describe("ui-astro package", () => {
     );
 
     expect(registry).toContain(
-      "Opening one item closes any other expanded item."
+      "Remember, only one section stays open at a time."
     );
     expect(registry).toContain(
-      "Keep summary labels clearly distinct from the body copy."
+      "Keep your summary labels clearly distinct from the hidden body copy."
     );
   });
 
@@ -702,13 +700,8 @@ describe("ui-astro package", () => {
       "apps/docs/src/components/docs/ComponentDemo.astro"
     );
 
-    expect(registry).toContain('const popoverPosition = "right";');
-    expect(registry).toContain(
-      'title={showPopoverTitle ? "Details" : undefined}'
-    );
-    expect(registry).toContain(
-      "closeOnOutsideClick={closePopoverOnOutsideClick}"
-    );
+    expect(registry).toContain('position="right"');
+    expect(registry).toContain('title="Details"');
     expect(registry).toContain(
       "Only disable outside-click dismissal when another obvious close path exists."
     );

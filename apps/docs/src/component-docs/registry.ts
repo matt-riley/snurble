@@ -318,7 +318,10 @@ const componentContentByName = {
       "Render the shared no-results state. The friendly ghost town of your application.",
   },
   ExperienceCard: {
-    exampleCode: `<ExperienceCard logo="/logos/example-corp.svg" logoAlt="Example Corp logo" title="Senior Engineer" company="Example Corp" description={trustedDescriptionHtml} start="2023-01" end="present" />`,
+    exampleCode: `<ExperienceCard logo="/logos/example-corp.svg" logoAlt="Example Corp logo" title="Senior Engineer" company="Example Corp" description={trustedDescriptionHtml} start="2023-01" end="present">
+  <SkillIcon slot="skills" name="typescript" label="TypeScript" />
+  <SkillIcon slot="skills" name="astro" label="Astro" />
+</ExperienceCard>`,
     notes: [
       "Pass only trusted HTML to description. We don't want any XSS attacks in our resumes.",
       "Use concise role and company labels.",

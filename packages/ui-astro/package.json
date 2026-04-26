@@ -5,8 +5,9 @@
     "src/*.astro",
     "src/*.d.ts",
     "src/index.ts",
-    "src/AgentDiscoveryHint.astro",
     "src/llm.ts",
+    "src/social-icons.ts",
+    "src/AgentDiscoveryHint.astro",
     "README.md"
   ],
   "type": "module",
@@ -18,7 +19,8 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "shiki": "^4.0.2"
+    "shiki": "^4.0.2",
+    "simple-icons": "^16.18.0"
   },
   "devDependencies": {
     "@matt-riley/design-tokens": ">=0.0.0-0"

@@ -585,11 +585,12 @@ const componentContentByName = {
     notes: [
       "Pass accessible labels for each link.",
       "Only pass trusted, consumer-validated URLs in each href; vet schemes and reject malformed or untrusted values before rendering SocialLinks.",
-      'Use expected lowercase network keywords for each icon value (for example "github", "linkedin", or "x") because styling is matched via `data-icon*="..."` selectors.',
+      'Use supported lowercase network keywords: "github", "spotify", "youtube", "bluesky", "twitch", or "x" (aliases "twitter" to "x" internally).',
+      "SocialLinks renders package-owned inline SVG icons from simple-icons; unsupported keywords render a fallback generic link indicator.",
       "Let the consumer choose which networks to expose.",
     ],
     summary:
-      "Render the package-owned social link list with semantic navigation and focus treatment.",
+      "Render the package-owned social link list with semantic navigation, focus treatment, and inline SVG icons.",
   },
   SortIndicator: {
     exampleCode: `<SortIndicator label="Updated" sortOrder="desc" />`,

@@ -1,4 +1,6 @@
 ---
+import { resolveSocialIcon } from "./social-icons";
+
 interface Props {
   links: { href: string; icon: string; label: string }[];
 }
@@ -7,20 +9,32 @@ const { links } = Astro.props;
 ---
 
 <nav aria-label="Social profiles" class="snurble-social-links">
-  {links.map((link) => (
-    <a
-      href={link.href}
-      aria-label={link.label}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="snurble-social-links__link"
-      data-icon={link.icon}
-    >
-      <span class="snurble-social-links__icon" aria-hidden="true">
-        {link.icon}
-      </span>
-    </a>
-  ))}
+  {links.map((link) => {
+    const iconAsset = resolveSocialIcon(link.icon);
+
+    return (
+      <a
+        href={link.href}
+        aria-label={link.label}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="snurble-social-links__link"
+        data-icon={link.icon}
+      >
+        <span class="snurble-social-links__icon" aria-hidden="true">
+          {iconAsset ? (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d={iconAsset.path}></path>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 2c5.522 0 10 4.478 10 10s-4.478 10-10 10S2 17.522 2 12 6.478 2 12 2m0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8m0 2a1 1 0 0 1 0 2 1 1 0 0 1 0-2m0 4a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1z"></path>
+            </svg>
+          )}
+        </span>
+      </a>
+    );
+  })}
 </nav>
 
 <style>
@@ -60,13 +74,16 @@ const { links } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+  }
+
+  .snurble-social-links__icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
   }
 
   .snurble-social-links__link[data-icon*="bluesky"]:hover,
-  .snurble-social-links__link[data-icon*="linkedin"]:hover,
-  .snurble-social-links__link:focus-visible[data-icon*="bluesky"],
-  .snurble-social-links__link:focus-visible[data-icon*="linkedin"] {
+  .snurble-social-links__link:focus-visible[data-icon*="bluesky"] {
     color: var(--snurble-palette-blue);
   }
 

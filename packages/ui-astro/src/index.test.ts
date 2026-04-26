@@ -766,6 +766,11 @@ describe("ui-astro package", () => {
     );
     await expect(socialLinksAstro).resolves.toContain("links.map");
     await expect(socialLinksAstro).resolves.toContain("display: flex");
+    await expect(socialLinksAstro).resolves.toContain(
+      "import { resolveSocialIcon }"
+    );
+    await expect(socialLinksAstro).resolves.toContain("<svg");
+    await expect(socialLinksAstro).resolves.toContain("fill: currentColor");
     await expect(socialLinksAstro).resolves.not.toContain("astro-icon");
     await expect(socialLinksAstro).resolves.not.toContain("class?: string;");
   });

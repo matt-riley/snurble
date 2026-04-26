@@ -3,6 +3,7 @@
 
 :root {
   --snurble-font-display: "Permanent Marker", "Segoe UI", sans-serif;
+  --snurble-font-title: "Montserrat", "Segoe UI", sans-serif;
   --snurble-font-body: "Montserrat", "Segoe UI", sans-serif;
   --snurble-font-code: "IBM Plex Mono", "SFMono-Regular", monospace;
   --snurble-space-1: 0.25rem;

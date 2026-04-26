@@ -2,17 +2,19 @@
 /**
  * Drawer (Sheet) - Slide-in overlay from screen edge
  * 
- * Renders a slide-out panel from the side (default: right) with backdrop,
- * focus management, and keyboard escape support.
+ * Renders a slide-out panel from the side (default: right) using the
+ * native HTML <dialog> element for robust focus trapping and accessibility.
  * 
  * Usage:
- * <Drawer open={true} title="Menu" position="left">
+ * <Drawer id="my-drawer" open={true} title="Menu" position="left">
  *   <nav>...</nav>
  * </Drawer>
  */
 
 export interface Props {
-  /** Whether the drawer is open */
+  /** Optional ID to control the drawer via JS (e.g. document.getElementById('...').showModal()) */
+  id?: string;
+  /** Whether the drawer is open initially (triggers showModal() via script) */
   open?: boolean;
   /** Drawer title */
   title?: string;
@@ -25,6 +27,7 @@ export interface Props {
 }
 
 const {
+  id,
   open = false,
   title,
   position = 'right',
@@ -33,25 +36,18 @@ const {
 } = Astro.props;
 ---
 
-<div
+<dialog
+  id={id}
   class:list={[
     'snurble-drawer',
     `snurble-drawer-${position}`,
     className,
   ]}
   data-component="drawer"
-  data-open={open}
+  data-initially-open={open.toString()}
+  data-close-on-backdrop={closeOnBackdropClick.toString()}
   aria-labelledby={title ? 'snurble-drawer-title' : undefined}
-  role="presentation"
 >
-  {/* Backdrop */}
-  <div
-    class="snurble-drawer-backdrop"
-    data-backdrop
-    data-close-on-click={closeOnBackdropClick}
-    aria-hidden="true"
-  />
-
   {/* Drawer panel */}
   <div class="snurble-drawer-panel">
     {/* Header if provided */}
@@ -85,74 +81,58 @@ const {
       <slot />
     </div>
   </div>
-</div>
+</dialog>
 
 <style>
   .snurble-drawer {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    pointer-events: none;
+    padding: 0;
+    border: none;
+    background: transparent;
+    margin: 0;
+    max-width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    width: fit-content;
+    overflow: visible;
   }
 
-  .snurble-drawer[data-open='false'] .snurble-drawer-backdrop,
-  .snurble-drawer[data-open='false'] .snurble-drawer-panel {
-    pointer-events: none;
+  .snurble-drawer-left {
+    margin-right: auto;
   }
 
-  .snurble-drawer-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    pointer-events: auto;
-    opacity: 1;
-    animation: snurble-fade-in 150ms ease-out;
+  .snurble-drawer-right {
+    margin-left: auto;
   }
 
-  .snurble-drawer[data-open='false'] .snurble-drawer-backdrop {
-    opacity: 0;
-    animation: snurble-fade-out 150ms ease-out forwards;
-    pointer-events: none;
+  .snurble-drawer::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    animation: snurble-fade-in 150ms ease-out forwards;
+    backdrop-filter: blur(2px);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .snurble-drawer-backdrop {
+    .snurble-drawer::backdrop {
       animation: none;
     }
   }
 
   .snurble-drawer-panel {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: min(100%, 420px);
     background: var(--snurble-surface-card);
-    border: 1px solid var(--snurble-border-card);
-    box-shadow: var(--snurble-shadow-lg);
+    width: min(100vw, 420px);
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    pointer-events: auto;
-    z-index: 1001;
+    box-shadow: var(--snurble-shadow-lg);
   }
 
   .snurble-drawer-left .snurble-drawer-panel {
-    left: 0;
-    animation: snurble-slide-in-left 150ms ease-out;
     border-right: 1px solid var(--snurble-border-card);
-  }
-
-  .snurble-drawer[data-open='false'] .snurble-drawer-left .snurble-drawer-panel {
-    animation: snurble-slide-out-left 150ms ease-out forwards;
+    animation: snurble-slide-in-left 150ms ease-out;
   }
 
   .snurble-drawer-right .snurble-drawer-panel {
-    right: 0;
-    animation: snurble-slide-in-right 150ms ease-out;
     border-left: 1px solid var(--snurble-border-card);
-  }
-
-  .snurble-drawer[data-open='false'] .snurble-drawer-right .snurble-drawer-panel {
-    animation: snurble-slide-out-right 150ms ease-out forwards;
+    animation: snurble-slide-in-right 150ms ease-out;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -172,8 +152,9 @@ const {
 
   .snurble-drawer-title {
     margin: 0;
+    font-family: var(--snurble-font-title);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--snurble-text);
   }
 
@@ -197,7 +178,7 @@ const {
   }
 
   .snurble-drawer-close:hover {
-    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    background: var(--snurble-surface-badge);
     color: var(--snurble-text);
   }
 
@@ -206,7 +187,7 @@ const {
   }
 
   .snurble-drawer-close:focus-visible {
-    outline: 2px solid var(--snurble-brand-primary);
+    outline: 2px solid var(--snurble-focus-ring);
     outline-offset: 2px;
   }
 
@@ -230,30 +211,12 @@ const {
     }
   }
 
-  @keyframes snurble-fade-out {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-
   @keyframes snurble-slide-in-left {
     from {
       transform: translateX(-100%);
     }
     to {
       transform: translateX(0);
-    }
-  }
-
-  @keyframes snurble-slide-out-left {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
     }
   }
 
@@ -265,59 +228,47 @@ const {
       transform: translateX(0);
     }
   }
-
-  @keyframes snurble-slide-out-right {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(100%);
-    }
-  }
 </style>
 
 <script>
-  const initDrawer = (el: Element) => {
-    const backdrop = el.querySelector('[data-backdrop]');
+  const initDrawer = (el: HTMLDialogElement) => {
     const closeButton = el.querySelector('[data-close-button]');
 
-    const close = () => {
-      el.dataset.open = 'false';
-    };
-
-    // Close on backdrop click
-    if (backdrop && backdrop.dataset.closeOnClick === 'true') {
-      backdrop.addEventListener('click', close);
-    }
-
-    // Close button
     if (closeButton) {
-      closeButton.addEventListener('click', close);
+      closeButton.addEventListener('click', () => el.close());
     }
 
-    // Escape key
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && el.dataset.open === 'true') {
-        close();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
+    if (el.dataset.closeOnBackdrop === 'true') {
+      el.addEventListener('click', (e) => {
+        if (e.target === el) {
+          el.close();
+        }
+      });
+    }
 
-    // Cleanup
-    return () => {
-      if (backdrop) {
-        backdrop.removeEventListener('click', close);
+    if (el.dataset.initiallyOpen === 'true') {
+      requestAnimationFrame(() => el.showModal());
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-initially-open') {
+          if (el.dataset.initiallyOpen === 'true' && !el.open) {
+            el.showModal();
+          } else if (el.dataset.initiallyOpen === 'false' && el.open) {
+            el.close();
+          }
+        }
       }
-      if (closeButton) {
-        closeButton.removeEventListener('click', close);
-      }
-      document.removeEventListener('keydown', handleEscape);
-    };
+    });
+
+    observer.observe(el, { attributes: true });
   };
 
-  // Initialize all drawers
   const drawers = document.querySelectorAll('[data-component="drawer"]');
   for (const drawer of drawers) {
-    initDrawer(drawer);
+    if (drawer instanceof HTMLDialogElement) {
+      initDrawer(drawer);
+    }
   }
 </script>

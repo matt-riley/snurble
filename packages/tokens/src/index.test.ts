@@ -106,6 +106,7 @@ describe("design token package", () => {
       body: '"Montserrat", "Segoe UI", sans-serif',
       code: '"IBM Plex Mono", "SFMono-Regular", monospace',
       display: '"Permanent Marker", "Segoe UI", sans-serif',
+      title: '"Montserrat", "Segoe UI", sans-serif',
     });
     expect(typography.styles.display.size).toBe("3rem");
     expect(typography.styles.body.lineHeight).toBe("1.6");

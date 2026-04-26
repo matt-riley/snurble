@@ -1,6 +1,7 @@
 {
   "families": {
     "display": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
+    "title": "\"Montserrat\", \"Segoe UI\", sans-serif",
     "body": "\"Montserrat\", \"Segoe UI\", sans-serif",
     "code": "\"IBM Plex Mono\", \"SFMono-Regular\", monospace"
   },

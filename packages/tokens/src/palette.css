@@ -1,63 +1,63 @@
-/* Catppuccin Mocha (dark) */
+/* Midnight Macchiato (Tokyo Night + Catppuccin Dark) */
 :root {
   color-scheme: dark light;
-  --snurble-palette-rosewater: #f5e0dc;
-  --snurble-palette-flamingo: #f2cdcd;
-  --snurble-palette-pink: #f5c2e7;
-  --snurble-palette-mauve: #cba6f7;
-  --snurble-palette-red: #f38ba8;
-  --snurble-palette-maroon: #eba0ac;
-  --snurble-palette-peach: #fab387;
-  --snurble-palette-yellow: #f9e2af;
-  --snurble-palette-green: #a6e3a1;
-  --snurble-palette-teal: #94e2d5;
-  --snurble-palette-sky: #89dceb;
-  --snurble-palette-sapphire: #74c7ec;
-  --snurble-palette-blue: #89b4fa;
-  --snurble-palette-lavender: #b4befe;
-  --snurble-palette-text: #cdd6f4;
-  --snurble-palette-subtext1: #bac2de;
-  --snurble-palette-subtext0: #a6adc8;
-  --snurble-palette-overlay2: #9399b2;
-  --snurble-palette-overlay1: #7f849c;
-  --snurble-palette-overlay0: #6c7086;
-  --snurble-palette-surface2: #585b70;
-  --snurble-palette-surface1: #45475a;
-  --snurble-palette-surface0: #313244;
-  --snurble-palette-base: #1e1e2e;
-  --snurble-palette-mantle: #181825;
-  --snurble-palette-crust: #11111b;
+  --snurble-palette-rosewater: 11 40% 91%;
+  --snurble-palette-flamingo: 0 54% 87%;
+  --snurble-palette-pink: 317 65% 86%;
+  --snurble-palette-mauve: 261 88% 79%; /* Tokyo Night Purple */
+  --snurble-palette-red: 349 89% 72%; /* Tokyo Night Red */
+  --snurble-palette-maroon: 350 63% 77%;
+  --snurble-palette-peach: 22 100% 70%; /* Tokyo Night Orange */
+  --snurble-palette-yellow: 41 86% 83%;
+  --snurble-palette-green: 82 51% 61%; /* Tokyo Night Green */
+  --snurble-palette-teal: 171 58% 65%; /* Tokyo Night Cyan/Teal */
+  --snurble-palette-sky: 189 71% 73%;
+  --snurble-palette-sapphire: 198 76% 69%;
+  --snurble-palette-blue: 221 89% 72%; /* Tokyo Night Blue */
+  --snurble-palette-lavender: 232 97% 85%;
+  --snurble-palette-text: 226 64% 88%;
+  --snurble-palette-subtext1: 227 34% 80%;
+  --snurble-palette-subtext0: 228 24% 72%;
+  --snurble-palette-overlay2: 228 17% 64%;
+  --snurble-palette-overlay1: 230 13% 55%;
+  --snurble-palette-overlay0: 231 11% 47%;
+  --snurble-palette-surface2: 232 12% 39%;
+  --snurble-palette-surface1: 234 13% 31%;
+  --snurble-palette-surface0: 237 16% 23%;
+  --snurble-palette-base: 235 19% 13%; /* Tokyo Night Deep BG */
+  --snurble-palette-mantle: 240 15% 10%; /* Tokyo Night Mantle */
+  --snurble-palette-crust: 233 18% 10%; /* Tokyo Night Crust */
 }
 
-/* Catppuccin Latte (light) */
+/* Day Macchiato (Tokyo Night + Catppuccin Light) */
 @media (prefers-color-scheme: light) {
   :root {
     color-scheme: light;
-    --snurble-palette-rosewater: #dc8a78;
-    --snurble-palette-flamingo: #dd7878;
-    --snurble-palette-pink: #ea76cb;
-    --snurble-palette-mauve: #8839ef;
-    --snurble-palette-red: #d20f39;
-    --snurble-palette-maroon: #e64553;
-    --snurble-palette-peach: #fe640b;
-    --snurble-palette-yellow: #df8e1d;
-    --snurble-palette-green: #40a02b;
-    --snurble-palette-teal: #179299;
-    --snurble-palette-sky: #04a5e5;
-    --snurble-palette-sapphire: #209fb5;
-    --snurble-palette-blue: #1e66f5;
-    --snurble-palette-lavender: #7287fd;
-    --snurble-palette-text: #4c4f69;
-    --snurble-palette-subtext1: #5c5f77;
-    --snurble-palette-subtext0: #6c6f85;
-    --snurble-palette-overlay2: #7c7f93;
-    --snurble-palette-overlay1: #8c8fa1;
-    --snurble-palette-overlay0: #9ca0b0;
-    --snurble-palette-surface2: #acb0be;
-    --snurble-palette-surface1: #bcc0cc;
-    --snurble-palette-surface0: #ccd0da;
-    --snurble-palette-base: #eff1f5;
-    --snurble-palette-mantle: #e6e9ef;
-    --snurble-palette-crust: #dce0e8;
+    --snurble-palette-rosewater: 11 59% 67%;
+    --snurble-palette-flamingo: 0 59% 67%;
+    --snurble-palette-pink: 317 72% 69%;
+    --snurble-palette-mauve: 266 85% 58%; /* Saturated purple */
+    --snurble-palette-red: 347 87% 44%; /* Saturated red */
+    --snurble-palette-maroon: 355 76% 59%;
+    --snurble-palette-peach: 22 99% 52%; /* Saturated orange */
+    --snurble-palette-yellow: 41 77% 49%;
+    --snurble-palette-green: 110 58% 40%; /* Saturated green */
+    --snurble-palette-teal: 183 74% 35%; /* Saturated teal */
+    --snurble-palette-sky: 197 96% 46%;
+    --snurble-palette-sapphire: 189 70% 42%;
+    --snurble-palette-blue: 220 91% 54%; /* Saturated blue */
+    --snurble-palette-lavender: 231 97% 72%;
+    --snurble-palette-text: 237 18% 36%; /* Darker blue text */
+    --snurble-palette-subtext1: 233 12% 42%;
+    --snurble-palette-subtext0: 231 10% 48%;
+    --snurble-palette-overlay2: 228 9% 53%;
+    --snurble-palette-overlay1: 230 10% 59%;
+    --snurble-palette-overlay0: 228 11% 65%;
+    --snurble-palette-surface2: 228 14% 71%;
+    --snurble-palette-surface1: 225 18% 77%;
+    --snurble-palette-surface0: 223 20% 83%;
+    --snurble-palette-base: 233 13% 89%; /* Tokyo Night Day BG */
+    --snurble-palette-mantle: 220 23% 92%;
+    --snurble-palette-crust: 220 20% 88%;
   }
 }

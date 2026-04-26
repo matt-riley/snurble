@@ -2,19 +2,20 @@
 /**
  * Dialog - Modal overlay component
  * 
- * Renders a semantic modal dialog with backdrop, focus management via data attributes,
- * and keyboard escape support via JavaScript event listener.
+ * Renders a semantic modal dialog with backdrop, native focus trapping,
+ * and keyboard escape support.
  * 
  * Usage:
- * <Dialog open={true} title="Confirm action" onClose={() => {}}>
+ * <Dialog id="my-dialog" open={true} title="Confirm action">
  *   <p>Are you sure?</p>
- *   <Button onclick="close()">Cancel</Button>
- *   <Button variant="primary" onclick="submitAndClose()">Confirm</Button>
+ *   <Button variant="primary">Confirm</Button>
  * </Dialog>
  */
 
 export interface Props {
-  /** Whether the dialog is open */
+  /** Optional ID to control the dialog via JS (e.g. document.getElementById('...').showModal()) */
+  id?: string;
+  /** Whether the dialog is open initially (triggers showModal() via script) */
   open?: boolean;
   /** Dialog title (used for accessibility) */
   title?: string;
@@ -24,34 +25,28 @@ export interface Props {
   class?: string;
 }
 
-const { open = false, title, closeOnBackdropClick = true, class: className } = Astro.props;
+const { id, open = false, title, closeOnBackdropClick = true, class: className } = Astro.props;
 ---
 
 <dialog
+  id={id}
   class:list={[
     'snurble-dialog',
     className,
   ]}
   aria-labelledby={title ? 'snurble-dialog-title' : undefined}
-  open={open || undefined}
   data-component="dialog"
+  data-initially-open={open.toString()}
+  data-close-on-backdrop={closeOnBackdropClick.toString()}
 >
-  {/* Backdrop with optional click-to-close */}
-  <div
-    class="snurble-dialog-backdrop"
-    data-backdrop
-    data-close-on-click={closeOnBackdropClick}
-    aria-hidden="true"
-  />
-
   {/* Dialog box */}
   <div class="snurble-dialog-box">
     {/* Title bar if provided */}
     {title && (
       <div class="snurble-dialog-header">
-        <h1 id="snurble-dialog-title" class="snurble-dialog-title">
+        <h2 id="snurble-dialog-title" class="snurble-dialog-title">
           {title}
-        </h1>
+        </h2>
         <button
           class="snurble-dialog-close"
           aria-label="Close dialog"
@@ -81,44 +76,37 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
 
 <style>
   .snurble-dialog {
-    all: revert;
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--snurble-space-4);
+    padding: 0;
+    border: none;
     background: transparent;
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: auto;
+    overflow: visible;
   }
 
-  .snurble-dialog:not([open]) {
-    display: none;
-  }
-
-  .snurble-dialog-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    animation: snurble-fade-in 150ms ease-out;
+  .snurble-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    animation: snurble-fade-in 150ms ease-out forwards;
+    backdrop-filter: blur(2px);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .snurble-dialog-backdrop {
+    .snurble-dialog::backdrop {
       animation: none;
     }
   }
 
   .snurble-dialog-box {
-    position: relative;
-    z-index: 1001;
     background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border-card);
-    border-radius: var(--snurble-radius-md, 8px);
+    border-radius: 0.5rem;
     box-shadow: var(--snurble-shadow-lg);
-    max-width: 90vw;
+    width: 100%;
+    min-width: 20rem;
     max-height: 90vh;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
     animation: snurble-scale-fade-in 150ms ease-out;
   }
 
@@ -138,8 +126,9 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
 
   .snurble-dialog-title {
     margin: 0;
+    font-family: var(--snurble-font-title);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--snurble-text);
   }
 
@@ -162,7 +151,7 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
   }
 
   .snurble-dialog-close:hover {
-    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    background: var(--snurble-surface-badge);
     color: var(--snurble-text);
   }
 
@@ -171,7 +160,7 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
   }
 
   .snurble-dialog-close:focus-visible {
-    outline: 2px solid var(--snurble-brand-primary);
+    outline: 2px solid var(--snurble-focus-ring);
     outline-offset: 2px;
   }
 
@@ -182,6 +171,7 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
 
   .snurble-dialog-content {
     padding: var(--snurble-space-4);
+    overflow-y: auto;
   }
 
   @keyframes snurble-fade-in {
@@ -207,50 +197,49 @@ const { open = false, title, closeOnBackdropClick = true, class: className } = A
 
 <script>
   const initDialog = (el: HTMLDialogElement) => {
-    const backdrop = el.querySelector('[data-backdrop]');
     const closeButton = el.querySelector('[data-close-button]');
 
-    const close = () => {
-      el.close();
-    };
-
-    // Close on backdrop click
-    if (backdrop && backdrop.dataset.closeOnClick === 'true') {
-      backdrop.addEventListener('click', close);
-    }
-
-    // Close button
     if (closeButton) {
-      closeButton.addEventListener('click', close);
+      closeButton.addEventListener('click', () => el.close());
     }
 
-    // Escape key
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && el.open) {
-        close();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
+    if (el.dataset.closeOnBackdrop === 'true') {
+      el.addEventListener('click', (e) => {
+        // Since dialog takes up the full width/height including backdrop,
+        // if the click target is the dialog itself (not its inner content),
+        // it's a backdrop click.
+        if (e.target === el) {
+          el.close();
+        }
+      });
+    }
 
-    // Cleanup
-    return () => {
-      if (backdrop) {
-        backdrop.removeEventListener('click', close);
+    // Handle initial Astro state
+    if (el.dataset.initiallyOpen === 'true') {
+      // Defer to ensure it renders correctly on initial load
+      requestAnimationFrame(() => el.showModal());
+    }
+
+    // Observer for programmatic attribute changes from frameworks
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-initially-open') {
+          if (el.dataset.initiallyOpen === 'true' && !el.open) {
+            el.showModal();
+          } else if (el.dataset.initiallyOpen === 'false' && el.open) {
+            el.close();
+          }
+        }
       }
-      if (closeButton) {
-        closeButton.removeEventListener('click', close);
-      }
-      document.removeEventListener('keydown', handleEscape);
-    };
+    });
+
+    observer.observe(el, { attributes: true });
   };
 
-  // Initialize all dialogs on page load
   const dialogs = document.querySelectorAll('[data-component="dialog"]');
   for (const el of dialogs) {
     if (el instanceof HTMLDialogElement) {
       initDialog(el);
     }
   }
-</script>
-  });
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "@matt-riley/ui-astro",
-  "version": "1.15.4",
+  "version": "1.15.5",
   "files": [
     "src/*.astro",
     "src/*.d.ts",

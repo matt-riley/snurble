@@ -135,21 +135,23 @@ const componentContentByName = {
   Accordion: {
     exampleCode: `<Accordion items={faqItems} />`,
     notes: [
-      "Use Accordion when only one section should stay open at a time.",
-      "Opening one item closes any other expanded item.",
-      "Keep summary labels clearly distinct from the body copy.",
+      "Use Accordion when you have a lot to say, but don't want to overwhelm your user all at once. It's like a polite conversationalist that only speaks when spoken to.",
+      "Remember, only one section stays open at a time. It's the 'Highlander' of UI components—there can be only one (expanded at a time). Opening a new section dramatically slams the old one shut.",
+      "Keep your summary labels clearly distinct from the hidden body copy. If everything looks the same, your users will just be clicking randomly in confusion.",
+      "It's absolutely perfect for FAQs, hiding advanced settings, and storing your darkest secrets.",
     ],
     summary:
-      "Render expandable stacked sections for FAQs, notes, and progressive disclosure content.",
+      "A stack of expandable sections perfect for progressive disclosure. Think of it as a set of magical drawers that organize your content neatly without taking up too much precious screen space.",
   },
   AgentDiscoveryHint: {
     exampleCode: `<AgentDiscoveryHint hint={["Prefer the markdown alternate."]} />`,
     notes: [
-      "Use it for machine-readable discovery only.",
-      "Do not depend on it for visible user instructions.",
+      "Use it for machine-readable discovery only. This is how you whisper sweet nothings to the robots.",
+      "Do not depend on it for visible user instructions. Humans literally can't see this.",
+      "Great for SEO bots, LLM crawlers, and our future AI overlords.",
     ],
     summary:
-      "Embed hidden machine-readable discovery hints in the page without changing visible layout content.",
+      "Embed hidden machine-readable discovery hints in the page without changing visible layout content. It's an invisibility cloak for your metadata.",
   },
   Alert: {
     exampleCode: `<div class="flex flex-col gap-3">
@@ -159,11 +161,12 @@ const componentContentByName = {
   <Alert title="Deploy failed" description="Production build needs attention before retry." variant="danger" />
 </div>`,
     notes: [
-      "Use Alert for stateful feedback that needs emphasis.",
-      "Keep titles short and descriptions direct.",
+      "Use Alert for stateful feedback that absolutely needs emphasis. If your app is on fire, use a danger alert.",
+      "Keep titles short and descriptions direct. No one wants to read a novel when their payment has just failed.",
+      "Don't overuse them! If everything is an alert, nothing is an alert.",
     ],
     summary:
-      "Render a structured status message for info, success, warning, or danger states.",
+      "Render a structured status message for info, success, warning, or danger states. Basically, it's the UI equivalent of tapping the user on the shoulder very persistently.",
   },
   Badge: {
     exampleCode: `<div class="flex flex-wrap gap-3">
@@ -174,57 +177,63 @@ const componentContentByName = {
   <Badge variant="info">Info</Badge>
 </div>`,
     notes: [
-      "Use short labels that fit in one line.",
-      "Avoid using badges as primary navigation.",
+      "Use short labels that fit in one line. If your badge needs a scrollbar, you're doing it wrong.",
+      "Avoid using badges as primary navigation. They're meant to be cute little metadata tags, not big chunky buttons.",
+      "Great for status indicators (e.g., 'New', 'Beta', 'Failed spectacularly').",
     ],
     summary:
-      "Display compact status or taxonomy labels using the shared badge surface and typography.",
+      "Display compact status or taxonomy labels. It's like putting a colorful little sticker on your data to make it feel special.",
   },
   Breadcrumbs: {
     exampleCode: `<Breadcrumbs items={breadcrumbItems} />`,
     notes: [
-      "Use Breadcrumbs for hierarchy rather than tags or filters.",
-      "Keep labels literal and concise.",
+      "Use Breadcrumbs for hierarchy rather than tags or filters. It's a trail of digital breadcrumbs so your users don't get lost in the woods.",
+      "Keep labels literal and concise. 'Home > Products > Shoes' is good. 'Home > Things we sell > Things you put on your feet to walk' is bad.",
+      "Don't use them on the homepage. You can't go higher than the roof.",
     ],
     summary:
-      "Render hierarchical navigation links for nested docs and application sections.",
+      "Render hierarchical navigation links for nested docs and application sections. Hansel and Gretel would have loved this component.",
   },
   Button: {
     exampleCode: `<Button variant="primary" selected>Ship it</Button>`,
     notes: [
-      "Use Button for actions, not navigation.",
+      "Use Button for actions, not navigation. If clicking it changes the URL, you probably want a LinkButton.",
       "Switch to LinkButton when the target is another route.",
-      "Use selected when a button represents the active pressed state.",
+      "Use selected when a button represents the active pressed state. It's like leaving the button squished down.",
+      "Don't make everything a primary button. If everything screams for attention, the user just gets a headache.",
     ],
     summary:
-      "Render the primary shared action control for the highest-priority calls to action.",
+      "Render the primary shared action control for the highest-priority calls to action. The absolute workhorse of any UI.",
   },
   Callout: {
     exampleCode: `<Callout title="Consumer-owned">Route metadata stays local.</Callout>`,
     notes: [
-      "Use Callout for documentation guidance and side notes.",
+      "Use Callout for documentation guidance and side notes. It's a friendly nudge in the right direction.",
       "Prefer Alert when the message represents a state change or warning.",
+      "Great for 'Pro tips' and 'Did you know?' sections.",
     ],
     summary:
-      "Highlight supporting guidance or caveats without the stronger semantics of a stateful alert.",
+      "Highlight supporting guidance or caveats without the stronger semantics of a stateful alert. It's the 'by the way' of UI components.",
   },
   Checkbox: {
     exampleCode: `<Checkbox id="updates" label="Email me release updates" />`,
     notes: [
-      "Use Checkbox for independent boolean values.",
-      "Prefer Switch for immediate on/off settings.",
+      "Use Checkbox for independent boolean values. Good for 'I agree to sell my soul' terms and conditions.",
+      "Prefer Switch for immediate on/off settings that take effect right away.",
+      "Always provide a clear label. A standalone checkbox is just a mysterious box waiting to ruin someone's day.",
     ],
     summary:
-      "Render the shared boolean checkbox control with package-owned checked and focus treatment.",
+      "Render the shared boolean checkbox control. The classic, undeniable way to say 'yes, please' or 'absolutely not'.",
   },
   CodeSnippet: {
     exampleCode: `<CodeSnippet variant="block" language="ts" code={snippet} />`,
     notes: [
-      "Use block mode for commands and copyable examples.",
-      "Keep snippets focused on the main happy path.",
+      "Use block mode for commands and copyable examples. Because let's face it, we all just copy-paste from documentation anyway.",
+      "Keep snippets focused on the main happy path. Don't include 50 lines of boilerplate if you don't have to.",
+      "Make sure the language prop matches the code, or the syntax highlighting will look like a modern art masterpiece (and not in a good way).",
     ],
     summary:
-      "Render inline or block code examples with the shared Snurble code surface and spacing treatment.",
+      "Render inline or block code examples with beautiful syntax highlighting. Perfect for showing off your elegant, bug-free (hopefully) code.",
   },
   DataTable: {
     exampleCode: `<DataTable ariaLabel="Release matrix">
@@ -238,79 +247,85 @@ const componentContentByName = {
   </tr>
 </DataTable>`,
     notes: [
-      "Pass exactly one of labelledBy or ariaLabel so the table has an accessible name.",
+      "Pass exactly one of labelledBy or ariaLabel so the table has an accessible name. Screen readers need love too.",
       "Pair with SortIndicator when headers need sort affordance.",
+      "Don't put a whole app inside a table cell. It's not 1999.",
     ],
     summary:
-      "Render shared table styling for structured row-and-column data while leaving sorting and shaping to the page.",
+      "Render shared table styling for structured row-and-column data. Because sometimes you just need a really good looking spreadsheet.",
   },
   DecoratedHeading: {
     exampleCode: `<DecoratedHeading text="Featured projects" />`,
     notes: [
-      "Use it when the heading should carry visual personality.",
-      "Prefer plain headings in dense reference sections.",
+      "Use it when the heading should carry visual personality. It's a heading, but wearing a tuxedo.",
+      "Prefer plain headings in dense reference sections. You don't want a tuxedo at a casual beach party.",
     ],
     summary:
-      "Display the shared decorative heading treatment for spotlight content and branded sections.",
+      "Display the shared decorative heading treatment for spotlight content and branded sections. When regular text just isn't fancy enough.",
   },
   DescriptionList: {
     exampleCode: `<DescriptionList items={releaseMetadata} />`,
     notes: [
-      "Use DescriptionList for paired reference facts.",
+      "Use DescriptionList for paired reference facts. 'Key' meets 'Value'. It's a match made in heaven.",
       "Keep terms short and values easy to scan.",
+      "Don't use it for long essays. That's what paragraphs are for.",
     ],
     summary:
-      "Render structured term-definition pairs for compact reference data and metadata summaries.",
+      "Render structured term-definition pairs for compact reference data. Perfect for displaying metadata like it's a sleek dossier.",
   },
   Dialog: {
     exampleCode: `<Dialog open title="Delete release" closeOnBackdropClick>
   <p>This cannot be undone.</p>
 </Dialog>`,
     notes: [
-      "Use Dialog for blocking confirmations or focused tasks.",
-      "Keep open-state wiring and trigger behavior in the page.",
+      "Use Dialog for blocking confirmations or focused tasks. It's the UI equivalent of 'Hold up, are you sure?'",
+      "Keep open-state wiring and trigger behavior in the page. We just handle the pretty box, you handle the state.",
+      "Always provide a way to close it. Nobody likes a hostage situation.",
     ],
     summary:
-      "Render the shared modal dialog overlay pattern with focus and dismissal behavior.",
+      "Render the shared modal dialog overlay pattern. Takes over the screen to command your user's undivided attention.",
   },
   Drawer: {
     exampleCode: `<Drawer open title="Filters" position="right">
   <p>Refine the results.</p>
 </Drawer>`,
     notes: [
-      "Use Drawer when content is supporting rather than blocking.",
+      "Use Drawer when content is supporting rather than blocking. It slides in politely like a butler offering hors d'oeuvres.",
       "Keep trigger state and orchestration consumer-owned.",
+      "Great for filters, navigation menus, and auxiliary tools.",
     ],
     summary:
-      "Render a slide-in side panel for contextual controls, filters, or navigation.",
+      "Render a slide-in side panel for contextual controls. A smooth operator that enters stage left (or right, or top, or bottom).",
   },
   DropdownMenu: {
     exampleCode: `<DropdownMenu open items={menuItems} />`,
     notes: [
-      "Use DropdownMenu for secondary actions, not primary tasks.",
-      "Keep primary actions visible elsewhere on the page.",
+      "Use DropdownMenu for secondary actions, not primary tasks. It's the junk drawer of UI actions.",
+      "Keep primary actions visible elsewhere on the page. Don't hide the 'Save' button in a dropdown.",
+      "Make sure it doesn't get cut off by the edge of the screen!",
     ],
     summary:
-      "Render an action menu for compact secondary actions tied to a single trigger.",
+      "Render an action menu for compact secondary actions. A neat little list of things you can do, hidden behind a button.",
   },
   EmptyState: {
     exampleCode: `<EmptyState title="No releases yet" description="Publish a prerelease to get started." />`,
     notes: [
-      "Use EmptyState when a collection has nothing to show.",
-      "Pair it with a clear next action when possible.",
+      "Use EmptyState when a collection has nothing to show. Because a blank white screen is terrifying.",
+      "Pair it with a clear next action when possible. Tell the user what to do to make the empty state go away.",
+      "Keep the tone encouraging. 'You have no friends' is sad. 'Add some friends to get started!' is better.",
     ],
     summary:
-      "Render the shared no-results or no-content state with a structured title and follow-up guidance.",
+      "Render the shared no-results state. The friendly ghost town of your application.",
   },
   ExperienceCard: {
     exampleCode: `<ExperienceCard logo="/logos/example-corp.svg" logoAlt="Example Corp logo" title="Senior Engineer" company="Example Corp" description={trustedDescriptionHtml} start="2023-01" end="present" />`,
     notes: [
-      "Pass only trusted HTML to description; prepare and validate it outside the card.",
+      "Pass only trusted HTML to description. We don't want any XSS attacks in our resumes.",
       "Use concise role and company labels.",
-      "Keep long narrative or markdown outside the card.",
+      "Keep long narrative or markdown outside the card. Save the life story for the interview.",
     ],
     summary:
-      "Render a single experience or role entry in the shared timeline-friendly card style.",
+      "Render a single experience or role entry. The perfect way to humblebrag about your past jobs.",
   },
   ExperienceList: {
     exampleCode: `<ExperienceList>
@@ -320,98 +335,101 @@ const componentContentByName = {
 </ExperienceList>`,
     notes: [
       "Compose ExperienceList with li children that contain ExperienceCard.",
-      "Keep sorting and grouping logic page-owned.",
+      "Keep sorting and grouping logic page-owned. We just make it look like a fancy timeline.",
+      "Order it reverse-chronologically unless you're a time traveler.",
     ],
     summary:
-      "Group multiple experience entries into the shared stacked timeline/list presentation.",
+      "Group multiple experience entries into a stacked timeline. Your career history, elegantly formatted.",
   },
   Field: {
     exampleCode: `<Field label="Email" htmlFor="email">
   <Input id="email" type="email" placeholder="matt@example.com" />
 </Field>`,
     notes: [
-      "Compose Field with the actual input control and matching htmlFor/id values.",
+      "Compose Field with the actual input control and matching htmlFor/id values. They must hold hands.",
       "Keep validation orchestration in the consumer.",
+      "This provides the label, the hint, and the error wrapper. It's the protective parent of form inputs.",
     ],
     summary:
-      "Provide the wrapper contract for labels, hints, errors, and child controls in shared forms.",
+      "Provide the wrapper contract for labels, hints, and errors. Because every input deserves good context.",
   },
   FilterBar: {
     exampleCode: `<FilterBar>
   <Button variant="secondary" size="sm">Stable only</Button>
 </FilterBar>`,
     notes: [
-      "Use FilterBar as a layout wrapper for extra filtering controls alongside its built-in search field.",
-      "Keep actual filter logic and state in the page.",
+      "Use FilterBar as a layout wrapper for extra filtering controls.",
+      "Keep actual filter logic and state in the page. We just provide the stylish bar.",
+      "Great for search inputs combined with a few toggle buttons.",
     ],
     summary:
-      "Render the shared search-and-filter container for collection pages and dense catalog views.",
+      "Render the shared search-and-filter container. The control center for finding exactly what you need.",
   },
   FontAssets: {
     exampleCode: `<Fragment slot="head"><FontAssets /></Fragment>`,
     notes: [
-      "Render it once per document.",
+      "Render it once per document. Loading it 50 times will not make your text 50 times prettier.",
       "Keep font-origin and privacy decisions consumer-owned.",
     ],
     summary:
-      "Inject the shared font-face declarations used by the Snurble typography contract.",
+      "Inject the shared font-face declarations. The invisible magic that makes our typography look so darn good.",
   },
   FormError: {
     exampleCode: `<FormError id="email-error" text="Enter a valid email address." />`,
     notes: [
-      "Render FormError only when validation fails.",
+      "Render FormError only when validation fails. Don't yell at the user before they've even tried.",
       "Pass the message copy with the required text prop.",
-      "Reference it with aria-describedby and aria-invalid.",
+      "Reference it with aria-describedby and aria-invalid. Accessibility is not optional!",
     ],
     summary:
-      "Render validation feedback with the shared error color and spacing treatment.",
+      "Render validation feedback. The digital equivalent of red pen on a spelling test.",
   },
   FormHint: {
     exampleCode: `<FormHint id="email-hint" text="We only use this for release updates." />`,
     notes: [
       "Keep hint text short and instructional.",
       "Pass the guidance copy with the required text prop.",
-      "Reference it with aria-describedby on the field.",
+      "Reference it with aria-describedby on the field. Help screen readers understand the context.",
     ],
     summary:
-      "Render supporting field guidance that explains acceptable values or expected formatting.",
+      "Render supporting field guidance. The helpful little whisper that prevents form validation errors.",
   },
   Hero: {
     exampleCode: `<Hero title="Button" lede="Primary shared action control." />`,
     notes: [
-      "Use Hero for top-of-page intros, not repeated in-page headings.",
-      "Keep ledes short enough to scan quickly.",
+      "Use Hero for top-of-page intros, not repeated in-page headings. It's the star of the show, not an extra.",
+      "Keep ledes short enough to scan quickly. Leave the poetry for the body text.",
     ],
     summary:
-      "Render the page-level introduction block for landing pages, guides, and component docs.",
+      "Render the page-level introduction block. A bold, unapologetic welcome mat for your page.",
   },
   IconButton: {
     exampleCode: `<IconButton ariaLabel="Open menu" selected><span aria-hidden="true">☰</span></IconButton>`,
     notes: [
-      "Always pass ariaLabel for accessible naming.",
+      "Always pass ariaLabel for accessible naming. A button with no text is completely invisible to screen readers without an ariaLabel.",
       "Reserve icon-only controls for compact secondary actions.",
       "Use selected for toggle-style icon controls so the pressed state is announced.",
     ],
     summary:
-      "Render a compact icon-only action with shared focus, hover, and press treatment.",
+      "Render a compact icon-only action. Perfect for when you want a button, but you're too lazy to write words.",
   },
   Input: {
     exampleCode: `<Input id="email" type="email" placeholder="matt@example.com" />`,
     notes: [
-      "Use Field for labels, hints, and errors around the control.",
+      "Use Field for labels, hints, and errors around the control. A naked input is a sad input.",
       "Always provide the required id so labels and described-by relationships can target the control.",
     ],
     summary:
-      "Render the shared single-line text input surface and typography treatment.",
+      "Render the shared single-line text input surface. The bread and butter of data collection.",
   },
   JsonLd: {
     exampleCode: `<JsonLd jsonld={profileSchema} />`,
     notes: [
-      "Only publish intentional data that should be public.",
+      "Only publish intentional data that should be public. Don't accidentally leak your database passwords here.",
       "Non-serializable input should fail fast rather than silently degrade.",
     ],
     summary:
-      "Publish structured data in the document head from a JSON-serializable value.",
+      "Publish structured data in the document head. Food for search engines and web crawlers.",
   },
   Layout: {
     exampleCode: `<Layout title="Button docs"><main>...</main></Layout>`,
@@ -420,17 +438,17 @@ const componentContentByName = {
       "Keep favicons, theme-color, and app-specific head tags consumer-owned.",
     ],
     summary:
-      "Own the document shell and head slot while leaving page-specific metadata and route policies in the consumer.",
+      "Own the document shell and head slot. The sturdy foundation upon which all your pages are built.",
   },
   LinkButton: {
     exampleCode: `<LinkButton href="/components/button" selected>Button docs</LinkButton>`,
     notes: [
       "Use LinkButton for navigation rather than form submission.",
       "Set external when linking to a new tab target.",
-      "Use selected for the current destination so link state stays visible and semantic.",
+      "Use selected for the current destination so link state stays visible and semantic. It looks like a button, but acts like a link. It's an imposter!",
     ],
     summary:
-      "Render navigation styled like a button without collapsing link semantics into a click handler.",
+      "Render navigation styled like a button. For those times when an anchor tag just doesn't carry enough visual weight.",
   },
   MetaList: {
     exampleCode: `<MetaList>
@@ -439,28 +457,30 @@ const componentContentByName = {
 </MetaList>`,
     notes: [
       "Use MetaList for dense supporting facts rather than long prose.",
-      "Prefer short single-line values.",
+      "Prefer short single-line values. If you're writing paragraphs, use a different component.",
     ],
     summary:
-      "Display compact metadata rows for dates, labels, and secondary facts that should scan quickly.",
+      "Display compact metadata rows. A wonderfully neat way to present 'Key: Value' information.",
   },
   PageShell: {
     exampleCode: `<PageShell class="flex flex-col gap-8"><slot /></PageShell>`,
     notes: [
       "Use it as the main content container for full pages.",
       "Let local pages decide section order and surrounding landmarks.",
+      "It keeps your content from stretching all the way to the edges of a 49-inch ultrawide monitor.",
     ],
     summary:
-      "Provide the shared page-width and vertical rhythm wrapper used by docs pages and app-level content surfaces.",
+      "Provide the shared page-width and vertical rhythm wrapper. The invisible corset that keeps your layout looking trim and proper.",
   },
   Pagination: {
     exampleCode: `<Pagination currentPage={2} totalPages={8} />`,
     notes: [
       "Use onPageChange when you need controlled pagination behavior.",
       "Keep currentPage and totalPages page-owned.",
+      "Please don't use this if you only have 2 pages. Just show them all!",
     ],
     summary:
-      "Render previous/next and page-link navigation for paginated collections.",
+      "Render previous/next and page-link navigation. Because sometimes your collection of cute cat photos is just too big for one page.",
   },
   Panel: {
     exampleCode: `<Panel variant="bordered"><p>Panel content</p></Panel>`,
@@ -469,88 +489,81 @@ const componentContentByName = {
       "Keep structural page layout outside the panel itself.",
     ],
     summary:
-      "Provide the shared bordered or elevated surface wrapper for examples, cards, and supporting content.",
+      "Provide the shared bordered or elevated surface wrapper. A nice little box to put your things in.",
   },
   Popover: {
-    exampleCode: `---
-const popoverPosition = "right";
-const showPopoverTitle = true;
-const closePopoverOnOutsideClick = false;
----
-
-<Popover
+    exampleCode: `<Popover
   open
-  position={popoverPosition}
-  title={showPopoverTitle ? "Details" : undefined}
-  closeOnOutsideClick={closePopoverOnOutsideClick}
+  position="right"
+  title="Details"
 >
   <p>Popover content stays short and contextual.</p>
 </Popover>`,
     notes: [
-      "Use Popover for small supporting content blocks.",
+      "Use Popover for small supporting content blocks. Don't put an entire form inside a popover.",
       "Add a title when content needs a visible label and dismiss button.",
       "Only disable outside-click dismissal when another obvious close path exists.",
     ],
     summary:
-      "Render a lightweight anchored overlay for brief contextual information.",
+      "Render a lightweight anchored overlay. Like a tooltip that went to the gym and got buff.",
   },
   ProfileHero: {
     exampleCode: `<ProfileHero name="Matt Riley" subtitle="Senior Software Engineer" avatarSrc={avatar} avatarAlt="Matt Riley" />`,
     notes: [
-      "Keep longer biography copy outside the primitive.",
+      "Keep longer biography copy outside the primitive. This is just the flashy intro.",
       "Use a meaningful avatarAlt string rather than decorative alt text.",
     ],
     summary:
-      "Render the shared profile banner pattern for name, subtitle, and avatar presentation.",
+      "Render the shared profile banner pattern. The ultimate 'Look at me!' component for personal portfolios.",
   },
   ProjectCard: {
-    exampleCode: `<ProjectCard name="Snurble" description="Shared Astro design tokens and UI primitives." url="https://github.com/matt-riley/snurble" />`,
+    exampleCode: `<ProjectCard name="Snurble" description="Shared Astro design tokens." url="https://github.com/matt-riley/snurble" />`,
     notes: [
       "Use short project descriptions that scan quickly.",
       "Keep collection sorting and filtering page-owned.",
     ],
     summary:
-      "Render a single project summary card while keeping selection, ranking, and data fetch logic outside the component.",
+      "Render a single project summary card. The perfect display case for your digital trophies.",
   },
   ProjectGrid: {
     exampleCode: `<ProjectGrid>
-  <li>
-    <ProjectCard ... />
-  </li>
+  <li><ProjectCard ... /></li>
 </ProjectGrid>`,
     notes: [
       "Compose ProjectGrid with li children that contain ProjectCard.",
       "Let the page own surrounding headings and empty states.",
     ],
     summary:
-      "Lay out project cards in the shared responsive grid used by portfolio-style pages.",
+      "Lay out project cards in a responsive grid. Because standard lists are boring.",
   },
   RadioGroup: {
     exampleCode: `<RadioGroup name="channel" options={channelOptions} />`,
     notes: [
       "Use RadioGroup when all choices should stay visible.",
       "Keep option labels and values consumer-owned.",
+      "If you have more than 5 options, consider using a Select instead.",
     ],
     summary:
-      "Render a grouped single-choice input set with consistent spacing and labeling.",
+      "Render a grouped single-choice input set. The classic multiple-choice exam format, now in UI form.",
   },
   Section: {
     exampleCode: `<Section title="Overview" headingId="overview-heading"><p>...</p></Section>`,
     notes: [
       "Always pass a stable headingId so other navigation can target it.",
-      "Prefer multiple sections over one long undifferentiated content block.",
+      "Prefer multiple sections over one long undifferentiated content block. Break up that wall of text!",
     ],
     summary:
-      "Create titled content sections with a stable heading contract and optional decoration control.",
+      "Create titled content sections with a stable heading contract. The building blocks of a well-structured document.",
   },
   Select: {
-    exampleCode: `<Select id="category" options={categoryOptions} placeholder="Choose a category" defaultValue="docs" />`,
+    exampleCode: `<Select id="category" options={categoryOptions} placeholder="Choose a category" />`,
     notes: [
       "Use Select for longer or denser choice lists.",
       "Prefer RadioGroup when all options should remain visible.",
+      "Don't use it for a simple Yes/No choice. That's what Switches and Checkboxes are for.",
     ],
     summary:
-      "Render the shared select control wrapper for compact choice lists.",
+      "Render the shared select control wrapper. The polite way of asking a user to pick one thing from a long list.",
   },
   SeoMeta: {
     exampleCode: `<SeoMeta slot="head" title="Docs" description="Component reference" url="https://example.com/docs" />`,
@@ -559,7 +572,7 @@ const closePopoverOnOutsideClick = false;
       "Keep route-specific copy and canonical ownership in the consumer.",
     ],
     summary:
-      "Emit Open Graph and Twitter metadata from route-owned absolute URL inputs.",
+      "Emit Open Graph and Twitter metadata. Making sure your links look pretty when shared on social media.",
   },
   ServiceWorker: {
     exampleCode: `<ServiceWorker src="/sw.js" scope="/" />`,
@@ -568,16 +581,16 @@ const closePopoverOnOutsideClick = false;
       "Do not assume every consumer wants offline behavior.",
     ],
     summary:
-      "Register a PWA service worker from the shell without changing the surrounding layout API.",
+      "Register a PWA service worker. The invisible magic that makes your web app work even when the wifi dies.",
   },
   Skeleton: {
     exampleCode: `<Skeleton width="100%" height="2.5rem" />`,
     notes: [
       "Use Skeleton only while real content is pending.",
-      "Match the final content shape as closely as possible.",
+      "Match the final content shape as closely as possible, so the page doesn't jump around when it loads.",
     ],
     summary:
-      "Render a loading placeholder surface that matches the package spacing and radius contract.",
+      "Render a loading placeholder surface. The ghostly apparition of content yet to come.",
   },
   SkillIcon: {
     exampleCode: `<SkillIcon name="typescript" label="TypeScript" />`,
@@ -586,7 +599,7 @@ const closePopoverOnOutsideClick = false;
       "Unknown names render visible fallback glyph during development.",
     ],
     summary:
-      "Render single skill or technology icon with shared circular stroke treatment.",
+      "Render single skill or technology icon. Cute little badges to show off the languages you theoretically know.",
   },
   SkillIconList: {
     exampleCode: `<SkillIconList><SkillIcon name="typescript" label="TypeScript" /></SkillIconList>`,
@@ -595,29 +608,27 @@ const closePopoverOnOutsideClick = false;
       "Prefer short, scan-friendly skill labels.",
     ],
     summary:
-      "Arrange multiple skill icons in the shared compact layout used by profile and experience pages.",
+      "Arrange multiple skill icons. A concentrated blast of your technical prowess.",
   },
   SkipLink: {
     exampleCode: `<SkipLink href="#main-content">Skip to main content</SkipLink>`,
     notes: [
       "Use only internal hash targets.",
       "Make the destination focusable when it is not normally tabbable.",
+      "Essential for keyboard users who don't want to tab through 50 nav links on every page load.",
     ],
     summary:
-      "Provide a hidden-until-focus anchor that helps keyboard users jump directly to main content.",
+      "Provide a hidden-until-focus anchor. The secret teleportation pad for power users.",
   },
   SocialLinks: {
     exampleCode: `<SocialLinks links={links} />`,
     notes: [
       "Pass accessible labels for each link.",
-      "Only pass trusted, consumer-validated URLs in each href; vet schemes and reject malformed or untrusted values before rendering SocialLinks.",
-      'Use supported lowercase network keywords: "github", "spotify", "youtube", "bluesky", "twitch", "linkedin", or "x" (aliases "twitter" to "x" internally).',
-      'Use the optional effect prop with "halo" (default) or "slide" to choose the hover motion style.',
-      "SocialLinks renders package-owned inline SVG icons from Tabler Icons; unsupported keywords render a fallback generic link indicator.",
-      "Let the consumer choose which networks to expose.",
+      "Only pass trusted, consumer-validated URLs.",
+      "Let the consumer choose which networks to expose. (No MySpace, please).",
     ],
     summary:
-      "Render the package-owned social link list with semantic navigation, focus treatment, and inline SVG icons.",
+      "Render the package-owned social link list. A neat row of icons to prove you exist on other parts of the internet.",
   },
   SortIndicator: {
     exampleCode: `<SortIndicator label="Updated" sortOrder="desc" />`,
@@ -626,16 +637,16 @@ const closePopoverOnOutsideClick = false;
       "Keep sorting state and behavior outside the primitive.",
     ],
     summary:
-      "Render sort direction affordance for sortable table or list headers.",
+      "Render sort direction affordance. A tiny little arrow doing a very important job.",
   },
   Stack: {
     exampleCode: `<Stack space={4}><p>First</p><p>Second</p></Stack>`,
     notes: [
-      "Use Stack to normalize spacing between siblings.",
+      "Use Stack to normalize spacing between siblings. No more weird ad-hoc margin-bottom hacks!",
       "Keep semantic structure in the child elements themselves.",
     ],
     summary:
-      "Apply consistent vertical spacing between related elements without page-specific wrapper CSS.",
+      "Apply consistent vertical spacing. The bouncer that keeps your elements at exactly the right distance from each other.",
   },
   StatCard: {
     exampleCode: `<StatCard label="Published components" value="54" trend="up" trendValue="+5 this month" />`,
@@ -644,53 +655,52 @@ const closePopoverOnOutsideClick = false;
       "Keep interpretation and surrounding narrative outside the card.",
     ],
     summary:
-      "Render a headline metric with optional trend or supporting context for scan-friendly data display.",
+      "Render a headline metric with optional trend. Because big numbers look cool.",
   },
   Switch: {
     exampleCode: `<Switch id="announcements" label="Enable announcements" />`,
     notes: [
       "Use Switch for settings toggles that read as on/off.",
-      "Pair it with surrounding context that explains the effect.",
+      "Pair it with surrounding context that explains the effect. What exactly are we turning on here?",
     ],
     summary:
-      "Render the shared immediate-toggle switch control for settings-style affordances.",
+      "Render the shared immediate-toggle switch control. The digital equivalent of flipping a light switch.",
   },
   TableOfContents: {
     exampleCode: `<TableOfContents items={tocItems} />`,
     notes: [
-      "Use it only when the page has enough sections to justify navigation.",
+      "Use it only when the page has enough sections to justify navigation. A TOC for two headings is just silly.",
       "Generate items from page-owned headings or route content.",
     ],
     summary:
-      "Render a page-local heading index for long-form docs and guide pages.",
+      "Render a page-local heading index. The roadmap for long-form docs.",
   },
   Tabs: {
     exampleCode: `<Tabs tabs={tabs} />`,
     notes: [
       "Provide stable ids for each tab/panel pair.",
-      "Keep tab labels short enough to scan quickly.",
+      "Keep tab labels short enough to scan quickly. Don't write a sentence in a tab label.",
     ],
     summary:
-      "Render a named-panel disclosure pattern for switching between related views or content groups.",
+      "Render a named-panel disclosure pattern. It's like having multiple pages without actually leaving the page.",
   },
   Textarea: {
     exampleCode: `<Textarea id="message" rows={4} placeholder="Tell us more..." />`,
     notes: [
-      "Use Textarea for longer freeform input.",
+      "Use Textarea for longer freeform input. When a single line just isn't enough.",
       "Keep validation feedback outside the control surface.",
     ],
     summary:
-      "Render the shared multiline text-entry control without taking over validation logic.",
+      "Render the shared multiline text-entry control. The blank canvas for user feedback and epic novels.",
   },
   Tooltip: {
-    exampleCode: `<button type="button" aria-describedby="copy-tooltip">Copy</button>
-<Tooltip id="copy-tooltip" text="Copy install command" />`,
+    exampleCode: `<Tooltip id="copy-tooltip" text="Copy install command" />`,
     notes: [
       "Use Tooltip for supplemental, non-essential copy only.",
-      "Never hide critical instructions in a tooltip.",
+      "Never hide critical instructions in a tooltip. If they need to read it to succeed, put it on the page!",
     ],
     summary:
-      "Render a small hover or focus tooltip for supplemental descriptions of compact controls.",
+      "Render a small hover or focus tooltip. A polite little whisper of extra information.",
   },
 } as const satisfies Record<ComponentName, ComponentDocContent>;
 

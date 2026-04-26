@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.13.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.12.0...ui-astro-v1.13.0) (2026-04-26)
+
+
+### Features
+
+* **social-links:** add LinkedIn icon via Tabler Icons ([14fda04](https://github.com/matt-riley/snurble/commit/14fda04c4568d0121ebd85eea1888aa313c4e737))
+
+
+### Bug Fixes
+
+* **social-links:** render Tabler icons as strokes ([e65c209](https://github.com/matt-riley/snurble/commit/e65c209470e3ee761c3e26a9a7eeeef171f92ea7))
+
 ## [1.12.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.11.0...ui-astro-v1.12.0) (2026-04-24)
 
 

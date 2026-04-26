@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.5...ui-astro-v1.16.0) (2026-04-26)
+
+
+### Features
+
+* **ui-astro:** refresh accordion interactions ([#51](https://github.com/matt-riley/snurble/issues/51)) ([cbe1dbc](https://github.com/matt-riley/snurble/commit/cbe1dbcd0cdba7d4b3c537ace3d6c683eccb3cdb))
+
 ## [1.15.5](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.4...ui-astro-v1.15.5) (2026-04-26)
 
 

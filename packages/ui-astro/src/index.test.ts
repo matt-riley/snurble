@@ -1010,6 +1010,15 @@ describe("ui-astro package", () => {
     await expect(skillIconsTs).resolves.toContain("astro:");
     await expect(skillIconsTs).resolves.toContain("fallback:");
     await expect(skillIconsTs).resolves.toContain(
+      "M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+    );
+    await expect(skillIconsTs).resolves.toContain(
+      "M14.5 17c.5 .5 2.5 .5 2.5 -1c0 -1 -2 -1.125 -2 -2.025c0 -.893 1.5 -.82 2 0"
+    );
+    await expect(skillIconsTs).resolves.toContain(
+      "M14.972 3.483c.163 .196 .247 .46 .413 .987l3.64 11.53"
+    );
+    await expect(skillIconsTs).resolves.toContain(
       "export const resolveSkillIcon ="
     );
   });

@@ -770,7 +770,10 @@ describe("ui-astro package", () => {
       "import { resolveSocialIcon }"
     );
     await expect(socialLinksAstro).resolves.toContain("<svg");
-    await expect(socialLinksAstro).resolves.toContain("fill: currentColor");
+    await expect(socialLinksAstro).resolves.toContain("fill: none");
+    await expect(socialLinksAstro).resolves.toContain("stroke: currentColor");
+    await expect(socialLinksAstro).resolves.toContain("stroke-linecap: round");
+    await expect(socialLinksAstro).resolves.not.toContain("fill: currentColor");
     await expect(socialLinksAstro).resolves.not.toContain("astro-icon");
     await expect(socialLinksAstro).resolves.not.toContain("class?: string;");
   });

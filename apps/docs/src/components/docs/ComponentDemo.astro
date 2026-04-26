@@ -111,6 +111,13 @@ const badgeVariants = [
   { label: "Info", variant: "info" },
 ] as const;
 
+const alertVariants = [
+  { description: "Tokens ship separately.", title: "Heads up", variant: "info" },
+  { description: "Release tag moved to latest.", title: "Published", variant: "success" },
+  { description: "Missing package token in local shell.", title: "Check config", variant: "warning" },
+  { description: "Production build needs attention before retry.", title: "Deploy failed", variant: "danger" },
+] as const;
+
 const codeSnippetDemo = `const publishTag = "next";
 
 console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
@@ -292,7 +299,13 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       ))}
     </div>
   )}
-  {entry.name === "Alert" && <Alert title="Heads up" description="Tokens ship separately." variant="info" />}
+  {entry.name === "Alert" && (
+    <Stack space={3}>
+      {alertVariants.map(({ description, title, variant }) => (
+        <Alert title={title} description={description} variant={variant} />
+      ))}
+    </Stack>
+  )}
   {entry.name === "Callout" && <Callout title="Consumer-owned">Route metadata stays local.</Callout>}
   {entry.name === "EmptyState" && (
     <EmptyState title="No releases yet" description="Publish a prerelease to get started.">

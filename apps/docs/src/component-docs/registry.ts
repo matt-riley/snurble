@@ -151,7 +151,12 @@ const componentContentByName = {
       "Embed hidden machine-readable discovery hints in the page without changing visible layout content.",
   },
   Alert: {
-    exampleCode: `<Alert title="Heads up" description="Tokens ship separately." variant="info" />`,
+    exampleCode: `<div class="flex flex-col gap-3">
+  <Alert title="Heads up" description="Tokens ship separately." variant="info" />
+  <Alert title="Published" description="Release tag moved to latest." variant="success" />
+  <Alert title="Check config" description="Missing package token in local shell." variant="warning" />
+  <Alert title="Deploy failed" description="Production build needs attention before retry." variant="danger" />
+</div>`,
     notes: [
       "Use Alert for stateful feedback that needs emphasis.",
       "Keep titles short and descriptions direct.",

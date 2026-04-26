@@ -585,8 +585,8 @@ const componentContentByName = {
     notes: [
       "Pass accessible labels for each link.",
       "Only pass trusted, consumer-validated URLs in each href; vet schemes and reject malformed or untrusted values before rendering SocialLinks.",
-      'Use supported lowercase network keywords: "github", "spotify", "youtube", "bluesky", "twitch", or "x" (aliases "twitter" to "x" internally).',
-      "SocialLinks renders package-owned inline SVG icons from simple-icons; unsupported keywords render a fallback generic link indicator.",
+      'Use supported lowercase network keywords: "github", "spotify", "youtube", "bluesky", "twitch", "linkedin", or "x" (aliases "twitter" to "x" internally).',
+      "SocialLinks renders package-owned inline SVG icons from Tabler Icons; unsupported keywords render a fallback generic link indicator.",
       "Let the consumer choose which networks to expose.",
     ],
     summary:

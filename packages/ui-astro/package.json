@@ -19,8 +19,8 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "shiki": "^4.0.2",
-    "simple-icons": "^16.18.0"
+    "@tabler/icons": "^3.41.1",
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@matt-riley/design-tokens": ">=0.0.0-0"

@@ -135,8 +135,9 @@ const componentContentByName = {
   Accordion: {
     exampleCode: `<Accordion items={faqItems} />`,
     notes: [
-      "Use Accordion when only one section may matter at a time.",
-      "Keep heading text meaningful when collapsed.",
+      "Use Accordion when only one section should stay open at a time.",
+      "Opening one item closes any other expanded item.",
+      "Keep summary labels clearly distinct from the body copy.",
     ],
     summary:
       "Render expandable stacked sections for FAQs, notes, and progressive disclosure content.",

@@ -11,20 +11,53 @@ interface Props {
 }
 
 const { items, class: className } = Astro.props;
+
+let hasExpandedItem = false;
+const normalizedItems = items.map((item) => {
+  const normalizedItem = {
+    ...item,
+    expanded: item.expanded && !hasExpandedItem,
+  };
+
+  if (normalizedItem.expanded) {
+    hasExpandedItem = true;
+  }
+
+  return normalizedItem;
+});
+
 const accordionItemContent = new Map(
   await Promise.all(
-    items.map(async (item) => [item.id, await Astro.slots.render(item.id)] as const)
+    normalizedItems.map(async (item) => [
+      item.id,
+      await Astro.slots.render(item.id),
+    ] as const)
   )
 );
 ---
 
-<div class:list={["snurble-accordion", className]}>
-  {items.map((item) => (
+<div class:list={["snurble-accordion", className]} data-snurble-accordion>
+  {normalizedItems.map((item) => (
     <details class="snurble-accordion__item" open={item.expanded}>
-      <summary class="snurble-accordion__trigger" id={`snurble-accordion-trigger-${item.id}`}>
-        {item.title}
+      <summary
+        class="snurble-accordion__trigger"
+        id={`snurble-accordion-trigger-${item.id}`}
+      >
+        <span class="snurble-accordion__title">{item.title}</span>
+        <span
+          class="snurble-accordion__chevron"
+          data-snurble-accordion-chevron
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 24 24" focusable="false">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
       </summary>
-      <div class="snurble-accordion__content" id={`snurble-accordion-content-${item.id}`}>
+      <div
+        class="snurble-accordion__content"
+        id={`snurble-accordion-content-${item.id}`}
+      >
         <Fragment set:html={accordionItemContent.get(item.id) ?? ""} />
       </div>
     </details>
@@ -34,13 +67,14 @@ const accordionItemContent = new Map(
 <style>
   .snurble-accordion {
     border: 1px solid var(--snurble-border-card);
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     overflow: hidden;
+    background: var(--snurble-surface);
   }
 
   .snurble-accordion__item {
     border-bottom: 1px solid var(--snurble-border-card);
-    transition: border-color 150ms ease-out;
+    background: var(--snurble-surface-card);
   }
 
   .snurble-accordion__item:last-child {
@@ -48,54 +82,137 @@ const accordionItemContent = new Map(
   }
 
   .snurble-accordion__trigger {
+    list-style: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--snurble-space-3);
     width: 100%;
     padding: var(--snurble-space-4);
-    background: transparent;
+    background: var(--snurble-surface-card);
     border: none;
     color: var(--snurble-text);
     font-family: var(--snurble-font-body);
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 700;
     text-align: left;
     cursor: pointer;
     transition:
-      background-color 150ms ease-out,
-      color 150ms ease-out;
+      background-color 180ms ease-out,
+      color 150ms ease-out,
+      transform 150ms ease-out,
+      box-shadow 150ms ease-out;
     outline-offset: 2px;
   }
 
+  .snurble-accordion__trigger::-webkit-details-marker {
+    display: none;
+  }
+
   .snurble-accordion__trigger:hover {
-    background-color: var(--snurble-surface-badge);
+    background: var(--snurble-surface-badge);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+    transform: translateY(-1px);
   }
 
   .snurble-accordion__trigger:focus-visible {
-    outline: 2px solid var(--snurble-accent-success);
+    outline: 3px solid var(--snurble-focus-ring);
   }
 
-  .snurble-accordion__trigger::after {
-    content: "";
-    display: inline-block;
+  .snurble-accordion__title {
+    flex: 1;
+  }
+
+  .snurble-accordion__chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 1.25rem;
     height: 1.25rem;
-    margin-left: var(--snurble-space-3);
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    transition: transform 150ms ease-out;
+    color: var(--snurble-text-tertiary);
     flex-shrink: 0;
+    transition:
+      color 150ms ease-out,
+      transform 150ms ease-out;
   }
 
-  .snurble-accordion__item[open] .snurble-accordion__trigger::after {
+  .snurble-accordion__chevron svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .snurble-accordion__item[open] .snurble-accordion__trigger {
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-accordion__item[open] .snurble-accordion__chevron {
+    color: var(--snurble-text);
     transform: rotate(180deg);
   }
 
   .snurble-accordion__content {
-    padding: 0 var(--snurble-space-4) var(--snurble-space-4);
+    padding: var(--snurble-space-4);
+    border-top: 1px solid var(--snurble-border-card);
+    background: var(--snurble-surface);
     color: var(--snurble-text-muted);
     line-height: 1.6;
   }
+
+  .snurble-accordion__content :first-child {
+    margin-top: 0;
+  }
+
+  .snurble-accordion__content :last-child {
+    margin-bottom: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-accordion__trigger,
+    .snurble-accordion__chevron {
+      transition: none;
+    }
+
+    .snurble-accordion__trigger:hover {
+      transform: none;
+    }
+  }
 </style>
+
+<script>
+  const accordionRoots = document.querySelectorAll("[data-snurble-accordion]");
+
+  for (const accordionRoot of accordionRoots) {
+    if (!(accordionRoot instanceof HTMLElement)) {
+      continue;
+    }
+
+    const accordionItems = accordionRoot.querySelectorAll(":scope > .snurble-accordion__item");
+
+    for (const accordionItem of accordionItems) {
+      if (!(accordionItem instanceof HTMLDetailsElement)) {
+        continue;
+      }
+
+      accordionItem.addEventListener("toggle", () => {
+        if (!accordionItem.open) {
+          return;
+        }
+
+        for (const otherItem of accordionItems) {
+          if (
+            otherItem instanceof HTMLDetailsElement &&
+            otherItem !== accordionItem &&
+            otherItem.open
+          ) {
+            otherItem.open = false;
+          }
+        }
+      });
+    }
+  }
+</script>

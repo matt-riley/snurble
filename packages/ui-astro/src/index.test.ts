@@ -671,6 +671,19 @@ describe("ui-astro package", () => {
     expect(registry).toContain("Use concise role and company labels.");
   });
 
+  it("documents Accordion's enforced single-open guidance in the component docs catalog", async () => {
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
+    );
+
+    expect(registry).toContain(
+      "Opening one item closes any other expanded item."
+    );
+    expect(registry).toContain(
+      "Keep summary labels clearly distinct from the body copy."
+    );
+  });
+
   it("shows Popover variation controls in docs and expanded reference example", async () => {
     const registry = await readRepoFile(
       "apps/docs/src/component-docs/registry.ts"

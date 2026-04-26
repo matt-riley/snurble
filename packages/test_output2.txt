@@ -1,9 +1,0 @@
- WARN  Issue while reading "/Users/mattriley/Documents/projects/personal/snurble/.npmrc". Failed to replace env in config: ${NODE_AUTH_TOKEN}
-
- RUN  v4.1.5 /Users/mattriley/Documents/projects/personal/snurble/packages/ui-astro
-
-No test files found, exiting with code 1
-
-include: packages/*/src/**/*.test.ts, apps/docs/src/**/*.test.ts
-exclude:  **/node_modules/**, **/.git/**
-

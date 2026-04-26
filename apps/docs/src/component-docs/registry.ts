@@ -586,6 +586,7 @@ const componentContentByName = {
       "Pass accessible labels for each link.",
       "Only pass trusted, consumer-validated URLs in each href; vet schemes and reject malformed or untrusted values before rendering SocialLinks.",
       'Use supported lowercase network keywords: "github", "spotify", "youtube", "bluesky", "twitch", "linkedin", or "x" (aliases "twitter" to "x" internally).',
+      'Use the optional effect prop with "halo" (default) or "slide" to choose the hover motion style.',
       "SocialLinks renders package-owned inline SVG icons from Tabler Icons; unsupported keywords render a fallback generic link indicator.",
       "Let the consumer choose which networks to expose.",
     ],

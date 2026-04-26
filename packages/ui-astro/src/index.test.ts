@@ -605,6 +605,10 @@ describe("ui-astro package", () => {
       "apps/docs/src/component-docs/registry.ts"
     );
 
+    expect(registry).toContain("exampleCode: `<SocialLinks links={links} />`");
+    expect(registry).toContain(
+      'Use the optional effect prop with "halo" (default) or "slide" to choose the hover motion style.'
+    );
     expect(registry).toContain(
       "Let the consumer choose which networks to expose."
     );
@@ -753,6 +757,10 @@ describe("ui-astro package", () => {
       "links: { href: string; icon: string; label: string }[];"
     );
     await expect(socialLinksAstro).resolves.toContain(
+      'effect?: "halo" | "slide";'
+    );
+    await expect(socialLinksAstro).resolves.toContain('effect = "halo"');
+    await expect(socialLinksAstro).resolves.toContain(
       '<nav aria-label="Social profiles"'
     );
     await expect(socialLinksAstro).resolves.toContain("<a");
@@ -769,10 +777,21 @@ describe("ui-astro package", () => {
     await expect(socialLinksAstro).resolves.toContain(
       "import { resolveSocialIcon }"
     );
+    await expect(socialLinksAstro).resolves.toContain("data-effect={effect}");
+    await expect(socialLinksAstro).resolves.toContain(
+      'class="snurble-social-links__icon-shell"'
+    );
+    await expect(socialLinksAstro).resolves.toContain(
+      "@media (prefers-reduced-motion: reduce)"
+    );
+    await expect(socialLinksAstro).resolves.toContain(
+      "var(--snurble-focus-ring)"
+    );
     await expect(socialLinksAstro).resolves.toContain("<svg");
     await expect(socialLinksAstro).resolves.toContain("fill: none");
     await expect(socialLinksAstro).resolves.toContain("stroke: currentColor");
     await expect(socialLinksAstro).resolves.toContain("stroke-linecap: round");
+    await expect(socialLinksAstro).resolves.not.toContain("transition: all");
     await expect(socialLinksAstro).resolves.not.toContain("fill: currentColor");
     await expect(socialLinksAstro).resolves.not.toContain("astro-icon");
     await expect(socialLinksAstro).resolves.not.toContain("class?: string;");

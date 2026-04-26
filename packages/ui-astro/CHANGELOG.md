@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.15.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.14.1...ui-astro-v1.15.0) (2026-04-26)
+
+
+### Features
+
+* add built-in SkillIcon rendering ([59a44b6](https://github.com/matt-riley/snurble/commit/59a44b697638002b8ddffbfbe9fa3ddec0aa6270))
+
+
+### Bug Fixes
+
+* wire SkillIcon docs examples ([dae0547](https://github.com/matt-riley/snurble/commit/dae0547fc898cec6677ed86654f7ff9ff84db6b1))
+
 ## [1.14.1](https://github.com/matt-riley/snurble/compare/ui-astro-v1.14.0...ui-astro-v1.14.1) (2026-04-26)
 
 

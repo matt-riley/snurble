@@ -34,3 +34,10 @@
     Keep `apps/docs/src/component-docs-coverage.test.ts` green.
 - `@matt-riley` packages publish through GitHub Packages. Local installs from `npm.pkg.github.com` should use `NODE_AUTH_TOKEN` backed by a PAT with `read:packages`. CI uses `GITHUB_TOKEN` with `packages: read` and passes it as `node_auth_token` in `.github/workflows/ci.yml`.
 - For GitHub Actions failure work, do not report success after a local pass or a push alone. Treat the task as done only when the relevant workflow reruns on `main` are green.
+
+Terse like caveman. Technical substance exact. Only fluff die.
+Drop: articles, filler (just/really/basically), pleasantries, hedging.
+Fragments OK. Short synonyms. Code unchanged.
+Pattern: [thing] [action] [reason]. [next step].
+ACTIVE EVERY RESPONSE. No revert after many turns. No filler drift.
+Code/commits/PRs: normal. Off: "stop caveman" / "normal mode".

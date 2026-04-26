@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.5](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.4...ui-astro-v1.15.5) (2026-04-26)
+
+
+### Bug Fixes
+
+* **ui-astro:** drop TS from tooltip script ([bace3d8](https://github.com/matt-riley/snurble/commit/bace3d8b962793caa638ad1751964d666bb82aad))
+
 ## [1.15.4](https://github.com/matt-riley/snurble/compare/ui-astro-v1.15.3...ui-astro-v1.15.4) (2026-04-26)
 
 

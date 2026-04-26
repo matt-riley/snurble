@@ -25,7 +25,9 @@ export interface ComponentDocContent {
 }
 
 export interface ComponentDocEntry
-  extends ComponentDocSeed, ComponentDocContent {}
+  extends ComponentDocSeed, ComponentDocContent {
+  readonly exampleLanguage: "astro";
+}
 
 export interface LlmHelperDocSeed {
   readonly name: "createMarkdownAlternateLink";
@@ -204,7 +206,7 @@ const componentContentByName = {
       "Render the shared boolean checkbox control with package-owned checked and focus treatment.",
   },
   CodeSnippet: {
-    exampleCode: `<CodeSnippet variant="block" code={snippet} />`,
+    exampleCode: `<CodeSnippet variant="block" language="ts" code={snippet} />`,
     notes: [
       "Use block mode for commands and copyable examples.",
       "Keep snippets focused on the main happy path.",
@@ -670,6 +672,7 @@ const componentContentByName = {
 
 export const componentDocs = componentDocCatalog.map((entry) => ({
   ...entry,
+  exampleLanguage: "astro" as const,
   ...componentContentByName[entry.name],
 })) satisfies readonly ComponentDocEntry[];
 

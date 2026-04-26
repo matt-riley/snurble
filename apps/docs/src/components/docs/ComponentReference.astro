@@ -23,6 +23,6 @@ const { entry } = Astro.props;
   </Section>
 
   <Section title="Example snippet" headingId={`${entry.slug}-snippet-heading`}>
-    <CodeSnippet variant="block" code={entry.exampleCode} />
+    <CodeSnippet variant="block" code={entry.exampleCode} language={entry.exampleLanguage} />
   </Section>
 </Stack>

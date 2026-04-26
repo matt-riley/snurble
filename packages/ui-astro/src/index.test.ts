@@ -621,6 +621,32 @@ describe("ui-astro package", () => {
     expect(registry).toContain("Use concise role and company labels.");
   });
 
+  it("renders a live CodeSnippet demo and assigns explicit languages to docs snippets", async () => {
+    const registry = await readRepoFile(
+      "apps/docs/src/component-docs/registry.ts"
+    );
+    const componentDemo = await readRepoFile(
+      "apps/docs/src/components/docs/ComponentDemo.astro"
+    );
+    const componentReference = await readRepoFile(
+      "apps/docs/src/components/docs/ComponentReference.astro"
+    );
+    const llmHelperPage = await readRepoFile(
+      "apps/docs/src/pages/llm-helper.astro"
+    );
+    const releaseReadinessPage = await readRepoFile(
+      "apps/docs/src/pages/release-readiness.astro"
+    );
+
+    expect(registry).toContain('readonly exampleLanguage: "astro";');
+    expect(componentDemo).toMatch(
+      /entry\.name === "CodeSnippet"[\s\S]*<CodeSnippet[\s\S]*variant="block"[\s\S]*language="ts"/
+    );
+    expect(componentReference).toContain("language={entry.exampleLanguage}");
+    expect(llmHelperPage).toContain('language="ts"');
+    expect(releaseReadinessPage).toContain('language="bash"');
+  });
+
   it("exports the accepted foundation primitives through the package entrypoint", async () => {
     const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
 

@@ -7,6 +7,7 @@ import {
   Button,
   Callout,
   Checkbox,
+  CodeSnippet,
   DataTable,
   DecoratedHeading,
   DescriptionList,
@@ -101,6 +102,10 @@ const socialLinks = [
   { href: "https://github.com/matt-riley", icon: "github", label: "GitHub profile" },
   { href: "https://linkedin.com/in/matthewjriley", icon: "linkedin", label: "LinkedIn profile" },
 ];
+
+const codeSnippetDemo = `const publishTag = "next";
+
+console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
 ---
 
 <Stack space={4}>
@@ -162,11 +167,12 @@ const socialLinks = [
   )}
 
   {entry.name === "CodeSnippet" && (
-    <Panel variant="bordered">
-      <p class="text-sm text-[var(--snurble-text-muted)]">
-        The reference section below includes a live <code>CodeSnippet</code> block.
-      </p>
-    </Panel>
+    <CodeSnippet
+      variant="block"
+      code={codeSnippetDemo}
+      language="ts"
+      label="Highlighted TypeScript example"
+    />
   )}
 
   {entry.name === "Stack" && (

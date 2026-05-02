@@ -19,6 +19,9 @@ jobs:
       package-manager: pnpm
       pnpm-version: "10.33.2"
       require-lockfile: true
+      install-command: |
+        pnpm install --frozen-lockfile
+        pnpm exec playwright install chromium
       verify-lockfile-clean: true
       run-build: true
     secrets:

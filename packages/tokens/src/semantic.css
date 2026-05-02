@@ -160,6 +160,10 @@
     hsl(var(--snurble-palette-blue)) 100%
   );
 
+  --snurble-highlight-subtle: rgb(255 255 255 / 0.08);
+  --snurble-highlight-medium: rgb(255 255 255 / 0.16);
+  --snurble-highlight-strong: rgb(255 255 255 / 0.24);
+
   --snurble-font-weight-display: 900;
 }
 
@@ -170,97 +174,113 @@
     --snurble-text-tertiary: hsl(var(--snurble-palette-subtext0));
 
     /* Darker Peach for brand primary to meet 3:1 contrast for large text in Latte */
-    --snurble-brand-primary: #d65d0e;
-    --snurble-on-accent: #ffffff;
-    --snurble-on-warning: #11111b;
-    --snurble-on-strong: #ffffff;
+    --snurble-brand-primary: hsl(25 88% 45%);
+    --snurble-on-accent: hsl(0 0% 100%);
+    --snurble-on-warning: hsl(240 21% 9%);
+    --snurble-on-strong: hsl(0 0% 100%);
     --snurble-badge-fill-success: var(--snurble-accent-success);
-    --snurble-badge-on-success: #11111b;
+    --snurble-badge-on-success: hsl(240 21% 9%);
     --snurble-badge-fill-warning: hsl(var(--snurble-palette-peach));
-    --snurble-badge-on-fill: #ffffff;
-    --snurble-badge-on-warning: #11111b;
-    --snurble-on-brand-primary: #11111b;
-    --snurble-switch-thumb: #ffffff;
+    --snurble-badge-on-fill: hsl(0 0% 100%);
+    --snurble-badge-on-warning: hsl(240 21% 9%);
+    --snurble-on-brand-primary: hsl(240 21% 9%);
+    --snurble-switch-thumb: hsl(0 0% 100%);
 
-    --snurble-border: rgb(156 160 176 / 0.45);
-    --snurble-border-strong: rgb(140 143 161 / 0.75);
-    --snurble-selection: rgb(30 102 245 / 0.2);
+    --snurble-border: hsl(228 12% 65% / 0.45);
+    --snurble-border-strong: hsl(231 10% 59% / 0.75);
+    --snurble-selection: hsl(220 91% 54% / 0.2);
 
     --snurble-action-primary: linear-gradient(
       135deg,
-      #4338ca 0%,
-      #7c3aed 52%,
-      #c2410c 100%
+      hsl(245 58% 53%) 0%,
+      hsl(263 80% 61%) 52%,
+      hsl(18 88% 41%) 100%
     );
     --snurble-action-primary-hover: linear-gradient(
       135deg,
-      #3730a3 0%,
-      #6d28d9 46%,
-      #9a3412 100%
+      hsl(244 54% 42%) 0%,
+      hsl(263 69% 50%) 46%,
+      hsl(16 80% 33%) 100%
     );
     --snurble-action-primary-active: linear-gradient(
       135deg,
-      #312e81 0%,
-      #581c87 48%,
-      #7c2d12 100%
+      hsl(242 47% 35%) 0%,
+      hsl(273 66% 32%) 48%,
+      hsl(15 75% 28%) 100%
     );
     --snurble-action-primary-selected: linear-gradient(
       135deg,
-      #7c2d12 0%,
-      #be185d 48%,
-      #4338ca 100%
+      hsl(15 75% 28%) 0%,
+      hsl(335 88% 42%) 48%,
+      hsl(245 58% 53%) 100%
     );
-    --snurble-action-primary-text: #ffffff;
-    --snurble-action-primary-border: rgb(67 56 202 / 0.72);
-    --snurble-action-primary-border-hover: rgb(124 58 237 / 0.88);
-    --snurble-action-primary-border-selected: rgb(194 65 12 / 0.85);
+    --snurble-action-primary-text: hsl(0 0% 100%);
+    --snurble-action-primary-border: hsl(245 58% 53% / 0.72);
+    --snurble-action-primary-border-hover: hsl(263 80% 61% / 0.88);
+    --snurble-action-primary-border-selected: hsl(18 88% 41% / 0.85);
     --snurble-action-secondary: linear-gradient(
       135deg,
-      #ffffff 0%,
-      #eef2ff 58%,
-      #fff7ed 100%
+      hsl(0 0% 100%) 0%,
+      hsl(227 100% 97%) 58%,
+      hsl(34 100% 94%) 100%
     );
     --snurble-action-secondary-hover: linear-gradient(
       135deg,
-      #eef2ff 0%,
-      #e0e7ff 52%,
-      #ffedd5 100%
+      hsl(227 100% 97%) 0%,
+      hsl(227 100% 94%) 52%,
+      hsl(36 100% 92%) 100%
     );
     --snurble-action-secondary-active: linear-gradient(
       135deg,
-      #dbeafe 0%,
-      #c7d2fe 52%,
-      #fed7aa 100%
+      hsl(214 95% 93%) 0%,
+      hsl(231 93% 89%) 52%,
+      hsl(33 96% 83%) 100%
     );
     --snurble-action-secondary-selected: linear-gradient(
       135deg,
-      #4338ca 0%,
-      #0f766e 100%
+      hsl(245 58% 53%) 0%,
+      hsl(175 77% 26%) 100%
     );
     --snurble-action-secondary-text: hsl(var(--snurble-palette-text));
-    --snurble-action-secondary-border: rgb(99 102 241 / 0.34);
-    --snurble-action-secondary-border-hover: rgb(99 102 241 / 0.62);
-    --snurble-action-secondary-border-selected: rgb(15 118 110 / 0.74);
-    --snurble-action-secondary-selected-text: #ffffff;
-    --snurble-action-danger: linear-gradient(135deg, #d20f39, #b10b2e);
-    --snurble-action-danger-hover: linear-gradient(135deg, #b10b2e, #9f1239);
-    --snurble-action-danger-active: linear-gradient(135deg, #970824, #881337);
-    --snurble-action-danger-selected: linear-gradient(135deg, #9f1239, #c2410c);
-    --snurble-action-danger-text: #ffffff;
-    --snurble-action-danger-border: rgb(210 15 57 / 0.5);
-    --snurble-action-danger-border-hover: rgb(210 15 57 / 0.72);
-    --snurble-action-danger-border-selected: rgb(194 65 12 / 0.72);
+    --snurble-action-secondary-border: hsl(237 83% 67% / 0.34);
+    --snurble-action-secondary-border-hover: hsl(237 83% 67% / 0.62);
+    --snurble-action-secondary-border-selected: hsl(175 77% 26% / 0.74);
+    --snurble-action-secondary-selected-text: hsl(0 0% 100%);
+    --snurble-action-danger: linear-gradient(
+      135deg,
+      hsl(347 87% 44%),
+      hsl(347 88% 37%)
+    );
+    --snurble-action-danger-hover: linear-gradient(
+      135deg,
+      hsl(347 88% 37%),
+      hsl(344 87% 34%)
+    );
+    --snurble-action-danger-active: linear-gradient(
+      135deg,
+      hsl(348 90% 31%),
+      hsl(341 83% 30%)
+    );
+    --snurble-action-danger-selected: linear-gradient(
+      135deg,
+      hsl(344 87% 34%),
+      hsl(18 88% 41%)
+    );
+    --snurble-action-danger-text: hsl(0 0% 100%);
+    --snurble-action-danger-border: hsl(347 87% 44% / 0.5);
+    --snurble-action-danger-border-hover: hsl(347 87% 44% / 0.72);
+    --snurble-action-danger-border-selected: hsl(18 88% 41% / 0.72);
     --snurble-action-shadow:
-      0 0.75rem 1.75rem rgb(76 79 105 / 0.18),
+      0 0.75rem 1.75rem hsl(233 21% 35% / 0.18),
       0 0 0 1px hsl(0 0% 100% / 0.75) inset;
     --snurble-action-shadow-hover:
-      0 1rem 2.35rem rgb(76 79 105 / 0.28), 0 0 1.5rem rgb(99 102 241 / 0.18),
-      0 0 0 1px hsl(0 0% 100% / 0.92) inset;
+      0 1rem 2.35rem hsl(233 21% 35% / 0.28),
+      0 0 1.5rem hsl(237 83% 67% / 0.18), 0 0 0 1px hsl(0 0% 100% / 0.92) inset;
     --snurble-action-shadow-active:
-      0 0.45rem 1rem rgb(76 79 105 / 0.2),
-      0 0.25rem 0.75rem rgb(49 46 129 / 0.16) inset;
+      0 0.45rem 1rem hsl(233 21% 35% / 0.2),
+      0 0.25rem 0.75rem hsl(243 47% 34% / 0.16) inset;
     --snurble-action-shadow-selected:
-      0 1rem 2.6rem rgb(49 46 129 / 0.28), 0 0 1.85rem rgb(234 88 12 / 0.2),
+      0 1rem 2.6rem hsl(243 47% 34% / 0.28), 0 0 1.85rem hsl(22 88% 48% / 0.2),
       0 0 0 1px hsl(0 0% 100% / 0.88) inset;
   }
 }

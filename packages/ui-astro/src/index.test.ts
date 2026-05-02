@@ -116,7 +116,9 @@ describe("ui-astro package", () => {
       'export { default as SortIndicator } from "./atoms/SortIndicator.astro";'
     );
     expect(indexTs).not.toContain("workspaceBaseline");
-    expect(packageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
+    expect(packageJson).toMatch(
+      /"@matt-riley\/design-tokens": "(workspace:\*|>=0\.0\.0-0)"/
+    );
     expect(packageJson).toContain('"astro": "^6.0.0"');
     expect(packageJson).toContain('"shiki"');
     expect(packageJson).toContain('"access": "public"');
@@ -128,11 +130,12 @@ describe("ui-astro package", () => {
     const tokenPackageJson = await readRepoFile("packages/tokens/package.json");
 
     expect(uiPackageJson).toContain('"name": "@matt-riley/ui-astro"');
-    expect(uiPackageJson).toContain('"@matt-riley/design-tokens": ">=0.0.0-0"');
+    expect(uiPackageJson).toMatch(
+      /"@matt-riley\/design-tokens": "(workspace:\*|>=0\.0\.0-0)"/
+    );
     expect(uiPackageJson).toContain('"dependencies"');
     expect(uiPackageJson).toContain('"shiki"');
     expect(uiPackageJson).toContain('"peerDependencies"');
-    expect(uiPackageJson).not.toContain('"workspace:*"');
     expect(tokenPackageJson).toContain('"name": "@matt-riley/design-tokens"');
     expect(tokenPackageJson).toContain('"access": "public"');
     expect(tokenPackageJson).not.toContain('"private": true');

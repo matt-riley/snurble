@@ -18,7 +18,20 @@ const { title, description = "Snurble workspace baseline", llm } = Astro.props;
   <Fragment slot="head">
     <link {...llm.alternateLink} />
     <slot name="head" />
+    <link href="/_pagefind/pagefind-ui.css" rel="stylesheet" />
+    <script is:inline src="/_pagefind/pagefind-ui.js"></script>
   </Fragment>
+
+  <div class="fixed top-4 right-4 z-50">
+    <div id="search"></div>
+  </div>
+
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      // @ts-expect-error - Assigned to satisfy linter, but unused in script.
+      const _search = new PagefindUI({ bundlePath: "/_pagefind/", element: "#search", showSubResults: true });
+    });
+  </script>
 
   <AgentDiscoveryHint hint={llm.discoveryHints} />
   <slot />

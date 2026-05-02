@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "variant": {
+      "description": "The visual variant of the badge.",
+      "enum": ["default", "success", "warning", "danger", "info"],
+      "default": "default"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Badge Props",
+  "type": "object"
+}

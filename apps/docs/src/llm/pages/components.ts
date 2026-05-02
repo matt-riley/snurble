@@ -3,6 +3,7 @@ import {
   llmHelperDoc,
   llmHelperDocDetails,
 } from "../../component-docs/registry";
+import type { ComponentProp } from "../../component-docs/registry";
 import { defineDocsLlmPage } from "../define-page";
 
 export const componentsIndexLlmPage = defineDocsLlmPage({
@@ -32,6 +33,23 @@ ${entry.summary}
 ## Notes
 
 ${entry.notes.map((note) => `- ${note}`).join("\n")}
+
+${
+  entry.props
+    ? `## Properties
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+${entry.props
+  .map(
+    (p: ComponentProp) =>
+      `| ${p.name}${p.required ? " (required)" : ""} | \`${p.type}\` | ${
+        p.default || "-"
+      } | ${p.description} |`
+  )
+  .join("\n")}`
+    : ""
+}
 
 ## Example
 

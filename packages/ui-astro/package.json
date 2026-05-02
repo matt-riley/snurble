@@ -24,10 +24,10 @@
     "shiki": "^4.0.2"
   },
   "devDependencies": {
-    "@matt-riley/design-tokens": ">=0.0.0-0"
+    "@matt-riley/design-tokens": "workspace:*"
   },
   "peerDependencies": {
-    "@matt-riley/design-tokens": ">=0.0.0-0",
+    "@matt-riley/design-tokens": "workspace:*",
     "astro": "^6.0.0"
   }
 }

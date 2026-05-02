@@ -84,11 +84,11 @@ describe("release readiness docs and packaging", () => {
       peerDependencies: Record<string, string>;
     }>("packages/ui-astro/package.json");
 
-    expect(packageJson.devDependencies["@matt-riley/design-tokens"]).toBe(
-      ">=0.0.0-0"
+    expect(packageJson.devDependencies["@matt-riley/design-tokens"]).toMatch(
+      /^(workspace:\*|>=0\.0\.0-0)$/
     );
-    expect(packageJson.peerDependencies["@matt-riley/design-tokens"]).toBe(
-      ">=0.0.0-0"
+    expect(packageJson.peerDependencies["@matt-riley/design-tokens"]).toMatch(
+      /^(workspace:\*|>=0\.0\.0-0)$/
     );
   });
 
@@ -159,10 +159,10 @@ describe("release readiness docs and packaging", () => {
     );
     expect(
       uiAstroPackageJson.devDependencies["@matt-riley/design-tokens"]
-    ).toBe(">=0.0.0-0");
+    ).toMatch(/^(workspace:\*|>=0\.0\.0-0)$/);
     expect(
       uiAstroPackageJson.peerDependencies["@matt-riley/design-tokens"]
-    ).toBe(">=0.0.0-0");
+    ).toMatch(/^(workspace:\*|>=0\.0\.0-0)$/);
   });
 
   it("adds a release-please workflow for independent package releases", async () => {

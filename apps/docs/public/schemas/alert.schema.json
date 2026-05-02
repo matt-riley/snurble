@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "title": {
+      "description": "The title of the alert.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A supporting description for the alert.",
+      "type": "string"
+    },
+    "variant": {
+      "description": "The status variant of the alert.",
+      "enum": ["info", "success", "warning", "danger"],
+      "default": "info"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["title"],
+  "title": "Alert Props",
+  "type": "object"
+}

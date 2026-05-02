@@ -23,7 +23,7 @@ const { title, variant = "info", class: className } = Astro.props;
     display: flex;
     gap: var(--snurble-space-3);
     padding: var(--snurble-space-4);
-    border-radius: 0.375rem;
+    border-radius: var(--snurble-radius-md);
     border: 1px solid;
     background-color: var(--snurble-surface-card);
   }
@@ -37,7 +37,7 @@ const { title, variant = "info", class: className } = Astro.props;
   }
 
   .snurble-callout--warning {
-    border-color: #f9ca24;
+    border-color: var(--snurble-accent-warning);
   }
 
   .snurble-callout--danger {

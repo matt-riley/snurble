@@ -22,11 +22,21 @@ export interface ComponentDocContent {
   readonly summary: string;
   readonly exampleCode: string;
   readonly notes: readonly string[];
+  readonly props?: readonly ComponentProp[];
+}
+
+export interface ComponentProp {
+  readonly name: string;
+  readonly type: string;
+  readonly description: string;
+  readonly default?: string;
+  readonly required?: boolean;
 }
 
 export interface ComponentDocEntry
   extends ComponentDocSeed, ComponentDocContent {
   readonly exampleLanguage: "astro";
+  readonly props?: readonly ComponentProp[];
 }
 
 export interface LlmHelperDocSeed {
@@ -131,7 +141,10 @@ export const llmHelperDoc = {
 
 type ComponentName = (typeof componentDocCatalog)[number]["name"];
 
-const componentContentByName = {
+const componentContentByName: Record<
+  ComponentName,
+  ComponentDocContent & { props?: readonly ComponentProp[] }
+> = {
   Accordion: {
     exampleCode: `<Accordion items={faqItems} />`,
     notes: [
@@ -167,6 +180,26 @@ const componentContentByName = {
     ],
     summary:
       "Render a structured status message for info, success, warning, or danger states. Basically, it's the UI equivalent of tapping the user on the shoulder very persistently.",
+    props: [
+      {
+        name: "title",
+        type: "string",
+        description: "The title of the alert.",
+        required: true,
+      },
+      {
+        name: "description",
+        type: "string",
+        description: "A supporting description for the alert.",
+      },
+      {
+        name: "variant",
+        type: "'info' | 'success' | 'warning' | 'danger'",
+        description: "The status variant of the alert.",
+        default: "'info'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Badge: {
     exampleCode: `<div class="flex flex-wrap gap-3">
@@ -183,6 +216,15 @@ const componentContentByName = {
     ],
     summary:
       "Display compact status or taxonomy labels. It's like putting a colorful little sticker on your data to make it feel special.",
+    props: [
+      {
+        name: "variant",
+        type: "'default' | 'success' | 'warning' | 'danger' | 'info'",
+        description: "The visual variant of the badge.",
+        default: "'default'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Breadcrumbs: {
     exampleCode: `<Breadcrumbs items={breadcrumbItems} />`,
@@ -204,6 +246,33 @@ const componentContentByName = {
     ],
     summary:
       "Render the primary shared action control for the highest-priority calls to action. The absolute workhorse of any UI.",
+    props: [
+      {
+        name: "variant",
+        type: "'primary' | 'secondary' | 'danger'",
+        description: "The visual style of the button.",
+        default: "'primary'",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "The size of the button.",
+        default: "'md'",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Whether the button is disabled.",
+        default: "false",
+      },
+      {
+        name: "selected",
+        type: "boolean",
+        description: "Whether the button is in a selected/pressed state.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Callout: {
     exampleCode: `<Callout title="Consumer-owned">Route metadata stays local.</Callout>`,

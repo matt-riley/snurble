@@ -90,9 +90,9 @@ const cardClassName = ["stat-card", className];
     overflow: hidden;
     padding: var(--snurble-space-5);
     border: 1px solid var(--snurble-border);
-    border-radius: 1rem;
+    border-radius: var(--snurble-radius-2xl);
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0) 100%),
+      linear-gradient(180deg, var(--snurble-highlight-subtle) 0%, transparent 100%),
       linear-gradient(180deg, var(--snurble-surface-card) 0%, var(--snurble-surface) 100%);
     box-shadow: var(--snurble-shadow-md);
     backdrop-filter: blur(16px);
@@ -117,7 +117,7 @@ const cardClassName = ["stat-card", className];
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
+    box-shadow: inset 0 1px 0 var(--snurble-highlight-medium);
     pointer-events: none;
   }
 
@@ -176,9 +176,9 @@ const cardClassName = ["stat-card", className];
     gap: var(--snurble-space-2);
     max-width: 100%;
     padding: 0.4rem 0.75rem;
-    border: 1px solid rgb(255 255 255 / 0.08);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.05);
+    border: 1px solid var(--snurble-highlight-subtle);
+    border-radius: var(--snurble-radius-full);
+    background: var(--snurble-highlight-subtle);
     color: var(--snurble-text-muted);
   }
 

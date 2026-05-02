@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.2...design-tokens-v1.8.0) (2026-05-02)
+
+
+### Features
+
+* introduce playgrounds ([9d7beb4](https://github.com/matt-riley/snurble/commit/9d7beb4b4212fc27f1cb3833fd925ae2c0702605))
+
 ## [1.7.2](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.1...design-tokens-v1.7.2) (2026-04-26)
 
 

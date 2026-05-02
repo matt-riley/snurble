@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.17.0...ui-astro-v1.18.0) (2026-05-02)
+
+
+### Features
+
+* introduce playgrounds ([9d7beb4](https://github.com/matt-riley/snurble/commit/9d7beb4b4212fc27f1cb3833fd925ae2c0702605))
+
 ## [1.17.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.16.0...ui-astro-v1.17.0) (2026-04-26)
 
 

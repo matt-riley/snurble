@@ -52,13 +52,17 @@ importers:
         version: link:../../packages/ui-astro
       '@tailwindcss/vite':
         specifier: 4.2.4
-        version: 4.2.4(vite@8.0.9(esbuild@0.27.7)(jiti@2.6.1)(yaml@2.8.3))
+        version: 4.2.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3))
       astro:
         specifier: 6.1.9
         version: 6.1.9(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(typescript@5.9.3)(yaml@2.8.3)
       tailwindcss:
         specifier: 4.2.4
         version: 4.2.4
+    devDependencies:
+      vite:
+        specifier: 7.3.2
+        version: 7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)
 
   packages/tokens: {}
 
@@ -3525,12 +3529,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.2.4
       '@tailwindcss/oxide-win32-x64-msvc': 4.2.4
 
-  '@tailwindcss/vite@4.2.4(vite@8.0.9(esbuild@0.27.7)(jiti@2.6.1)(yaml@2.8.3))':
+  '@tailwindcss/vite@4.2.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3))':
     dependencies:
       '@tailwindcss/node': 4.2.4
       '@tailwindcss/oxide': 4.2.4
       tailwindcss: 4.2.4
-      vite: 8.0.9(esbuild@0.27.7)(jiti@2.6.1)(yaml@2.8.3)
+      vite: 7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)
 
   '@tybys/wasm-util@0.10.1':
     dependencies:

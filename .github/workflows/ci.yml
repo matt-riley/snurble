@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   validate:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@7bf33bf0eef269c4a4b1d85e1668dec14fb8ffff # v1
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@88b73ab838aa7ba439a7ec594717bba43014e5d4 # v1
     with:
       concurrency-suffix: validate
       node-version: "24"
@@ -25,7 +25,7 @@ jobs:
       node_auth_token: ${{ secrets.GITHUB_TOKEN }}
 
   typecheck:
-    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@7bf33bf0eef269c4a4b1d85e1668dec14fb8ffff # v1
+    uses: matt-riley/matt-riley-ci/.github/workflows/node-ci.yml@88b73ab838aa7ba439a7ec594717bba43014e5d4 # v1
     with:
       concurrency-suffix: typecheck
       node-version: "24"

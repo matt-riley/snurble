@@ -1,0 +1,168 @@
+---
+import { Button, Stack, Panel } from "@matt-riley/ui-astro";
+import type { ComponentDocEntry } from "../../component-docs/registry";
+
+interface Props {
+  entry: ComponentDocEntry;
+}
+
+const { entry } = Astro.props;
+
+// For now, we only implement a playground for Button to demonstrate the pattern.
+const hasPlayground = entry.name === "Button";
+---
+
+{hasPlayground && (
+  <Panel variant="bordered" class="playground">
+    <div class="playground-grid">
+      <div class="playground-preview">
+        <div id="playground-target">
+          <Button id="playground-button">Ship it</Button>
+        </div>
+      </div>
+      
+      <div class="playground-controls">
+        <Stack space={4}>
+          <h4 class="text-sm font-bold uppercase tracking-wider text-[var(--snurble-text-muted)]">Controls</h4>
+          
+          <div class="control-group">
+            <label for="variant-select" class="block text-sm font-medium mb-2">Variant</label>
+            <select id="variant-select" class="control-select">
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="danger">Danger</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="size-select" class="block text-sm font-medium mb-2">Size</label>
+            <select id="size-select" class="control-select">
+              <option value="sm">Small</option>
+              <option value="md" selected>Medium</option>
+              <option value="lg">Large</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="disabled-toggle" />
+              <span class="text-sm font-medium">Disabled</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="selected-toggle" />
+              <span class="text-sm font-medium">Selected</span>
+            </label>
+          </div>
+        </Stack>
+      </div>
+    </div>
+  </Panel>
+)}
+
+<style>
+  .playground {
+    padding: 0 !important;
+    overflow: hidden;
+  }
+
+  .playground-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .playground-grid {
+      grid-template-columns: 1fr 16rem;
+    }
+  }
+
+  .playground-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--snurble-space-8);
+    background: radial-gradient(circle at center, var(--snurble-highlight-subtle), transparent 70%);
+    min-height: 12rem;
+  }
+
+  .playground-controls {
+    padding: var(--snurble-space-5);
+    border-top: 1px solid var(--snurble-border);
+    background: var(--snurble-surface-card);
+  }
+
+  @media (min-width: 48rem) {
+    .playground-controls {
+      border-top: 0;
+      border-left: 1px solid var(--snurble-border);
+    }
+  }
+
+  .control-select {
+    width: 100%;
+    padding: var(--snurble-space-2);
+    border: 1px solid var(--snurble-border);
+    border-radius: var(--snurble-radius-md);
+    background: var(--snurble-surface);
+    color: var(--snurble-text);
+  }
+
+  .control-group input[type="checkbox"] {
+    accent-color: var(--snurble-accent);
+  }
+</style>
+
+<script>
+  // Simple client-side state management for the playground
+  const updatePlayground = () => {
+    const button = document.querySelector('#playground-button');
+    const variantSelect = document.querySelector('#variant-select') as HTMLSelectElement;
+    const sizeSelect = document.querySelector('#size-select') as HTMLSelectElement;
+    const disabledToggle = document.querySelector('#disabled-toggle') as HTMLInputElement;
+    const selectedToggle = document.querySelector('#selected-toggle') as HTMLInputElement;
+
+    if (!button || !variantSelect || !sizeSelect || !disabledToggle || !selectedToggle) {
+      return;
+    }
+
+    // We can't re-render the Astro component on the client easily, 
+    // but we can manipulate the classes/attributes that the Button component uses.
+    
+    // Reset classes
+    button.className = 'snurble-button';
+    
+    // Apply variant
+    if (variantSelect.value !== 'primary') {
+      button.classList.add(`snurble-button--${variantSelect.value}`);
+    }
+
+    // Apply size
+    if (sizeSelect.value !== 'md') {
+      button.classList.add(`snurble-button--${sizeSelect.value}`);
+    }
+
+    // Apply selected
+    if (selectedToggle.checked) {
+      button.classList.add('snurble-button--selected');
+      button.setAttribute('aria-pressed', 'true');
+    } else {
+      button.setAttribute('aria-pressed', 'false');
+    }
+
+    // Apply disabled
+    (button as HTMLButtonElement).disabled = disabledToggle.checked;
+  };
+
+  const variantSelect = document.querySelector('#variant-select');
+  const sizeSelect = document.querySelector('#size-select');
+  const disabledToggle = document.querySelector('#disabled-toggle');
+  const selectedToggle = document.querySelector('#selected-toggle');
+
+  variantSelect?.addEventListener('change', updatePlayground);
+  sizeSelect?.addEventListener('change', updatePlayground);
+  disabledToggle?.addEventListener('change', updatePlayground);
+  selectedToggle?.addEventListener('change', updatePlayground);
+</script>

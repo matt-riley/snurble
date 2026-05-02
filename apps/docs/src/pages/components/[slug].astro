@@ -4,6 +4,7 @@ import { Hero, PageShell, Section, Stack } from "@matt-riley/ui-astro";
 import { componentDocs } from "../../component-docs/registry";
 import type { ComponentDocEntry } from "../../component-docs/registry";
 import ComponentDemo from "../../components/docs/ComponentDemo.astro";
+import ComponentPlayground from "../../components/docs/ComponentPlayground.astro";
 import ComponentReference from "../../components/docs/ComponentReference.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { componentLlmPages } from "../../llm/pages/components";
@@ -39,6 +40,12 @@ if (!llmPage) {
       <Section title="Curated demo" headingId={`${entry.slug}-demo-heading`}>
         <ComponentDemo entry={entry} />
       </Section>
+
+      {entry.name === "Button" && (
+        <Section title="Interactive playground" headingId={`${entry.slug}-playground-heading`}>
+          <ComponentPlayground entry={entry} />
+        </Section>
+      )}
 
       <ComponentReference entry={entry} />
     </PageShell>

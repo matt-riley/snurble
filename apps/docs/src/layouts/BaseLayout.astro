@@ -18,19 +18,74 @@ const { title, description = "Snurble workspace baseline", llm } = Astro.props;
   <Fragment slot="head">
     <link {...llm.alternateLink} />
     <slot name="head" />
-    <link href="/_pagefind/pagefind-ui.css" rel="stylesheet" />
-    <script is:inline src="/_pagefind/pagefind-ui.js"></script>
   </Fragment>
 
-  <div class="fixed top-4 right-4 z-50">
+  <div class="search-container fixed top-6 right-6 z-50">
     <div id="search"></div>
   </div>
 
+  <style is:global>
+    /* Search button and modal styling */
+    .pagefind-ui {
+      --pagefind-ui-primary: var(--snurble-accent);
+      --pagefind-ui-text: var(--snurble-text);
+      --pagefind-ui-background: var(--snurble-surface);
+      --pagefind-ui-border: var(--snurble-border);
+      --pagefind-ui-tag: var(--snurble-surface-badge);
+    }
+    
+    .pagefind-ui .pagefind-ui__drawer {
+      background: var(--snurble-surface-glass-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--snurble-border-strong);
+      border-radius: var(--snurble-radius-lg);
+      box-shadow: var(--snurble-shadow-lg);
+    }
+  </style>
+
   <script is:inline>
-    window.addEventListener('DOMContentLoaded', () => {
-      // @ts-expect-error - Assigned to satisfy linter, but unused in script.
-      const _search = new PagefindUI({ bundlePath: "/_pagefind/", element: "#search", showSubResults: true });
-    });
+    const initSearch = () => {
+      // Check if scripts are loaded (they only exist after a build)
+      if (typeof PagefindUI === 'undefined') {
+        const container = document.querySelector('.search-container');
+        if (container) {
+          container.innerHTML = '<p class="text-xs text-[var(--snurble-text-muted)] bg-[var(--snurble-surface-card)] p-2 rounded border border-[var(--snurble-border)]">Search available in production build</p>';
+        }
+        return;
+      }
+      
+      // @ts-expect-error - PagefindUI is global
+      void new PagefindUI({ 
+        bundlePath: "/_pagefind/", 
+        element: "#search", 
+        resetStyles: false,
+        showSubResults: true
+      });
+    };
+
+    // Load pagefind assets dynamically if they exist
+    const loadAssets = async () => {
+      try {
+        const response = await fetch('/_pagefind/pagefind-ui.js', { method: 'HEAD' });
+        if (response.ok) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '/_pagefind/pagefind-ui.css';
+          document.head.append(link);
+
+          const script = document.createElement('script');
+          script.src = '/_pagefind/pagefind-ui.js';
+          script.addEventListener('load', initSearch);
+          document.head.append(script);
+        } else {
+          initSearch();
+        }
+      } catch {
+        initSearch();
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', loadAssets);
   </script>
 
   <AgentDiscoveryHint hint={llm.discoveryHints} />

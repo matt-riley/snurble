@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, description, variant = "info", class: className } = Astro.props;
+const role = variant === "danger" || variant === "warning" ? "alert" : "status";
 const colorMap = {
   danger: "--snurble-accent-danger",
   info: "--snurble-accent",
@@ -15,7 +16,7 @@ const colorMap = {
 };
 ---
 
-<div role="alert" class:list={["snurble-alert", `snurble-alert--${variant}`, className]}>
+<div role={role} class:list={["snurble-alert", `snurble-alert--${variant}`, className]}>
   <div class="snurble-alert__icon" style={`color: var(${colorMap[variant]})`}>
     <slot name="icon" />
   </div>

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "colSpan": {
+      "description": "Number of columns to span.",
+      "type": "number",
+      "default": "1"
+    },
+    "rowSpan": {
+      "description": "Number of rows to span.",
+      "type": "number",
+      "default": "1"
+    },
+    "colSpanMd": {
+      "description": "Columns to span on medium screens.",
+      "type": "number"
+    },
+    "rowSpanMd": {
+      "description": "Rows to span on medium screens.",
+      "type": "number"
+    },
+    "colSpanLg": {
+      "description": "Columns to span on large screens.",
+      "type": "number"
+    },
+    "rowSpanLg": {
+      "description": "Rows to span on large screens.",
+      "type": "number"
+    }
+  },
+  "title": "BentoItem Props",
+  "type": "object"
+}

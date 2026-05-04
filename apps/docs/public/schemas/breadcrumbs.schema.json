@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "items": {
+      "description": "List of breadcrumb items.",
+      "type": "string"
+    },
+    "separator": {
+      "description": "The separator between items.",
+      "type": "string",
+      "default": "/"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["items"],
+  "title": "Breadcrumbs Props",
+  "type": "object"
+}

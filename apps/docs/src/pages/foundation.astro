@@ -1,0 +1,168 @@
+---
+import {
+  CodeSnippet,
+  Hero,
+  PageShell,
+  Panel,
+  Section,
+  Stack,
+  StatCard,
+} from "@matt-riley/ui-astro";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { foundationLlmPage } from "../llm/pages/foundation";
+
+const htmlExample = `<html data-snurble-density="compact" data-snurble-focus-mode="enabled">
+  <body>
+    <slot />
+  </body>
+</html>`;
+
+const cssExample = `.card {
+  box-shadow: var(--snurble-shadow-spatial-resting);
+}
+
+.card:hover {
+  box-shadow: var(--snurble-shadow-spatial-floating);
+}
+
+.dialog {
+  box-shadow: var(--snurble-shadow-spatial-modal);
+}`;
+
+const installExample = `@matt-riley:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}
+
+pnpm add @matt-riley/design-tokens@<version>`;
+---
+
+<BaseLayout
+  llm={foundationLlmPage}
+  title="Snurble foundation guide"
+  description="Shared token-layer guidance for density, focus mode, and layered surface shadows in @matt-riley/design-tokens."
+>
+  <meta slot="head" name="theme-color" content="#11111b" />
+
+  <main class="docs-shell min-h-screen">
+    <PageShell class="flex flex-col gap-10">
+      <Stack space={3}>
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--snurble-accent)]">
+          Token foundation
+        </p>
+        <Hero
+          title="Foundation guide"
+          lede="Use @matt-riley/design-tokens for the shared CSS base layer, then layer component-specific behavior from @matt-riley/ui-astro on top. This guide covers the new density controls, focus mode, and spatial shadow tokens added in this branch."
+        />
+      </Stack>
+
+      <div class="grid gap-4 lg:grid-cols-3">
+        <StatCard label="Density modes" value="3" trend="neutral" trendValue="compact, default, spacious" />
+        <StatCard label="Focus mode" value="Opt-in" trend="up" trendValue="html attribute" />
+        <StatCard label="Spatial shadow tokens" value="4" trend="up" trendValue="resting to modal" />
+      </div>
+
+      <Section title="What the token package owns" headingId="foundation-package-heading">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Base layer</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                The package exports palette, semantic, spacing, and typography tokens plus the
+                shared CSS foundation used by Snurble components and consumers.
+              </p>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Keep route-owned metadata, application state, and component orchestration outside
+                the token package.
+              </p>
+            </Stack>
+          </Panel>
+
+          <Panel variant="glass">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">New foundation hooks</h3>
+              <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                <li>density scale on the <code>&lt;html&gt;</code> element</li>
+                <li>focus mode that suppresses decorative blur, glow, and stagger animation</li>
+                <li>semantic spatial shadow tokens for resting, elevated, floating, and modal depth</li>
+              </ul>
+            </Stack>
+          </Panel>
+        </div>
+      </Section>
+
+      <Section title="HTML-level controls" headingId="html-level-controls-heading">
+        <div class="grid gap-6 lg:grid-cols-[1fr,1.1fr]">
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Density scale</h3>
+              <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                <li><code>compact</code>: 0.75× spacing multiplier</li>
+                <li><code>default</code>: 1× spacing multiplier</li>
+                <li><code>spacious</code>: 1.5× spacing multiplier</li>
+              </ul>
+              <h3 class="text-xl font-semibold">Focus mode</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Set <code>data-snurble-focus-mode="enabled"</code> on the document root when you
+                want to reduce blur, glow, and decorative motion for more focused reading.
+              </p>
+            </Stack>
+          </Panel>
+
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Example</h3>
+              <CodeSnippet variant="block" code={htmlExample} language="html" />
+            </Stack>
+          </Panel>
+        </div>
+      </Section>
+
+      <Section title="Spatial shadow tokens" headingId="spatial-shadow-tokens-heading">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Token intent</h3>
+              <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                <li><code>--snurble-shadow-spatial-resting</code> for default cards and panels</li>
+                <li><code>--snurble-shadow-spatial-elevated</code> for emphasized surfaces</li>
+                <li><code>--snurble-shadow-spatial-floating</code> for hover and floating overlays</li>
+                <li><code>--snurble-shadow-spatial-modal</code> for modal or highest-emphasis layers</li>
+              </ul>
+            </Stack>
+          </Panel>
+
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">CSS example</h3>
+              <CodeSnippet variant="block" code={cssExample} language="css" />
+            </Stack>
+          </Panel>
+        </div>
+      </Section>
+
+      <Section title="Install and public entrypoints" headingId="foundation-install-heading">
+        <div class="grid gap-6 lg:grid-cols-[1fr,1.1fr]">
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Public entrypoints</h3>
+              <ul class="grid gap-2 text-sm text-[var(--snurble-text-muted)]">
+                <li><code>@matt-riley/design-tokens</code></li>
+                <li><code>@matt-riley/design-tokens/palette.css</code></li>
+                <li><code>@matt-riley/design-tokens/semantic.css</code></li>
+                <li><code>@matt-riley/design-tokens/typography.json</code></li>
+                <li><code>@matt-riley/design-tokens/spacing.json</code></li>
+              </ul>
+            </Stack>
+          </Panel>
+
+          <Panel variant="bordered">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Install</h3>
+              <CodeSnippet variant="block" code={installExample} language="bash" />
+            </Stack>
+          </Panel>
+        </div>
+      </Section>
+    </PageShell>
+  </main>
+</BaseLayout>

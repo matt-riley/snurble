@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: "flat" | "bordered" | "elevated";
+  variant?: "flat" | "bordered" | "elevated" | "glass";
   hover?: boolean;
   padding?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   class?: string;
@@ -28,35 +28,48 @@ const { variant = "flat", hover = false, padding = 5, class: className } = Astro
     color: var(--snurble-text);
     background: var(--snurble-surface-card);
     border-radius: 0.5rem;
+    box-shadow: var(--snurble-shadow-spatial-resting);
     transition:
-      box-shadow var(--snurble-transition-base),
-      border-color var(--snurble-transition-base),
-      transform var(--snurble-transition-base);
+      box-shadow 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color 200ms ease-out,
+      transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 200ms ease-out,
+      backdrop-filter 200ms ease-out;
   }
 
   /* Variants */
   .snurble-panel--flat {
     border: 1px solid transparent;
+    box-shadow: none;
   }
 
   .snurble-panel--bordered {
     border: 1px solid var(--snurble-border-card);
+    box-shadow: none;
   }
 
   .snurble-panel--elevated {
     border: 1px solid var(--snurble-border-card);
-    box-shadow: var(--snurble-shadow-md);
+    box-shadow: var(--snurble-shadow-spatial-elevated);
+  }
+
+  .snurble-panel--glass {
+    background: var(--snurble-surface-glass);
+    backdrop-filter: var(--snurble-backdrop-blur);
+    border: 1px solid var(--snurble-border);
+    box-shadow: var(--snurble-shadow-spatial-elevated);
   }
 
   /* Hover States */
   .snurble-panel--hover:hover {
     cursor: pointer;
     border-color: var(--snurble-border-strong);
-    transform: translateY(-2px);
-    box-shadow: var(--snurble-shadow-lg);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--snurble-shadow-spatial-floating);
   }
 
-  .snurble-panel--elevated.snurble-panel--hover:hover {
-    box-shadow: var(--snurble-shadow-lg);
+  .snurble-panel--elevated.snurble-panel--hover:hover,
+  .snurble-panel--glass.snurble-panel--hover:hover {
+    box-shadow: var(--snurble-shadow-spatial-floating);
   }
 </style>

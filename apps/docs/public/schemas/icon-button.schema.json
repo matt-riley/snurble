@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "ariaLabel": {
+      "description": "Accessible label for the button.",
+      "type": "string"
+    },
+    "variant": {
+      "description": "The visual style of the button.",
+      "enum": ["primary", "secondary", "danger"],
+      "default": "primary"
+    },
+    "size": {
+      "description": "The size of the button.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "disabled": {
+      "description": "Whether the button is disabled.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "selected": {
+      "description": "Whether the button is in a selected/pressed state.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["ariaLabel"],
+  "title": "IconButton Props",
+  "type": "object"
+}

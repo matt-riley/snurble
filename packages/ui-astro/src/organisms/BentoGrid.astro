@@ -1,0 +1,55 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  columns?: number;
+  columnsMd?: number;
+  columnsLg?: number;
+  gap?: number;
+}
+
+const {
+  columns = 1,
+  columnsMd = 2,
+  columnsLg = 3,
+  gap = 4,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
+
+const bentoStyle = [
+  `--snurble-bento-cols: ${columns}`,
+  `--snurble-bento-cols-lg: ${columnsLg}`,
+  `--snurble-bento-cols-md: ${columnsMd}`,
+  `--snurble-bento-gap: var(--snurble-space-${gap})`,
+  typeof style === "string" ? style : undefined,
+]
+  .filter(Boolean)
+  .join("; ");
+---
+
+<div class:list={["snurble-bento-grid", className]} style={bentoStyle} {...rest}>
+  <slot />
+</div>
+
+<style>
+  .snurble-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--snurble-bento-cols), 1fr);
+    gap: var(--snurble-bento-gap);
+    width: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    .snurble-bento-grid {
+      grid-template-columns: repeat(var(--snurble-bento-cols-md), 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .snurble-bento-grid {
+      grid-template-columns: repeat(var(--snurble-bento-cols-lg), 1fr);
+    }
+  }
+</style>

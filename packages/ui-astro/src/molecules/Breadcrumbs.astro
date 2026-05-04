@@ -15,20 +15,34 @@ const { items, separator = "/", class: className } = Astro.props;
 
 <nav aria-label="Breadcrumbs" class:list={["snurble-breadcrumbs", className]}>
   <ol class="snurble-breadcrumbs__list">
-    {items.map((item, index) => (
-      <li class="snurble-breadcrumbs__item" aria-current={index === items.length - 1 ? "page" : undefined}>
-        {item.href ? (
-          <a href={item.href} class="snurble-breadcrumbs__link">{item.label}</a>
-        ) : (
-          <span class="snurble-breadcrumbs__label">{item.label}</span>
-        )}
-        {index < items.length - 1 && (
-          <span class="snurble-breadcrumbs__separator" aria-hidden="true">
-            {separator}
-          </span>
-        )}
-      </li>
-    ))}
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="snurble-breadcrumbs__item">
+          {item.href ? (
+            <a
+              href={item.href}
+              class="snurble-breadcrumbs__link"
+              aria-current={isLast ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              class="snurble-breadcrumbs__label"
+              aria-current={isLast ? "page" : undefined}
+            >
+              {item.label}
+            </span>
+          )}
+          {!isLast && (
+            <span class="snurble-breadcrumbs__separator" aria-hidden="true">
+              {separator}
+            </span>
+          )}
+        </li>
+      );
+    })}
   </ol>
 </nav>
 

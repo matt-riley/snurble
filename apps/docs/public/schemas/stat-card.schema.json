@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "label": {
+      "description": "Label for the stat.",
+      "type": "string"
+    },
+    "value": {
+      "description": "Primary value to display.",
+      "enum": ["string", "number"]
+    },
+    "trend": {
+      "description": "Trend direction.",
+      "enum": ["up", "down", "neutral"]
+    },
+    "trendValue": {
+      "description": "Trend text label.",
+      "type": "string"
+    },
+    "icon": {
+      "description": "Optional icon HTML.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Optional link URL.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["label", "value"],
+  "title": "StatCard Props",
+  "type": "object"
+}

@@ -24,6 +24,29 @@ pnpm add @matt-riley/design-tokens@<prerelease>
 - if a prerelease is bad, revert the consumer to the last known-good published version, publish a newer prerelease, and rerun validation before resuming rollout
 - later adopters should wait until a proving consumer has validated the published prerelease path end to end
 
+## Foundation Features
+
+### Density scale
+
+Control the global spacing multiplier via the `data-snurble-density` attribute on the `<html>` element.
+
+- `compact`: 0.75x multiplier
+- `default`: 1x multiplier (default)
+- `spacious`: 1.5x multiplier
+
+### Focus mode
+
+Suppress decorative elements (blurs, glows, animations) for neuro-inclusive reading by setting `data-snurble-focus-mode="enabled"` on the `<html>` element.
+
+### Spatial shadow tokens
+
+Use the semantic shadow tokens from `semantic.css` when you need layered depth that matches the shared component surface model.
+
+- `--snurble-shadow-spatial-resting`: default resting cards and panels
+- `--snurble-shadow-spatial-elevated`: elevated panels and supporting overlays
+- `--snurble-shadow-spatial-floating`: hover states and lightweight floating surfaces
+- `--snurble-shadow-spatial-modal`: high-emphasis dialogs and modal surfaces
+
 ## Public entrypoints
 
 - `@matt-riley/design-tokens`

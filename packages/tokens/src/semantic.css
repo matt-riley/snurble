@@ -146,6 +146,19 @@
   --snurble-shadow-card: var(--snurble-shadow-sm);
   --snurble-shadow-card-hover: var(--snurble-shadow-md);
 
+  --snurble-shadow-spatial-resting:
+    0 1px 3px hsl(var(--snurble-palette-crust) / 0.12),
+    0 1px 2px hsl(var(--snurble-palette-crust) / 0.24);
+  --snurble-shadow-spatial-elevated:
+    0 4px 6px -1px hsl(var(--snurble-palette-crust) / 0.1),
+    0 2px 4px -1px hsl(var(--snurble-palette-crust) / 0.06);
+  --snurble-shadow-spatial-floating:
+    0 10px 15px -3px hsl(var(--snurble-palette-crust) / 0.1),
+    0 4px 6px -2px hsl(var(--snurble-palette-crust) / 0.05);
+  --snurble-shadow-spatial-modal:
+    0 20px 25px -5px hsl(var(--snurble-palette-crust) / 0.1),
+    0 10px 10px -5px hsl(var(--snurble-palette-crust) / 0.04);
+
   --snurble-shadow-glow-primary:
     0 0 20px hsl(var(--snurble-palette-mauve) / 0.35),
     0 0 40px hsl(var(--snurble-palette-pink) / 0.15);

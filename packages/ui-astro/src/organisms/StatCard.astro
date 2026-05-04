@@ -34,7 +34,7 @@ const cardClassName = ["stat-card", className];
   <a href={href} class:list={cardClassName} {...rest}>
     <div class="stat-card-surface">
       <div class="stat-card-header">
-        {icon && <span class="stat-card-icon" set:html={icon} />}
+        {icon && <span class="stat-card-icon" aria-hidden="true" set:html={icon} />}
         <span class="stat-card-label">{label}</span>
       </div>
       <div class="stat-card-body">
@@ -52,7 +52,7 @@ const cardClassName = ["stat-card", className];
   <div class:list={cardClassName} {...rest}>
     <div class="stat-card-surface">
       <div class="stat-card-header">
-        {icon && <span class="stat-card-icon" set:html={icon} />}
+        {icon && <span class="stat-card-icon" aria-hidden="true" set:html={icon} />}
         <span class="stat-card-label">{label}</span>
       </div>
       <div class="stat-card-body">

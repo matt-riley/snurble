@@ -1,0 +1,62 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  colSpan?: number;
+  rowSpan?: number;
+  colSpanMd?: number;
+  rowSpanMd?: number;
+  colSpanLg?: number;
+  rowSpanLg?: number;
+}
+
+const {
+  colSpan = 1,
+  rowSpan = 1,
+  colSpanMd,
+  rowSpanMd,
+  colSpanLg,
+  rowSpanLg,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
+
+const itemStyle = [
+  `--snurble-bento-item-col: ${colSpan}`,
+  `--snurble-bento-item-col-lg: ${colSpanLg ?? colSpanMd ?? colSpan}`,
+  `--snurble-bento-item-col-md: ${colSpanMd ?? colSpan}`,
+  `--snurble-bento-item-row: ${rowSpan}`,
+  `--snurble-bento-item-row-lg: ${rowSpanLg ?? rowSpanMd ?? rowSpan}`,
+  `--snurble-bento-item-row-md: ${rowSpanMd ?? rowSpan}`,
+  typeof style === "string" ? style : undefined,
+]
+  .filter(Boolean)
+  .join("; ");
+---
+
+<div class:list={["snurble-bento-item", className]} style={itemStyle} {...rest}>
+  <slot />
+</div>
+
+<style>
+  .snurble-bento-item {
+    grid-column: span var(--snurble-bento-item-col);
+    grid-row: span var(--snurble-bento-item-row);
+    min-width: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .snurble-bento-item {
+      grid-column: span var(--snurble-bento-item-col-md);
+      grid-row: span var(--snurble-bento-item-row-md);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .snurble-bento-item {
+      grid-column: span var(--snurble-bento-item-col-lg);
+      grid-row: span var(--snurble-bento-item-row-lg);
+    }
+  }
+</style>

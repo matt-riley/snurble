@@ -50,6 +50,69 @@ const tabPanelContent = new Map(
   </div>
 </div>
 
+<script>
+  const initTabs = (root: HTMLElement) => {
+    const tabList = root.querySelector('[role="tablist"]');
+    const tabs = [...root.querySelectorAll('[role="tab"]')] as HTMLButtonElement[];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')] as HTMLElement[];
+
+    if (!tabList) {
+      return;
+    }
+
+    const selectTab = (selectedTab: HTMLButtonElement) => {
+      const selectedId = selectedTab.id.replace("snurble-tab-", "");
+
+      for (const tab of tabs) {
+        const isSelected = tab === selectedTab;
+        tab.setAttribute("aria-selected", isSelected.toString());
+        tab.classList.toggle("snurble-tabs__tab--active", isSelected);
+        tab.tabIndex = isSelected ? 0 : -1;
+      }
+
+      for (const panel of panels) {
+        const isSelected = panel.id === `snurble-tab-panel-${selectedId}`;
+        panel.hidden = !isSelected;
+      }
+    };
+
+    for (const [index, tab] of tabs.entries()) {
+      tab.addEventListener("click", () => selectTab(tab));
+
+      tab.addEventListener("keydown", (e) => {
+        let targetIndex = -1;
+
+        if (e.key === "ArrowRight") {
+          targetIndex = (index + 1) % tabs.length;
+        } else if (e.key === "ArrowLeft") {
+          targetIndex = (index - 1 + tabs.length) % tabs.length;
+        } else if (e.key === "Home") {
+          targetIndex = 0;
+        } else if (e.key === "End") {
+          targetIndex = tabs.length - 1;
+        }
+
+        if (targetIndex !== -1) {
+          e.preventDefault();
+          tabs[targetIndex].focus();
+          selectTab(tabs[targetIndex]);
+        }
+      });
+
+      // Set initial tabIndex
+      const isActive = tab.classList.contains("snurble-tabs__tab--active");
+      tab.tabIndex = isActive ? 0 : -1;
+    }
+  };
+
+  const tabsRoots = document.querySelectorAll(".snurble-tabs");
+  for (const root of tabsRoots) {
+    if (root instanceof HTMLElement) {
+      initTabs(root);
+    }
+  }
+</script>
+
 <style>
   .snurble-tabs {
     display: flex;

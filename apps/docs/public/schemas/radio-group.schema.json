@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "name": {
+      "description": "Name for the radio group.",
+      "type": "string"
+    },
+    "label": {
+      "description": "Optional group label.",
+      "type": "string"
+    },
+    "options": {
+      "description": "List of radio options.",
+      "type": "string"
+    },
+    "disabled": {
+      "description": "Whether the group is disabled.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "defaultValue": {
+      "description": "Default selected value.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["name", "options"],
+  "title": "RadioGroup Props",
+  "type": "object"
+}

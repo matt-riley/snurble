@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "placeholder": {
+      "description": "Search input placeholder.",
+      "type": "string",
+      "default": "Search or filter..."
+    },
+    "variant": {
+      "description": "The visual style of the filter bar.",
+      "enum": ["default", "compact"],
+      "default": "default"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "FilterBar Props",
+  "type": "object"
+}

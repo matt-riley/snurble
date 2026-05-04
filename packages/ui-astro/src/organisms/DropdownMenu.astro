@@ -205,6 +205,16 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
           focusItem(currentIndex - 1);
           break;
         }
+        case 'Home': {
+          e.preventDefault();
+          focusItem(0);
+          break;
+        }
+        case 'End': {
+          e.preventDefault();
+          focusItem(items.length - 1);
+          break;
+        }
         case 'Enter':
         case ' ': {
           e.preventDefault();

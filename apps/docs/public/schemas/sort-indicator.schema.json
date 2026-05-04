@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "label": {
+      "description": "Label for the sort indicator.",
+      "type": "string"
+    },
+    "sortOrder": {
+      "description": "Current sort order.",
+      "enum": ["asc", "desc", "null"],
+      "default": "null"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["label"],
+  "title": "SortIndicator Props",
+  "type": "object"
+}

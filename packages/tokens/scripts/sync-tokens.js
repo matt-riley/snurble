@@ -16,7 +16,7 @@ const syncTokens = async () => {
 
   // Spacing
   for (const [key, value] of Object.entries(spacing.scale)) {
-    cssContent += `  --snurble-space-${key}: ${value};\n`;
+    cssContent += `  --snurble-space-${key}: calc(${value} * var(--snurble-density-multiplier, 1));\n`;
   }
 
   // Typography Families

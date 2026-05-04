@@ -35,6 +35,16 @@ const {
   </label>
 </div>
 
+<script>
+  const switchInputs = document.querySelectorAll(".snurble-switch__input");
+  for (const input of switchInputs) {
+    input.addEventListener("change", (e) => {
+      const target = e.target as HTMLInputElement;
+      target.setAttribute("aria-checked", target.checked.toString());
+    });
+  }
+</script>
+
 <style>
   .snurble-switch {
     display: flex;

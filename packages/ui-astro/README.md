@@ -8,7 +8,7 @@ Shared Astro UI primitives for the Snurble design system.
 - **Snurble**: Extracted shared contract. This package exports reusable primitives derived from the foundation.
 - **mattriley.tools**: First proving consumer. mattriley.tools validates that the extracted contract works outside the design-system workspace.
 
-The current shared surface was shaped by mattriley.tools adoption patterns (catalog/detail pages) and now also includes workv2-derived profile, social, project, experience, and shell primitives where the contracts have stabilized.
+The current shared surface was shaped by mattriley.tools adoption patterns (catalog/detail pages) and now also includes workv2-derived profile, social, project, experience, shell, and bento-style layout primitives where the contracts have stabilized.
 
 ## Install
 
@@ -34,9 +34,9 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 56 runtime primitives plus shared LLM helper types:
+The package entrypoint currently exports 57 runtime primitives plus the `createMarkdownAlternateLink` helper and shared LLM helper types:
 
-### Shell and document primitives
+### Shell and layout primitives
 
 - `Layout`
 - `FontAssets`
@@ -53,6 +53,8 @@ The package entrypoint currently exports 56 runtime primitives plus shared LLM h
 - `CodeSnippet`
 - `DataTable`
 - `MetaList`
+- `BentoGrid`
+- `BentoItem`
 
 ### Action and status feedback primitives
 

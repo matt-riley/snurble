@@ -20,8 +20,8 @@ import { homeLlmPage } from "../llm/pages/home";
           Snurble design system
         </p>
         <Hero
-          title="A component-first reference for @matt-riley/ui-astro"
-          lede="Browse every shared Astro primitive on its own page, plus the LLM helper API and the release guides that support package adoption."
+          title="A component-first reference for Snurble's shared packages"
+          lede="Start with the shared token foundation guide, then browse every Astro primitive on its own page alongside the LLM helper API and the release guides that support package adoption."
         />
       </Stack>
 
@@ -32,7 +32,17 @@ import { homeLlmPage } from "../llm/pages/home";
       </div>
 
       <Section title="Start here" headingId="start-here-heading">
-        <div class="grid gap-4 lg:grid-cols-3">
+        <div class="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
+          <Panel variant="elevated">
+            <Stack space={3}>
+              <h3 class="text-xl font-semibold">Foundation guide</h3>
+              <p class="text-sm text-[var(--snurble-text-muted)]">
+                Learn the token-layer controls for density, focus mode, and layered shadow depth.
+              </p>
+              <a class="font-medium text-[var(--snurble-accent)]" href="/foundation">Open foundation guide →</a>
+            </Stack>
+          </Panel>
+
           <Panel variant="elevated">
             <Stack space={3}>
               <h3 class="text-xl font-semibold">Components</h3>

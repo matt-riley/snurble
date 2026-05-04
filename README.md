@@ -1,11 +1,11 @@
 # Snurble
 
-Snurble is an Astro design-system monorepo for durable site foundations. The repository packages shared design tokens and reusable Astro primitives, with a docs app that now leads with component-by-component reference routes, the LLM helper API, and the release and adoption guides that support package rollout.
+Snurble is an Astro design-system monorepo for durable site foundations. The repository packages shared design tokens and reusable Astro primitives, with a docs app that now leads with a token foundation guide, component-by-component reference routes, the LLM helper API, and the release and adoption guides that support package rollout.
 
 The root workspace is private, but the current shared surface is split into two publishable packages:
 
 - `@matt-riley/design-tokens` for shared CSS tokens and generated metadata files
-- `@matt-riley/ui-astro` for 56 Astro primitives across five component-expansion stages
+- `@matt-riley/ui-astro` for 57 Astro primitives, including the new bento layout wrappers
 
 Documentation lives at **https://snurble.mattriley.tools**.
 
@@ -21,7 +21,7 @@ Documentation lives at **https://snurble.mattriley.tools**.
 
 ### `@matt-riley/design-tokens`
 
-Shared Snurble tokens for CSS consumers and generated metadata files.
+Shared Snurble tokens for CSS consumers and generated metadata files, including HTML-level density and focus-mode controls plus the semantic shadow tokens used by layered surfaces.
 
 Public entrypoints:
 
@@ -35,7 +35,7 @@ See [`packages/tokens/README.md`](./packages/tokens/README.md) for install detai
 
 ### `@matt-riley/ui-astro`
 
-Reusable Astro UI primitives extracted into a shared contract. The package currently covers shell/document primitives, actions and status, navigation and disclosure, form foundations, overlays and menus, and data-display components.
+Reusable Astro UI primitives extracted into a shared contract. The package currently covers shell/document primitives, layout composition, actions and status, navigation and disclosure, form foundations, overlays and menus, and data-display components.
 
 See [`packages/ui-astro/README.md`](./packages/ui-astro/README.md) for the full surface area, install guidance, and consumer rules.
 

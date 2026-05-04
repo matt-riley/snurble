@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Unique ID for the menu.",
+      "type": "string"
+    },
+    "open": {
+      "description": "Whether the menu is open.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "items": {
+      "description": "List of menu items.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["items"],
+  "title": "DropdownMenu Props",
+  "type": "object"
+}

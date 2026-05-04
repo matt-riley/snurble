@@ -53,7 +53,9 @@ const {
   data-open={open}
   data-position={position}
   data-close-on-outside={closeOnOutsideClick}
-  role="presentation"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby={title ? `${id}-title` : undefined}
 >
   {/* Arrow pointing to trigger */}
   <div class="snurble-popover-arrow" aria-hidden="true" />
@@ -63,7 +65,7 @@ const {
     {/* Header if provided */}
     {title && (
       <div class="snurble-popover-header">
-        <h3 class="snurble-popover-title">{title}</h3>
+        <h3 id={`${id}-title`} class="snurble-popover-title">{title}</h3>
         <button
           class="snurble-popover-close"
           aria-label="Close popover"

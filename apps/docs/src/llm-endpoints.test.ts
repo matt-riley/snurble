@@ -33,6 +33,7 @@ const getMarkdownOutputPath = (route: string): string =>
 
 const expectedRoutes = [
   "/",
+  "/foundation",
   "/components",
   ...componentDocs.map((entry) => `/components/${entry.slug}`),
   "/llm-helper",
@@ -60,11 +61,12 @@ describe("docs llm endpoints", () => {
     const headersFile = await readDocsDistFile("_headers");
 
     expect(llmsTxt).toContain("/index.md");
+    expect(llmsTxt).toContain("/foundation.md");
     expect(llmsTxt).toContain("/components/button.md");
     expect(llmsTxt).toContain("/llm-helper.md");
-    expect(llmsTxt).not.toContain("/foundation.md");
     expect(llmsTxt).toContain("/llms-full.txt");
     expect(llmsFull).toContain("# Snurble design system");
+    expect(llmsFull).toContain("# Snurble foundation guide");
     expect(llmsFull).toContain("# Button");
     expect(llmsFull).toContain("# LLM helper API");
     expect(sitemapXml).toContain('<?xml version="1.0" encoding="UTF-8"?>');

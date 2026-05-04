@@ -17,6 +17,8 @@ export { default as SocialLinks } from "./molecules/SocialLinks.astro";
 export { default as DecoratedHeading } from "./molecules/DecoratedHeading.astro";
 export { default as ProjectCard } from "./organisms/ProjectCard.astro";
 export { default as ProjectGrid } from "./organisms/ProjectGrid.astro";
+export { default as BentoGrid } from "./organisms/BentoGrid.astro";
+export { default as BentoItem } from "./atoms/BentoItem.astro";
 export { default as ExperienceCard } from "./organisms/ExperienceCard.astro";
 export { default as ExperienceList } from "./molecules/ExperienceList.astro";
 export { default as SkillIcon } from "./atoms/SkillIcon.astro";

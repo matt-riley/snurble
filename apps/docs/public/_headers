@@ -79,6 +79,18 @@
 /components/stack/
   Link: </components/stack.md>; rel="alternate"; type="text/markdown"
 
+/components/bento-grid
+  Link: </components/bento-grid.md>; rel="alternate"; type="text/markdown"
+
+/components/bento-grid/
+  Link: </components/bento-grid.md>; rel="alternate"; type="text/markdown"
+
+/components/bento-item
+  Link: </components/bento-item.md>; rel="alternate"; type="text/markdown"
+
+/components/bento-item/
+  Link: </components/bento-item.md>; rel="alternate"; type="text/markdown"
+
 /components/font-assets
   Link: </components/font-assets.md>; rel="alternate"; type="text/markdown"
 

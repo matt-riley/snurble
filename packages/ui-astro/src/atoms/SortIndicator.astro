@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<"button"> {
 const { sortOrder = null, label, class: className, ...rest } = Astro.props;
 ---
 
-<button class={`sort-indicator ${className || ""}`} aria-sort={sortOrder ? `${sortOrder}ending` : "none"} {...rest}>
+<button type="button" class={`sort-indicator ${className || ""}`} aria-sort={sortOrder ? `${sortOrder}ending` : "none"} {...rest}>
   <span class="sort-indicator-label">{label}</span>
   <span class="sort-indicator-icon" aria-hidden="true">
     {sortOrder === "asc" && "↑"}

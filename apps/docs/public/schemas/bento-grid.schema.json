@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "columns": {
+      "description": "Default columns.",
+      "type": "number",
+      "default": "1"
+    },
+    "columnsMd": {
+      "description": "Columns on medium screens.",
+      "type": "number",
+      "default": "2"
+    },
+    "columnsLg": {
+      "description": "Columns on large screens.",
+      "type": "number",
+      "default": "3"
+    },
+    "gap": {
+      "description": "Gap between items (spacing token index).",
+      "type": "number",
+      "default": "4"
+    }
+  },
+  "title": "BentoGrid Props",
+  "type": "object"
+}

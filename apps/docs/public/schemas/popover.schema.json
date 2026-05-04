@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Unique ID for the popover.",
+      "type": "string"
+    },
+    "open": {
+      "description": "Whether the popover is open.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "position": {
+      "description": "Position relative to trigger.",
+      "enum": ["top", "bottom", "left", "right"],
+      "default": "bottom"
+    },
+    "title": {
+      "description": "Optional title.",
+      "type": "string"
+    },
+    "closeOnOutsideClick": {
+      "description": "Close on outside click.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Popover Props",
+  "type": "object"
+}

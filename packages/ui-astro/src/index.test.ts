@@ -368,7 +368,7 @@ describe("ui-astro package", () => {
 
     await expect(panelAstro).resolves.toContain("interface Props {");
     await expect(panelAstro).resolves.toContain(
-      'variant?: "flat" | "bordered" | "elevated";'
+      'variant?: "flat" | "bordered" | "elevated" | "glass";'
     );
     await expect(panelAstro).resolves.toContain("hover?: boolean;");
     await expect(panelAstro).resolves.toContain("class?: string;");
@@ -387,7 +387,7 @@ describe("ui-astro package", () => {
       "padding: var(--snurble-panel-padding, var(--snurble-space-5));"
     );
     await expect(panelAstro).resolves.toContain(
-      "box-shadow: var(--snurble-shadow-md);"
+      "box-shadow: var(--snurble-shadow-spatial-resting);"
     );
     await expect(panelAstro).resolves.not.toContain("title:");
     await expect(panelAstro).resolves.not.toContain("aria-labelledby");
@@ -598,13 +598,15 @@ describe("ui-astro package", () => {
     expect(homepage).toContain('<main class="docs-shell min-h-screen">');
     expect(homepage).toContain('<PageShell class="flex flex-col gap-10">');
     expect(homepage).toContain(
-      "A component-first reference for @matt-riley/ui-astro"
+      "A component-first reference for Snurble's shared packages"
     );
     expect(homepage).toContain('label="Documented components"');
     expect(homepage).toContain("value={componentDocs.length}");
+    expect(homepage).toContain('href="/foundation"');
     expect(homepage).toContain('href="/components"');
     expect(homepage).toContain('href="/llm-helper"');
     expect(homepage).toContain('href="/release-readiness"');
+    expect(homepage).toContain("Open foundation guide");
     expect(homepage).toContain("Open component index");
     expect(homepage).toContain("Open helper docs");
     expect(homepage).toContain("Open release guide");

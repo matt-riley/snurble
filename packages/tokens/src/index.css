@@ -3,12 +3,38 @@
 @import "./_generated.css";
 
 :root {
+  --snurble-density-multiplier: 1;
   --snurble-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --snurble-shadow-md:
     0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --snurble-shadow-lg:
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --snurble-transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-snurble-density="compact"] {
+  --snurble-density-multiplier: 0.75;
+}
+
+[data-snurble-density="spacious"] {
+  --snurble-density-multiplier: 1.5;
+}
+
+/* Focus Mode: Suppress decorative elements for neuro-inclusive reading */
+[data-snurble-focus-mode="enabled"] {
+  --snurble-backdrop-blur: none;
+  --snurble-shadow-glow-primary: none;
+  --snurble-shadow-glow-accent: none;
+  --snurble-action-shadow: none;
+  --snurble-action-shadow-hover: none;
+  --snurble-action-shadow-active: none;
+  --snurble-action-shadow-selected: none;
+}
+
+[data-snurble-focus-mode="enabled"] .snurble-animate-stagger > * {
+  animation: none;
+  opacity: 1;
+  transform: none;
 }
 
 /* Keep the shared foundation unlayered so it stays deterministic next to Tailwind's reserved base layer. */

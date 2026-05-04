@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "tabs": {
+      "description": "List of tab items.",
+      "type": "string"
+    },
+    "defaultTab": {
+      "description": "ID of the default active tab.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["tabs"],
+  "title": "Tabs Props",
+  "type": "object"
+}

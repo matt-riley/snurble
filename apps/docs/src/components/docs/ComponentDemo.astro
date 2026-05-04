@@ -3,6 +3,8 @@ import {
   Accordion,
   Alert,
   Badge,
+  BentoGrid,
+  BentoItem,
   Breadcrumbs,
   Button,
   Callout,
@@ -50,6 +52,7 @@ import {
   Tooltip,
 } from "@matt-riley/ui-astro";
 
+import { componentDocs } from "../../component-docs/registry";
 import type { ComponentDocEntry } from "../../component-docs/registry";
 
 interface Props {
@@ -157,7 +160,7 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
     </Section>
   )}
 
-  {entry.name === "Panel" && <Panel variant="elevated">Panels provide shared bordered or elevated surfaces.</Panel>}
+  {entry.name === "Panel" && <Panel variant="glass">Panels provide shared flat, bordered, elevated, or glass surfaces.</Panel>}
 
   {entry.name === "DataTable" && (
     <div>
@@ -203,6 +206,31 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       <Panel variant="bordered">Second item</Panel>
       <Panel variant="bordered">Third item</Panel>
     </Stack>
+  )}
+
+  {entry.name === "BentoGrid" && (
+    <BentoGrid columns={1} columnsMd={2} columnsLg={3} gap={4}>
+      <BentoItem colSpan={1} colSpanLg={2}>
+        <Panel variant="glass">Featured panel with extra breathing room.</Panel>
+      </BentoItem>
+      <BentoItem>
+        <Panel variant="bordered">Compact supporting card.</Panel>
+      </BentoItem>
+      <BentoItem>
+        <Panel variant="elevated">Another surface in the grid.</Panel>
+      </BentoItem>
+    </BentoGrid>
+  )}
+
+  {entry.name === "BentoItem" && (
+    <BentoGrid columns={2} columnsLg={3} gap={4}>
+      <BentoItem colSpan={2} rowSpan={1} colSpanLg={2}>
+        <Panel variant="glass">BentoItem controls span inside the parent grid.</Panel>
+      </BentoItem>
+      <BentoItem>
+        <Panel variant="bordered">Sibling card</Panel>
+      </BentoItem>
+    </BentoGrid>
   )}
 
   {["FontAssets", "JsonLd", "SkipLink", "SeoMeta", "ServiceWorker", "AgentDiscoveryHint"].includes(entry.name) && (
@@ -363,7 +391,12 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   {entry.name === "Textarea" && <Textarea id="textarea-demo" placeholder="Tell us more..." rows={4} />}
   {entry.name === "Checkbox" && <Checkbox id="checkbox-demo" label="Email me release updates" checked />}
   {entry.name === "RadioGroup" && (
-    <RadioGroup name="demo-surface" options={radioOptions} defaultValue="components" />
+    <RadioGroup
+      name="demo-surface"
+      label="Primary docs surface"
+      options={radioOptions}
+      defaultValue="components"
+    />
   )}
   {entry.name === "Select" && (
     <Select id="select-demo" options={selectOptions} defaultValue="forms" placeholder="Choose a category" />
@@ -494,7 +527,12 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   )}
 
   {entry.name === "StatCard" && (
-    <StatCard label="Published components" value="54" trend="up" trendValue="+5" />
+    <StatCard
+      label="Documented components"
+      value={componentDocs.length}
+      trend="up"
+      trendValue="catalog-driven"
+    />
   )}
 
   {entry.name === "DescriptionList" && (

@@ -52,6 +52,7 @@ const pageNumbers = getPageNumbers(currentPage, totalPages);
           currentPage === 1 && "snurble-pagination__link--disabled",
         ]}
         aria-disabled={currentPage === 1}
+        aria-label="Go to previous page"
         data-page={currentPage - 1}
       >
         Previous
@@ -68,12 +69,13 @@ const pageNumbers = getPageNumbers(currentPage, totalPages);
               page === currentPage && "snurble-pagination__link--active",
             ]}
             aria-current={page === currentPage ? "page" : undefined}
+            aria-label={`Go to page ${page}`}
             data-page={page}
           >
             {page}
           </a>
         ) : (
-          <span class="snurble-pagination__ellipsis">{page}</span>
+          <span class="snurble-pagination__ellipsis" aria-hidden="true">{page}</span>
         )}
       </li>
     ))}
@@ -87,6 +89,7 @@ const pageNumbers = getPageNumbers(currentPage, totalPages);
           currentPage === totalPages && "snurble-pagination__link--disabled",
         ]}
         aria-disabled={currentPage === totalPages}
+        aria-label="Go to next page"
         data-page={currentPage + 1}
       >
         Next

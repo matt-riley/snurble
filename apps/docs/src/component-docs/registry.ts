@@ -54,6 +54,8 @@ export const componentDocCatalog = [
   { category: "Foundations", name: "MetaList", slug: "meta-list" },
   { category: "Foundations", name: "CodeSnippet", slug: "code-snippet" },
   { category: "Foundations", name: "Stack", slug: "stack" },
+  { category: "Foundations", name: "BentoGrid", slug: "bento-grid" },
+  { category: "Foundations", name: "BentoItem", slug: "bento-item" },
   { category: "Shell", name: "FontAssets", slug: "font-assets" },
   { category: "Shell", name: "JsonLd", slug: "json-ld" },
   { category: "Shell", name: "SkipLink", slug: "skip-link" },
@@ -161,7 +163,7 @@ const componentContentByName: Record<
     notes: [
       "Use it for machine-readable discovery only. This is how you whisper sweet nothings to the robots.",
       "Do not depend on it for visible user instructions. Humans literally can't see this.",
-      "Great for SEO bots, LLM crawlers, and our future AI overlords.",
+      "Great for SEO bots, llm crawlers, and our future AI overlords.",
     ],
     summary:
       "Embed hidden machine-readable discovery hints in the page without changing visible layout content. It's an invisibility cloak for your metadata.",
@@ -226,6 +228,91 @@ const componentContentByName: Record<
       { name: "class", type: "string", description: "Additional CSS classes." },
     ],
   },
+  BentoGrid: {
+    exampleCode: `<BentoGrid columns={3} gap={4}>
+  <BentoItem colSpan={2}><Panel>Featured</Panel></BentoItem>
+  <BentoItem><Panel>Side</Panel></BentoItem>
+  <BentoItem><Panel>Full Width</Panel></BentoItem>
+</BentoGrid>`,
+    notes: [
+      "Use BentoGrid to create modular, card-based layouts that adapt to viewport size.",
+      "Combine with BentoItem to control how individual cards span columns and rows.",
+      "The grid defaults to 1 column on mobile, 2 on medium screens, and 3 on large screens.",
+    ],
+    summary:
+      "A responsive CSS Grid container for modular bento-box layouts. Perfect for modern, information-dense dashboards and portfolios.",
+    props: [
+      {
+        name: "columns",
+        type: "number",
+        description: "Default columns.",
+        default: "1",
+      },
+      {
+        name: "columnsMd",
+        type: "number",
+        description: "Columns on medium screens.",
+        default: "2",
+      },
+      {
+        name: "columnsLg",
+        type: "number",
+        description: "Columns on large screens.",
+        default: "3",
+      },
+      {
+        name: "gap",
+        type: "number",
+        description: "Gap between items (spacing token index).",
+        default: "4",
+      },
+    ],
+  },
+  BentoItem: {
+    exampleCode: `<BentoItem colSpan={2} rowSpan={2}>
+  <Panel>Big Card</Panel>
+</BentoItem>`,
+    notes: [
+      "Use colSpan and rowSpan to control the size of the item within a BentoGrid.",
+      "Responsive spans (colSpanMd, colSpanLg, etc.) allow for fluid layout shifts across breakpoints.",
+    ],
+    summary:
+      "A layout wrapper for items within a BentoGrid. Controls column and row spanning.",
+    props: [
+      {
+        name: "colSpan",
+        type: "number",
+        description: "Number of columns to span.",
+        default: "1",
+      },
+      {
+        name: "rowSpan",
+        type: "number",
+        description: "Number of rows to span.",
+        default: "1",
+      },
+      {
+        name: "colSpanMd",
+        type: "number",
+        description: "Columns to span on medium screens.",
+      },
+      {
+        name: "rowSpanMd",
+        type: "number",
+        description: "Rows to span on medium screens.",
+      },
+      {
+        name: "colSpanLg",
+        type: "number",
+        description: "Columns to span on large screens.",
+      },
+      {
+        name: "rowSpanLg",
+        type: "number",
+        description: "Rows to span on large screens.",
+      },
+    ],
+  },
   Breadcrumbs: {
     exampleCode: `<Breadcrumbs items={breadcrumbItems} />`,
     notes: [
@@ -235,6 +322,21 @@ const componentContentByName: Record<
     ],
     summary:
       "Render hierarchical navigation links for nested docs and application sections. Hansel and Gretel would have loved this component.",
+    props: [
+      {
+        name: "items",
+        type: "BreadcrumbItem[]",
+        description: "List of breadcrumb items.",
+        required: true,
+      },
+      {
+        name: "separator",
+        type: "string",
+        description: "The separator between items.",
+        default: "'/'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Button: {
     exampleCode: `<Button variant="primary" selected>Ship it</Button>`,
@@ -371,10 +473,26 @@ const componentContentByName: Record<
     notes: [
       "Use DropdownMenu for secondary actions, not primary tasks. It's the junk drawer of UI actions.",
       "Keep primary actions visible elsewhere on the page. Don't hide the 'Save' button in a dropdown.",
-      "Make sure it doesn't get cut off by the edge of the screen!",
+      "Arrow keys, Home, and End navigation are built in once the menu is open.",
     ],
     summary:
       "Render an action menu for compact secondary actions. A neat little list of things you can do, hidden behind a button.",
+    props: [
+      { name: "id", type: "string", description: "Unique ID for the menu." },
+      {
+        name: "open",
+        type: "boolean",
+        description: "Whether the menu is open.",
+        default: "false",
+      },
+      {
+        name: "items",
+        type: "MenuItem[]",
+        description: "List of menu items.",
+        required: true,
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   EmptyState: {
     exampleCode: `<EmptyState title="No releases yet" description="Publish a prerelease to get started." />`,
@@ -436,6 +554,21 @@ const componentContentByName: Record<
     ],
     summary:
       "Render the shared search-and-filter container. The control center for finding exactly what you need.",
+    props: [
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Search input placeholder.",
+        default: "'Search or filter...'",
+      },
+      {
+        name: "variant",
+        type: "'default' | 'compact'",
+        description: "The visual style of the filter bar.",
+        default: "'default'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   FontAssets: {
     exampleCode: `<Fragment slot="head"><FontAssets /></Fragment>`,
@@ -484,6 +617,39 @@ const componentContentByName: Record<
     ],
     summary:
       "Render a compact icon-only action. Perfect for when you want a button, but you're too lazy to write words.",
+    props: [
+      {
+        name: "ariaLabel",
+        type: "string",
+        description: "Accessible label for the button.",
+        required: true,
+      },
+      {
+        name: "variant",
+        type: "'primary' | 'secondary' | 'danger'",
+        description: "The visual style of the button.",
+        default: "'primary'",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "The size of the button.",
+        default: "'md'",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Whether the button is disabled.",
+        default: "false",
+      },
+      {
+        name: "selected",
+        type: "boolean",
+        description: "Whether the button is in a selected/pressed state.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Input: {
     exampleCode: `<Input id="email" type="email" placeholder="matt@example.com" />`,
@@ -553,15 +719,51 @@ const componentContentByName: Record<
     ],
     summary:
       "Render previous/next and page-link navigation. Because sometimes your collection of cute cat photos is just too big for one page.",
+    props: [
+      {
+        name: "currentPage",
+        type: "number",
+        description: "The currently active page.",
+        required: true,
+      },
+      {
+        name: "totalPages",
+        type: "number",
+        description: "Total number of pages.",
+        required: true,
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Panel: {
-    exampleCode: `<Panel variant="bordered"><p>Panel content</p></Panel>`,
+    exampleCode: `<Panel variant="glass" hover><p>Panel content</p></Panel>`,
     notes: [
-      "Use bordered panels for reference content and elevated panels for featured content.",
+      "Use bordered panels for reference content, elevated panels for featured content, and glass panels when you want translucent layered chrome.",
       "Keep structural page layout outside the panel itself.",
     ],
     summary:
-      "Provide the shared bordered or elevated surface wrapper. A nice little box to put your things in.",
+      "Provide the shared flat, bordered, elevated, or glass surface wrapper. A nice little box to put your things in.",
+    props: [
+      {
+        name: "variant",
+        type: "'flat' | 'bordered' | 'elevated' | 'glass'",
+        description: "The visual style of the panel.",
+        default: "'flat'",
+      },
+      {
+        name: "hover",
+        type: "boolean",
+        description: "Whether the panel has a hover effect.",
+        default: "false",
+      },
+      {
+        name: "padding",
+        type: "'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'",
+        description: "Padding token index.",
+        default: "5",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Popover: {
     exampleCode: `<Popover
@@ -578,6 +780,29 @@ const componentContentByName: Record<
     ],
     summary:
       "Render a lightweight anchored overlay. Like a tooltip that went to the gym and got buff.",
+    props: [
+      { name: "id", type: "string", description: "Unique ID for the popover." },
+      {
+        name: "open",
+        type: "boolean",
+        description: "Whether the popover is open.",
+        default: "false",
+      },
+      {
+        name: "position",
+        type: "'top' | 'bottom' | 'left' | 'right'",
+        description: "Position relative to trigger.",
+        default: "'bottom'",
+      },
+      { name: "title", type: "string", description: "Optional title." },
+      {
+        name: "closeOnOutsideClick",
+        type: "boolean",
+        description: "Close on outside click.",
+        default: "true",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   ProfileHero: {
     exampleCode: `<ProfileHero name="Matt Riley" subtitle="Senior Software Engineer" avatarSrc={avatar} avatarAlt="Matt Riley" />`,
@@ -609,20 +834,47 @@ const componentContentByName: Record<
       "Lay out project cards in a responsive grid. Because standard lists are boring.",
   },
   RadioGroup: {
-    exampleCode: `<RadioGroup name="channel" options={channelOptions} />`,
+    exampleCode: `<RadioGroup name="channel" label="Preferred channel" options={channelOptions} />`,
     notes: [
       "Use RadioGroup when all choices should stay visible.",
-      "Keep option labels and values consumer-owned.",
+      "Pass label when the group needs an explicit visible legend.",
       "If you have more than 5 options, consider using a Select instead.",
     ],
     summary:
       "Render a grouped single-choice input set. The classic multiple-choice exam format, now in UI form.",
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "Name for the radio group.",
+        required: true,
+      },
+      { name: "label", type: "string", description: "Optional group label." },
+      {
+        name: "options",
+        type: "RadioOption[]",
+        description: "List of radio options.",
+        required: true,
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Whether the group is disabled.",
+        default: "false",
+      },
+      {
+        name: "defaultValue",
+        type: "string",
+        description: "Default selected value.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Section: {
     exampleCode: `<Section title="Overview" headingId="overview-heading"><p>...</p></Section>`,
     notes: [
       "Always pass a stable headingId so other navigation can target it.",
-      "Prefer multiple sections over one long undifferentiated content block. Break up that wall of text!",
+      "Prefer multiple documentation sections over one long undifferentiated content block. Break up that wall of text!",
     ],
     summary:
       "Create titled content sections with a stable heading contract. The building blocks of a well-structured document.",
@@ -710,6 +962,21 @@ const componentContentByName: Record<
     ],
     summary:
       "Render sort direction affordance. A tiny little arrow doing a very important job.",
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "Label for the sort indicator.",
+        required: true,
+      },
+      {
+        name: "sortOrder",
+        type: "'asc' | 'desc' | null",
+        description: "Current sort order.",
+        default: "null",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Stack: {
     exampleCode: `<Stack space={4}><p>First</p><p>Second</p></Stack>`,
@@ -721,13 +988,36 @@ const componentContentByName: Record<
       "Apply consistent vertical spacing. The bouncer that keeps your elements at exactly the right distance from each other.",
   },
   StatCard: {
-    exampleCode: `<StatCard label="Published components" value="54" trend="up" trendValue="+5 this month" />`,
+    exampleCode: `<StatCard label="Documented components" value="57" trend="up" trendValue="catalog-driven" />`,
     notes: [
       "Use StatCard when the primary value should dominate the presentation.",
-      "Keep interpretation and surrounding narrative outside the card.",
+      "Pass href when the metric should link to a deeper report or destination.",
     ],
     summary:
       "Render a headline metric with optional trend. Because big numbers look cool.",
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "Label for the stat.",
+        required: true,
+      },
+      {
+        name: "value",
+        type: "string | number",
+        description: "Primary value to display.",
+        required: true,
+      },
+      {
+        name: "trend",
+        type: "'up' | 'down' | 'neutral'",
+        description: "Trend direction.",
+      },
+      { name: "trendValue", type: "string", description: "Trend text label." },
+      { name: "icon", type: "string", description: "Optional icon HTML." },
+      { name: "href", type: "string", description: "Optional link URL." },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Switch: {
     exampleCode: `<Switch id="announcements" label="Enable announcements" />`,
@@ -737,6 +1027,28 @@ const componentContentByName: Record<
     ],
     summary:
       "Render the shared immediate-toggle switch control. The digital equivalent of flipping a light switch.",
+    props: [
+      { name: "id", type: "string", description: "Unique ID.", required: true },
+      {
+        name: "label",
+        type: "string",
+        description: "Label for the switch.",
+        required: true,
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Whether the switch is disabled.",
+        default: "false",
+      },
+      {
+        name: "checked",
+        type: "boolean",
+        description: "Whether the switch is checked.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   TableOfContents: {
     exampleCode: `<TableOfContents items={tocItems} />`,
@@ -748,13 +1060,28 @@ const componentContentByName: Record<
       "Render a page-local heading index. The roadmap for long-form docs.",
   },
   Tabs: {
-    exampleCode: `<Tabs tabs={tabs} />`,
+    exampleCode: `<Tabs tabs={tabs} defaultTab="overview" />`,
     notes: [
       "Provide stable ids for each tab/panel pair.",
+      "Arrow keys plus Home and End navigation are wired in for keyboard users.",
       "Keep tab labels short enough to scan quickly. Don't write a sentence in a tab label.",
     ],
     summary:
       "Render a named-panel disclosure pattern. It's like having multiple pages without actually leaving the page.",
+    props: [
+      {
+        name: "tabs",
+        type: "TabItem[]",
+        description: "List of tab items.",
+        required: true,
+      },
+      {
+        name: "defaultTab",
+        type: "string",
+        description: "ID of the default active tab.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Textarea: {
     exampleCode: `<Textarea id="message" rows={4} placeholder="Tell us more..." />`,

@@ -7,6 +7,7 @@ interface RadioOption {
 
 interface Props {
   name: string;
+  label?: string;
   options: RadioOption[];
   disabled?: boolean;
   required?: boolean;
@@ -16,6 +17,7 @@ interface Props {
 
 const {
   name,
+  label,
   options,
   disabled = false,
   required = false,
@@ -25,6 +27,7 @@ const {
 ---
 
 <fieldset class:list={["snurble-radio-group", className]}>
+  {label && <legend class="snurble-radio-group__legend">{label}</legend>}
   <div class="snurble-radio-group__options">
     {options.map((option) => (
       <div class="snurble-radio-group__option">
@@ -51,6 +54,14 @@ const {
     border: none;
     margin: 0;
     padding: 0;
+  }
+
+  .snurble-radio-group__legend {
+    display: block;
+    margin-bottom: var(--snurble-space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--snurble-text);
   }
 
   .snurble-radio-group__options {

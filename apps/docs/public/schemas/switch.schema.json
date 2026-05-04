@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Unique ID.",
+      "type": "string"
+    },
+    "label": {
+      "description": "Label for the switch.",
+      "type": "string"
+    },
+    "disabled": {
+      "description": "Whether the switch is disabled.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "checked": {
+      "description": "Whether the switch is checked.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["id", "label"],
+  "title": "Switch Props",
+  "type": "object"
+}

@@ -34,6 +34,8 @@ describe("schema generation", () => {
         let type: string | string[] = "string";
         if (prop.type === "boolean") {
           type = "boolean";
+        } else if (prop.type === "number") {
+          type = "number";
         }
         if (prop.type.includes("|")) {
           // Handle simple union types like "'sm' | 'md'"

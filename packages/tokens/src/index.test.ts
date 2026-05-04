@@ -133,8 +133,9 @@ describe("design token package", () => {
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens";');
     expect(globalCss).not.toContain('@import "@matt-riley/design-tokens/');
     expect(homepage).toContain(
-      "A component-first reference for @matt-riley/ui-astro"
+      "A component-first reference for Snurble's shared packages"
     );
+    expect(homepage).toContain("Open foundation guide");
     expect(homepage).toContain("Open component index");
     expect(releasePage).toContain("@matt-riley/design-tokens");
     expect(releasePage).toContain("@matt-riley/ui-astro");

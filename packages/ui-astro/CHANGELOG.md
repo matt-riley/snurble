@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.19.0...ui-astro-v1.20.0) (2026-05-04)
+
+
+### Features
+
+* add bento layouts and refresh docs ([720d889](https://github.com/matt-riley/snurble/commit/720d889355a121d0795f2f31fe03490d6370016a))
+
 ## [1.19.0](https://github.com/matt-riley/snurble/compare/ui-astro-v1.18.0...ui-astro-v1.19.0) (2026-05-02)
 
 

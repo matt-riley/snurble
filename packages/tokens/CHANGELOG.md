@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.8.0...design-tokens-v1.9.0) (2026-05-04)
+
+
+### Features
+
+* add bento layouts and refresh docs ([720d889](https://github.com/matt-riley/snurble/commit/720d889355a121d0795f2f31fe03490d6370016a))
+
 ## [1.8.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.7.2...design-tokens-v1.8.0) (2026-05-02)
 
 

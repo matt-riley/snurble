@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "brand": {
+      "description": "Brand text.",
+      "type": "string",
+      "default": "Snurble"
+    },
+    "brandHref": {
+      "description": "Brand link target.",
+      "type": "string",
+      "default": "/"
+    },
+    "navItems": {
+      "description": "Primary navigation items.",
+      "type": "string"
+    },
+    "sticky": {
+      "description": "Stick the header to the viewport top.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Header Props",
+  "type": "object"
+}

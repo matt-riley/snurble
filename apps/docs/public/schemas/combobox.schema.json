@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Input id prefix.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Hidden input name.",
+      "type": "string"
+    },
+    "label": {
+      "description": "Visible field label.",
+      "type": "string"
+    },
+    "options": {
+      "description": "Selectable options.",
+      "type": "string"
+    },
+    "value": {
+      "description": "Selected option value.",
+      "type": "string"
+    },
+    "placeholder": {
+      "description": "Input placeholder.",
+      "type": "string",
+      "default": "Select an option"
+    },
+    "autocomplete": {
+      "description": "Filtering mode.",
+      "enum": ["none", "list"],
+      "default": "list"
+    },
+    "clearable": {
+      "description": "Show a clear button.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "disabled": {
+      "description": "Disable the control.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "invalid": {
+      "description": "Show invalid styling.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["id", "label"],
+  "title": "Combobox Props",
+  "type": "object"
+}

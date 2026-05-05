@@ -1,0 +1,110 @@
+---
+export interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  brand?: string;
+  links?: FooterLink[];
+  socialLinks?: FooterLink[];
+  copyright?: string;
+  class?: string;
+}
+
+const {
+  brand = "Snurble",
+  links = [],
+  socialLinks = [],
+  copyright,
+  class: className,
+} = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class:list={["snurble-footer", className]}>
+  <div class="snurble-footer__inner">
+    <div class="snurble-footer__brand-block">
+      <strong class="snurble-footer__brand"><slot name="brand">{brand}</slot></strong>
+      <p class="snurble-footer__copyright">
+        <slot name="copyright">{copyright ?? `© ${year} ${brand}. All rights reserved.`}</slot>
+      </p>
+    </div>
+    <nav class="snurble-footer__nav" aria-label="Footer navigation">
+      <slot name="links">
+        {links.map((link) => <a class="snurble-footer__link" href={link.href}>{link.label}</a>)}
+      </slot>
+    </nav>
+    <nav class="snurble-footer__social" aria-label="Social links">
+      <slot name="social">
+        {socialLinks.map((link) => <a class="snurble-footer__link" href={link.href}>{link.label}</a>)}
+      </slot>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .snurble-footer {
+    color: var(--snurble-text);
+    background: var(--snurble-surface-card);
+    border-top: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: var(--snurble-space-5);
+    width: min(100%, 72rem);
+    margin-inline: auto;
+    padding: var(--snurble-space-6) var(--snurble-space-4);
+  }
+
+  .snurble-footer__brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-2);
+  }
+
+  .snurble-footer__brand {
+    font-family: var(--snurble-font-title);
+    font-size: 1.125rem;
+  }
+
+  .snurble-footer__copyright {
+    max-width: 32rem;
+    margin: 0;
+    color: var(--snurble-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .snurble-footer__nav,
+  .snurble-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: var(--snurble-space-2) var(--snurble-space-4);
+  }
+
+  .snurble-footer__link {
+    color: var(--snurble-text-muted);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .snurble-footer__link:hover {
+    color: var(--snurble-text);
+  }
+
+  .snurble-footer__link:focus-visible {
+    outline: 2px solid var(--snurble-focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 48rem) {
+    .snurble-footer__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

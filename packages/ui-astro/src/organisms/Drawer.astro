@@ -34,6 +34,9 @@ const {
   closeOnBackdropClick = true,
   class: className,
 } = Astro.props;
+const titleId = title
+  ? `${id ?? `snurble-drawer-${Math.random().toString(36).slice(2)}`}-title`
+  : undefined;
 ---
 
 <dialog
@@ -46,14 +49,14 @@ const {
   data-component="drawer"
   data-initially-open={open.toString()}
   data-close-on-backdrop={closeOnBackdropClick.toString()}
-  aria-labelledby={title ? 'snurble-drawer-title' : undefined}
+  aria-labelledby={titleId}
 >
   {/* Drawer panel */}
   <div class="snurble-drawer-panel">
     {/* Header if provided */}
     {title && (
       <div class="snurble-drawer-header">
-        <h2 id="snurble-drawer-title" class="snurble-drawer-title">
+        <h2 id={titleId} class="snurble-drawer-title">
           {title}
         </h2>
         <button
@@ -122,7 +125,7 @@ const {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--snurble-shadow-lg);
+    box-shadow: var(--snurble-shadow-spatial-modal);
   }
 
   .snurble-drawer-left .snurble-drawer-panel {
@@ -232,6 +235,11 @@ const {
 
 <script>
   const initDrawer = (el: HTMLDialogElement) => {
+    if (el.dataset.snurbleDrawerBound === 'true') {
+      return;
+    }
+
+    el.dataset.snurbleDrawerBound = 'true';
     const closeButton = el.querySelector('[data-close-button]');
 
     if (closeButton) {
@@ -265,10 +273,15 @@ const {
     observer.observe(el, { attributes: true });
   };
 
-  const drawers = document.querySelectorAll('[data-component="drawer"]');
-  for (const drawer of drawers) {
-    if (drawer instanceof HTMLDialogElement) {
-      initDrawer(drawer);
+  const initDrawers = () => {
+    const drawers = document.querySelectorAll('[data-component="drawer"]');
+    for (const drawer of drawers) {
+      if (drawer instanceof HTMLDialogElement) {
+        initDrawer(drawer);
+      }
     }
-  }
+  };
+
+  initDrawers();
+  document.addEventListener('astro:page-load', initDrawers);
 </script>

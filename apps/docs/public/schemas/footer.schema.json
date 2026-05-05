@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "brand": {
+      "description": "Brand text.",
+      "type": "string",
+      "default": "Snurble"
+    },
+    "links": {
+      "description": "Footer navigation links.",
+      "type": "string"
+    },
+    "socialLinks": {
+      "description": "Social or external links.",
+      "type": "string"
+    },
+    "copyright": {
+      "description": "Copyright text override.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Footer Props",
+  "type": "object"
+}

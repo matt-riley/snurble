@@ -7,6 +7,9 @@
 
   --snurble-surface-glass: hsl(var(--snurble-palette-base) / 0.65);
   --snurble-surface-glass-card: hsl(var(--snurble-palette-surface1) / 0.7);
+  --snurble-skeleton-base: var(--snurble-surface-card);
+  --snurble-skeleton-highlight: var(--snurble-surface-badge);
+  --snurble-skeleton-duration: 2s;
   --snurble-backdrop-blur: blur(12px);
 
   --snurble-text: hsl(var(--snurble-palette-text));

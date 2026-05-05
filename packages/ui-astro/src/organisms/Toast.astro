@@ -17,7 +17,7 @@ const positionClasses = {
 <div
   id="snurble-toast-container"
   class:list={[
-    "fixed flex flex-col gap-3 z-[100] pointer-events-none",
+    "snurble-toast-container fixed flex flex-col gap-3 pointer-events-none",
     positionClasses[position],
     className,
   ]}
@@ -45,11 +45,10 @@ const positionClasses = {
 
       const toast = document.createElement("div");
       toast.className = `snurble-toast snurble-toast--${variant} pointer-events-auto`;
-      toast.innerHTML = `
-        <div class="snurble-toast__content">
-          ${message}
-        </div>
-      `;
+      const content = document.createElement("div");
+      content.className = "snurble-toast__content";
+      content.textContent = message;
+      toast.append(content);
 
       this.container.append(toast);
 
@@ -83,6 +82,10 @@ const positionClasses = {
 
 
 <style is:global>
+  .snurble-toast-container {
+    z-index: var(--snurble-z-index-toast);
+  }
+
   .snurble-toast {
     display: flex;
     align-items: center;

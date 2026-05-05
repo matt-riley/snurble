@@ -184,13 +184,12 @@ const accordionItemContent = new Map(
 </style>
 
 <script>
-  const accordionRoots = document.querySelectorAll("[data-snurble-accordion]");
-
-  for (const accordionRoot of accordionRoots) {
-    if (!(accordionRoot instanceof HTMLElement)) {
-      continue;
+  const initAccordion = (accordionRoot: Element) => {
+    if (!(accordionRoot instanceof HTMLElement) || accordionRoot.dataset.snurbleAccordionBound === "true") {
+      return;
     }
 
+    accordionRoot.dataset.snurbleAccordionBound = "true";
     const accordionItems = accordionRoot.querySelectorAll(":scope > .snurble-accordion__item");
 
     for (const accordionItem of accordionItems) {
@@ -214,5 +213,15 @@ const accordionItemContent = new Map(
         }
       });
     }
-  }
+  };
+
+  const initAccordions = () => {
+    const accordionRoots = document.querySelectorAll("[data-snurble-accordion]");
+    for (const accordionRoot of accordionRoots) {
+      initAccordion(accordionRoot);
+    }
+  };
+
+  initAccordions();
+  document.addEventListener("astro:page-load", initAccordions);
 </script>

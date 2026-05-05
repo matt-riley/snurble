@@ -1,0 +1,40 @@
+---
+interface Props {
+  align?: "start" | "center" | "end" | "between";
+  class?: string;
+}
+
+const { align = "end", class: className } = Astro.props;
+---
+
+<footer class:list={["snurble-dialog-footer", `snurble-dialog-footer--${align}`, className]}>
+  <slot />
+</footer>
+
+<style>
+  .snurble-dialog-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--snurble-space-3);
+    padding-block-start: var(--snurble-space-4);
+    margin-block-start: var(--snurble-space-4);
+    border-block-start: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-dialog-footer--start {
+    justify-content: flex-start;
+  }
+
+  .snurble-dialog-footer--center {
+    justify-content: center;
+  }
+
+  .snurble-dialog-footer--end {
+    justify-content: flex-end;
+  }
+
+  .snurble-dialog-footer--between {
+    justify-content: space-between;
+  }
+</style>

@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "width": {
+      "description": "Placeholder width.",
+      "type": "string",
+      "default": "100%"
+    },
+    "height": {
+      "description": "Placeholder height.",
+      "type": "string",
+      "default": "1rem"
+    },
+    "size": {
+      "description": "Square size used by circle skeletons.",
+      "type": "string"
+    },
+    "shape": {
+      "description": "Placeholder shape.",
+      "enum": ["rect", "circle", "text"],
+      "default": "rect"
+    },
+    "lines": {
+      "description": "Number of text lines to render.",
+      "type": "number",
+      "default": "1"
+    },
+    "gap": {
+      "description": "Spacing token between text lines.",
+      "enum": ["1", "2", "3", "4", "5", "6", "7", "8"],
+      "default": "2"
+    },
+    "lastLineWidth": {
+      "description": "Width of the final line in a multi-line text skeleton.",
+      "type": "string",
+      "default": "75%"
+    },
+    "radius": {
+      "description": "Radius token name or custom CSS radius.",
+      "type": "string"
+    },
+    "animate": {
+      "description": "Whether shimmer animation is enabled when user preferences allow it.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "ariaLabel": {
+      "description": "Optional accessible loading announcement for a skeleton region.",
+      "type": "string"
+    },
+    "ariaHidden": {
+      "description": "Force skeleton assistive-tech visibility.",
+      "type": "boolean"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Skeleton Props",
+  "type": "object"
+}

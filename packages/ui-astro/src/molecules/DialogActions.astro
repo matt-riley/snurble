@@ -1,0 +1,48 @@
+---
+interface Props {
+  align?: "start" | "center" | "end";
+  stackOnMobile?: boolean;
+  class?: string;
+}
+
+const { align = "end", stackOnMobile = true, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "snurble-dialog-actions",
+    `snurble-dialog-actions--${align}`,
+    stackOnMobile && "snurble-dialog-actions--stack-mobile",
+    className,
+  ]}
+>
+  <slot />
+</div>
+
+<style>
+  .snurble-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--snurble-space-3);
+  }
+
+  .snurble-dialog-actions--start {
+    justify-content: flex-start;
+  }
+
+  .snurble-dialog-actions--center {
+    justify-content: center;
+  }
+
+  .snurble-dialog-actions--end {
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 40rem) {
+    .snurble-dialog-actions--stack-mobile {
+      align-items: stretch;
+      flex-direction: column-reverse;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "orientation": {
+      "description": "Separator direction.",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    },
+    "decorative": {
+      "description": "Whether an unlabelled separator is hidden from assistive semantics.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "label": {
+      "description": "Optional visible divider label.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Divider Props",
+  "type": "object"
+}

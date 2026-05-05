@@ -1,0 +1,106 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  invalid?: boolean;
+  disabled?: boolean;
+  class?: string;
+}
+
+const { size = "md", invalid = false, disabled = false, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "snurble-input-group",
+    `snurble-input-group--${size}`,
+    invalid && "snurble-input-group--invalid",
+    disabled && "snurble-input-group--disabled",
+    className,
+  ]}
+  data-invalid={invalid ? "true" : undefined}
+  data-disabled={disabled ? "true" : undefined}
+>
+  <slot name="prefix" />
+  <div class="snurble-input-group__control">
+    <slot />
+  </div>
+  <slot name="suffix" />
+</div>
+
+<style>
+  .snurble-input-group {
+    --snurble-input-group-block-size: 2.75rem;
+    --snurble-input-group-padding: var(--snurble-space-3);
+
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-height: var(--snurble-input-group-block-size);
+    overflow: hidden;
+    color: var(--snurble-text);
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-md);
+    transition:
+      border-color 150ms ease-out,
+      box-shadow 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+
+  .snurble-input-group:focus-within {
+    border-color: var(--snurble-brand-primary);
+    box-shadow: 0 0 0 2px var(--snurble-focus-ring);
+  }
+
+  .snurble-input-group--sm {
+    --snurble-input-group-block-size: 2.25rem;
+    --snurble-input-group-padding: var(--snurble-space-2);
+    font-size: 0.875rem;
+  }
+
+  .snurble-input-group--lg {
+    --snurble-input-group-block-size: 3.25rem;
+    --snurble-input-group-padding: var(--snurble-space-4);
+    font-size: 1.125rem;
+  }
+
+  .snurble-input-group--invalid {
+    border-color: var(--snurble-accent-danger);
+  }
+
+  .snurble-input-group--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-input-group__control {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .snurble-input-group :global(input),
+  .snurble-input-group :global(select),
+  .snurble-input-group :global(textarea) {
+    width: 100%;
+    min-height: calc(var(--snurble-input-group-block-size) - 2px);
+    padding: 0 var(--snurble-input-group-padding);
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font: inherit;
+    outline: none;
+  }
+
+  .snurble-input-group :global([slot="prefix"]),
+  .snurble-input-group :global([slot="suffix"]) {
+    display: inline-flex;
+    align-items: center;
+    align-self: stretch;
+    flex: 0 0 auto;
+    padding-inline: var(--snurble-input-group-padding);
+    color: var(--snurble-text-muted);
+  }
+</style>

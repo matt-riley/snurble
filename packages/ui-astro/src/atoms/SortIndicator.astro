@@ -22,8 +22,8 @@ const { sortOrder = null, label, class: className, ...rest } = Astro.props;
   .sort-indicator {
     display: inline-flex;
     align-items: center;
-    gap: var(--snurble-spacing-xs);
-    padding: var(--snurble-spacing-xs) var(--snurble-spacing-sm);
+    gap: var(--snurble-space-1);
+    padding: var(--snurble-space-1) var(--snurble-space-2);
     background: transparent;
     border: none;
     font-size: 0.875rem;
@@ -38,7 +38,7 @@ const { sortOrder = null, label, class: className, ...rest } = Astro.props;
   }
 
   .sort-indicator:hover {
-    background: var(--snurble-surface-secondary);
+    background: var(--snurble-surface-card);
     color: var(--snurble-accent);
   }
 

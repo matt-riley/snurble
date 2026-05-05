@@ -1,0 +1,185 @@
+---
+export interface SidebarItem {
+  label: string;
+  href: string;
+  current?: boolean;
+  items?: SidebarItem[];
+}
+
+interface Props {
+  items?: SidebarItem[];
+  activeHref?: string;
+  label?: string;
+  collapsible?: boolean;
+  class?: string;
+}
+
+const {
+  items = [],
+  activeHref,
+  label = "Sidebar navigation",
+  collapsible = false,
+  class: className,
+} = Astro.props;
+const isCurrent = (item: SidebarItem) => item.current || item.href === activeHref;
+---
+
+<aside class:list={["snurble-sidebar", collapsible && "snurble-sidebar--collapsible", className]} data-component={collapsible ? "sidebar" : undefined}>
+  {collapsible && (
+    <button class="snurble-sidebar__toggle" type="button" aria-expanded="true" data-sidebar-toggle>
+      <span>{label}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </button>
+  )}
+  <nav class="snurble-sidebar__nav" aria-label={label} data-sidebar-nav>
+    <ul class="snurble-sidebar__list">
+      {items.map((item) => (
+        <li class="snurble-sidebar__item">
+          <a class="snurble-sidebar__link" href={item.href} aria-current={isCurrent(item) ? "page" : undefined}>
+            {item.label}
+          </a>
+          {item.items && item.items.length > 0 && (
+            <ul class="snurble-sidebar__list snurble-sidebar__list--nested">
+              {item.items.map((child) => (
+                <li class="snurble-sidebar__item">
+                  <a class="snurble-sidebar__link" href={child.href} aria-current={isCurrent(child) ? "page" : undefined}>
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .snurble-sidebar {
+    color: var(--snurble-text);
+  }
+
+  .snurble-sidebar__toggle {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0 var(--snurble-space-3);
+    color: var(--snurble-text);
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-md);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .snurble-sidebar__toggle svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 150ms ease-out;
+  }
+
+  .snurble-sidebar[data-open="false"] .snurble-sidebar__toggle svg {
+    transform: rotate(-90deg);
+  }
+
+  .snurble-sidebar__nav {
+    padding: var(--snurble-space-2);
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-lg);
+  }
+
+  .snurble-sidebar__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .snurble-sidebar__list--nested {
+    padding-inline-start: var(--snurble-space-3);
+    margin-block-start: var(--snurble-space-1);
+  }
+
+  .snurble-sidebar__link {
+    display: flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding: var(--snurble-space-2) var(--snurble-space-3);
+    color: var(--snurble-text-muted);
+    border-radius: var(--snurble-radius-md);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .snurble-sidebar__link:hover,
+  .snurble-sidebar__link[aria-current="page"] {
+    color: var(--snurble-text);
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-sidebar__link:focus-visible,
+  .snurble-sidebar__toggle:focus-visible {
+    outline: 2px solid var(--snurble-focus-ring);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 48rem) {
+    .snurble-sidebar--collapsible .snurble-sidebar__toggle {
+      display: flex;
+    }
+
+    .snurble-sidebar--collapsible .snurble-sidebar__nav {
+      margin-block-start: var(--snurble-space-2);
+    }
+
+    .snurble-sidebar--collapsible[data-open="false"] .snurble-sidebar__nav {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-sidebar__toggle svg {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const initSidebar = (el: Element) => {
+    if (!(el instanceof HTMLElement) || el.dataset.snurbleSidebarBound === "true") {
+      return;
+    }
+
+    el.dataset.snurbleSidebarBound = "true";
+    const toggle = el.querySelector("[data-sidebar-toggle]");
+    if (!(toggle instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    el.dataset.open = "true";
+    toggle.addEventListener("click", () => {
+      const open = el.dataset.open !== "false";
+      el.dataset.open = open ? "false" : "true";
+      toggle.setAttribute("aria-expanded", (!open).toString());
+    });
+  };
+
+  const initSidebars = () => {
+    for (const el of document.querySelectorAll('[data-component="sidebar"]')) {
+      initSidebar(el);
+    }
+  };
+
+  initSidebars();
+  document.addEventListener("astro:page-load", initSidebars);
+</script>

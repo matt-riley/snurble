@@ -1,0 +1,157 @@
+---
+import Spinner from "../atoms/Spinner.astro";
+
+interface Props {
+  variant?: "primary" | "secondary" | "danger";
+  size?: "sm" | "md" | "lg";
+  loading?: boolean;
+  loadingLabel?: string;
+  spinnerPosition?: "start" | "end";
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  loading = false,
+  loadingLabel = "Loading",
+  spinnerPosition = "start",
+  disabled = false,
+  type = "button",
+  class: className,
+} = Astro.props;
+const isDisabled = disabled || loading;
+---
+
+<button
+  type={type}
+  disabled={isDisabled}
+  aria-busy={loading ? "true" : undefined}
+  class:list={[
+    "snurble-loading-button",
+    `snurble-loading-button--${variant}`,
+    `snurble-loading-button--${size}`,
+    loading && "snurble-loading-button--loading",
+    isDisabled && "snurble-loading-button--disabled",
+    className,
+  ]}
+>
+  {loading && spinnerPosition === "start" && <Spinner size="sm" ariaHidden />}
+  <span class="snurble-loading-button__content"><slot /></span>
+  {loading && <span class="snurble-loading-button__label">{loadingLabel}</span>}
+  {loading && spinnerPosition === "end" && <Spinner size="sm" ariaHidden />}
+</button>
+
+<style>
+  .snurble-loading-button {
+    --snurble-loading-button-background: var(--snurble-action-primary);
+    --snurble-loading-button-background-hover: var(--snurble-action-primary-hover);
+    --snurble-loading-button-background-active: var(--snurble-action-primary-active);
+    --snurble-loading-button-color: var(--snurble-action-primary-text);
+    --snurble-loading-button-border: var(--snurble-action-primary-border);
+    --snurble-loading-button-border-hover: var(--snurble-action-primary-border-hover);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--snurble-space-2);
+    min-height: 2.75rem;
+    padding: calc(var(--snurble-space-3) - 0.125rem) var(--snurble-space-5);
+    color: var(--snurble-loading-button-color);
+    background: var(--snurble-loading-button-background);
+    border: 1px solid var(--snurble-loading-button-border);
+    border-radius: var(--snurble-radius-full);
+    box-shadow: var(--snurble-action-shadow);
+    font-family: var(--snurble-font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition:
+      background var(--snurble-duration-fast) var(--snurble-ease-soft),
+      border-color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      box-shadow var(--snurble-duration-slow) var(--snurble-ease-spring),
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring),
+      opacity var(--snurble-duration-fast) var(--snurble-ease-soft);
+  }
+
+  .snurble-loading-button--secondary {
+    --snurble-loading-button-background: var(--snurble-action-secondary);
+    --snurble-loading-button-background-hover: var(--snurble-action-secondary-hover);
+    --snurble-loading-button-background-active: var(--snurble-action-secondary-active);
+    --snurble-loading-button-color: var(--snurble-action-secondary-text);
+    --snurble-loading-button-border: var(--snurble-action-secondary-border);
+    --snurble-loading-button-border-hover: var(--snurble-action-secondary-border-hover);
+  }
+
+  .snurble-loading-button--danger {
+    --snurble-loading-button-background: var(--snurble-action-danger);
+    --snurble-loading-button-background-hover: var(--snurble-action-danger-hover);
+    --snurble-loading-button-background-active: var(--snurble-action-danger-active);
+    --snurble-loading-button-color: var(--snurble-action-danger-text);
+    --snurble-loading-button-border: var(--snurble-action-danger-border);
+    --snurble-loading-button-border-hover: var(--snurble-action-danger-border-hover);
+  }
+
+  .snurble-loading-button--sm {
+    min-height: 2.25rem;
+    padding: var(--snurble-space-2) var(--snurble-space-4);
+    font-size: 0.875rem;
+  }
+
+  .snurble-loading-button--lg {
+    min-height: 3.25rem;
+    padding: var(--snurble-space-4) var(--snurble-space-6);
+    font-size: 1.125rem;
+  }
+
+  .snurble-loading-button:hover:not(:disabled) {
+    background: var(--snurble-loading-button-background-hover);
+    border-color: var(--snurble-loading-button-border-hover);
+    box-shadow: var(--snurble-action-shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .snurble-loading-button:active:not(:disabled) {
+    background: var(--snurble-loading-button-background-active);
+    box-shadow: var(--snurble-action-shadow-active);
+    transform: translateY(0) scale(0.97);
+  }
+
+  .snurble-loading-button:focus-visible {
+    outline: 3px solid var(--snurble-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .snurble-loading-button--disabled,
+  .snurble-loading-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .snurble-loading-button__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-loading-button {
+      transition: none;
+    }
+
+    .snurble-loading-button:hover:not(:disabled),
+    .snurble-loading-button:active:not(:disabled) {
+      transform: none;
+    }
+  }
+</style>

@@ -52,6 +52,11 @@ const tabPanelContent = new Map(
 
 <script>
   const initTabs = (root: HTMLElement) => {
+    if (root.dataset.snurbleTabsBound === 'true') {
+      return;
+    }
+
+    root.dataset.snurbleTabsBound = 'true';
     const tabList = root.querySelector('[role="tablist"]');
     const tabs = [...root.querySelectorAll('[role="tab"]')] as HTMLButtonElement[];
     const panels = [...root.querySelectorAll('[role="tabpanel"]')] as HTMLElement[];
@@ -105,12 +110,17 @@ const tabPanelContent = new Map(
     }
   };
 
-  const tabsRoots = document.querySelectorAll(".snurble-tabs");
-  for (const root of tabsRoots) {
-    if (root instanceof HTMLElement) {
-      initTabs(root);
+  const initTabsRoots = () => {
+    const tabsRoots = document.querySelectorAll(".snurble-tabs");
+    for (const root of tabsRoots) {
+      if (root instanceof HTMLElement) {
+        initTabs(root);
+      }
     }
-  }
+  };
+
+  initTabsRoots();
+  document.addEventListener("astro:page-load", initTabsRoots);
 </script>
 
 <style>

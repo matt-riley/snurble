@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Trigger id.",
+      "type": "string"
+    },
+    "label": {
+      "description": "Trigger label.",
+      "type": "string"
+    },
+    "items": {
+      "description": "Menu items.",
+      "type": "string"
+    },
+    "variant": {
+      "description": "Trigger variant.",
+      "enum": ["primary", "secondary", "danger"],
+      "default": "secondary"
+    },
+    "size": {
+      "description": "Trigger size.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "placement": {
+      "description": "Menu placement.",
+      "enum": ["bottom", "top"],
+      "default": "bottom"
+    },
+    "align": {
+      "description": "Menu alignment.",
+      "enum": ["start", "end"],
+      "default": "start"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["label"],
+  "title": "MenuButton Props",
+  "type": "object"
+}

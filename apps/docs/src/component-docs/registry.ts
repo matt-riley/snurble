@@ -50,10 +50,13 @@ export const componentDocCatalog = [
   { category: "Foundations", name: "Hero", slug: "hero" },
   { category: "Foundations", name: "Section", slug: "section" },
   { category: "Foundations", name: "Panel", slug: "panel" },
+  { category: "Foundations", name: "Card", slug: "card" },
   { category: "Foundations", name: "DataTable", slug: "data-table" },
   { category: "Foundations", name: "MetaList", slug: "meta-list" },
   { category: "Foundations", name: "CodeSnippet", slug: "code-snippet" },
   { category: "Foundations", name: "Stack", slug: "stack" },
+  { category: "Foundations", name: "Divider", slug: "divider" },
+  { category: "Foundations", name: "VisuallyHidden", slug: "visually-hidden" },
   { category: "Foundations", name: "BentoGrid", slug: "bento-grid" },
   { category: "Foundations", name: "BentoItem", slug: "bento-item" },
   { category: "Shell", name: "FontAssets", slug: "font-assets" },
@@ -61,6 +64,9 @@ export const componentDocCatalog = [
   { category: "Shell", name: "SkipLink", slug: "skip-link" },
   { category: "Shell", name: "SeoMeta", slug: "seo-meta" },
   { category: "Shell", name: "ServiceWorker", slug: "service-worker" },
+  { category: "Shell", name: "Header", slug: "header" },
+  { category: "Shell", name: "Footer", slug: "footer" },
+  { category: "Shell", name: "Sidebar", slug: "sidebar" },
   { category: "Profile and social", name: "ProfileHero", slug: "profile-hero" },
   { category: "Profile and social", name: "SocialLinks", slug: "social-links" },
   {
@@ -83,10 +89,18 @@ export const componentDocCatalog = [
   { category: "Actions and status", name: "IconButton", slug: "icon-button" },
   { category: "Actions and status", name: "LinkButton", slug: "link-button" },
   { category: "Actions and status", name: "Badge", slug: "badge" },
+  { category: "Actions and status", name: "Avatar", slug: "avatar" },
   { category: "Actions and status", name: "Alert", slug: "alert" },
   { category: "Actions and status", name: "Callout", slug: "callout" },
   { category: "Actions and status", name: "EmptyState", slug: "empty-state" },
   { category: "Actions and status", name: "Skeleton", slug: "skeleton" },
+  { category: "Actions and status", name: "Spinner", slug: "spinner" },
+  { category: "Actions and status", name: "Progress", slug: "progress" },
+  {
+    category: "Actions and status",
+    name: "LoadingButton",
+    slug: "loading-button",
+  },
   { category: "Actions and status", name: "ThemeToggle", slug: "theme-toggle" },
   { category: "Actions and status", name: "Sparkle", slug: "sparkle" },
   { category: "Actions and status", name: "Toast", slug: "toast" },
@@ -125,6 +139,19 @@ export const componentDocCatalog = [
   { category: "Forms", name: "Switch", slug: "switch" },
   { category: "Forms", name: "FormHint", slug: "form-hint" },
   { category: "Forms", name: "FormError", slug: "form-error" },
+  { category: "Forms", name: "InputGroup", slug: "input-group" },
+  { category: "Forms", name: "SearchInput", slug: "search-input" },
+  { category: "Forms", name: "Combobox", slug: "combobox" },
+  {
+    category: "Overlays and menus",
+    name: "DialogActions",
+    slug: "dialog-actions",
+  },
+  {
+    category: "Overlays and menus",
+    name: "DialogFooter",
+    slug: "dialog-footer",
+  },
   { category: "Overlays and menus", name: "Dialog", slug: "dialog" },
   { category: "Overlays and menus", name: "Drawer", slug: "drawer" },
   { category: "Overlays and menus", name: "Popover", slug: "popover" },
@@ -133,6 +160,8 @@ export const componentDocCatalog = [
     name: "DropdownMenu",
     slug: "dropdown-menu",
   },
+  { category: "Overlays and menus", name: "MenuButton", slug: "menu-button" },
+  { category: "Overlays and menus", name: "CommandMenu", slug: "command-menu" },
   { category: "Overlays and menus", name: "Tooltip", slug: "tooltip" },
   { category: "Data display", name: "StatCard", slug: "stat-card" },
   {
@@ -155,6 +184,581 @@ const componentContentByName: Record<
   ComponentName,
   ComponentDocContent & { props?: readonly ComponentProp[] }
 > = {
+  Avatar: {
+    exampleCode: `<Avatar name="Mattriley Tools" status="online" />`,
+    notes: [
+      "Use Avatar for compact identity, not for arbitrary decorative circles.",
+      "Provide a real alt value for meaningful images; name-based fallbacks announce the person or team.",
+      "Status dots are decorative by default, so pair them with nearby visible text when status matters.",
+    ],
+    summary:
+      "Render a profile image or initials fallback with consistent sizing, shape, and optional status treatment.",
+    props: [
+      { name: "src", type: "string", description: "Optional image source." },
+      {
+        name: "alt",
+        type: "string",
+        description: "Image alt text when src is provided.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Name used for fallback initials and accessible labelling.",
+      },
+      {
+        name: "initials",
+        type: "string",
+        description: "Explicit initials fallback.",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg' | 'xl'",
+        description: "Avatar size.",
+        default: "'md'",
+      },
+      {
+        name: "shape",
+        type: "'circle' | 'rounded' | 'square'",
+        description: "Avatar shape.",
+        default: "'circle'",
+      },
+      {
+        name: "status",
+        type: "'online' | 'busy' | 'away' | 'offline'",
+        description: "Optional decorative status indicator.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Card: {
+    exampleCode: `<Card variant="elevated" interactive>Reusable content surface</Card>`,
+    notes: [
+      "Use Card for generic content grouping when Panel feels too structural.",
+      "Use href for a semantic linked card rather than nesting interactive elements inside another link.",
+      "Keep Card content responsible for headings, copy, and actions; Card owns only the surface treatment.",
+    ],
+    summary:
+      "A flexible content card with Snurble surface variants, padding scale, and optional linked or interactive affordance.",
+    props: [
+      {
+        name: "as",
+        type: "'article' | 'section' | 'div'",
+        description: "Element used when the card is not a link.",
+        default: "'article'",
+      },
+      {
+        name: "variant",
+        type: "'flat' | 'bordered' | 'elevated' | 'glass'",
+        description: "Visual surface treatment.",
+        default: "'bordered'",
+      },
+      {
+        name: "padding",
+        type: "1 | 2 | 3 | 4 | 5 | 6 | 7 | 8",
+        description: "Spacing token for internal padding.",
+        default: "5",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        description: "Whether to show hover affordance.",
+        default: "false",
+      },
+      {
+        name: "href",
+        type: "string",
+        description: "Render the card as a link.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Combobox: {
+    exampleCode: `<Combobox id="component-combobox" label="Component" options={[{ label: "Button", value: "button" }]} />`,
+    notes: [
+      "Use Combobox when users need to filter and submit one option from a known list.",
+      "It emits snurble-combobox-change and keeps a hidden input in sync for forms.",
+      "Keep option lists reasonably small; this component intentionally does not virtualize or fetch remote data.",
+    ],
+    summary:
+      "A filterable single-select form control with listbox semantics, keyboard selection, and form submission support.",
+    props: [
+      {
+        name: "id",
+        type: "string",
+        description: "Input id prefix.",
+        required: true,
+      },
+      { name: "name", type: "string", description: "Hidden input name." },
+      {
+        name: "label",
+        type: "string",
+        description: "Visible field label.",
+        required: true,
+      },
+      {
+        name: "options",
+        type: "ComboboxOption[]",
+        description: "Selectable options.",
+      },
+      { name: "value", type: "string", description: "Selected option value." },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Input placeholder.",
+        default: "'Select an option'",
+      },
+      {
+        name: "autocomplete",
+        type: "'none' | 'list'",
+        description: "Filtering mode.",
+        default: "'list'",
+      },
+      {
+        name: "clearable",
+        type: "boolean",
+        description: "Show a clear button.",
+        default: "true",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Disable the control.",
+        default: "false",
+      },
+      {
+        name: "invalid",
+        type: "boolean",
+        description: "Show invalid styling.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  CommandMenu: {
+    exampleCode: `<CommandMenu open title="Commands" groups={[{ label: "Docs", items: [{ label: "Open components", value: "components" }] }]} />`,
+    notes: [
+      "Use CommandMenu for local command palettes, not for remote search infrastructure.",
+      "The component emits snurble-command-select with the chosen value.",
+      "Because it is dialog-backed, open it from a user gesture in production interactions.",
+    ],
+    summary:
+      "A dialog-backed command palette with grouped commands, local filtering, keyboard movement, and custom select events.",
+    props: [
+      { name: "id", type: "string", description: "Dialog id." },
+      {
+        name: "open",
+        type: "boolean",
+        description: "Open on initial load.",
+        default: "false",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "Dialog title.",
+        default: "'Command menu'",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Search input placeholder.",
+        default: "'Type a command…'",
+      },
+      {
+        name: "groups",
+        type: "CommandMenuGroup[]",
+        description: "Grouped command items.",
+      },
+      {
+        name: "emptyText",
+        type: "string",
+        description: "Empty state text.",
+        default: "'No commands found.'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  DialogActions: {
+    exampleCode: `<DialogActions><Button variant="secondary">Cancel</Button><Button>Save</Button></DialogActions>`,
+    notes: [
+      "Use inside DialogFooter or Drawer content to align related actions.",
+      "Stacking on narrow screens keeps destructive and primary actions easier to tap.",
+    ],
+    summary:
+      "A small action-row helper for modal and drawer footers with responsive stacking.",
+    props: [
+      {
+        name: "align",
+        type: "'start' | 'center' | 'end'",
+        description: "Action alignment.",
+        default: "'end'",
+      },
+      {
+        name: "stackOnMobile",
+        type: "boolean",
+        description: "Stack actions on small screens.",
+        default: "true",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  DialogFooter: {
+    exampleCode: `<DialogFooter><DialogActions><Button>Confirm</Button></DialogActions></DialogFooter>`,
+    notes: [
+      "Use DialogFooter to separate final actions from the dialog body.",
+      "It is layout only; Dialog remains responsible for modal semantics and focus trapping.",
+    ],
+    summary:
+      "A footer region helper for dialog content with border separation and alignment controls.",
+    props: [
+      {
+        name: "align",
+        type: "'start' | 'center' | 'end' | 'between'",
+        description: "Footer content alignment.",
+        default: "'end'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Footer: {
+    exampleCode: `<Footer brand="Snurble" links={[{ label: "Components", href: "/components" }]} />`,
+    notes: [
+      "Footer keeps links as plain anchors so consumer sites retain SEO-friendly markup.",
+      "Use slots when the object API is not expressive enough for your footer content.",
+    ],
+    summary:
+      "A responsive footer shell with brand, navigation links, social links, and copyright slots.",
+    props: [
+      {
+        name: "brand",
+        type: "string",
+        description: "Brand text.",
+        default: "'Snurble'",
+      },
+      {
+        name: "links",
+        type: "FooterLink[]",
+        description: "Footer navigation links.",
+      },
+      {
+        name: "socialLinks",
+        type: "FooterLink[]",
+        description: "Social or external links.",
+      },
+      {
+        name: "copyright",
+        type: "string",
+        description: "Copyright text override.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Header: {
+    exampleCode: `<Header brand="Snurble" navItems={[{ label: "Components", href: "/components", current: true }]} />`,
+    notes: [
+      "Header is intentionally generic: pass slots for brand, nav, or actions when a site needs richer content.",
+      "Use sticky only when the consuming page accounts for persistent header space.",
+    ],
+    summary:
+      "A generic app header with brand, primary navigation, optional actions, and sticky behavior.",
+    props: [
+      {
+        name: "brand",
+        type: "string",
+        description: "Brand text.",
+        default: "'Snurble'",
+      },
+      {
+        name: "brandHref",
+        type: "string",
+        description: "Brand link target.",
+        default: "'/'",
+      },
+      {
+        name: "navItems",
+        type: "HeaderNavItem[]",
+        description: "Primary navigation items.",
+      },
+      {
+        name: "sticky",
+        type: "boolean",
+        description: "Stick the header to the viewport top.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  InputGroup: {
+    exampleCode: `<InputGroup><span slot="prefix">https://</span><input placeholder="example.com" /></InputGroup>`,
+    notes: [
+      "InputGroup is a visual composition helper and does not replace labels or validation messages.",
+      "Slot plain adornments or buttons, but keep the actual input semantics on the nested control.",
+    ],
+    summary:
+      "A field-control wrapper that visually merges prefix, input, and suffix content into one tokenized control.",
+    props: [
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "Control size.",
+        default: "'md'",
+      },
+      {
+        name: "invalid",
+        type: "boolean",
+        description: "Show invalid styling.",
+        default: "false",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Show disabled styling.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  LoadingButton: {
+    exampleCode: `<LoadingButton loading loadingLabel="Saving changes">Save</LoadingButton>`,
+    notes: [
+      "Use LoadingButton when a button-triggered action is in progress and should not be submitted again.",
+      "The loading label is available to assistive tech without visually replacing concise button text.",
+    ],
+    summary:
+      "A Button-style action with an inline spinner, disabled loading state, and accessible loading label.",
+    props: [
+      {
+        name: "variant",
+        type: "'primary' | 'secondary' | 'danger'",
+        description: "Action variant.",
+        default: "'primary'",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "Button size.",
+        default: "'md'",
+      },
+      {
+        name: "loading",
+        type: "boolean",
+        description: "Show loading state.",
+        default: "false",
+      },
+      {
+        name: "loadingLabel",
+        type: "string",
+        description: "Accessible loading label.",
+        default: "'Loading'",
+      },
+      {
+        name: "spinnerPosition",
+        type: "'start' | 'end'",
+        description: "Spinner position.",
+        default: "'start'",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Disable the button.",
+        default: "false",
+      },
+      {
+        name: "type",
+        type: "'button' | 'submit' | 'reset'",
+        description: "Button type.",
+        default: "'button'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  MenuButton: {
+    exampleCode: `<MenuButton label="Actions" items={[{ label: "Duplicate", value: "duplicate" }]} />`,
+    notes: [
+      "MenuButton is the easy composition for a trigger plus dropdown menu.",
+      "It emits snurble-menu-select when an item is chosen.",
+    ],
+    summary:
+      "A complete menu trigger with accessible menu attributes, roving keyboard navigation, and custom select events.",
+    props: [
+      { name: "id", type: "string", description: "Trigger id." },
+      {
+        name: "label",
+        type: "string",
+        description: "Trigger label.",
+        required: true,
+      },
+      { name: "items", type: "MenuButtonItem[]", description: "Menu items." },
+      {
+        name: "variant",
+        type: "'primary' | 'secondary' | 'danger'",
+        description: "Trigger variant.",
+        default: "'secondary'",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "Trigger size.",
+        default: "'md'",
+      },
+      {
+        name: "placement",
+        type: "'bottom' | 'top'",
+        description: "Menu placement.",
+        default: "'bottom'",
+      },
+      {
+        name: "align",
+        type: "'start' | 'end'",
+        description: "Menu alignment.",
+        default: "'start'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Progress: {
+    exampleCode: `<Progress label="Package readiness" value={72} showValue />`,
+    notes: [
+      "Use determinate progress when you can calculate completion; omit value for an indeterminate track.",
+      "Keep labels concrete so screen reader users understand what is progressing.",
+    ],
+    summary:
+      "A tokenized progress indicator with determinate and indeterminate states plus optional visible value text.",
+    props: [
+      { name: "value", type: "number", description: "Current progress value." },
+      {
+        name: "max",
+        type: "number",
+        description: "Maximum progress value.",
+        default: "100",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible and visible label.",
+      },
+      {
+        name: "showValue",
+        type: "boolean",
+        description: "Show calculated percentage.",
+        default: "false",
+      },
+      {
+        name: "variant",
+        type: "'default' | 'success' | 'warning' | 'danger'",
+        description: "Progress color variant.",
+        default: "'default'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  SearchInput: {
+    exampleCode: `<SearchInput id="docs-search" label="Search docs" placeholder="Search components" />`,
+    notes: [
+      "SearchInput only owns the field UI; consumers own search indexing and result rendering.",
+      "The clear button dispatches snurble-search-clear and restores focus to the input.",
+    ],
+    summary:
+      "A rounded search field with icon affordance, optional clear button, and accessible label.",
+    props: [
+      { name: "id", type: "string", description: "Input id.", required: true },
+      { name: "name", type: "string", description: "Input name." },
+      { name: "value", type: "string", description: "Initial value." },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Placeholder text.",
+        default: "'Search'",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Visible label text.",
+        default: "'Search'",
+      },
+      {
+        name: "clearable",
+        type: "boolean",
+        description: "Show a clear button.",
+        default: "true",
+      },
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "Input size.",
+        default: "'md'",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        description: "Disable the input.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Sidebar: {
+    exampleCode: `<Sidebar activeHref="/components" items={[{ label: "Components", href: "/components" }]} />`,
+    notes: [
+      "Use Sidebar for local navigation, docs tables of contents, or settings sections.",
+      "The collapsible mode is intentionally simple and coordinates with Drawer for richer mobile navigation.",
+    ],
+    summary:
+      "A nested side-navigation surface with active-link styling and optional small-screen collapse behavior.",
+    props: [
+      {
+        name: "items",
+        type: "SidebarItem[]",
+        description: "Navigation items.",
+      },
+      {
+        name: "activeHref",
+        type: "string",
+        description: "Href to mark current.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Navigation label.",
+        default: "'Sidebar navigation'",
+      },
+      {
+        name: "collapsible",
+        type: "boolean",
+        description: "Enable mobile collapse button.",
+        default: "false",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Spinner: {
+    exampleCode: `<Spinner label="Loading release status" />`,
+    notes: [
+      "Use labelled spinners for standalone loading states and aria-hidden spinners inside buttons.",
+      "Animation pauses for reduced-motion and focus-mode preferences.",
+    ],
+    summary:
+      "A compact circular loading indicator with decorative or announced accessibility modes.",
+    props: [
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "Spinner size.",
+        default: "'md'",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible loading label.",
+      },
+      {
+        name: "ariaHidden",
+        type: "boolean",
+        description: "Force decorative mode.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
   Accordion: {
     exampleCode: `<Accordion items={faqItems} />`,
     notes: [
@@ -451,6 +1055,41 @@ const componentContentByName: Record<
     ],
     summary:
       "Render structured term-definition pairs for compact reference data. Perfect for displaying metadata like it's a sleek dossier.",
+  },
+  Divider: {
+    exampleCode: `<Stack space={3}>
+  <p>Before</p>
+  <Divider label="Or" />
+  <p>After</p>
+</Stack>`,
+    notes: [
+      "Use Divider to separate related chunks without inventing one-off border utilities.",
+      "Leave decorative true for purely visual separators; set decorative false when the separator conveys structure.",
+      "Use the label prop sparingly for meaningful breaks like 'Or' between authentication choices.",
+    ],
+    summary:
+      "Render a tokenized horizontal or vertical separator with optional label support. A tidy line that knows when to stay quiet for assistive tech.",
+    props: [
+      {
+        name: "orientation",
+        type: "'horizontal' | 'vertical'",
+        description: "Separator direction.",
+        default: "'horizontal'",
+      },
+      {
+        name: "decorative",
+        type: "boolean",
+        description:
+          "Whether an unlabelled separator is hidden from assistive semantics.",
+        default: "true",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Optional visible divider label.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Dialog: {
     exampleCode: `<Dialog open title="Delete release" closeOnBackdropClick>
@@ -946,13 +1585,86 @@ const componentContentByName: Record<
       "Register a PWA service worker. The invisible magic that makes your web app work even when the wifi dies.",
   },
   Skeleton: {
-    exampleCode: `<Skeleton width="100%" height="2.5rem" />`,
+    exampleCode: `<Stack space={4}>
+  <Skeleton shape="circle" size="3rem" />
+  <Skeleton shape="text" lines={3} lastLineWidth="60%" />
+  <Skeleton width="100%" height="8rem" radius="xl" ariaLabel="Loading card" />
+</Stack>`,
     notes: [
       "Use Skeleton only while real content is pending.",
       "Match the final content shape as closely as possible, so the page doesn't jump around when it loads.",
+      "Prefer one announced loading region over many noisy placeholders; skeletons are aria-hidden unless ariaLabel is provided.",
+      "Focus mode and reduced-motion preferences both suppress shimmer in favor of static loading surfaces.",
     ],
     summary:
-      "Render a loading placeholder surface. The ghostly apparition of content yet to come.",
+      "Render a loading placeholder surface or text-line group. The ghostly apparition of content yet to come, now with better manners for assistive tech.",
+    props: [
+      {
+        name: "width",
+        type: "string",
+        description: "Placeholder width.",
+        default: "'100%'",
+      },
+      {
+        name: "height",
+        type: "string",
+        description: "Placeholder height.",
+        default: "'1rem'",
+      },
+      {
+        name: "size",
+        type: "string",
+        description: "Square size used by circle skeletons.",
+      },
+      {
+        name: "shape",
+        type: "'rect' | 'circle' | 'text'",
+        description: "Placeholder shape.",
+        default: "'rect'",
+      },
+      {
+        name: "lines",
+        type: "number",
+        description: "Number of text lines to render.",
+        default: "1",
+      },
+      {
+        name: "gap",
+        type: "1 | 2 | 3 | 4 | 5 | 6 | 7 | 8",
+        description: "Spacing token between text lines.",
+        default: "2",
+      },
+      {
+        name: "lastLineWidth",
+        type: "string",
+        description: "Width of the final line in a multi-line text skeleton.",
+        default: "'75%'",
+      },
+      {
+        name: "radius",
+        type: "string",
+        description: "Radius token name or custom CSS radius.",
+      },
+      {
+        name: "animate",
+        type: "boolean",
+        description:
+          "Whether shimmer animation is enabled when user preferences allow it.",
+        default: "true",
+      },
+      {
+        name: "ariaLabel",
+        type: "string",
+        description:
+          "Optional accessible loading announcement for a skeleton region.",
+      },
+      {
+        name: "ariaHidden",
+        type: "boolean",
+        description: "Force skeleton assistive-tech visibility.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   SkillIcon: {
     exampleCode: `<SkillIcon name="typescript" label="TypeScript" />`,
@@ -1196,6 +1908,28 @@ const componentContentByName: Record<
     ],
     summary:
       "Render a small hover or focus tooltip. A polite little whisper of extra information.",
+  },
+  VisuallyHidden: {
+    exampleCode: `<button>
+  <span aria-hidden="true">🔍</span>
+  <VisuallyHidden>Search documentation</VisuallyHidden>
+</button>`,
+    notes: [
+      "Use VisuallyHidden for accessible names or context that should be available to assistive tech without adding visual clutter.",
+      "Do not use it to hide content that should be discoverable by sighted users.",
+      "Prefer visible labels for form fields; this primitive is for compact controls and supplemental context.",
+    ],
+    summary:
+      "Hide content visually while keeping it available to screen readers. Perfect for icon-only controls that still need a real name.",
+    props: [
+      {
+        name: "as",
+        type: "'span' | 'div'",
+        description: "Rendered element.",
+        default: "'span'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
 } as const satisfies Record<ComponentName, ComponentDocContent>;
 

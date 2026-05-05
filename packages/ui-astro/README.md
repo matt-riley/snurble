@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 61 runtime primitives plus the `createMarkdownAlternateLink` helper and shared LLM helper types:
+The package entrypoint currently exports 78 runtime primitives plus the `createMarkdownAlternateLink` helper and shared LLM helper types:
 
 ### Shell and layout primitives
 
@@ -44,11 +44,17 @@ The package entrypoint currently exports 61 runtime primitives plus the `createM
 - `SkipLink`
 - `SeoMeta`
 - `ServiceWorker`
+- `Header`
+- `Footer`
+- `Sidebar`
 - `PageShell`
 - `Hero`
 - `Section`
 - `Panel`
+- `Card`
 - `Stack`
+- `Divider`
+- `VisuallyHidden`
 - `DecoratedHeading`
 - `CodeSnippet`
 - `DataTable`
@@ -62,10 +68,14 @@ The package entrypoint currently exports 61 runtime primitives plus the `createM
 - `IconButton`
 - `LinkButton`
 - `Badge`
+- `Avatar`
 - `Alert`
 - `Callout`
 - `EmptyState`
 - `Skeleton`
+- `Spinner`
+- `Progress`
+- `LoadingButton`
 - `ThemeToggle`
 - `Sparkle`
 - `Toast`
@@ -90,13 +100,20 @@ The package entrypoint currently exports 61 runtime primitives plus the `createM
 - `Switch`
 - `FormHint`
 - `FormError`
+- `InputGroup`
+- `SearchInput`
+- `Combobox`
 
 ### Overlay and menu primitives
 
+- `DialogActions`
+- `DialogFooter`
 - `Dialog`
 - `Drawer`
 - `Popover`
 - `DropdownMenu`
+- `MenuButton`
+- `CommandMenu`
 - `Tooltip`
 
 ### Data display and app-shell primitives

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "variant": {
+      "description": "Action variant.",
+      "enum": ["primary", "secondary", "danger"],
+      "default": "primary"
+    },
+    "size": {
+      "description": "Button size.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "loading": {
+      "description": "Show loading state.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "loadingLabel": {
+      "description": "Accessible loading label.",
+      "type": "string",
+      "default": "Loading"
+    },
+    "spinnerPosition": {
+      "description": "Spinner position.",
+      "enum": ["start", "end"],
+      "default": "start"
+    },
+    "disabled": {
+      "description": "Disable the button.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "type": {
+      "description": "Button type.",
+      "enum": ["button", "submit", "reset"],
+      "default": "button"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "LoadingButton Props",
+  "type": "object"
+}

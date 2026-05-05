@@ -24,7 +24,7 @@ const { items, class: className, ...rest } = Astro.props;
   .description-list {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: var(--snurble-spacing-sm) var(--snurble-spacing-md);
+    gap: var(--snurble-space-2) var(--snurble-space-4);
     margin: 0;
     padding: 0;
   }
@@ -36,27 +36,27 @@ const { items, class: className, ...rest } = Astro.props;
 
   .description-list-description {
     margin: 0;
-    color: var(--snurble-text-secondary);
+    color: var(--snurble-text-muted);
     line-height: 1.5;
   }
 
   @media (max-width: 48rem) {
     .description-list {
       grid-template-columns: 1fr;
-      gap: var(--snurble-spacing-md);
+      gap: var(--snurble-space-4);
     }
 
     .description-list-term {
       font-size: 0.875rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--snurble-text-secondary);
+      color: var(--snurble-text-muted);
     }
 
     .description-list-description {
       font-size: 1rem;
       color: var(--snurble-text);
-      margin-bottom: var(--snurble-spacing-md);
+      margin-bottom: var(--snurble-space-4);
     }
   }
 </style>

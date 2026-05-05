@@ -22,6 +22,8 @@ export interface Props {
   id?: string;
   /** Whether popover is open by default */
   open?: boolean;
+  /** Optional trigger element id used for click toggling and focus return */
+  triggerId?: string;
   /** Position relative to trigger: top, bottom, left, right */
   position?: 'top' | 'bottom' | 'left' | 'right';
   /** Optional title */
@@ -35,6 +37,7 @@ export interface Props {
 const {
   id = `popover-${Math.random().toString(36).slice(2)}`,
   open = false,
+  triggerId,
   position = 'bottom',
   title,
   closeOnOutsideClick = true,
@@ -52,6 +55,7 @@ const {
   data-component="popover"
   data-open={open}
   data-position={position}
+  data-trigger-id={triggerId}
   data-close-on-outside={closeOnOutsideClick}
   role="dialog"
   aria-modal="false"
@@ -96,7 +100,7 @@ const {
 <style>
   .snurble-popover {
     position: fixed;
-    z-index: 999;
+    z-index: var(--snurble-z-index-popover);
     opacity: 0;
     pointer-events: none;
     animation: snurble-popover-exit 150ms ease-out forwards;
@@ -157,8 +161,8 @@ const {
   .snurble-popover-box {
     background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border-card);
-    border-radius: 6px;
-    box-shadow: var(--snurble-shadow-md);
+    border-radius: var(--snurble-radius-lg);
+    box-shadow: var(--snurble-shadow-spatial-floating);
     max-width: 320px;
   }
 
@@ -196,7 +200,7 @@ const {
   }
 
   .snurble-popover-close:hover {
-    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    background: var(--snurble-surface-badge);
     color: var(--snurble-text);
   }
 
@@ -205,7 +209,7 @@ const {
   }
 
   .snurble-popover-close:focus-visible {
-    outline: 2px solid var(--snurble-brand-primary);
+    outline: 2px solid var(--snurble-focus-ring);
     outline-offset: 2px;
   }
 
@@ -246,20 +250,46 @@ const {
 
 <script>
   const initPopover = (el: Element) => {
+    if (!(el instanceof HTMLElement) || el.dataset.snurblePopoverBound === 'true') {
+      return;
+    }
+
+    el.dataset.snurblePopoverBound = 'true';
     const closeButton = el.querySelector('[data-close-button]');
+    const trigger = el.dataset.triggerId ? document.querySelector(`#${CSS.escape(el.dataset.triggerId)}`) : null;
     const closeOnOutside = el.dataset.closeOnOutside === 'true';
 
-    const close = () => {
+    const close = (focusTrigger = false) => {
       el.dataset.open = 'false';
+      trigger?.setAttribute('aria-expanded', 'false');
+      if (focusTrigger) {
+        trigger?.focus();
+      }
     };
 
     const open = () => {
       el.dataset.open = 'true';
+      trigger?.setAttribute('aria-expanded', 'true');
     };
+
+    const toggle = () => {
+      if (el.dataset.open === 'true') {
+        close();
+      } else {
+        open();
+      }
+    };
+
+    if (trigger) {
+      trigger.setAttribute('aria-haspopup', 'dialog');
+      trigger.setAttribute('aria-expanded', el.dataset.open === 'true' ? 'true' : 'false');
+      trigger.setAttribute('aria-controls', el.id);
+      trigger.addEventListener('click', toggle);
+    }
 
     // Close button
     if (closeButton) {
-      closeButton.addEventListener('click', close);
+      closeButton.addEventListener('click', () => close(true));
     }
 
     // Click outside
@@ -267,7 +297,8 @@ const {
       if (
         closeOnOutside &&
         el.dataset.open === 'true' &&
-        !el.contains(e.target as Node)
+        !el.contains(e.target as Node) &&
+        !trigger?.contains(e.target as Node)
       ) {
         close();
       }
@@ -276,7 +307,7 @@ const {
     // Escape key
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && el.dataset.open === 'true') {
-        close();
+        close(true);
       }
     };
 
@@ -285,8 +316,8 @@ const {
 
     // Cleanup
     return () => {
-      if (closeButton) {
-        closeButton.removeEventListener('click', close);
+      if (trigger) {
+        trigger.removeEventListener('click', toggle);
       }
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
@@ -294,8 +325,13 @@ const {
   };
 
   // Initialize all popovers
-  const popovers = document.querySelectorAll('[data-component="popover"]');
-  for (const popover of popovers) {
-    initPopover(popover);
-  }
+  const initPopovers = () => {
+    const popovers = document.querySelectorAll('[data-component="popover"]');
+    for (const popover of popovers) {
+      initPopover(popover);
+    }
+  };
+
+  initPopovers();
+  document.addEventListener('astro:page-load', initPopovers);
 </script>

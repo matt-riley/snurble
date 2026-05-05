@@ -1,0 +1,137 @@
+---
+export interface HeaderNavItem {
+  label: string;
+  href: string;
+  current?: boolean;
+}
+
+interface Props {
+  brand?: string;
+  brandHref?: string;
+  navItems?: HeaderNavItem[];
+  sticky?: boolean;
+  class?: string;
+}
+
+const {
+  brand = "Snurble",
+  brandHref = "/",
+  navItems = [],
+  sticky = false,
+  class: className,
+} = Astro.props;
+---
+
+<header class:list={["snurble-header", sticky && "snurble-header--sticky", className]}>
+  <div class="snurble-header__inner">
+    <a class="snurble-header__brand" href={brandHref}>
+      <slot name="brand">{brand}</slot>
+    </a>
+    <nav class="snurble-header__nav" aria-label="Primary navigation">
+      <slot name="nav">
+        {navItems.map((item) => (
+          <a class="snurble-header__link" href={item.href} aria-current={item.current ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))}
+      </slot>
+    </nav>
+    <div class="snurble-header__actions">
+      <slot name="actions" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .snurble-header {
+    width: 100%;
+    color: var(--snurble-text);
+    background: color-mix(in srgb, var(--snurble-surface-card) 88%, transparent);
+    border-bottom: 1px solid var(--snurble-border-card);
+    backdrop-filter: var(--snurble-backdrop-blur);
+  }
+
+  .snurble-header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: var(--snurble-z-index-sticky);
+  }
+
+  .snurble-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-4);
+    width: min(100%, 72rem);
+    min-height: 4rem;
+    margin-inline: auto;
+    padding-inline: var(--snurble-space-4);
+  }
+
+  .snurble-header__brand {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    color: var(--snurble-text);
+    font-family: var(--snurble-font-title);
+    font-size: 1.125rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .snurble-header__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    gap: var(--snurble-space-2);
+    min-width: 0;
+  }
+
+  .snurble-header__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding-inline: var(--snurble-space-3);
+    color: var(--snurble-text-muted);
+    border-radius: var(--snurble-radius-full);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      color 150ms ease-out,
+      background 150ms ease-out;
+  }
+
+  .snurble-header__link:hover,
+  .snurble-header__link[aria-current="page"] {
+    color: var(--snurble-text);
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-header__brand:focus-visible,
+  .snurble-header__link:focus-visible {
+    outline: 2px solid var(--snurble-focus-ring);
+    outline-offset: 3px;
+  }
+
+  .snurble-header__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: var(--snurble-space-2);
+  }
+
+  @media (max-width: 48rem) {
+    .snurble-header__inner {
+      align-items: flex-start;
+      flex-direction: column;
+      padding-block: var(--snurble-space-3);
+    }
+
+    .snurble-header__nav {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+  }
+</style>

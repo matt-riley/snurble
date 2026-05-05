@@ -1,5 +1,5 @@
 ---
-import { CodeSnippet, Panel, Section, Stack } from "@matt-riley/ui-astro";
+import { CodeSnippet, DataTable, Panel, Section, Stack } from "@matt-riley/ui-astro";
 
 import type { ComponentDocEntry } from "../../component-docs/registry";
 
@@ -21,6 +21,30 @@ const { entry } = Astro.props;
       </Stack>
     </Panel>
   </Section>
+
+  {entry.props && entry.props.length > 0 && (
+    <Section title="Props" headingId={`${entry.slug}-props-heading`}>
+      <DataTable labelledBy={`${entry.slug}-props-heading`}>
+        <tr slot="head">
+          <th scope="col">Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Default</th>
+          <th scope="col">Description</th>
+        </tr>
+        {entry.props.map((prop) => (
+          <tr>
+            <td data-label="Name">
+              <code>{prop.name}</code>
+              {prop.required && <span class="text-[var(--snurble-accent-danger)]"> *</span>}
+            </td>
+            <td data-label="Type"><code>{prop.type}</code></td>
+            <td data-label="Default">{prop.default ? <code>{prop.default}</code> : "—"}</td>
+            <td data-label="Description">{prop.description}</td>
+          </tr>
+        ))}
+      </DataTable>
+    </Section>
+  )}
 
   <Section title="Example snippet" headingId={`${entry.slug}-snippet-heading`}>
     <CodeSnippet variant="block" code={entry.exampleCode} language={entry.exampleLanguage} />

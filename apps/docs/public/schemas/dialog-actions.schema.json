@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "align": {
+      "description": "Action alignment.",
+      "enum": ["start", "center", "end"],
+      "default": "end"
+    },
+    "stackOnMobile": {
+      "description": "Stack actions on small screens.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "DialogActions Props",
+  "type": "object"
+}

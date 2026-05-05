@@ -2,38 +2,143 @@
 interface Props {
   width?: string;
   height?: string;
+  size?: string;
   shape?: "rect" | "circle" | "text";
+  lines?: number;
+  gap?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  lastLineWidth?: string;
+  radius?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full" | string;
+  animate?: boolean;
+  ariaLabel?: string;
+  ariaHidden?: boolean;
   class?: string;
 }
 
-const { width = "100%", height = "1rem", shape = "rect", class: className } = Astro.props;
+const {
+  width = "100%",
+  height = "1rem",
+  size,
+  shape = "rect",
+  lines = 1,
+  gap = 2,
+  lastLineWidth = "75%",
+  radius,
+  animate = true,
+  ariaLabel,
+  ariaHidden,
+  class: className,
+} = Astro.props;
 
-const shapeStyles = {
-  circle: `width: ${width}; height: ${width}; border-radius: 9999px;`,
-  rect: `width: ${width}; height: ${height};`,
-  text: `width: ${width}; height: ${height}; border-radius: 0.25rem;`,
+const normalizedLines = Math.max(1, Math.floor(lines));
+const shouldRenderLines = shape === "text" && normalizedLines > 1;
+const isAnnounced = Boolean(ariaLabel) && ariaHidden !== true;
+const hiddenFromAssistiveTech = ariaHidden ?? !isAnnounced;
+const tokenRadii = new Set(["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "full"]);
+const resolveRadius = (value: Props["radius"]): string | undefined => {
+  if (!value) {
+    return undefined;
+  }
+
+  return tokenRadii.has(value) ? `var(--snurble-radius-${value})` : value;
 };
+const resolvedRadius = resolveRadius(radius);
+const baseWidth = shape === "circle" ? (size ?? width) : width;
+const baseHeight = shape === "circle" ? (size ?? width) : height;
+const getDefaultRadius = (): string => {
+  if (shape === "circle") {
+    return "var(--snurble-radius-full)";
+  }
+
+  if (shape === "text") {
+    return "var(--snurble-radius-sm)";
+  }
+
+  return "var(--snurble-radius-md)";
+};
+const baseRadius = resolvedRadius ?? getDefaultRadius();
+const baseStyle = `--snurble-skeleton-width: ${baseWidth}; --snurble-skeleton-height: ${baseHeight}; --snurble-skeleton-radius: ${baseRadius};`;
+const groupStyle = `--snurble-skeleton-gap: var(--snurble-space-${gap});`;
 ---
 
-<div
-  class:list={["snurble-skeleton", `snurble-skeleton--${shape}`, className]}
-  style={shapeStyles[shape]}
-  role="status"
-  aria-label="Loading..."
-/>
+{
+  shouldRenderLines ? (
+    <div
+      class:list={[
+        "snurble-skeleton-group",
+        animate && "snurble-skeleton-group--animated",
+        className,
+      ]}
+      style={groupStyle}
+      role={isAnnounced ? "status" : undefined}
+      aria-label={isAnnounced ? ariaLabel : undefined}
+      aria-hidden={hiddenFromAssistiveTech ? "true" : undefined}
+    >
+      {Array.from({ length: normalizedLines }, (_, index) => {
+        const isLastLine = index === normalizedLines - 1;
+        const lineWidth = isLastLine ? lastLineWidth : width;
+
+        return (
+          <div
+            class:list={[
+              "snurble-skeleton",
+              "snurble-skeleton--text",
+              animate && "snurble-skeleton--animated",
+            ]}
+            style={`${baseStyle} --snurble-skeleton-width: ${lineWidth};`}
+          />
+        );
+      })}
+    </div>
+  ) : (
+    <div
+      class:list={[
+        "snurble-skeleton",
+        `snurble-skeleton--${shape}`,
+        animate && "snurble-skeleton--animated",
+        className,
+      ]}
+      style={baseStyle}
+      role={isAnnounced ? "status" : undefined}
+      aria-label={isAnnounced ? ariaLabel : undefined}
+      aria-hidden={hiddenFromAssistiveTech ? "true" : undefined}
+    />
+  )
+}
 
 <style>
+  .snurble-skeleton-group {
+    display: grid;
+    gap: var(--snurble-skeleton-gap, var(--snurble-space-2));
+    width: var(--snurble-skeleton-width, 100%);
+  }
+
+  .snurble-skeleton {
+    display: block;
+    width: var(--snurble-skeleton-width, 100%);
+    height: var(--snurble-skeleton-height, 1rem);
+    border-radius: var(--snurble-skeleton-radius, var(--snurble-radius-md));
+    background-color: var(--snurble-skeleton-base, var(--snurble-surface-card));
+  }
+
+  .snurble-skeleton--circle {
+    border-radius: var(--snurble-radius-full);
+  }
+
+  .snurble-skeleton--text {
+    border-radius: var(--snurble-skeleton-radius, var(--snurble-radius-sm));
+  }
+
   @supports (animation: none) {
     @media (prefers-reduced-motion: no-preference) {
-      .snurble-skeleton {
+      :root:not([data-snurble-focus-mode="enabled"]) .snurble-skeleton--animated {
         background: linear-gradient(
           90deg,
-          var(--snurble-surface-card) 25%,
-          var(--snurble-surface-badge) 50%,
-          var(--snurble-surface-card) 75%
+          var(--snurble-skeleton-base, var(--snurble-surface-card)) 25%,
+          var(--snurble-skeleton-highlight, var(--snurble-surface-badge)) 50%,
+          var(--snurble-skeleton-base, var(--snurble-surface-card)) 75%
         );
         background-size: 200% 100%;
-        animation: snurble-skeleton-shimmer 2s infinite;
+        animation: snurble-skeleton-shimmer var(--snurble-skeleton-duration, 2s) infinite;
       }
 
       @keyframes snurble-skeleton-shimmer {
@@ -49,20 +154,7 @@ const shapeStyles = {
 
   @media (prefers-reduced-motion: reduce) {
     .snurble-skeleton {
-      background-color: var(--snurble-surface-badge);
+      background: var(--snurble-skeleton-highlight, var(--snurble-surface-badge));
     }
-  }
-
-  .snurble-skeleton {
-    background-color: var(--snurble-surface-card);
-    border-radius: 0.375rem;
-  }
-
-  .snurble-skeleton--circle {
-    border-radius: 9999px;
-  }
-
-  .snurble-skeleton--text {
-    border-radius: 0.25rem;
   }
 </style>

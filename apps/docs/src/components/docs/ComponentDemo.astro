@@ -8,42 +8,57 @@ import {
   Breadcrumbs,
   Button,
   Callout,
+  Card,
   Checkbox,
   CodeSnippet,
+  Combobox,
+  CommandMenu,
   DataTable,
   DecoratedHeading,
   DescriptionList,
   Dialog,
+  DialogActions,
+  DialogFooter,
+  Divider,
   Drawer,
   DropdownMenu,
   EmptyState,
   ExperienceCard,
+  Footer,
   ExperienceList,
   Field,
   FilterBar,
   FormError,
   FormHint,
+  Header,
   Hero,
   IconButton,
   Input,
+  InputGroup,
   LinkButton,
+  LoadingButton,
+  MenuButton,
   MetaList,
   PageShell,
   Pagination,
   Panel,
   Popover,
+  Progress,
   ProfileHero,
   ProjectCard,
   ProjectGrid,
   RadioGroup,
   Section,
+  SearchInput,
   Select,
+  Sidebar,
   Skeleton,
   SkillIcon,
   SkillIconList,
   SocialLinks,
   SortIndicator,
   Sparkle,
+  Spinner,
   SegmentedControl,
   Stack,
   StatCard,
@@ -54,6 +69,8 @@ import {
   ThemeToggle,
   Toast,
   Tooltip,
+  VisuallyHidden,
+  Avatar,
 } from "@matt-riley/ui-astro";
 
 import { componentDocs } from "../../component-docs/registry";
@@ -97,6 +114,28 @@ const menuItems = [
   { label: "Duplicate", value: "duplicate" },
   { label: "Archive", value: "archive" },
   { label: "Delete", value: "delete", variant: "danger" as const },
+];
+
+const commandGroups = [
+  {
+    items: [
+      { description: "Open the component index", label: "Components", value: "components" },
+      { description: "Review token foundations", label: "Foundation", value: "foundation" },
+    ],
+    label: "Docs",
+  },
+];
+
+const comboOptions = [
+  { label: "Button", value: "button" },
+  { label: "Dialog", value: "dialog" },
+  { label: "Combobox", value: "combobox" },
+];
+
+const navItems = [
+  { current: true, href: "/components", label: "Components" },
+  { href: "/foundation", label: "Foundation" },
+  { href: "/llm-helper", label: "LLM helper" },
 ];
 
 const tocItems = [
@@ -166,6 +205,21 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
 
   {entry.name === "Panel" && <Panel variant="glass">Panels provide shared flat, bordered, elevated, or glass surfaces.</Panel>}
 
+  {entry.name === "Card" && (
+    <Card variant="elevated" interactive>
+      <Stack space={2}>
+        <h3 class="m-0 text-lg font-semibold">Reusable card</h3>
+        <p class="m-0 text-sm text-[var(--snurble-text-muted)]">Cards group content without taking over page structure.</p>
+      </Stack>
+    </Card>
+  )}
+
+  {entry.name === "Header" && <Header brand="Snurble" navItems={navItems} />}
+
+  {entry.name === "Footer" && <Footer brand="Snurble" links={navItems.map(({ href, label }) => ({ href, label }))} />}
+
+  {entry.name === "Sidebar" && <Sidebar activeHref="/components" items={navItems} collapsible />}
+
   {entry.name === "DataTable" && (
     <div>
       <h3 id="data-table-demo-heading" class="mb-3 text-lg font-semibold">Release matrix</h3>
@@ -210,6 +264,21 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       <Panel variant="bordered">Second item</Panel>
       <Panel variant="bordered">Third item</Panel>
     </Stack>
+  )}
+
+  {entry.name === "Divider" && (
+    <Stack space={3}>
+      <p class="text-sm text-[var(--snurble-text-muted)]">Primary option</p>
+      <Divider label="Or" />
+      <p class="text-sm text-[var(--snurble-text-muted)]">Secondary option</p>
+    </Stack>
+  )}
+
+  {entry.name === "VisuallyHidden" && (
+    <Button variant="secondary">
+      <span aria-hidden="true">🔍</span>
+      <VisuallyHidden>Search documentation</VisuallyHidden>
+    </Button>
   )}
 
   {entry.name === "BentoGrid" && (
@@ -341,6 +410,13 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       ))}
     </div>
   )}
+  {entry.name === "Avatar" && (
+    <div class="flex items-center gap-3">
+      <Avatar name="Mattriley Tools" status="online" />
+      <Avatar initials="SR" size="lg" shape="rounded" status="away" />
+      <Avatar name="Snurble" size="sm" />
+    </div>
+  )}
   {entry.name === "Alert" && (
     <Stack space={3}>
       {alertVariants.map(({ description, title, variant }) => (
@@ -354,7 +430,18 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       <Button>Publish next</Button>
     </EmptyState>
   )}
-  {entry.name === "Skeleton" && <Skeleton width="100%" height="2.5rem" />}
+  {entry.name === "Skeleton" && (
+    <div class="grid gap-5 md:grid-cols-[auto,1fr] md:items-center">
+      <Skeleton shape="circle" size="3rem" />
+      <Skeleton shape="text" lines={3} lastLineWidth="55%" />
+      <div class="md:col-span-2">
+        <Skeleton width="100%" height="8rem" radius="xl" ariaLabel="Loading preview card" />
+      </div>
+    </div>
+  )}
+  {entry.name === "Spinner" && <Spinner label="Loading release status" />}
+  {entry.name === "Progress" && <Progress label="Package readiness" value={72} showValue />}
+  {entry.name === "LoadingButton" && <LoadingButton loading loadingLabel="Saving changes">Save changes</LoadingButton>}
   {entry.name === "Breadcrumbs" && <Breadcrumbs items={breadcrumbItems} />}
   {entry.name === "Tabs" && (
     <Tabs tabs={tabs} defaultTab="overview">
@@ -392,6 +479,15 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
     </Field>
   )}
   {entry.name === "Input" && <Input id="input-demo" type="email" placeholder="matt@example.com" />}
+  {entry.name === "InputGroup" && (
+    <InputGroup>
+      <span slot="prefix">https://</span>
+      <input placeholder="snurble.mattriley.tools" />
+      <span slot="suffix">↵</span>
+    </InputGroup>
+  )}
+  {entry.name === "SearchInput" && <SearchInput id="demo-search" label="Search docs" placeholder="Search components" />}
+  {entry.name === "Combobox" && <Combobox id="demo-combobox" label="Component" options={comboOptions} />}
   {entry.name === "Textarea" && <Textarea id="textarea-demo" placeholder="Tell us more..." rows={4} />}
   {entry.name === "Checkbox" && <Checkbox id="checkbox-demo" label="Email me release updates" checked />}
   {entry.name === "RadioGroup" && (
@@ -417,6 +513,22 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
       <Input id="error-demo-email" type="email" value="invalid" />
       <FormError id="error-demo-email-error" text="Enter a valid email address." />
     </Field>
+  )}
+
+  {entry.name === "DialogActions" && (
+    <DialogActions>
+      <Button variant="secondary">Cancel</Button>
+      <Button>Save</Button>
+    </DialogActions>
+  )}
+
+  {entry.name === "DialogFooter" && (
+    <DialogFooter>
+      <DialogActions>
+        <Button variant="secondary">Cancel</Button>
+        <Button>Confirm</Button>
+      </DialogActions>
+    </DialogFooter>
   )}
 
   {entry.name === "Dialog" && (
@@ -520,6 +632,10 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   )}
 
   {entry.name === "DropdownMenu" && <DropdownMenu open items={menuItems} />}
+
+  {entry.name === "MenuButton" && <MenuButton label="Actions" items={menuItems} />}
+
+  {entry.name === "CommandMenu" && <CommandMenu open title="Commands" groups={commandGroups} />}
 
   {entry.name === "Tooltip" && (
     <div class="relative min-h-24">

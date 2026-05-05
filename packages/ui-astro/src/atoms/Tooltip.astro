@@ -50,7 +50,7 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
 <style>
   .snurble-tooltip {
     position: fixed;
-    z-index: 998;
+    z-index: var(--snurble-z-index-tooltip);
     opacity: 0;
     pointer-events: none;
     animation: snurble-tooltip-exit 150ms ease-out forwards;
@@ -111,7 +111,7 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
     background: var(--snurble-text);
     color: var(--snurble-on-strong);
     padding: var(--snurble-space-1) var(--snurble-space-2);
-    border-radius: 4px;
+    border-radius: var(--snurble-radius-sm);
     font-size: 0.75rem;
     line-height: 1.4;
     white-space: nowrap;
@@ -183,10 +183,11 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
   };
 
   const initTooltip = (el) => {
-    if (!(el instanceof HTMLElement) || !el.id) {
+    if (!(el instanceof HTMLElement) || !el.id || el.dataset.snurbleTooltipBound === 'true') {
       return;
     }
 
+    el.dataset.snurbleTooltipBound = 'true';
     const tooltipId = el.id;
     const trigger = document.querySelector(`[aria-describedby~="${tooltipId}"]`);
     if (!(trigger instanceof HTMLElement)) {
@@ -238,8 +239,13 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
     };
   };
 
-  const tooltips = document.querySelectorAll('[data-component="tooltip"]');
-  for (const el of tooltips) {
-    initTooltip(el);
-  }
+  const initTooltips = () => {
+    const tooltips = document.querySelectorAll('[data-component="tooltip"]');
+    for (const el of tooltips) {
+      initTooltip(el);
+    }
+  };
+
+  initTooltips();
+  document.addEventListener('astro:page-load', initTooltips);
 </script>

@@ -1,0 +1,385 @@
+---
+export interface CommandMenuItem {
+  label: string;
+  value?: string;
+  description?: string;
+  disabled?: boolean;
+}
+
+export interface CommandMenuGroup {
+  label?: string;
+  items: CommandMenuItem[];
+}
+
+interface Props {
+  id?: string;
+  open?: boolean;
+  title?: string;
+  placeholder?: string;
+  groups?: CommandMenuGroup[];
+  emptyText?: string;
+  class?: string;
+}
+
+const {
+  id = `command-menu-${Math.random().toString(36).slice(2)}`,
+  open = false,
+  title = "Command menu",
+  placeholder = "Type a command…",
+  groups = [],
+  emptyText = "No commands found.",
+  class: className,
+} = Astro.props;
+const titleId = `${id}-title`;
+const inputId = `${id}-input`;
+---
+
+<dialog
+  id={id}
+  class:list={["snurble-command-menu", className]}
+  aria-labelledby={titleId}
+  data-component="command-menu"
+  data-initially-open={open.toString()}
+>
+  <div class="snurble-command-menu__panel">
+    <header class="snurble-command-menu__header">
+      <h2 id={titleId} class="snurble-command-menu__title">{title}</h2>
+      <button class="snurble-command-menu__close" type="button" aria-label="Close command menu" data-command-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </header>
+    <div class="snurble-command-menu__search">
+      <label class="snurble-command-menu__label" for={inputId}>Filter commands</label>
+      <input id={inputId} class="snurble-command-menu__input" type="search" placeholder={placeholder} data-command-input autocomplete="off" />
+    </div>
+    <div class="snurble-command-menu__list" role="listbox" aria-label="Commands" data-command-list>
+      {groups.map((group) => (
+        <section class="snurble-command-menu__group" data-command-group>
+          {group.label && <h3 class="snurble-command-menu__group-label">{group.label}</h3>}
+          {group.items.map((item) => (
+            <button
+              type="button"
+              class="snurble-command-menu__item"
+              role="option"
+              disabled={item.disabled}
+              aria-disabled={item.disabled ? "true" : undefined}
+              data-command-item
+              data-value={item.value ?? item.label}
+              data-label={item.label}
+            >
+              <span class="snurble-command-menu__item-label">{item.label}</span>
+              {item.description && <span class="snurble-command-menu__item-description">{item.description}</span>}
+            </button>
+          ))}
+        </section>
+      ))}
+      <p class="snurble-command-menu__empty" data-command-empty hidden>{emptyText}</p>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .snurble-command-menu {
+    width: min(92vw, 40rem);
+    padding: 0;
+    color: var(--snurble-text);
+    background: transparent;
+    border: 0;
+    overflow: visible;
+  }
+
+  .snurble-command-menu::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+  }
+
+  .snurble-command-menu__panel {
+    overflow: hidden;
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-xl);
+    box-shadow: var(--snurble-shadow-spatial-modal);
+  }
+
+  .snurble-command-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--snurble-space-3);
+    padding: var(--snurble-space-4);
+    border-bottom: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-command-menu__title {
+    margin: 0;
+    font-family: var(--snurble-font-title);
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .snurble-command-menu__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    color: var(--snurble-text-muted);
+    background: transparent;
+    border: 0;
+    border-radius: var(--snurble-radius-md);
+    cursor: pointer;
+  }
+
+  .snurble-command-menu__close:hover {
+    color: var(--snurble-text);
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-command-menu__close:focus-visible,
+  .snurble-command-menu__input:focus-visible,
+  .snurble-command-menu__item:focus-visible {
+    outline: 2px solid var(--snurble-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .snurble-command-menu__close svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .snurble-command-menu__search {
+    padding: var(--snurble-space-3);
+    border-bottom: 1px solid var(--snurble-border-card);
+  }
+
+  .snurble-command-menu__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .snurble-command-menu__input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0 var(--snurble-space-3);
+    color: var(--snurble-text);
+    background: var(--snurble-surface-badge);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-full);
+    font: inherit;
+  }
+
+  .snurble-command-menu__list {
+    max-height: min(26rem, 60vh);
+    overflow-y: auto;
+    padding: var(--snurble-space-2);
+  }
+
+  .snurble-command-menu__group + .snurble-command-menu__group {
+    margin-block-start: var(--snurble-space-3);
+  }
+
+  .snurble-command-menu__group-label {
+    margin: 0 0 var(--snurble-space-1);
+    padding-inline: var(--snurble-space-2);
+    color: var(--snurble-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .snurble-command-menu__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--snurble-space-1);
+    width: 100%;
+    padding: var(--snurble-space-3);
+    color: var(--snurble-text);
+    background: transparent;
+    border: 0;
+    border-radius: var(--snurble-radius-md);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .snurble-command-menu__item:hover,
+  .snurble-command-menu__item[aria-selected="true"] {
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-command-menu__item:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-command-menu__item-label {
+    font-weight: 700;
+  }
+
+  .snurble-command-menu__item-description,
+  .snurble-command-menu__empty {
+    color: var(--snurble-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .snurble-command-menu__empty {
+    margin: 0;
+    padding: var(--snurble-space-4);
+    text-align: center;
+  }
+</style>
+
+<script>
+  const initCommandMenu = (dialog: HTMLDialogElement) => {
+    if (dialog.dataset.snurbleCommandBound === "true") {
+      return;
+    }
+
+    dialog.dataset.snurbleCommandBound = "true";
+    const input = dialog.querySelector("[data-command-input]");
+    const closeButton = dialog.querySelector("[data-command-close]");
+    const empty = dialog.querySelector("[data-command-empty]");
+    const items = [...dialog.querySelectorAll("[data-command-item]")];
+    let visibleItems = items;
+    let currentIndex = -1;
+
+    if (!(input instanceof HTMLInputElement)) {
+      return;
+    }
+
+    const setSelected = (index: number) => {
+      currentIndex = index;
+      for (const [itemIndex, item] of visibleItems.entries()) {
+        item.setAttribute("aria-selected", (itemIndex === currentIndex).toString());
+      }
+    };
+
+    const focusSelected = () => {
+      const item = visibleItems[currentIndex];
+      if (item instanceof HTMLElement) {
+        item.focus();
+      }
+    };
+
+    const filterItems = () => {
+      const query = input.value.trim().toLowerCase();
+      visibleItems = [];
+
+      for (const item of items) {
+        const label = (item instanceof HTMLElement ? item.dataset.label : "") ?? "";
+        const isMatch = label.toLowerCase().includes(query);
+        if (item instanceof HTMLElement) {
+          item.hidden = !isMatch;
+        }
+        if (isMatch && item.getAttribute("aria-disabled") !== "true") {
+          visibleItems.push(item);
+        }
+      }
+
+      if (empty instanceof HTMLElement) {
+        empty.hidden = visibleItems.length > 0;
+      }
+      setSelected(visibleItems.length > 0 ? 0 : -1);
+    };
+
+    const selectItem = (item: Element) => {
+      if (!(item instanceof HTMLElement) || item.getAttribute("aria-disabled") === "true") {
+        return;
+      }
+
+      dialog.dispatchEvent(new CustomEvent("snurble-command-select", {
+        bubbles: true,
+        detail: { value: item.dataset.value },
+      }));
+      dialog.close();
+    };
+
+    input.addEventListener("input", filterItems);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const nextIndex = currentIndex + 1 >= visibleItems.length ? 0 : currentIndex + 1;
+        setSelected(nextIndex);
+        focusSelected();
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        const nextIndex = currentIndex - 1 < 0 ? visibleItems.length - 1 : currentIndex - 1;
+        setSelected(nextIndex);
+        focusSelected();
+      }
+    });
+
+    const bindItem = (item: Element) => {
+      item.addEventListener("click", () => selectItem(item));
+      item.addEventListener("keydown", (event) => {
+        if (!(event instanceof KeyboardEvent)) {
+          return;
+        }
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectItem(item);
+        }
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          const nextIndex = currentIndex + 1 >= visibleItems.length ? 0 : currentIndex + 1;
+          setSelected(nextIndex);
+          focusSelected();
+        }
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          const nextIndex = currentIndex - 1 < 0 ? visibleItems.length - 1 : currentIndex - 1;
+          setSelected(nextIndex);
+          focusSelected();
+        }
+      });
+    };
+
+    for (const item of items) {
+      bindItem(item);
+    }
+
+    if (closeButton instanceof HTMLButtonElement) {
+      closeButton.addEventListener("click", () => dialog.close());
+    }
+
+    dialog.addEventListener("close", () => {
+      input.value = "";
+      filterItems();
+    });
+
+    if (dialog.dataset.initiallyOpen === "true") {
+      requestAnimationFrame(() => {
+        dialog.showModal();
+        input.focus();
+      });
+    }
+
+    filterItems();
+  };
+
+  const initCommandMenus = () => {
+    for (const dialog of document.querySelectorAll('[data-component="command-menu"]')) {
+      if (dialog instanceof HTMLDialogElement) {
+        initCommandMenu(dialog);
+      }
+    }
+  };
+
+  initCommandMenus();
+  document.addEventListener("astro:page-load", initCommandMenus);
+</script>

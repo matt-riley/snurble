@@ -1,0 +1,69 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  label?: string;
+  ariaHidden?: boolean;
+  class?: string;
+}
+
+const { size = "md", label, ariaHidden, class: className } = Astro.props;
+const isHidden = ariaHidden ?? !label;
+---
+
+<span
+  class:list={["snurble-spinner", `snurble-spinner--${size}`, className]}
+  role={isHidden ? undefined : "status"}
+  aria-label={isHidden ? undefined : label}
+  aria-hidden={isHidden ? "true" : undefined}
+>
+  <span class="snurble-spinner__track" />
+</span>
+
+<style>
+  .snurble-spinner {
+    --snurble-spinner-size: 1.25rem;
+    --snurble-spinner-stroke: 0.1875rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--snurble-spinner-size);
+    height: var(--snurble-spinner-size);
+    vertical-align: text-bottom;
+  }
+
+  .snurble-spinner--sm {
+    --snurble-spinner-size: 1rem;
+    --snurble-spinner-stroke: 0.125rem;
+  }
+
+  .snurble-spinner--lg {
+    --snurble-spinner-size: 1.75rem;
+    --snurble-spinner-stroke: 0.25rem;
+  }
+
+  .snurble-spinner__track {
+    width: 100%;
+    height: 100%;
+    border: var(--snurble-spinner-stroke) solid var(--snurble-border-card);
+    border-top-color: var(--snurble-brand-primary);
+    border-radius: var(--snurble-radius-full);
+    animation: snurble-spinner-rotate 700ms linear infinite;
+  }
+
+  html[data-focus-mode="true"] .snurble-spinner__track {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-spinner__track {
+      animation: none;
+    }
+  }
+
+  @keyframes snurble-spinner-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

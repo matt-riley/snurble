@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "as": {
+      "description": "Rendered element.",
+      "enum": ["span", "div"],
+      "default": "span"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "VisuallyHidden Props",
+  "type": "object"
+}

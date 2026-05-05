@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "src": {
+      "description": "Optional image source.",
+      "type": "string"
+    },
+    "alt": {
+      "description": "Image alt text when src is provided.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name used for fallback initials and accessible labelling.",
+      "type": "string"
+    },
+    "initials": {
+      "description": "Explicit initials fallback.",
+      "type": "string"
+    },
+    "size": {
+      "description": "Avatar size.",
+      "enum": ["sm", "md", "lg", "xl"],
+      "default": "md"
+    },
+    "shape": {
+      "description": "Avatar shape.",
+      "enum": ["circle", "rounded", "square"],
+      "default": "circle"
+    },
+    "status": {
+      "description": "Optional decorative status indicator.",
+      "enum": ["online", "busy", "away", "offline"]
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Avatar Props",
+  "type": "object"
+}

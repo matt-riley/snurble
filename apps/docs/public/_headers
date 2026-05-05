@@ -79,6 +79,18 @@
 /components/stack/
   Link: </components/stack.md>; rel="alternate"; type="text/markdown"
 
+/components/divider
+  Link: </components/divider.md>; rel="alternate"; type="text/markdown"
+
+/components/divider/
+  Link: </components/divider.md>; rel="alternate"; type="text/markdown"
+
+/components/visually-hidden
+  Link: </components/visually-hidden.md>; rel="alternate"; type="text/markdown"
+
+/components/visually-hidden/
+  Link: </components/visually-hidden.md>; rel="alternate"; type="text/markdown"
+
 /components/bento-grid
   Link: </components/bento-grid.md>; rel="alternate"; type="text/markdown"
 
@@ -402,3 +414,93 @@
 
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
+
+/components/card
+  Link: </components/card.md>; rel="alternate"; type="text/markdown"
+
+/components/card/
+  Link: </components/card.md>; rel="alternate"; type="text/markdown"
+
+/components/header
+  Link: </components/header.md>; rel="alternate"; type="text/markdown"
+
+/components/header/
+  Link: </components/header.md>; rel="alternate"; type="text/markdown"
+
+/components/footer
+  Link: </components/footer.md>; rel="alternate"; type="text/markdown"
+
+/components/footer/
+  Link: </components/footer.md>; rel="alternate"; type="text/markdown"
+
+/components/sidebar
+  Link: </components/sidebar.md>; rel="alternate"; type="text/markdown"
+
+/components/sidebar/
+  Link: </components/sidebar.md>; rel="alternate"; type="text/markdown"
+
+/components/avatar
+  Link: </components/avatar.md>; rel="alternate"; type="text/markdown"
+
+/components/avatar/
+  Link: </components/avatar.md>; rel="alternate"; type="text/markdown"
+
+/components/spinner
+  Link: </components/spinner.md>; rel="alternate"; type="text/markdown"
+
+/components/spinner/
+  Link: </components/spinner.md>; rel="alternate"; type="text/markdown"
+
+/components/progress
+  Link: </components/progress.md>; rel="alternate"; type="text/markdown"
+
+/components/progress/
+  Link: </components/progress.md>; rel="alternate"; type="text/markdown"
+
+/components/loading-button
+  Link: </components/loading-button.md>; rel="alternate"; type="text/markdown"
+
+/components/loading-button/
+  Link: </components/loading-button.md>; rel="alternate"; type="text/markdown"
+
+/components/input-group
+  Link: </components/input-group.md>; rel="alternate"; type="text/markdown"
+
+/components/input-group/
+  Link: </components/input-group.md>; rel="alternate"; type="text/markdown"
+
+/components/search-input
+  Link: </components/search-input.md>; rel="alternate"; type="text/markdown"
+
+/components/search-input/
+  Link: </components/search-input.md>; rel="alternate"; type="text/markdown"
+
+/components/combobox
+  Link: </components/combobox.md>; rel="alternate"; type="text/markdown"
+
+/components/combobox/
+  Link: </components/combobox.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog-actions
+  Link: </components/dialog-actions.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog-actions/
+  Link: </components/dialog-actions.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog-footer
+  Link: </components/dialog-footer.md>; rel="alternate"; type="text/markdown"
+
+/components/dialog-footer/
+  Link: </components/dialog-footer.md>; rel="alternate"; type="text/markdown"
+
+/components/menu-button
+  Link: </components/menu-button.md>; rel="alternate"; type="text/markdown"
+
+/components/menu-button/
+  Link: </components/menu-button.md>; rel="alternate"; type="text/markdown"
+
+/components/command-menu
+  Link: </components/command-menu.md>; rel="alternate"; type="text/markdown"
+
+/components/command-menu/
+  Link: </components/command-menu.md>; rel="alternate"; type="text/markdown"

@@ -1,0 +1,106 @@
+---
+interface Props {
+  as?: "article" | "section" | "div";
+  variant?: "flat" | "bordered" | "elevated" | "glass";
+  padding?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  interactive?: boolean;
+  href?: string;
+  class?: string;
+}
+
+const {
+  as = "article",
+  variant = "bordered",
+  padding = 5,
+  interactive = false,
+  href,
+  class: className,
+} = Astro.props;
+const Tag = as;
+const classes = [
+  "snurble-card",
+  `snurble-card--${variant}`,
+  (interactive || href) && "snurble-card--interactive",
+  className,
+];
+const style = `--snurble-card-padding: var(--snurble-space-${padding});`;
+---
+
+{href ? (
+  <a href={href} class:list={classes} style={style}>
+    <slot />
+  </a>
+) : (
+  <Tag class:list={classes} style={style}>
+    <slot />
+  </Tag>
+)}
+
+<style>
+  .snurble-card {
+    display: block;
+    min-width: 0;
+    padding: var(--snurble-card-padding, var(--snurble-space-5));
+    color: var(--snurble-text);
+    background: var(--snurble-surface-card);
+    border: 1px solid transparent;
+    border-radius: var(--snurble-radius-lg);
+    box-shadow: none;
+    text-decoration: none;
+    transition:
+      background var(--snurble-duration-fast) var(--snurble-ease-soft),
+      border-color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      box-shadow var(--snurble-duration-slow) var(--snurble-ease-spring),
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring);
+  }
+
+  .snurble-card--flat {
+    border-color: transparent;
+  }
+
+  .snurble-card--bordered {
+    border-color: var(--snurble-border-card);
+  }
+
+  .snurble-card--elevated {
+    border-color: var(--snurble-border-card);
+    box-shadow: var(--snurble-shadow-spatial-elevated);
+  }
+
+  .snurble-card--glass {
+    background: var(--snurble-surface-glass);
+    border-color: var(--snurble-border);
+    box-shadow: var(--snurble-shadow-spatial-elevated);
+    backdrop-filter: var(--snurble-backdrop-blur);
+  }
+
+  .snurble-card--interactive {
+    cursor: pointer;
+  }
+
+  .snurble-card--interactive:hover {
+    border-color: var(--snurble-border-strong);
+    box-shadow: var(--snurble-shadow-spatial-floating);
+    transform: translateY(-3px);
+  }
+
+  .snurble-card--interactive:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .snurble-card:focus-visible {
+    outline: 3px solid var(--snurble-focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-card {
+      transition: none;
+    }
+
+    .snurble-card--interactive:hover,
+    .snurble-card--interactive:active {
+      transform: none;
+    }
+  }
+</style>

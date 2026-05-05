@@ -26,6 +26,9 @@ export interface Props {
 }
 
 const { id, open = false, title, closeOnBackdropClick = true, class: className } = Astro.props;
+const titleId = title
+  ? `${id ?? `snurble-dialog-${Math.random().toString(36).slice(2)}`}-title`
+  : undefined;
 ---
 
 <dialog
@@ -34,7 +37,7 @@ const { id, open = false, title, closeOnBackdropClick = true, class: className }
     'snurble-dialog',
     className,
   ]}
-  aria-labelledby={title ? 'snurble-dialog-title' : undefined}
+  aria-labelledby={titleId}
   data-component="dialog"
   data-initially-open={open.toString()}
   data-close-on-backdrop={closeOnBackdropClick.toString()}
@@ -44,7 +47,7 @@ const { id, open = false, title, closeOnBackdropClick = true, class: className }
     {/* Title bar if provided */}
     {title && (
       <div class="snurble-dialog-header">
-        <h2 id="snurble-dialog-title" class="snurble-dialog-title">
+        <h2 id={titleId} class="snurble-dialog-title">
           {title}
         </h2>
         <button
@@ -101,7 +104,7 @@ const { id, open = false, title, closeOnBackdropClick = true, class: className }
     background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border-card);
     border-radius: 0.5rem;
-    box-shadow: var(--snurble-shadow-lg);
+    box-shadow: var(--snurble-shadow-spatial-modal);
     width: 100%;
     min-width: 20rem;
     max-height: 90vh;
@@ -197,6 +200,11 @@ const { id, open = false, title, closeOnBackdropClick = true, class: className }
 
 <script>
   const initDialog = (el: HTMLDialogElement) => {
+    if (el.dataset.snurbleDialogBound === 'true') {
+      return;
+    }
+
+    el.dataset.snurbleDialogBound = 'true';
     const closeButton = el.querySelector('[data-close-button]');
 
     if (closeButton) {
@@ -236,10 +244,15 @@ const { id, open = false, title, closeOnBackdropClick = true, class: className }
     observer.observe(el, { attributes: true });
   };
 
-  const dialogs = document.querySelectorAll('[data-component="dialog"]');
-  for (const el of dialogs) {
-    if (el instanceof HTMLDialogElement) {
-      initDialog(el);
+  const initDialogs = () => {
+    const dialogs = document.querySelectorAll('[data-component="dialog"]');
+    for (const el of dialogs) {
+      if (el instanceof HTMLDialogElement) {
+        initDialog(el);
+      }
     }
-  }
+  };
+
+  initDialogs();
+  document.addEventListener('astro:page-load', initDialogs);
 </script>

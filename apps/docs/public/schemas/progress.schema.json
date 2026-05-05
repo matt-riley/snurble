@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "value": {
+      "description": "Current progress value.",
+      "type": "number"
+    },
+    "max": {
+      "description": "Maximum progress value.",
+      "type": "number",
+      "default": "100"
+    },
+    "label": {
+      "description": "Accessible and visible label.",
+      "type": "string"
+    },
+    "showValue": {
+      "description": "Show calculated percentage.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "variant": {
+      "description": "Progress color variant.",
+      "enum": ["default", "success", "warning", "danger"],
+      "default": "default"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Progress Props",
+  "type": "object"
+}

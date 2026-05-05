@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "as": {
+      "description": "Element used when the card is not a link.",
+      "enum": ["article", "section", "div"],
+      "default": "article"
+    },
+    "variant": {
+      "description": "Visual surface treatment.",
+      "enum": ["flat", "bordered", "elevated", "glass"],
+      "default": "bordered"
+    },
+    "padding": {
+      "description": "Spacing token for internal padding.",
+      "enum": ["1", "2", "3", "4", "5", "6", "7", "8"],
+      "default": "5"
+    },
+    "interactive": {
+      "description": "Whether to show hover affordance.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "href": {
+      "description": "Render the card as a link.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Card Props",
+  "type": "object"
+}

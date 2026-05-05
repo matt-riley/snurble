@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Dialog id.",
+      "type": "string"
+    },
+    "open": {
+      "description": "Open on initial load.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "title": {
+      "description": "Dialog title.",
+      "type": "string",
+      "default": "Command menu"
+    },
+    "placeholder": {
+      "description": "Search input placeholder.",
+      "type": "string",
+      "default": "Type a command…"
+    },
+    "groups": {
+      "description": "Grouped command items.",
+      "type": "string"
+    },
+    "emptyText": {
+      "description": "Empty state text.",
+      "type": "string",
+      "default": "No commands found."
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "CommandMenu Props",
+  "type": "object"
+}

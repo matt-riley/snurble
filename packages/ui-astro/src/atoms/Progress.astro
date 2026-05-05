@@ -1,0 +1,127 @@
+---
+interface Props {
+  value?: number;
+  max?: number;
+  label?: string;
+  showValue?: boolean;
+  variant?: "default" | "success" | "warning" | "danger";
+  class?: string;
+}
+
+const {
+  value,
+  max = 100,
+  label,
+  showValue = false,
+  variant = "default",
+  class: className,
+} = Astro.props;
+const isDeterminate = typeof value === "number";
+const normalizedValue = isDeterminate ? Math.min(Math.max(value, 0), max) : undefined;
+const percent = isDeterminate && max > 0 ? Math.round((normalizedValue / max) * 100) : undefined;
+---
+
+<div class:list={["snurble-progress", `snurble-progress--${variant}`, className]}>
+  {(label || showValue) && (
+    <div class="snurble-progress__meta">
+      {label && <span class="snurble-progress__label">{label}</span>}
+      {showValue && typeof percent === "number" && <span class="snurble-progress__value">{percent}%</span>}
+    </div>
+  )}
+  <div
+    class:list={["snurble-progress__track", !isDeterminate && "snurble-progress__track--indeterminate"]}
+    role="progressbar"
+    aria-label={label}
+    aria-valuemin={isDeterminate ? 0 : undefined}
+    aria-valuemax={isDeterminate ? max : undefined}
+    aria-valuenow={normalizedValue}
+  >
+    <span class="snurble-progress__bar" style={isDeterminate ? `width: ${percent}%;` : undefined} />
+  </div>
+</div>
+
+<style>
+  .snurble-progress {
+    --snurble-progress-color: var(--snurble-brand-primary);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-2);
+    color: var(--snurble-text);
+  }
+
+  .snurble-progress--success {
+    --snurble-progress-color: var(--snurble-accent-success);
+  }
+
+  .snurble-progress--warning {
+    --snurble-progress-color: var(--snurble-accent-warning);
+  }
+
+  .snurble-progress--danger {
+    --snurble-progress-color: var(--snurble-accent-danger);
+  }
+
+  .snurble-progress__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--snurble-space-3);
+    font-size: 0.875rem;
+  }
+
+  .snurble-progress__label {
+    font-weight: 600;
+  }
+
+  .snurble-progress__value {
+    color: var(--snurble-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .snurble-progress__track {
+    position: relative;
+    height: 0.625rem;
+    overflow: hidden;
+    background: var(--snurble-surface-badge);
+    border-radius: var(--snurble-radius-full);
+  }
+
+  .snurble-progress__bar {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 0;
+    background: var(--snurble-progress-color);
+    border-radius: inherit;
+    transition: width var(--snurble-duration-slow) var(--snurble-ease-soft);
+  }
+
+  .snurble-progress__track--indeterminate .snurble-progress__bar {
+    width: 35%;
+    animation: snurble-progress-indeterminate 1.2s ease-in-out infinite;
+  }
+
+  html[data-focus-mode="true"] .snurble-progress__track--indeterminate .snurble-progress__bar {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-progress__bar {
+      transition: none;
+    }
+
+    .snurble-progress__track--indeterminate .snurble-progress__bar {
+      animation: none;
+    }
+  }
+
+  @keyframes snurble-progress-indeterminate {
+    from {
+      transform: translateX(-120%);
+    }
+    to {
+      transform: translateX(320%);
+    }
+  }
+</style>

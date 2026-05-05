@@ -28,12 +28,19 @@ export interface MenuItem {
 export interface Props {
   id?: string;
   open?: boolean;
+  triggerId?: string;
   items: MenuItem[];
   onSelect?: (item: MenuItem) => void;
   class?: string;
 }
 
-const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items = [], class: className } = Astro.props;
+const {
+  id = `menu-${Math.random().toString(36).slice(2)}`,
+  open = false,
+  triggerId,
+  items = [],
+  class: className,
+} = Astro.props;
 ---
 
 <div
@@ -44,6 +51,7 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
   ]}
   data-component="dropdown-menu"
   data-open={open}
+  data-trigger-id={triggerId}
   role="menu"
   aria-orientation="vertical"
 >
@@ -73,7 +81,7 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
     opacity: 0;
     pointer-events: none;
     animation: snurble-menu-exit 150ms ease-out forwards;
-    z-index: 999;
+    z-index: var(--snurble-z-index-dropdown);
   }
 
   .snurble-dropdown-menu[data-open='true'] {
@@ -91,8 +99,8 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
   .snurble-dropdown-menu-box {
     background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border-card);
-    border-radius: 6px;
-    box-shadow: var(--snurble-shadow-md);
+    border-radius: var(--snurble-radius-lg);
+    box-shadow: var(--snurble-shadow-spatial-floating);
     overflow: hidden;
     padding: 4px 0;
   }
@@ -116,7 +124,7 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
   }
 
   .snurble-dropdown-menu-item:hover {
-    background: var(--snurble-surface-hover, rgba(255, 255, 255, 0.1));
+    background: var(--snurble-surface-badge);
   }
 
   .snurble-dropdown-menu-item:focus-visible {
@@ -164,12 +172,30 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
 
 <script>
   const initDropdownMenu = (el: Element) => {
+    if (!(el instanceof HTMLElement) || el.dataset.snurbleDropdownBound === 'true') {
+      return;
+    }
+
+    el.dataset.snurbleDropdownBound = 'true';
     const items = [...el.querySelectorAll('[role="menuitem"]')] as HTMLButtonElement[];
+    const trigger = el.dataset.triggerId ? document.querySelector(`#${CSS.escape(el.dataset.triggerId)}`) : null;
     let currentIndex = -1;
+
+    const setOpen = (open: boolean, focusTrigger = false) => {
+      el.dataset.open = open ? 'true' : 'false';
+      trigger?.setAttribute('aria-expanded', open.toString());
+      if (focusTrigger) {
+        trigger?.focus();
+      }
+    };
 
     const selectItem = (item: HTMLButtonElement) => {
       const { value } = item.dataset;
-      el.dataset.open = 'false';
+      el.dispatchEvent(new CustomEvent('snurble-dropdown-select', {
+        bubbles: true,
+        detail: { value },
+      }));
+      setOpen(false, true);
     };
 
     const focusItem = (rawIndex: number) => {
@@ -225,12 +251,25 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
         }
         case 'Escape': {
           e.preventDefault();
-          el.dataset.open = 'false';
+          setOpen(false, true);
           break;
         }
         default:
       }
     };
+
+    if (trigger) {
+      trigger.setAttribute('aria-haspopup', 'menu');
+      trigger.setAttribute('aria-controls', el.id);
+      trigger.setAttribute('aria-expanded', el.dataset.open === 'true' ? 'true' : 'false');
+      trigger.addEventListener('click', () => {
+        const shouldOpen = el.dataset.open !== 'true';
+        setOpen(shouldOpen);
+        if (shouldOpen) {
+          focusItem(0);
+        }
+      });
+    }
 
     // Click to select
     for (const item of items) {
@@ -248,8 +287,13 @@ const { id = `menu-${Math.random().toString(36).slice(2)}`, open = false, items 
   };
 
   // Initialize all dropdowns
-  const menus = document.querySelectorAll('[data-component="dropdown-menu"]');
-  for (const menu of menus) {
-    initDropdownMenu(menu);
-  }
+  const initDropdownMenus = () => {
+    const menus = document.querySelectorAll('[data-component="dropdown-menu"]');
+    for (const menu of menus) {
+      initDropdownMenu(menu);
+    }
+  };
+
+  initDropdownMenus();
+  document.addEventListener('astro:page-load', initDropdownMenus);
 </script>

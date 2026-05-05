@@ -1,0 +1,140 @@
+---
+interface Props {
+  src?: string;
+  alt?: string;
+  name?: string;
+  initials?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+  shape?: "circle" | "rounded" | "square";
+  status?: "online" | "busy" | "away" | "offline";
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  name,
+  initials,
+  size = "md",
+  shape = "circle",
+  status,
+  class: className,
+} = Astro.props;
+const fallbackInitials =
+  initials ??
+  name
+    ?.split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") ??
+  "?";
+const imageAlt = alt ?? name ?? "";
+---
+
+<span
+  class:list={[
+    "snurble-avatar",
+    `snurble-avatar--${size}`,
+    `snurble-avatar--${shape}`,
+    className,
+  ]}
+  aria-label={src ? undefined : name}
+>
+  {src ? (
+    <img src={src} alt={imageAlt} class="snurble-avatar__image" />
+  ) : (
+    <span class="snurble-avatar__fallback" aria-hidden={name ? "true" : undefined}>{fallbackInitials}</span>
+  )}
+  {status && <span class:list={["snurble-avatar__status", `snurble-avatar__status--${status}`]} aria-hidden="true" />}
+</span>
+
+<style>
+  .snurble-avatar {
+    --snurble-avatar-size: 2.5rem;
+    --snurble-avatar-radius: var(--snurble-radius-full);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--snurble-avatar-size);
+    height: var(--snurble-avatar-size);
+    overflow: visible;
+    color: var(--snurble-action-primary-text);
+    background: var(--snurble-brand-primary);
+    border-radius: var(--snurble-avatar-radius);
+    font-family: var(--snurble-font-body);
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: var(--snurble-shadow-spatial-resting);
+  }
+
+  .snurble-avatar--sm {
+    --snurble-avatar-size: 2rem;
+    font-size: 0.75rem;
+  }
+
+  .snurble-avatar--md {
+    font-size: 0.875rem;
+  }
+
+  .snurble-avatar--lg {
+    --snurble-avatar-size: 3rem;
+    font-size: 1rem;
+  }
+
+  .snurble-avatar--xl {
+    --snurble-avatar-size: 4rem;
+    font-size: 1.25rem;
+  }
+
+  .snurble-avatar--rounded {
+    --snurble-avatar-radius: var(--snurble-radius-lg);
+  }
+
+  .snurble-avatar--square {
+    --snurble-avatar-radius: var(--snurble-radius-md);
+  }
+
+  .snurble-avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  .snurble-avatar__fallback {
+    display: inline-flex;
+  }
+
+  .snurble-avatar__status {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 28%;
+    height: 28%;
+    min-width: 0.625rem;
+    min-height: 0.625rem;
+    border: 2px solid var(--snurble-surface-card);
+    border-radius: var(--snurble-radius-full);
+    background: var(--snurble-text-muted);
+  }
+
+  .snurble-avatar__status--online {
+    background: var(--snurble-accent-success);
+  }
+
+  .snurble-avatar__status--busy {
+    background: var(--snurble-accent-danger);
+  }
+
+  .snurble-avatar__status--away {
+    background: var(--snurble-accent-warning);
+  }
+
+  .snurble-avatar__status--offline {
+    background: var(--snurble-text-muted);
+  }
+</style>

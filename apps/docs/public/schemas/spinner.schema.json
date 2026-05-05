@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "size": {
+      "description": "Spinner size.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "label": {
+      "description": "Accessible loading label.",
+      "type": "string"
+    },
+    "ariaHidden": {
+      "description": "Force decorative mode.",
+      "type": "boolean"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Spinner Props",
+  "type": "object"
+}

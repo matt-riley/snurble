@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "id": {
+      "description": "Input id.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Input name.",
+      "type": "string"
+    },
+    "value": {
+      "description": "Initial value.",
+      "type": "string"
+    },
+    "placeholder": {
+      "description": "Placeholder text.",
+      "type": "string",
+      "default": "Search"
+    },
+    "label": {
+      "description": "Visible label text.",
+      "type": "string",
+      "default": "Search"
+    },
+    "clearable": {
+      "description": "Show a clear button.",
+      "type": "boolean",
+      "default": "true"
+    },
+    "size": {
+      "description": "Input size.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "disabled": {
+      "description": "Disable the input.",
+      "type": "boolean",
+      "default": "false"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["id"],
+  "title": "SearchInput Props",
+  "type": "object"
+}

@@ -1,0 +1,194 @@
+---
+interface Props {
+  id: string;
+  name?: string;
+  value?: string;
+  placeholder?: string;
+  label?: string;
+  clearable?: boolean;
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  name = id,
+  value,
+  placeholder = "Search",
+  label = "Search",
+  clearable = true,
+  size = "md",
+  disabled = false,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={["snurble-search-input", `snurble-search-input--${size}`, className]} data-component="search-input">
+  <label class="snurble-search-input__label" for={id}>{label}</label>
+  <div class="snurble-search-input__group" data-disabled={disabled ? "true" : undefined}>
+    <span class="snurble-search-input__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+    </span>
+    <input
+      id={id}
+      name={name}
+      type="search"
+      value={value}
+      placeholder={placeholder}
+      disabled={disabled}
+      class="snurble-search-input__control"
+    />
+    {clearable && (
+      <button class="snurble-search-input__clear" type="button" aria-label="Clear search" data-clear-search disabled={disabled}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    )}
+  </div>
+</div>
+
+<style>
+  .snurble-search-input {
+    --snurble-search-input-height: 2.75rem;
+    --snurble-search-input-padding: var(--snurble-space-3);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--snurble-space-2);
+    width: 100%;
+  }
+
+  .snurble-search-input--sm {
+    --snurble-search-input-height: 2.25rem;
+    --snurble-search-input-padding: var(--snurble-space-2);
+    font-size: 0.875rem;
+  }
+
+  .snurble-search-input--lg {
+    --snurble-search-input-height: 3.25rem;
+    --snurble-search-input-padding: var(--snurble-space-4);
+    font-size: 1.125rem;
+  }
+
+  .snurble-search-input__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--snurble-text);
+  }
+
+  .snurble-search-input__group {
+    display: flex;
+    align-items: center;
+    min-height: var(--snurble-search-input-height);
+    color: var(--snurble-text);
+    background: var(--snurble-surface-card);
+    border: 1px solid var(--snurble-border-card);
+    border-radius: var(--snurble-radius-full);
+    transition:
+      border-color 150ms ease-out,
+      box-shadow 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+
+  .snurble-search-input__group:focus-within {
+    border-color: var(--snurble-brand-primary);
+    box-shadow: 0 0 0 2px var(--snurble-focus-ring);
+  }
+
+  .snurble-search-input__group[data-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .snurble-search-input__icon,
+  .snurble-search-input__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: var(--snurble-search-input-height);
+    height: var(--snurble-search-input-height);
+    color: var(--snurble-text-muted);
+  }
+
+  .snurble-search-input__icon svg,
+  .snurble-search-input__clear svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .snurble-search-input__control {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: var(--snurble-search-input-height);
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    outline: none;
+  }
+
+  .snurble-search-input__control::placeholder {
+    color: var(--snurble-text-muted);
+  }
+
+  .snurble-search-input__clear {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: var(--snurble-radius-full);
+    cursor: pointer;
+    transition:
+      color 150ms ease-out,
+      background 150ms ease-out;
+  }
+
+  .snurble-search-input__clear:hover:not(:disabled) {
+    color: var(--snurble-text);
+    background: var(--snurble-surface-badge);
+  }
+
+  .snurble-search-input__clear:focus-visible {
+    outline: 2px solid var(--snurble-focus-ring);
+    outline-offset: -2px;
+  }
+</style>
+
+<script>
+  const initSearchInput = (el: Element) => {
+    if (!(el instanceof HTMLElement) || el.dataset.snurbleSearchBound === "true") {
+      return;
+    }
+
+    el.dataset.snurbleSearchBound = "true";
+    const input = el.querySelector('input[type="search"]');
+    const clearButton = el.querySelector("[data-clear-search]");
+
+    if (!(input instanceof HTMLInputElement) || !(clearButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    clearButton.addEventListener("click", () => {
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new CustomEvent("snurble-search-clear", { bubbles: true }));
+      input.focus();
+    });
+  };
+
+  const initSearchInputs = () => {
+    for (const el of document.querySelectorAll('[data-component="search-input"]')) {
+      initSearchInput(el);
+    }
+  };
+
+  initSearchInputs();
+  document.addEventListener("astro:page-load", initSearchInputs);
+</script>

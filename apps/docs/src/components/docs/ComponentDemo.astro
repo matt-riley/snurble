@@ -43,12 +43,16 @@ import {
   SkillIconList,
   SocialLinks,
   SortIndicator,
+  Sparkle,
+  SegmentedControl,
   Stack,
   StatCard,
   Switch,
   TableOfContents,
   Tabs,
   Textarea,
+  ThemeToggle,
+  Toast,
   Tooltip,
 } from "@matt-riley/ui-astro";
 
@@ -552,6 +556,68 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   )}
 
   {entry.name === "SortIndicator" && <SortIndicator label="Updated" sortOrder="desc" />}
+
+  {entry.name === "ThemeToggle" && (
+    <div class="flex items-center gap-4">
+      <ThemeToggle />
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        Toggle the switch to see the track and icon animations.
+      </p>
+    </div>
+  )}
+
+  {entry.name === "SegmentedControl" && (
+    <SegmentedControl
+      name="demo-view"
+      options={[
+        { label: "List", value: "list" },
+        { label: "Grid", value: "grid" },
+        { label: "Gallery", value: "gallery" },
+      ]}
+      defaultValue="grid"
+    />
+  )}
+
+  {entry.name === "Sparkle" && (
+    <div class="flex items-center gap-8 py-4">
+      <Sparkle size="sm" />
+      <Sparkle size="md" />
+      <Sparkle size="lg" />
+      <Sparkle size="md" color="var(--snurble-brand-primary)" />
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        Sparkles pop once upon rendering. Refresh to see them again!
+      </p>
+    </div>
+  )}
+
+  {entry.name === "Toast" && (
+    <div class="flex flex-col gap-4">
+      <div class="flex gap-3">
+        <Button
+          variant="secondary"
+          size="sm"
+          data-toast-trigger
+          data-toast-message="Deployment successful!"
+          data-toast-variant="success"
+        >
+          Success Toast
+        </Button>
+        <Button
+          variant="secondary"
+          size="sm"
+          data-toast-trigger
+          data-toast-message="Something went wrong."
+          data-toast-variant="error"
+        >
+          Error Toast
+        </Button>
+      </div>
+      <p class="text-sm text-[var(--snurble-text-muted)]">
+        Click the buttons to trigger non-blocking notifications.
+      </p>
+      <Toast position="bottom-right" />
+    </div>
+  )}
 </Stack>
 
 <style>
@@ -761,6 +827,30 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
   for (const demo of document.querySelectorAll("[data-popover-docs-demo]")) {
     if (demo instanceof HTMLElement) {
       syncPopoverDemo(demo);
+    }
+  }
+
+  // Toast triggers
+  for (const button of document.querySelectorAll("[data-toast-trigger]")) {
+    if (button instanceof HTMLButtonElement) {
+      button.addEventListener("click", () => {
+        const message = button.dataset.toastMessage || "Hello!";
+        const variant = (button.dataset.toastVariant as
+          | "info"
+          | "success"
+          | "warning"
+          | "error") || "info";
+
+        const snurbleWindow = window as unknown as {
+          snurbleToast?: {
+            show: (options: { message: string; variant?: string }) => void;
+          };
+        };
+
+        if (snurbleWindow.snurbleToast) {
+          snurbleWindow.snurbleToast.show({ message, variant });
+        }
+      });
     }
   }
 </script>

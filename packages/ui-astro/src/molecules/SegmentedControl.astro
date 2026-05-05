@@ -1,0 +1,144 @@
+---
+interface Option {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  name: string;
+  options: Option[];
+  defaultValue?: string;
+  class?: string;
+}
+
+const { name, options, defaultValue, class: className } = Astro.props;
+---
+
+<div class:list={["snurble-segmented-control", className]} data-name={name}>
+  <div class="snurble-segmented-control__track">
+    <div class="snurble-segmented-control__thumb"></div>
+    {
+      options.map((option) => (
+        <label class="snurble-segmented-control__item">
+          <input
+            type="radio"
+            name={name}
+            value={option.value}
+            checked={option.value === defaultValue}
+            class="snurble-segmented-control__input"
+          />
+          <span class="snurble-segmented-control__label">{option.label}</span>
+        </label>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const initSegmentedControl = () => {
+    const controls = document.querySelectorAll(".snurble-segmented-control");
+
+    for (const control of controls) {
+      const track = control.querySelector(".snurble-segmented-control__track") as HTMLElement;
+      const thumb = control.querySelector(".snurble-segmented-control__thumb") as HTMLElement;
+      const inputs = control.querySelectorAll(".snurble-segmented-control__input") as NodeListOf<HTMLInputElement>;
+
+      const updateThumb = (activeInput: HTMLInputElement) => {
+        const parent = activeInput.closest(".snurble-segmented-control__item") as HTMLElement;
+        if (parent && thumb) {
+          thumb.style.width = `${parent.offsetWidth}px`;
+          thumb.style.height = `${parent.offsetHeight}px`;
+          thumb.style.transform = `translateX(${parent.offsetLeft - track.offsetLeft}px)`;
+        }
+      };
+
+      for (const input of inputs) {
+        if (input.checked) {
+          updateThumb(input);
+        }
+        input.addEventListener("change", (e) => {
+          updateThumb(e.target as HTMLInputElement);
+        });
+      }
+
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        const checked = control.querySelector(".snurble-segmented-control__input:checked") as HTMLInputElement;
+        if (checked) {
+          updateThumb(checked);
+        }
+      });
+    }
+  };
+
+  initSegmentedControl();
+  document.addEventListener("astro:after-swap", initSegmentedControl);
+</script>
+
+<style>
+  .snurble-segmented-control {
+    display: inline-flex;
+    padding: var(--snurble-space-1);
+    background-color: var(--snurble-border-card);
+    border-radius: 999px;
+    box-shadow: var(--snurble-shadow-spatial-resting) inset;
+  }
+
+  .snurble-segmented-control__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--snurble-space-1);
+  }
+
+  .snurble-segmented-control__thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--snurble-surface);
+    border-radius: 999px;
+    box-shadow: var(--snurble-shadow-spatial-resting);
+    transition:
+      transform var(--snurble-duration-base) var(--snurble-ease-spring),
+      width var(--snurble-duration-base) var(--snurble-ease-spring);
+    z-index: 1;
+  }
+
+  .snurble-segmented-control__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--snurble-space-2) var(--snurble-space-4);
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .snurble-segmented-control__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .snurble-segmented-control__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--snurble-text-muted);
+    transition: color var(--snurble-duration-fast) var(--snurble-ease-soft);
+    user-select: none;
+  }
+
+  .snurble-segmented-control__input:checked + .snurble-segmented-control__label {
+    color: var(--snurble-text);
+  }
+
+  .snurble-segmented-control__item:hover .snurble-segmented-control__label {
+    color: var(--snurble-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-segmented-control__thumb {
+      transition: none;
+    }
+  }
+</style>

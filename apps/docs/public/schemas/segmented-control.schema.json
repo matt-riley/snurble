@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "name": {
+      "description": "The name of the radio group.",
+      "type": "string"
+    },
+    "options": {
+      "description": "The list of options.",
+      "type": "string"
+    },
+    "defaultValue": {
+      "description": "The initially selected value.",
+      "type": "string"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "required": ["name", "options"],
+  "title": "SegmentedControl Props",
+  "type": "object"
+}

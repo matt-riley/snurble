@@ -9,13 +9,14 @@
   --snurble-space-6: calc(2rem * var(--snurble-density-multiplier, 1));
   --snurble-space-7: calc(3rem * var(--snurble-density-multiplier, 1));
   --snurble-space-8: calc(4rem * var(--snurble-density-multiplier, 1));
-  --snurble-font-display: "Permanent Marker", "Segoe UI", sans-serif;
+  --snurble-font-display: "Montserrat", "Segoe UI", sans-serif;
+  --snurble-font-marker: "Permanent Marker", "Segoe UI", sans-serif;
   --snurble-font-title: "Montserrat", "Segoe UI", sans-serif;
   --snurble-font-body: "Montserrat", "Segoe UI", sans-serif;
   --snurble-font-code: "IBM Plex Mono", "SFMono-Regular", monospace;
   --snurble-type-display-size: 3rem;
   --snurble-type-display-line-height: 1;
-  --snurble-type-display-weight: 400;
+  --snurble-type-display-weight: 900;
   --snurble-type-title-size: 1.5rem;
   --snurble-type-title-line-height: 1.2;
   --snurble-type-title-weight: 700;

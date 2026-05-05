@@ -1,13 +1,21 @@
 ---
 interface Props {
   variant?: "default" | "success" | "warning" | "danger" | "info";
+  pulse?: boolean;
   class?: string;
 }
 
-const { variant = "default", class: className } = Astro.props;
+const { variant = "default", pulse = false, class: className } = Astro.props;
 ---
 
-<span class:list={["snurble-badge", `snurble-badge--${variant}`, className]}>
+<span
+  class:list={[
+    "snurble-badge",
+    `snurble-badge--${variant}`,
+    pulse && "snurble-badge--pulse",
+    className,
+  ]}
+>
   <slot />
 </span>
 
@@ -49,5 +57,9 @@ const { variant = "default", class: className } = Astro.props;
   .snurble-badge--info {
     background-color: var(--snurble-accent);
     color: var(--snurble-badge-on-fill);
+  }
+
+  .snurble-badge--pulse {
+    animation: snurble-pulse 3s ease-in-out infinite;
   }
 </style>

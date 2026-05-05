@@ -181,8 +181,123 @@
 }
 
 /* Latte theme adjustments for accessibility (WCAG AA) */
+:root[data-theme="light"] {
+  /* Use subtext0 for tertiary to meet 4.5:1 contrast in Latte */
+  --snurble-text-tertiary: hsl(var(--snurble-palette-subtext0));
+
+  /* Darker Peach for brand primary to meet 3:1 contrast for large text in Latte */
+  --snurble-brand-primary: hsl(25 88% 45%);
+  --snurble-on-accent: hsl(0 0% 100%);
+  --snurble-on-warning: hsl(240 21% 9%);
+  --snurble-on-strong: hsl(0 0% 100%);
+  --snurble-badge-fill-success: var(--snurble-accent-success);
+  --snurble-badge-on-success: hsl(240 21% 9%);
+  --snurble-badge-fill-warning: hsl(var(--snurble-palette-peach));
+  --snurble-badge-on-fill: hsl(0 0% 100%);
+  --snurble-badge-on-warning: hsl(240 21% 9%);
+  --snurble-on-brand-primary: hsl(240 21% 9%);
+  --snurble-switch-thumb: hsl(0 0% 100%);
+
+  --snurble-border: hsl(228 12% 65% / 0.45);
+  --snurble-border-strong: hsl(231 10% 59% / 0.75);
+  --snurble-selection: hsl(220 91% 54% / 0.2);
+
+  --snurble-action-primary: linear-gradient(
+    135deg,
+    hsl(245 58% 53%) 0%,
+    hsl(263 80% 61%) 52%,
+    hsl(18 88% 41%) 100%
+  );
+  --snurble-action-primary-hover: linear-gradient(
+    135deg,
+    hsl(244 54% 42%) 0%,
+    hsl(263 69% 50%) 46%,
+    hsl(16 80% 33%) 100%
+  );
+  --snurble-action-primary-active: linear-gradient(
+    135deg,
+    hsl(242 47% 35%) 0%,
+    hsl(273 66% 32%) 48%,
+    hsl(15 75% 28%) 100%
+  );
+  --snurble-action-primary-selected: linear-gradient(
+    135deg,
+    hsl(15 75% 28%) 0%,
+    hsl(335 88% 42%) 48%,
+    hsl(245 58% 53%) 100%
+  );
+  --snurble-action-primary-text: hsl(0 0% 100%);
+  --snurble-action-primary-border: hsl(245 58% 53% / 0.72);
+  --snurble-action-primary-border-hover: hsl(263 80% 61% / 0.88);
+  --snurble-action-primary-border-selected: hsl(18 88% 41% / 0.85);
+  --snurble-action-secondary: linear-gradient(
+    135deg,
+    hsl(0 0% 100%) 0%,
+    hsl(227 100% 97%) 58%,
+    hsl(34 100% 94%) 100%
+  );
+  --snurble-action-secondary-hover: linear-gradient(
+    135deg,
+    hsl(227 100% 97%) 0%,
+    hsl(227 100% 94%) 52%,
+    hsl(36 100% 92%) 100%
+  );
+  --snurble-action-secondary-active: linear-gradient(
+    135deg,
+    hsl(214 95% 93%) 0%,
+    hsl(231 93% 89%) 52%,
+    hsl(33 96% 83%) 100%
+  );
+  --snurble-action-secondary-selected: linear-gradient(
+    135deg,
+    hsl(245 58% 53%) 0%,
+    hsl(175 77% 26%) 100%
+  );
+  --snurble-action-secondary-text: hsl(var(--snurble-palette-text));
+  --snurble-action-secondary-border: hsl(237 83% 67% / 0.34);
+  --snurble-action-secondary-border-hover: hsl(237 83% 67% / 0.62);
+  --snurble-action-secondary-border-selected: hsl(175 77% 26% / 0.74);
+  --snurble-action-secondary-selected-text: hsl(0 0% 100%);
+  --snurble-action-danger: linear-gradient(
+    135deg,
+    hsl(347 87% 44%),
+    hsl(347 88% 37%)
+  );
+  --snurble-action-danger-hover: linear-gradient(
+    135deg,
+    hsl(347 88% 37%),
+    hsl(344 87% 34%)
+  );
+  --snurble-action-danger-active: linear-gradient(
+    135deg,
+    hsl(348 90% 31%),
+    hsl(341 83% 30%)
+  );
+  --snurble-action-danger-selected: linear-gradient(
+    135deg,
+    hsl(344 87% 34%),
+    hsl(18 88% 41%)
+  );
+  --snurble-action-danger-text: hsl(0 0% 100%);
+  --snurble-action-danger-border: hsl(347 87% 44% / 0.5);
+  --snurble-action-danger-border-hover: hsl(347 87% 44% / 0.72);
+  --snurble-action-danger-border-selected: hsl(18 88% 41% / 0.72);
+  --snurble-action-shadow:
+    0 0.75rem 1.75rem hsl(233 21% 35% / 0.18),
+    0 0 0 1px hsl(0 0% 100% / 0.75) inset;
+  --snurble-action-shadow-hover:
+    0 1rem 2.35rem hsl(233 21% 35% / 0.28), 0 0 1.5rem hsl(237 83% 67% / 0.18),
+    0 0 0 1px hsl(0 0% 100% / 0.92) inset;
+  --snurble-action-shadow-active:
+    0 0.45rem 1rem hsl(233 21% 35% / 0.2),
+    0 0.25rem 0.75rem hsl(243 47% 34% / 0.16) inset;
+  --snurble-action-shadow-selected:
+    0 1rem 2.6rem hsl(243 47% 34% / 0.28), 0 0 1.85rem hsl(22 88% 48% / 0.2),
+    0 0 0 1px hsl(0 0% 100% / 0.88) inset;
+}
+
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     /* Use subtext0 for tertiary to meet 4.5:1 contrast in Latte */
     --snurble-text-tertiary: hsl(var(--snurble-palette-subtext0));
 

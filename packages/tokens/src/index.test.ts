@@ -105,7 +105,8 @@ describe("design token package", () => {
     expect(typography.families).toStrictEqual({
       body: '"Montserrat", "Segoe UI", sans-serif',
       code: '"IBM Plex Mono", "SFMono-Regular", monospace',
-      display: '"Permanent Marker", "Segoe UI", sans-serif',
+      display: '"Montserrat", "Segoe UI", sans-serif',
+      marker: '"Permanent Marker", "Segoe UI", sans-serif',
       title: '"Montserrat", "Segoe UI", sans-serif',
     });
     expect(typography.styles.display.size).toBe("3rem");

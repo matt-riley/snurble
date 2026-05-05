@@ -30,8 +30,38 @@
 }
 
 /* Day Macchiato (Tokyo Night + Catppuccin Light) */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --snurble-palette-rosewater: 11 59% 67%;
+  --snurble-palette-flamingo: 0 59% 67%;
+  --snurble-palette-pink: 317 72% 69%;
+  --snurble-palette-mauve: 266 85% 58%; /* Saturated purple */
+  --snurble-palette-red: 347 87% 44%; /* Saturated red */
+  --snurble-palette-maroon: 355 76% 59%;
+  --snurble-palette-peach: 22 99% 52%; /* Saturated orange */
+  --snurble-palette-yellow: 41 77% 49%;
+  --snurble-palette-green: 110 58% 40%; /* Saturated green */
+  --snurble-palette-teal: 183 74% 35%; /* Saturated teal */
+  --snurble-palette-sky: 197 96% 46%;
+  --snurble-palette-sapphire: 189 70% 42%;
+  --snurble-palette-blue: 220 91% 54%; /* Saturated blue */
+  --snurble-palette-lavender: 231 97% 72%;
+  --snurble-palette-text: 237 18% 36%; /* Darker blue text */
+  --snurble-palette-subtext1: 233 12% 42%;
+  --snurble-palette-subtext0: 231 10% 48%;
+  --snurble-palette-overlay2: 228 9% 53%;
+  --snurble-palette-overlay1: 230 10% 59%;
+  --snurble-palette-overlay0: 228 11% 65%;
+  --snurble-palette-surface2: 228 14% 71%;
+  --snurble-palette-surface1: 225 18% 77%;
+  --snurble-palette-surface0: 223 20% 83%;
+  --snurble-palette-base: 233 13% 89%; /* Tokyo Night Day BG */
+  --snurble-palette-mantle: 220 23% 92%;
+  --snurble-palette-crust: 220 20% 88%;
+}
+
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     color-scheme: light;
     --snurble-palette-rosewater: 11 59% 67%;
     --snurble-palette-flamingo: 0 59% 67%;

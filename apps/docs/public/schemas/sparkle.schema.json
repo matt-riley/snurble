@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "size": {
+      "description": "The size of the sparkle.",
+      "enum": ["sm", "md", "lg"],
+      "default": "md"
+    },
+    "color": {
+      "description": "The color of the sparkle.",
+      "type": "string",
+      "default": "var(--snurble-palette-yellow)"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Sparkle Props",
+  "type": "object"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "position": {
+      "description": "The screen position for toasts.",
+      "enum": ["top-right", "top-left", "bottom-right", "bottom-left"],
+      "default": "bottom-right"
+    },
+    "class": {
+      "description": "Additional CSS classes.",
+      "type": "string"
+    }
+  },
+  "title": "Toast Props",
+  "type": "object"
+}

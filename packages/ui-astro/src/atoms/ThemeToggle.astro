@@ -1,0 +1,203 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+  id="snurble-theme-toggle"
+  class:list={["snurble-theme-toggle", className]}
+  aria-label="Toggle dark mode"
+  type="button"
+>
+  <span class="snurble-theme-toggle__track">
+    <span class="snurble-theme-toggle__thumb"></span>
+    <span class="snurble-theme-toggle__icon snurble-theme-toggle__icon--light">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="m4.93 4.93 1.41 1.41"></path>
+        <path d="m17.66 17.66 1.41 1.41"></path>
+        <path d="M2 12h2"></path>
+        <path d="M22 12h2"></path>
+        <path d="m4.93 19.07 1.41-1.41"></path>
+        <path d="m17.66 6.34 1.41-1.41"></path>
+      </svg>
+    </span>
+    <span class="snurble-theme-toggle__icon snurble-theme-toggle__icon--dark">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+    </span>
+  </span>
+</button>
+
+<script>
+  const getTheme = () => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const initTheme = () => {
+    const toggle = document.querySelector("#snurble-theme-toggle");
+    if (!toggle) {
+      return;
+    }
+
+    const setTheme = (theme: string) => {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem("theme", theme);
+      toggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+    };
+
+    // Initial state
+    const currentTheme = getTheme();
+    if (currentTheme) {
+      setTheme(currentTheme);
+    }
+
+    toggle.addEventListener("click", () => {
+      const isDark = document.documentElement.dataset.theme === "dark";
+      setTheme(isDark ? "light" : "dark");
+    });
+  };
+
+  // Run on initial load
+  initTheme();
+
+  // Re-run on view transitions if applicable
+  document.addEventListener("astro:after-swap", initTheme);
+</script>
+
+
+<style>
+  .snurble-theme-toggle {
+    --toggle-width: 3.5rem;
+    --toggle-height: 2rem;
+    --toggle-padding: 0.25rem;
+    --thumb-size: calc(var(--toggle-height) - (var(--toggle-padding) * 2));
+
+    position: relative;
+    display: inline-flex;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: opacity 150ms ease-out;
+    outline-offset: 4px;
+  }
+
+  .snurble-theme-toggle:hover {
+    opacity: 0.9;
+  }
+
+  .snurble-theme-toggle:focus-visible {
+    outline: 2px solid var(--snurble-accent);
+  }
+
+  .snurble-theme-toggle__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    background-color: var(--snurble-border-card);
+    border-radius: 999px;
+    padding: var(--toggle-padding);
+    transition: background-color 300ms ease-out;
+  }
+
+  .snurble-theme-toggle__thumb {
+    position: absolute;
+    top: var(--toggle-padding);
+    left: var(--toggle-padding);
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    background-color: var(--snurble-surface);
+    border-radius: 50%;
+    box-shadow: var(--snurble-shadow-spatial-resting);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  :root[data-theme="dark"] .snurble-theme-toggle__thumb {
+    transform: translateX(calc(var(--toggle-width) - var(--thumb-size) - (var(--toggle-padding) * 2)));
+  }
+
+  .snurble-theme-toggle__icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    z-index: 2;
+    transition: color 300ms ease-out, transform 300ms ease-out;
+    color: var(--snurble-text-tertiary);
+  }
+
+  .snurble-theme-toggle__icon svg {
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Light theme active state (default or explicit) */
+  :root[data-theme="light"] .snurble-theme-toggle__icon--light {
+    color: hsl(var(--snurble-palette-yellow));
+  }
+  :root[data-theme="light"] .snurble-theme-toggle__icon--light svg {
+    transform: scale(1.1);
+  }
+
+  /* Dark theme active state */
+  :root[data-theme="dark"] .snurble-theme-toggle__icon--dark {
+    color: hsl(var(--snurble-palette-blue));
+  }
+  :root[data-theme="dark"] .snurble-theme-toggle__icon--dark svg {
+    transform: scale(1.1) rotate(-12deg);
+  }
+
+  /* Hover animations for icons */
+  .snurble-theme-toggle:hover .snurble-theme-toggle__icon svg {
+    transform: scale(1.15);
+  }
+  :root[data-theme="dark"] .snurble-theme-toggle:hover .snurble-theme-toggle__icon--dark svg {
+    transform: scale(1.15) rotate(-15deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-theme-toggle__track,
+    .snurble-theme-toggle__thumb,
+    .snurble-theme-toggle__icon,
+    .snurble-theme-toggle__icon svg {
+      transition: none;
+    }
+  }
+</style>

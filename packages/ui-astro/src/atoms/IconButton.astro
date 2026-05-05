@@ -64,12 +64,12 @@ const {
     cursor: pointer;
     box-shadow: var(--snurble-action-shadow);
     transition:
-      background 180ms ease-out,
-      border-color 150ms ease-out,
-      color 150ms ease-out,
-      transform 150ms ease-out,
-      box-shadow 150ms ease-out,
-      opacity 150ms ease-out;
+      background var(--snurble-duration-fast) var(--snurble-ease-soft),
+      border-color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring),
+      box-shadow var(--snurble-duration-slow) var(--snurble-ease-spring),
+      opacity var(--snurble-duration-fast) var(--snurble-ease-soft);
     outline-offset: 2px;
   }
 

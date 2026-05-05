@@ -10,6 +10,43 @@
   --snurble-shadow-lg:
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --snurble-transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --snurble-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --snurble-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --snurble-duration-fast: 150ms;
+  --snurble-duration-base: 250ms;
+  --snurble-duration-slow: 400ms;
+}
+
+@keyframes snurble-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes snurble-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes snurble-squish {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 [data-snurble-density="compact"] {
@@ -113,6 +150,10 @@ a:hover {
 }
 .snurble-animate-stagger > *:nth-child(n + 6) {
   animation-delay: 300ms;
+}
+
+.snurble-animate-float {
+  animation: snurble-float 3s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

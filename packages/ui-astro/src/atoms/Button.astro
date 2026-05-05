@@ -67,12 +67,12 @@ const {
     cursor: pointer;
     box-shadow: var(--snurble-action-shadow);
     transition:
-      background 180ms ease-out,
-      border-color 150ms ease-out,
-      color 150ms ease-out,
-      transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
-      opacity 150ms ease-out;
+      background var(--snurble-duration-fast) var(--snurble-ease-soft),
+      border-color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      color var(--snurble-duration-fast) var(--snurble-ease-soft),
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring),
+      box-shadow var(--snurble-duration-slow) var(--snurble-ease-spring),
+      opacity var(--snurble-duration-fast) var(--snurble-ease-soft);
     outline-offset: 2px;
   }
 
@@ -108,7 +108,7 @@ const {
     background: var(--snurble-button-background-active);
     border-color: var(--snurble-button-border-hover);
     box-shadow: var(--snurble-action-shadow-active);
-    transform: translateY(0px) scale(0.98);
+    transform: translateY(0px) scale(0.97);
   }
 
   .snurble-button--selected,

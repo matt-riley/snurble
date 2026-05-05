@@ -1,0 +1,139 @@
+---
+interface Props {
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  class?: string;
+}
+
+const { position = "bottom-right", class: className } = Astro.props;
+
+const positionClasses = {
+  "bottom-left": "bottom-6 left-6",
+  "bottom-right": "bottom-6 right-6",
+  "top-left": "top-6 left-6",
+  "top-right": "top-6 right-6",
+};
+---
+
+<div
+  id="snurble-toast-container"
+  class:list={[
+    "fixed flex flex-col gap-3 z-[100] pointer-events-none",
+    positionClasses[position],
+    className,
+  ]}
+>
+</div>
+
+<script>
+  interface ToastOptions {
+    message: string;
+    variant?: "info" | "success" | "warning" | "error";
+    duration?: number;
+  }
+
+  class ToastManager {
+    private container: HTMLElement | null = null;
+
+    public constructor() {
+      this.container = document.querySelector("#snurble-toast-container");
+    }
+
+    public show({ message, variant = "info", duration = 3000 }: ToastOptions): void {
+      if (!this.container) {
+        return;
+      }
+
+      const toast = document.createElement("div");
+      toast.className = `snurble-toast snurble-toast--${variant} pointer-events-auto`;
+      toast.innerHTML = `
+        <div class="snurble-toast__content">
+          ${message}
+        </div>
+      `;
+
+      this.container.append(toast);
+
+      // Trigger entrance animation
+      requestAnimationFrame(() => {
+        toast.classList.add("snurble-toast--visible");
+      });
+
+      // Automatic removal
+      setTimeout(() => {
+        ToastManager.hide(toast);
+      }, duration);
+    }
+
+    private static hide(toast: HTMLElement): void {
+      toast.classList.remove("snurble-toast--visible");
+      toast.classList.add("snurble-toast--hiding");
+
+      toast.addEventListener("transitionend", () => {
+        toast.remove();
+      }, { once: true });
+    }
+  }
+  // Expose to window for global access
+  (window as unknown as { snurbleToast: ToastManager }).snurbleToast = new ToastManager();
+
+  document.addEventListener("astro:after-swap", () => {
+    (window as unknown as { snurbleToast: ToastManager }).snurbleToast = new ToastManager();
+  });
+</script>
+
+
+<style is:global>
+  .snurble-toast {
+    display: flex;
+    align-items: center;
+    padding: var(--snurble-space-3) var(--snurble-space-4);
+    min-width: 18rem;
+    max-width: 24rem;
+    background: var(--snurble-surface-glass-card);
+    backdrop-filter: var(--snurble-backdrop-blur);
+    border: 1px solid var(--snurble-border-strong);
+    border-radius: var(--snurble-radius-lg);
+    box-shadow: var(--snurble-shadow-spatial-floating);
+    color: var(--snurble-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(1rem) scale(0.95);
+    transition:
+      opacity var(--snurble-duration-base) var(--snurble-ease-soft),
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring);
+  }
+
+  .snurble-toast--visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .snurble-toast--hiding {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .snurble-toast__content {
+    flex: 1;
+  }
+
+  .snurble-toast--success {
+    border-left: 4px solid var(--snurble-accent-success);
+  }
+  .snurble-toast--error {
+    border-left: 4px solid var(--snurble-accent-danger);
+  }
+  .snurble-toast--warning {
+    border-left: 4px solid var(--snurble-accent-warning);
+  }
+  .snurble-toast--info {
+    border-left: 4px solid var(--snurble-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-toast {
+      transition: opacity var(--snurble-duration-fast) linear;
+    }
+  }
+</style>

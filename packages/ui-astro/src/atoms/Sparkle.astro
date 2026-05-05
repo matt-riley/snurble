@@ -1,0 +1,77 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  color?: string;
+  class?: string;
+}
+
+const {
+  size = "md",
+  color = "var(--snurble-palette-yellow)",
+  class: className,
+} = Astro.props;
+
+const sizes = {
+  lg: "24",
+  md: "18",
+  sm: "12",
+};
+---
+
+<div class:list={["snurble-sparkle", `snurble-sparkle--${size}`, className]}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={`color: ${color};`}
+  >
+    <path
+      d="M12 3L14.5 9L20.5 11.5L14.5 14L12 20L9.5 14L3.5 11.5L9.5 9L12 3Z"
+      fill="currentColor"
+    ></path>
+  </svg>
+</div>
+
+<style>
+  .snurble-sparkle {
+    display: inline-flex;
+    pointer-events: none;
+    animation: snurble-sparkle-pop var(--snurble-duration-slow)
+      var(--snurble-ease-spring) forwards;
+  }
+
+  .snurble-sparkle--sm {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .snurble-sparkle--md {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+  .snurble-sparkle--lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @keyframes snurble-sparkle-pop {
+    0% {
+      transform: scale(0) rotate(-45deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(45deg);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-sparkle {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

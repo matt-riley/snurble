@@ -1,16 +1,17 @@
 {
   "families": {
-    "display": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
+    "display": "\"Montserrat\", \"Segoe UI\", sans-serif",
+    "marker": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
     "title": "\"Montserrat\", \"Segoe UI\", sans-serif",
     "body": "\"Montserrat\", \"Segoe UI\", sans-serif",
     "code": "\"IBM Plex Mono\", \"SFMono-Regular\", monospace"
   },
   "styles": {
     "display": {
-      "fontFamily": "\"Permanent Marker\", \"Segoe UI\", sans-serif",
+      "fontFamily": "\"Montserrat\", \"Segoe UI\", sans-serif",
       "size": "3rem",
       "lineHeight": "1",
-      "weight": "400"
+      "weight": "900"
     },
     "title": {
       "fontFamily": "\"Montserrat\", \"Segoe UI\", sans-serif",

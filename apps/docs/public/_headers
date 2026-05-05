@@ -229,6 +229,24 @@
 /components/skeleton/
   Link: </components/skeleton.md>; rel="alternate"; type="text/markdown"
 
+/components/sparkle
+  Link: </components/sparkle.md>; rel="alternate"; type="text/markdown"
+
+/components/sparkle/
+  Link: </components/sparkle.md>; rel="alternate"; type="text/markdown"
+
+/components/toast
+  Link: </components/toast.md>; rel="alternate"; type="text/markdown"
+
+/components/toast/
+  Link: </components/toast.md>; rel="alternate"; type="text/markdown"
+
+/components/theme-toggle
+  Link: </components/theme-toggle.md>; rel="alternate"; type="text/markdown"
+
+/components/theme-toggle/
+  Link: </components/theme-toggle.md>; rel="alternate"; type="text/markdown"
+
 /components/breadcrumbs
   Link: </components/breadcrumbs.md>; rel="alternate"; type="text/markdown"
 
@@ -258,6 +276,12 @@
 
 /components/table-of-contents/
   Link: </components/table-of-contents.md>; rel="alternate"; type="text/markdown"
+
+/components/segmented-control
+  Link: </components/segmented-control.md>; rel="alternate"; type="text/markdown"
+
+/components/segmented-control/
+  Link: </components/segmented-control.md>; rel="alternate"; type="text/markdown"
 
 /components/field
   Link: </components/field.md>; rel="alternate"; type="text/markdown"

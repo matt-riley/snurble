@@ -18,6 +18,20 @@ const { title, description = "Snurble workspace baseline", llm } = Astro.props;
   <Fragment slot="head">
     <link {...llm.alternateLink} />
     <slot name="head" />
+    <script is:inline>
+      (function applyTheme() {
+        let theme = 'dark';
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          theme = localStorage.getItem('theme');
+        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          theme = 'light';
+        }
+
+        document.documentElement.dataset.theme = theme;
+        window.localStorage.setItem('theme', theme);
+      })();
+    </script>
+
   </Fragment>
 
   <div class="search-container fixed top-6 right-6 z-50">

@@ -87,6 +87,9 @@ export const componentDocCatalog = [
   { category: "Actions and status", name: "Callout", slug: "callout" },
   { category: "Actions and status", name: "EmptyState", slug: "empty-state" },
   { category: "Actions and status", name: "Skeleton", slug: "skeleton" },
+  { category: "Actions and status", name: "ThemeToggle", slug: "theme-toggle" },
+  { category: "Actions and status", name: "Sparkle", slug: "sparkle" },
+  { category: "Actions and status", name: "Toast", slug: "toast" },
   {
     category: "Navigation and disclosure",
     name: "Breadcrumbs",
@@ -107,6 +110,11 @@ export const componentDocCatalog = [
     category: "Navigation and disclosure",
     name: "TableOfContents",
     slug: "table-of-contents",
+  },
+  {
+    category: "Navigation and disclosure",
+    name: "SegmentedControl",
+    slug: "segmented-control",
   },
   { category: "Forms", name: "Field", slug: "field" },
   { category: "Forms", name: "Input", slug: "input" },
@@ -879,6 +887,36 @@ const componentContentByName: Record<
     summary:
       "Create titled content sections with a stable heading contract. The building blocks of a well-structured document.",
   },
+  SegmentedControl: {
+    exampleCode: `<SegmentedControl name="view" options={[{label: "List", value: "list"}, {label: "Grid", value: "grid"}]} defaultValue="grid" />`,
+    notes: [
+      "Use SegmentedControl for switching between views or modes within a single context.",
+      "The background thumb slides smoothly between options with a spring animation.",
+      "Perfect for compact toggles where a full Tab set is too much.",
+    ],
+    summary:
+      "A pill-shaped selection control. Like a Radio Group, but with better posture and a satisfying slide animation.",
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "The name of the radio group.",
+        required: true,
+      },
+      {
+        name: "options",
+        type: "Option[]",
+        description: "The list of options.",
+        required: true,
+      },
+      {
+        name: "defaultValue",
+        type: "string",
+        description: "The initially selected value.",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
   Select: {
     exampleCode: `<Select id="category" options={categoryOptions} placeholder="Choose a category" />`,
     notes: [
@@ -978,6 +1016,50 @@ const componentContentByName: Record<
       { name: "class", type: "string", description: "Additional CSS classes." },
     ],
   },
+  Sparkle: {
+    exampleCode: `<Sparkle size="md" color="var(--snurble-palette-yellow)" />`,
+    notes: [
+      "Use Sparkle to reward the user for a small success.",
+      "The component triggers a pop animation immediately upon rendering.",
+      "It is a 'fire and forget' component that fades out automatically.",
+    ],
+    summary:
+      "A tiny, animated SVG star. A sprinkle of magic for your micro-interactions.",
+    props: [
+      {
+        name: "size",
+        type: "'sm' | 'md' | 'lg'",
+        description: "The size of the sparkle.",
+        default: "'md'",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "The color of the sparkle.",
+        default: "var(--snurble-palette-yellow)",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
+  Toast: {
+    exampleCode: `<Toast position="bottom-right" />`,
+    notes: [
+      "Use Toast for brief, non-blocking feedback.",
+      "Trigger toasts via window.snurbleToast.show({ message: '...' }).",
+      "Toasts automatically dismiss after a duration.",
+    ],
+    summary:
+      "A non-blocking notification overlay. The polite whisper that tells you something just happened.",
+    props: [
+      {
+        name: "position",
+        type: "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'",
+        description: "The screen position for toasts.",
+        default: "'bottom-right'",
+      },
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
+  },
   Stack: {
     exampleCode: `<Stack space={4}><p>First</p><p>Second</p></Stack>`,
     notes: [
@@ -1058,6 +1140,20 @@ const componentContentByName: Record<
     ],
     summary:
       "Render a page-local heading index. The roadmap for long-form docs.",
+  },
+  ThemeToggle: {
+    exampleCode: `<ThemeToggle />`,
+    notes: [
+      "Use ThemeToggle to let users switch between light and dark modes manually.",
+      "Preference is persisted to localStorage and applied via [data-theme] on the html element.",
+      "Includes subtle animations for the track, thumb, and icons.",
+      "The icons change color when selected (Yellow for light, Blue for dark).",
+    ],
+    summary:
+      "A pill-shaped theme switcher with animated icons. Give your users the power to choose their own light (or lack thereof).",
+    props: [
+      { name: "class", type: "string", description: "Additional CSS classes." },
+    ],
   },
   Tabs: {
     exampleCode: `<Tabs tabs={tabs} defaultTab="overview" />`,

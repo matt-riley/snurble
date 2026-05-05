@@ -1070,7 +1070,7 @@ const componentContentByName: Record<
       "Apply consistent vertical spacing. The bouncer that keeps your elements at exactly the right distance from each other.",
   },
   StatCard: {
-    exampleCode: `<StatCard label="Documented components" value="57" trend="up" trendValue="catalog-driven" />`,
+    exampleCode: `<StatCard label="Builds passing" value="24" trend="up" trendValue="+3 this week" />`,
     notes: [
       "Use StatCard when the primary value should dominate the presentation.",
       "Pass href when the metric should link to a deeper report or destination.",

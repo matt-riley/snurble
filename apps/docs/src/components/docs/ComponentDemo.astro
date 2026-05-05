@@ -824,33 +824,53 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
     apply();
   };
 
-  for (const demo of document.querySelectorAll("[data-popover-docs-demo]")) {
-    if (demo instanceof HTMLElement) {
-      syncPopoverDemo(demo);
+  const bindToastTrigger = (button: HTMLButtonElement) => {
+    if (button.dataset.toastBound === "true") {
+      return;
     }
-  }
 
-  // Toast triggers
-  for (const button of document.querySelectorAll("[data-toast-trigger]")) {
-    if (button instanceof HTMLButtonElement) {
-      button.addEventListener("click", () => {
-        const message = button.dataset.toastMessage || "Hello!";
-        const variant = (button.dataset.toastVariant as
-          | "info"
-          | "success"
-          | "warning"
-          | "error") || "info";
+    button.dataset.toastBound = "true";
+    button.addEventListener("click", () => {
+      const message = button.dataset.toastMessage || "Hello!";
+      const variant = (button.dataset.toastVariant as
+        | "info"
+        | "success"
+        | "warning"
+        | "error") || "info";
 
-        const snurbleWindow = window as unknown as {
-          snurbleToast?: {
-            show: (options: { message: string; variant?: string }) => void;
-          };
+      const snurbleWindow = window as unknown as {
+        snurbleToast?: {
+          show: (options: { message: string; variant?: string }) => void;
         };
+      };
 
-        if (snurbleWindow.snurbleToast) {
-          snurbleWindow.snurbleToast.show({ message, variant });
-        }
-      });
+      snurbleWindow.snurbleToast?.show({ message, variant });
+    });
+  };
+
+  const initComponentDemos = () => {
+    for (const demo of document.querySelectorAll("[data-popover-docs-demo]")) {
+      if (demo instanceof HTMLElement && demo.dataset.popoverBound !== "true") {
+        demo.dataset.popoverBound = "true";
+        syncPopoverDemo(demo);
+      }
     }
+
+    for (const button of document.querySelectorAll("[data-toast-trigger]")) {
+      if (button instanceof HTMLButtonElement) {
+        bindToastTrigger(button);
+      }
+    }
+  };
+
+  initComponentDemos();
+
+  const snurbleWindow = window as unknown as {
+    __snurbleDocsDemosBound?: boolean;
+  };
+
+  if (!snurbleWindow.__snurbleDocsDemosBound) {
+    document.addEventListener("astro:page-load", initComponentDemos);
+    snurbleWindow.__snurbleDocsDemosBound = true;
   }
 </script>

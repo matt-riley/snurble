@@ -5,7 +5,7 @@ Snurble is an Astro design-system monorepo for durable site foundations. The rep
 The root workspace is private, but the current shared surface is split into two publishable packages:
 
 - `@matt-riley/design-tokens` for shared CSS tokens and generated metadata files
-- `@matt-riley/ui-astro` for 57 Astro primitives, including the new bento layout wrappers
+- `@matt-riley/ui-astro` for 61 Astro primitives, including the bento layout wrappers and newer interactive feedback controls
 
 Documentation lives at **https://snurble.mattriley.tools**.
 

@@ -13,7 +13,7 @@ const hasPlayground = entry.name === "Button";
 ---
 
 {hasPlayground && (
-  <Panel variant="bordered" class="playground">
+  <Panel variant="bordered" class="playground" data-button-playground>
     <div class="playground-grid">
       <div class="playground-preview">
         <div id="playground-target">
@@ -116,53 +116,72 @@ const hasPlayground = entry.name === "Button";
 </style>
 
 <script>
-  // Simple client-side state management for the playground
-  const updatePlayground = () => {
-    const button = document.querySelector('#playground-button');
-    const variantSelect = document.querySelector('#variant-select') as HTMLSelectElement;
-    const sizeSelect = document.querySelector('#size-select') as HTMLSelectElement;
-    const disabledToggle = document.querySelector('#disabled-toggle') as HTMLInputElement;
-    const selectedToggle = document.querySelector('#selected-toggle') as HTMLInputElement;
+  const initButtonPlayground = (playground: HTMLElement) => {
+    const button = playground.querySelector("#playground-button");
+    const variantSelect = playground.querySelector("#variant-select");
+    const sizeSelect = playground.querySelector("#size-select");
+    const disabledToggle = playground.querySelector("#disabled-toggle");
+    const selectedToggle = playground.querySelector("#selected-toggle");
 
-    if (!button || !variantSelect || !sizeSelect || !disabledToggle || !selectedToggle) {
+    if (
+      !(button instanceof HTMLButtonElement) ||
+      !(variantSelect instanceof HTMLSelectElement) ||
+      !(sizeSelect instanceof HTMLSelectElement) ||
+      !(disabledToggle instanceof HTMLInputElement) ||
+      !(selectedToggle instanceof HTMLInputElement)
+    ) {
       return;
     }
 
-    // We can't re-render the Astro component on the client easily, 
-    // but we can manipulate the classes/attributes that the Button component uses.
-    
-    // Reset classes
-    button.className = 'snurble-button';
-    
-    // Apply variant
-    if (variantSelect.value !== 'primary') {
-      button.classList.add(`snurble-button--${variantSelect.value}`);
-    }
+    const updatePlayground = () => {
+      button.className = "snurble-button";
 
-    // Apply size
-    if (sizeSelect.value !== 'md') {
-      button.classList.add(`snurble-button--${sizeSelect.value}`);
-    }
+      if (variantSelect.value !== "primary") {
+        button.classList.add(`snurble-button--${variantSelect.value}`);
+      }
 
-    // Apply selected
-    if (selectedToggle.checked) {
-      button.classList.add('snurble-button--selected');
-      button.setAttribute('aria-pressed', 'true');
-    } else {
-      button.setAttribute('aria-pressed', 'false');
-    }
+      if (sizeSelect.value !== "md") {
+        button.classList.add(`snurble-button--${sizeSelect.value}`);
+      }
 
-    // Apply disabled
-    (button as HTMLButtonElement).disabled = disabledToggle.checked;
+      if (selectedToggle.checked) {
+        button.classList.add("snurble-button--selected");
+        button.setAttribute("aria-pressed", "true");
+      } else {
+        button.removeAttribute("aria-pressed");
+      }
+
+      button.disabled = disabledToggle.checked;
+    };
+
+    variantSelect.addEventListener("change", updatePlayground);
+    sizeSelect.addEventListener("change", updatePlayground);
+    disabledToggle.addEventListener("change", updatePlayground);
+    selectedToggle.addEventListener("change", updatePlayground);
+
+    updatePlayground();
   };
 
-  const variantSelect = document.querySelector('#variant-select');
-  const sizeSelect = document.querySelector('#size-select');
-  const disabledToggle = document.querySelector('#disabled-toggle');
-  const selectedToggle = document.querySelector('#selected-toggle');
+  const initPlaygrounds = () => {
+    for (const playground of document.querySelectorAll(".playground")) {
+      if (
+        playground instanceof HTMLElement &&
+        playground.dataset.playgroundBound !== "true"
+      ) {
+        playground.dataset.playgroundBound = "true";
+        initButtonPlayground(playground);
+      }
+    }
+  };
 
-  variantSelect?.addEventListener('change', updatePlayground);
-  sizeSelect?.addEventListener('change', updatePlayground);
-  disabledToggle?.addEventListener('change', updatePlayground);
-  selectedToggle?.addEventListener('change', updatePlayground);
+  initPlaygrounds();
+
+  const snurbleWindow = window as unknown as {
+    __snurbleDocsPlaygroundsBound?: boolean;
+  };
+
+  if (!snurbleWindow.__snurbleDocsPlaygroundsBound) {
+    document.addEventListener("astro:page-load", initPlaygrounds);
+    snurbleWindow.__snurbleDocsPlaygroundsBound = true;
+  }
 </script>

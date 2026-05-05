@@ -5,6 +5,33 @@ import { describe, expect, it } from "vitest";
 
 import { componentDocs } from "./component-docs/registry";
 
+const renderJson = (value: unknown, indent = 0): string => {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => renderJson(item)).join(", ")}]`;
+  }
+
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value);
+
+    if (entries.length === 0) {
+      return "{}";
+    }
+
+    const innerIndent = " ".repeat(indent + 2);
+    const outerIndent = " ".repeat(indent);
+    const renderedEntries = entries.map(
+      ([key, entryValue]) =>
+        `${innerIndent}${JSON.stringify(key)}: ${renderJson(entryValue, indent + 2)}`
+    );
+
+    return `{
+${renderedEntries.join(",\n")}
+${outerIndent}}`;
+  }
+
+  return JSON.stringify(value);
+};
+
 describe("schema generation", () => {
   it("generates component schemas", async () => {
     const schemaDir = resolve(import.meta.dirname, "../public/schemas");
@@ -70,7 +97,7 @@ describe("schema generation", () => {
 
       await writeFile(
         resolve(schemaDir, `${component.slug}.schema.json`),
-        JSON.stringify(schema, null, 2)
+        `${renderJson(schema)}\n`
       );
       console.log(`Generated schema for ${component.name}`);
     }

@@ -34,7 +34,7 @@ pnpm add @matt-riley/design-tokens@<prerelease> @matt-riley/ui-astro@<prerelease
 
 ## Public surface
 
-The package entrypoint currently exports 57 runtime primitives plus the `createMarkdownAlternateLink` helper and shared LLM helper types:
+The package entrypoint currently exports 61 runtime primitives plus the `createMarkdownAlternateLink` helper and shared LLM helper types:
 
 ### Shell and layout primitives
 
@@ -66,6 +66,9 @@ The package entrypoint currently exports 57 runtime primitives plus the `createM
 - `Callout`
 - `EmptyState`
 - `Skeleton`
+- `ThemeToggle`
+- `Sparkle`
+- `Toast`
 
 ### Navigation and disclosure primitives
 
@@ -74,6 +77,7 @@ The package entrypoint currently exports 57 runtime primitives plus the `createM
 - `Accordion`
 - `Pagination`
 - `TableOfContents`
+- `SegmentedControl`
 
 ### Form foundation primitives
 

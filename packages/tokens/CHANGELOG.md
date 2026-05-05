@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.9.0...design-tokens-v1.10.0) (2026-05-05)
+
+
+### Features
+
+* implement whimsical animations and new components (Sparkle, Toast, SegmentedControl) ([02cc59b](https://github.com/matt-riley/snurble/commit/02cc59b9b871b546b3cb4fd201781edfa1253b68))
+
 ## [1.9.0](https://github.com/matt-riley/snurble/compare/design-tokens-v1.8.0...design-tokens-v1.9.0) (2026-05-04)
 
 

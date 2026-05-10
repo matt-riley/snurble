@@ -1,46 +1,77 @@
 import { glob, readFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 
 const ASTRO_FILES = "packages/ui-astro/src/**/*.astro";
 const HEX_REGEX = /#[0-9a-fA-F]{3,6}/g;
 const RGB_REGEX = /rgb\(/g;
+const HSL_REGEX = /hsl\(\d/g;
 
-const lintTokens = async () => {
-  let hasErrors = false;
+const getStyleContent = (content) => {
+  const styleMatch = content.match(/<style>([\s\S]*?)<\/style>/);
+  return styleMatch?.[1];
+};
 
-  for await (const file of glob(ASTRO_FILES)) {
+export const findHardcodedColorViolations = (styleContent) => {
+  const lines = styleContent.split("\n");
+
+  return lines.flatMap((line, index) => {
+    const hasHardcodedColor =
+      line.match(HEX_REGEX) || line.match(RGB_REGEX) || line.match(HSL_REGEX);
+
+    if (!hasHardcodedColor) {
+      return [];
+    }
+
+    return [{ lineNumber: index + 1, source: line.trim() }];
+  });
+};
+
+export const lintTokens = async (pattern = ASTRO_FILES) => {
+  const violations = [];
+
+  for await (const file of glob(pattern)) {
     const content = await readFile(file, "utf-8");
-    const styleMatch = content.match(/<style>([\s\S]*?)<\/style>/);
+    const styleContent = getStyleContent(content);
 
-    if (styleMatch) {
-      const [, styleContent] = styleMatch;
-      const lines = styleContent.split("\n");
+    if (!styleContent) {
+      continue;
+    }
 
-      for (const [index, line] of lines.entries()) {
-        const hexMatches = line.match(HEX_REGEX);
-        const rgbMatches = line.match(RGB_REGEX);
-        const hslMatches = line.match(/hsl\(\d/g);
-
-        if (hexMatches || rgbMatches || hslMatches) {
-          console.error(
-            `Error: Hardcoded color found in ${file} at style line ${index + 1}: ${line.trim()}`
-          );
-          hasErrors = true;
-        }
-      }
+    for (const violation of findHardcodedColorViolations(styleContent)) {
+      violations.push({ ...violation, file });
     }
   }
 
-  if (hasErrors) {
-    process.exit(1);
-  } else {
+  return violations;
+};
+
+const run = async () => {
+  const violations = await lintTokens();
+
+  if (violations.length === 0) {
     console.log(
       "Token linting passed! No hardcoded colors found in .astro style blocks."
     );
+    return;
   }
+
+  for (const violation of violations) {
+    console.error(
+      `Error: Hardcoded color found in ${violation.file} at style line ${violation.lineNumber}: ${violation.source}`
+    );
+  }
+  process.exitCode = 1;
 };
 
-try {
-  await lintTokens();
-} catch (error) {
-  console.error(error);
+const isDirectExecution =
+  process.argv[1] !== undefined &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectExecution) {
+  try {
+    await run();
+  } catch (error) {
+    console.error(error);
+    process.exitCode = 1;
+  }
 }

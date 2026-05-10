@@ -1,21 +1,11 @@
 ---
-interface Props {
-  id: string;
-  label: string;
-  disabled?: boolean;
-  checked?: boolean;
-  required?: boolean;
-  class?: string;
-}
+import { getToggleControlProps } from '../internal/toggle-control';
+import type { ToggleControlProps } from '../internal/toggle-control';
 
-const {
-  id,
-  label,
-  disabled = false,
-  checked = false,
-  required = false,
-  class: className,
-} = Astro.props;
+type Props = ToggleControlProps;
+
+const { ariaDescribedBy, checked, className, disabled, id, label, required, rest } =
+  getToggleControlProps(Astro.props);
 ---
 
 <div class:list={["snurble-checkbox", className]}>
@@ -25,7 +15,9 @@ const {
     disabled={disabled}
     checked={checked}
     required={required}
+    aria-describedby={ariaDescribedBy}
     class="snurble-checkbox__input"
+    {...rest}
   />
   <label for={id} class="snurble-checkbox__label">
     {label}

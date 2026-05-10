@@ -1,5 +1,7 @@
 ---
-export interface ComboboxOption {
+import { toSpaceSeparatedIds } from "../internal/a11y";
+
+interface ComboboxOption {
   label: string;
   value: string;
   disabled?: boolean;
@@ -16,6 +18,8 @@ interface Props {
   clearable?: boolean;
   disabled?: boolean;
   invalid?: boolean;
+  required?: boolean;
+  describedBy?: string | readonly string[];
   class?: string;
 }
 
@@ -30,10 +34,13 @@ const {
   clearable = true,
   disabled = false,
   invalid = false,
+  required = false,
+  describedBy,
   class: className,
 } = Astro.props;
 const listboxId = `${id}-listbox`;
 const selectedOption = options.find((option) => option.value === value);
+const ariaDescribedBy = toSpaceSeparatedIds(describedBy);
 ---
 
 <div
@@ -56,10 +63,12 @@ const selectedOption = options.find((option) => option.value === value);
       value={selectedOption?.label ?? ""}
       placeholder={placeholder}
       disabled={disabled}
+      required={required}
       role="combobox"
       aria-autocomplete={autocomplete === "none" ? "none" : "list"}
       aria-expanded="false"
       aria-controls={listboxId}
+      aria-describedby={ariaDescribedBy}
       aria-invalid={invalid ? "true" : undefined}
       autocomplete="off"
       data-combobox-input
@@ -78,9 +87,18 @@ const selectedOption = options.find((option) => option.value === value);
       </svg>
     </button>
   </div>
-  <div id={listboxId} class="snurble-combobox__listbox" role="listbox" aria-label={label} data-combobox-listbox hidden>
-    {options.map((option) => (
+  <div
+    id={listboxId}
+    class="snurble-combobox__listbox"
+    role="listbox"
+    aria-label={label}
+    data-combobox-listbox
+    data-open="false"
+    popover="manual"
+  >
+    {options.map((option, index) => (
       <button
+        id={`${id}-option-${index}`}
         class="snurble-combobox__option"
         type="button"
         role="option"
@@ -172,6 +190,11 @@ const selectedOption = options.find((option) => option.value === value);
     cursor: pointer;
   }
 
+  .snurble-combobox__clear[hidden] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .snurble-combobox__clear:hover:not(:disabled),
   .snurble-combobox__toggle:hover:not(:disabled) {
     color: var(--snurble-text);
@@ -192,9 +215,9 @@ const selectedOption = options.find((option) => option.value === value);
   }
 
   .snurble-combobox__listbox {
-    position: absolute;
-    top: calc(100% + var(--snurble-space-2));
-    inset-inline: 0;
+    position: fixed;
+    inset-inline-start: 0;
+    top: 0;
     z-index: var(--snurble-z-index-dropdown);
     max-height: 16rem;
     overflow-y: auto;
@@ -203,6 +226,18 @@ const selectedOption = options.find((option) => option.value === value);
     border: 1px solid var(--snurble-border-card);
     border-radius: var(--snurble-radius-lg);
     box-shadow: var(--snurble-shadow-spatial-floating);
+  }
+
+  @supports (position-anchor: --snurble-anchor) {
+    .snurble-combobox__listbox {
+      position: absolute;
+      position-anchor: --snurble-anchor;
+      inset-inline-start: auto;
+      top: auto;
+      left: anchor(left);
+      margin-top: var(--snurble-space-2);
+      min-width: anchor-size(width);
+    }
   }
 
   .snurble-combobox__option {
@@ -238,6 +273,15 @@ const selectedOption = options.find((option) => option.value === value);
 </style>
 
 <script>
+  import {
+    applyAnchorPair,
+    attachFloatingAutoUpdate,
+    isOpen,
+    noopCleanup,
+    setOpen,
+    supportsPopoverApi,
+  } from "../internal/floating";
+
   const initCombobox = (el: Element) => {
     if (!(el instanceof HTMLElement) || el.dataset.snurbleComboboxBound === "true") {
       return;
@@ -253,20 +297,51 @@ const selectedOption = options.find((option) => option.value === value);
     const options = [...el.querySelectorAll("[data-combobox-option]")];
     let visibleOptions = options;
     let currentIndex = -1;
+    let detachAutoUpdate = noopCleanup;
 
     if (!(input instanceof HTMLInputElement) || !(hidden instanceof HTMLInputElement) || !(listbox instanceof HTMLElement)) {
       return;
     }
 
-    const setOpen = (open: boolean) => {
-      listbox.hidden = !open;
-      input.setAttribute("aria-expanded", open.toString());
+    if (!supportsPopoverApi(listbox)) {
+      listbox.hidden = true;
+    }
+
+    applyAnchorPair(input, listbox, listbox.id || input.id || "combobox");
+
+    const syncClearButton = () => {
+      if (clear instanceof HTMLButtonElement) {
+        clear.hidden = input.value.length === 0;
+      }
     };
 
-    const setSelected = (index: number) => {
+    const setHighlighted = (index: number) => {
       currentIndex = index;
       for (const [optionIndex, option] of visibleOptions.entries()) {
-        option.setAttribute("aria-selected", (optionIndex === currentIndex).toString());
+        const isActive = optionIndex === currentIndex;
+        option.setAttribute("aria-selected", isActive.toString());
+        if (option instanceof HTMLElement && isActive) {
+          input.setAttribute("aria-activedescendant", option.id);
+          option.scrollIntoView({ block: "nearest" });
+        }
+      }
+
+      if (currentIndex < 0) {
+        input.removeAttribute("aria-activedescendant");
+      }
+    };
+
+    const syncOpenState = (open: boolean) => {
+      setOpen(listbox, open);
+      input.setAttribute("aria-expanded", open.toString());
+      detachAutoUpdate();
+      if (open) {
+        detachAutoUpdate = attachFloatingAutoUpdate(
+          input,
+          listbox,
+          "bottom",
+          8
+        );
       }
     };
 
@@ -288,7 +363,7 @@ const selectedOption = options.find((option) => option.value === value);
       if (empty instanceof HTMLElement) {
         empty.hidden = visibleOptions.length > 0;
       }
-      setSelected(visibleOptions.length > 0 ? 0 : -1);
+      setHighlighted(visibleOptions.length > 0 ? 0 : -1);
     };
 
     const chooseOption = (option: Element) => {
@@ -301,8 +376,9 @@ const selectedOption = options.find((option) => option.value === value);
       for (const item of options) {
         item.setAttribute("aria-selected", (item === option).toString());
       }
-      setOpen(false);
+      syncOpenState(false);
       input.focus();
+      syncClearButton();
       el.dispatchEvent(new CustomEvent("snurble-combobox-change", {
         bubbles: true,
         detail: { label: input.value, value: hidden.value },
@@ -311,28 +387,29 @@ const selectedOption = options.find((option) => option.value === value);
 
     input.addEventListener("focus", () => {
       filterOptions();
-      setOpen(true);
+      syncOpenState(true);
     });
     input.addEventListener("input", () => {
       hidden.value = "";
       filterOptions();
-      setOpen(true);
+      syncOpenState(true);
+      syncClearButton();
     });
     input.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        syncOpenState(false);
       }
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        setOpen(true);
+        syncOpenState(true);
         const nextIndex = currentIndex + 1 >= visibleOptions.length ? 0 : currentIndex + 1;
-        setSelected(nextIndex);
+        setHighlighted(nextIndex);
       }
       if (event.key === "ArrowUp") {
         event.preventDefault();
-        setOpen(true);
+        syncOpenState(true);
         const nextIndex = currentIndex - 1 < 0 ? visibleOptions.length - 1 : currentIndex - 1;
-        setSelected(nextIndex);
+        setHighlighted(nextIndex);
       }
       if (event.key === "Enter" && currentIndex >= 0) {
         event.preventDefault();
@@ -342,9 +419,9 @@ const selectedOption = options.find((option) => option.value === value);
 
     if (toggle instanceof HTMLButtonElement) {
       toggle.addEventListener("click", () => {
-        const shouldOpen = listbox.hidden;
+        const shouldOpen = !isOpen(listbox);
         filterOptions();
-        setOpen(shouldOpen);
+        syncOpenState(shouldOpen);
         input.focus();
       });
     }
@@ -354,8 +431,9 @@ const selectedOption = options.find((option) => option.value === value);
         input.value = "";
         hidden.value = "";
         filterOptions();
-        setOpen(true);
+        syncOpenState(true);
         input.focus();
+        syncClearButton();
         el.dispatchEvent(new CustomEvent("snurble-combobox-clear", { bubbles: true }));
       });
     }
@@ -366,11 +444,12 @@ const selectedOption = options.find((option) => option.value === value);
 
     document.addEventListener("click", (event) => {
       if (event.target instanceof Node && !el.contains(event.target)) {
-        setOpen(false);
+        syncOpenState(false);
       }
     });
 
     filterOptions();
+    syncClearButton();
   };
 
   const initComboboxes = () => {

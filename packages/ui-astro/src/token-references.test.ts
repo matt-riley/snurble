@@ -48,6 +48,7 @@ const getTokenReferences = (source: string): Set<string> =>
     [...source.matchAll(tokenReferencePattern)]
       .map((match) => match[0])
       .filter((token) => !token.endsWith("-"))
+      .filter((token) => !token.endsWith("-anchor"))
   );
 
 const getTokenDefinitions = (source: string): Set<string> =>

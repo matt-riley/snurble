@@ -4,7 +4,7 @@ import type {
   MarkdownAlternateLinkAttributes,
 } from "@matt-riley/ui-astro";
 
-export const DOCS_SITE_URL = "https://snurble.mattriley.tools";
+const DOCS_SITE_URL = "https://snurble.mattriley.tools";
 
 interface DefineDocsLlmPageOptions {
   readonly route: string;

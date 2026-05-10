@@ -1,13 +1,19 @@
 ---
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+import { toSpaceSeparatedIds } from "../internal/a11y";
+
+interface Props extends Omit<HTMLAttributes<"input">, "class" | "id" | "size" | "type"> {
   id: string;
   name?: string;
-  value?: string;
+  value?: string | number;
   placeholder?: string;
   label?: string;
   clearable?: boolean;
+  clearButtonLabel?: string;
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  describedBy?: string | readonly string[];
   class?: string;
 }
 
@@ -18,10 +24,15 @@ const {
   placeholder = "Search",
   label = "Search",
   clearable = true,
+  clearButtonLabel = "Clear search",
   size = "md",
   disabled = false,
+  describedBy,
   class: className,
+  ...rest
 } = Astro.props;
+
+const ariaDescribedBy = toSpaceSeparatedIds(describedBy);
 ---
 
 <div class:list={["snurble-search-input", `snurble-search-input--${size}`, className]} data-component="search-input">
@@ -40,10 +51,18 @@ const {
       value={value}
       placeholder={placeholder}
       disabled={disabled}
+      aria-describedby={ariaDescribedBy}
       class="snurble-search-input__control"
+      {...rest}
     />
     {clearable && (
-      <button class="snurble-search-input__clear" type="button" aria-label="Clear search" data-clear-search disabled={disabled}>
+      <button
+        class="snurble-search-input__clear"
+        type="button"
+        aria-label={clearButtonLabel}
+        data-clear-search
+        disabled={disabled}
+      >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
@@ -147,7 +166,13 @@ const {
     cursor: pointer;
     transition:
       color 150ms ease-out,
-      background 150ms ease-out;
+      background 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+
+  .snurble-search-input__clear[hidden] {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .snurble-search-input__clear:hover:not(:disabled) {
@@ -175,12 +200,20 @@ const {
       return;
     }
 
+    const syncClearButton = () => {
+      clearButton.hidden = input.value.length === 0;
+    };
+
     clearButton.addEventListener("click", () => {
       input.value = "";
       input.dispatchEvent(new Event("input", { bubbles: true }));
       el.dispatchEvent(new CustomEvent("snurble-search-clear", { bubbles: true }));
       input.focus();
+      syncClearButton();
     });
+
+    input.addEventListener("input", syncClearButton);
+    syncClearButton();
   };
 
   const initSearchInputs = () => {

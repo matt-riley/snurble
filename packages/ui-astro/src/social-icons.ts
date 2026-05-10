@@ -34,6 +34,8 @@ const SOCIAL_ICON_MAP = {
   },
 } satisfies Record<string, SocialIconAsset>;
 
+type SocialIconName = keyof typeof SOCIAL_ICON_MAP;
+
 export const resolveSocialIcon = (icon: string): SocialIconAsset | null => {
   const normalized = icon.trim().toLowerCase();
 
@@ -41,5 +43,7 @@ export const resolveSocialIcon = (icon: string): SocialIconAsset | null => {
     return SOCIAL_ICON_MAP.x;
   }
 
-  return SOCIAL_ICON_MAP[normalized] ?? null;
+  return normalized in SOCIAL_ICON_MAP
+    ? SOCIAL_ICON_MAP[normalized as SocialIconName]
+    : null;
 };

@@ -22,8 +22,12 @@ const SKILL_ICON_MAP = {
   },
 } satisfies Record<string, SkillIconAsset>;
 
+type SkillIconName = keyof typeof SKILL_ICON_MAP;
+
 export const resolveSkillIcon = (name: string): SkillIconAsset => {
   const normalized = name.trim().toLowerCase();
 
-  return SKILL_ICON_MAP[normalized] ?? SKILL_ICON_MAP.fallback;
+  return normalized in SKILL_ICON_MAP
+    ? SKILL_ICON_MAP[normalized as SkillIconName]
+    : SKILL_ICON_MAP.fallback;
 };

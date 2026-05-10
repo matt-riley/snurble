@@ -1,18 +1,10 @@
 /* oxlint-disable vitest/no-importing-vitest-globals */
 
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
-
 import { describe, expect, it, vi } from "vitest";
 
-const repoRoot = resolve(import.meta.dirname, "../../..");
+import { readRepoFile, readRepoJson } from "../../../test/support/repo-files";
+
 vi.setConfig({ testTimeout: 30_000 });
-
-const readRepoJson = async <T>(relativePath: string): Promise<T> =>
-  JSON.parse(await readFile(resolve(repoRoot, relativePath), "utf-8")) as T;
-
-const readRepoFile = (relativePath: string): Promise<string> =>
-  readFile(resolve(repoRoot, relativePath), "utf-8");
 
 describe("design token package", () => {
   it("exposes the public design-token entrypoints", async () => {

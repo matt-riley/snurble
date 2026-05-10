@@ -8,9 +8,11 @@ interface Props {
   description?: string;
   lang?: string;
   bodyClass?: string;
+  transitions?: boolean;
 }
 
 const { title, description, lang = "en", bodyClass } = Astro.props;
+const { transitions = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,7 +23,7 @@ const { title, description, lang = "en", bodyClass } = Astro.props;
     <meta name="color-scheme" content="dark light" />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
-    <ClientRouter />
+    {transitions && <ClientRouter />}
     <slot name="head" />
   </head>
   <body class:list={[bodyClass]}>

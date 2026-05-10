@@ -1,10 +1,11 @@
 ---
 interface Props {
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  surface?: "solid" | "glass";
   class?: string;
 }
 
-const { position = "bottom-right", class: className } = Astro.props;
+const { position = "bottom-right", surface = "solid", class: className } = Astro.props;
 
 const positionClasses = {
   "bottom-left": "bottom-6 left-6",
@@ -16,6 +17,7 @@ const positionClasses = {
 
 <div
   id="snurble-toast-container"
+  data-surface={surface}
   class:list={[
     "snurble-toast-container fixed flex flex-col gap-3 pointer-events-none",
     positionClasses[position],
@@ -44,7 +46,9 @@ const positionClasses = {
       }
 
       const toast = document.createElement("div");
-      toast.className = `snurble-toast snurble-toast--${variant} pointer-events-auto`;
+      toast.className = `snurble-toast snurble-toast--${variant} snurble-toast--${this.container.dataset.surface ?? "solid"} pointer-events-auto`;
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
       const content = document.createElement("div");
       content.className = "snurble-toast__content";
       content.textContent = message;
@@ -52,12 +56,10 @@ const positionClasses = {
 
       this.container.append(toast);
 
-      // Trigger entrance animation
       requestAnimationFrame(() => {
         toast.classList.add("snurble-toast--visible");
       });
 
-      // Automatic removal
       setTimeout(() => {
         ToastManager.hide(toast);
       }, duration);
@@ -72,14 +74,13 @@ const positionClasses = {
       }, { once: true });
     }
   }
-  // Expose to window for global access
+
   (window as unknown as { snurbleToast: ToastManager }).snurbleToast = new ToastManager();
 
   document.addEventListener("astro:after-swap", () => {
     (window as unknown as { snurbleToast: ToastManager }).snurbleToast = new ToastManager();
   });
 </script>
-
 
 <style is:global>
   .snurble-toast-container {
@@ -92,8 +93,7 @@ const positionClasses = {
     padding: var(--snurble-space-3) var(--snurble-space-4);
     min-width: 18rem;
     max-width: 24rem;
-    background: var(--snurble-surface-glass-card);
-    backdrop-filter: var(--snurble-backdrop-blur);
+    background: var(--snurble-surface-card);
     border: 1px solid var(--snurble-border-strong);
     border-radius: var(--snurble-radius-lg);
     box-shadow: var(--snurble-shadow-spatial-floating);
@@ -104,7 +104,13 @@ const positionClasses = {
     transform: translateY(1rem) scale(0.95);
     transition:
       opacity var(--snurble-duration-base) var(--snurble-ease-soft),
-      transform var(--snurble-duration-slow) var(--snurble-ease-spring);
+      transform var(--snurble-duration-slow) var(--snurble-ease-spring),
+      background var(--snurble-duration-base) var(--snurble-ease-soft);
+  }
+
+  .snurble-toast--glass {
+    background: var(--snurble-surface-glass-card);
+    backdrop-filter: var(--snurble-backdrop-blur);
   }
 
   .snurble-toast--visible {

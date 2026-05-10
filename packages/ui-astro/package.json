@@ -8,6 +8,7 @@
     "src/llm.ts",
     "src/skill-icons.ts",
     "src/social-icons.ts",
+    "src/internal/**/*.ts",
     "src/AgentDiscoveryHint.astro",
     "README.md"
   ],
@@ -20,7 +21,6 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@tabler/icons": "^3.41.1",
     "shiki": "^4.0.2"
   },
   "devDependencies": {

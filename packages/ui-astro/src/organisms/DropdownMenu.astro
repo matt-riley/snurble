@@ -17,7 +17,7 @@
  * />
  */
 
-export interface MenuItem {
+interface MenuItem {
   label: string;
   value?: string;
   icon?: string;
@@ -25,7 +25,7 @@ export interface MenuItem {
   disabled?: boolean;
 }
 
-export interface Props {
+interface Props {
   id?: string;
   open?: boolean;
   triggerId?: string;
@@ -35,7 +35,7 @@ export interface Props {
 }
 
 const {
-  id = `menu-${Math.random().toString(36).slice(2)}`,
+  id = `menu-${crypto.randomUUID()}`,
   open = false,
   triggerId,
   items = [],
@@ -47,6 +47,7 @@ const {
   id={id}
   class:list={[
     'snurble-dropdown-menu',
+    !triggerId && 'snurble-dropdown-menu--static',
     className,
   ]}
   data-component="dropdown-menu"
@@ -54,6 +55,7 @@ const {
   data-trigger-id={triggerId}
   role="menu"
   aria-orientation="vertical"
+  popover="manual"
 >
   <div class="snurble-dropdown-menu-box">
     {items.map((item, idx) => (
@@ -77,11 +79,19 @@ const {
 <style>
   .snurble-dropdown-menu {
     position: absolute;
+    top: 0;
+    left: 0;
     min-width: 200px;
     opacity: 0;
     pointer-events: none;
     animation: snurble-menu-exit 150ms ease-out forwards;
     z-index: var(--snurble-z-index-dropdown);
+  }
+
+  .snurble-dropdown-menu--static {
+    position: relative;
+    top: auto;
+    left: auto;
   }
 
   .snurble-dropdown-menu[data-open='true'] {
@@ -171,34 +181,70 @@ const {
 </style>
 
 <script>
+  import {
+    applyAnchorPair,
+    attachFloatingAutoUpdate,
+    isOpen,
+    noopCleanup,
+    setOpen,
+    supportsPopoverApi,
+  } from "../internal/floating";
+
   const initDropdownMenu = (el: Element) => {
     if (!(el instanceof HTMLElement) || el.dataset.snurbleDropdownBound === 'true') {
       return;
     }
 
     el.dataset.snurbleDropdownBound = 'true';
-    const items = [...el.querySelectorAll('[role="menuitem"]')] as HTMLButtonElement[];
+    const items = [...el.querySelectorAll('[role="menuitem"]')].filter(
+      (item) => !(item instanceof HTMLButtonElement) || !item.disabled
+    );
     const trigger = el.dataset.triggerId ? document.querySelector(`#${CSS.escape(el.dataset.triggerId)}`) : null;
     let currentIndex = -1;
+    let detachAutoUpdate = noopCleanup;
 
-    const setOpen = (open: boolean, focusTrigger = false) => {
-      el.dataset.open = open ? 'true' : 'false';
-      trigger?.setAttribute('aria-expanded', open.toString());
-      if (focusTrigger) {
-        trigger?.focus();
+    if (!supportsPopoverApi(el)) {
+      el.hidden = el.dataset.open !== 'true';
+    }
+
+    if (trigger instanceof HTMLElement) {
+      applyAnchorPair(trigger, el, el.id || trigger.id || 'dropdown');
+    }
+
+    const updatePosition = () => {
+      detachAutoUpdate();
+      if (trigger instanceof HTMLElement) {
+        detachAutoUpdate = attachFloatingAutoUpdate(trigger, el, 'bottom', 8);
       }
     };
 
-    const selectItem = (item: HTMLButtonElement) => {
+    const setMenuOpen = (open: boolean, focusTrigger = false) => {
+      if (open) {
+        updatePosition();
+      } else {
+        detachAutoUpdate();
+      }
+      setOpen(el, open);
+      trigger?.setAttribute('aria-expanded', open.toString());
+      if (focusTrigger && trigger instanceof HTMLElement) {
+        trigger.focus();
+      }
+    };
+
+    const selectItem = (item: HTMLElement) => {
       const { value } = item.dataset;
       el.dispatchEvent(new CustomEvent('snurble-dropdown-select', {
         bubbles: true,
         detail: { value },
       }));
-      setOpen(false, true);
+      setMenuOpen(false, true);
     };
 
     const focusItem = (rawIndex: number) => {
+      if (items.length === 0) {
+        return;
+      }
+
       let index = rawIndex;
       if (index < 0) {
         index = items.length - 1;
@@ -207,16 +253,14 @@ const {
         index = 0;
       }
       currentIndex = index;
-      for (const item of items) {
-        if (items.indexOf(item) === index) {
-          item.focus();
-        }
+      const item = items[index];
+      if (item instanceof HTMLElement) {
+        item.focus();
       }
     };
 
-    // Arrow key navigation
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (el.dataset.open !== 'true') {
+      if (!isOpen(el)) {
         return;
       }
 
@@ -245,48 +289,68 @@ const {
         case ' ': {
           e.preventDefault();
           if (currentIndex >= 0) {
-            selectItem(items[currentIndex]);
+            const item = items[currentIndex];
+            if (item instanceof HTMLElement) {
+              selectItem(item);
+            }
           }
           break;
         }
         case 'Escape': {
           e.preventDefault();
-          setOpen(false, true);
+          setMenuOpen(false, true);
           break;
         }
         default:
       }
     };
 
-    if (trigger) {
+    if (trigger instanceof HTMLElement) {
       trigger.setAttribute('aria-haspopup', 'menu');
       trigger.setAttribute('aria-controls', el.id);
       trigger.setAttribute('aria-expanded', el.dataset.open === 'true' ? 'true' : 'false');
       trigger.addEventListener('click', () => {
-        const shouldOpen = el.dataset.open !== 'true';
-        setOpen(shouldOpen);
+        const shouldOpen = !isOpen(el);
+        setMenuOpen(shouldOpen);
         if (shouldOpen) {
           focusItem(0);
         }
       });
     }
 
-    // Click to select
     for (const item of items) {
-      item.addEventListener('click', () => selectItem(item));
+      if (item instanceof HTMLElement) {
+        item.addEventListener('click', () => selectItem(item));
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown);
-
-    // Set initial focus
-    el.addEventListener('click', () => {
-      if (el.dataset.open === 'true') {
-        focusItem(0);
+    document.addEventListener('click', (event) => {
+      if (
+        isOpen(el) &&
+        event.target instanceof Node &&
+        !el.contains(event.target) &&
+        !(trigger instanceof HTMLElement && trigger.contains(event.target))
+      ) {
+        setMenuOpen(false);
       }
     });
+
+    if (el.dataset.open === 'true') {
+      requestAnimationFrame(() => setMenuOpen(true));
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-open') {
+          setMenuOpen(el.dataset.open === 'true');
+        }
+      }
+    });
+
+    observer.observe(el, { attributes: true });
   };
 
-  // Initialize all dropdowns
   const initDropdownMenus = () => {
     const menus = document.querySelectorAll('[data-component="dropdown-menu"]');
     for (const menu of menus) {

@@ -1,13 +1,19 @@
 import { defineConfig } from "oxlint";
 import astro from "ultracite/oxlint/astro";
 import core from "ultracite/oxlint/core";
-import vitest from "ultracite/oxlint/vitest";
 
 import { mergeOxlintConfigs } from "./oxlint.shared.ts";
 
 export default defineConfig(
-  mergeOxlintConfigs(core, astro, vitest, {
-    ignorePatterns: [".worktrees/**"],
+  mergeOxlintConfigs(core, astro, {
+    ignorePatterns: [
+      ".obsidian/**",
+      ".worktrees/**",
+      "artifacts/**",
+      "plan.md",
+      "raw/**",
+      "wiki/**",
+    ],
     overrides: [
       {
         files: ["**/*.astro"],
@@ -28,8 +34,6 @@ export default defineConfig(
         ],
         rules: {
           "no-template-curly-in-string": "off",
-          "vitest/no-importing-vitest-globals": "off",
-          "vitest/prefer-importing-vitest-globals": "off",
         },
       },
     ],

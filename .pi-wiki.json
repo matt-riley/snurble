@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "rawDir": "raw",
+  "rawInboxDir": "raw/inbox",
+  "rawSourcesDir": "raw/sources",
+  "rawAssetsDir": "raw/assets",
+  "wikiDir": "wiki",
+  "indexFile": "wiki/index.md",
+  "logFile": "wiki/log.md",
+  "overviewFile": "wiki/overview.md",
+  "templatesDir": "wiki/_templates",
+  "viewsDir": "wiki/_views",
+  "sections": {
+    "sources": "wiki/sources",
+    "entities": "wiki/entities",
+    "concepts": "wiki/concepts",
+    "analyses": "wiki/analyses"
+  },
+  "conventions": {
+    "rawSourcesImmutable": true,
+    "indexFirstQueries": true,
+    "appendOnlyLog": true
+  },
+  "obsidian": {
+    "configDir": ".obsidian",
+    "attachmentFolderPath": "raw/assets",
+    "newFileFolderPath": "wiki/analyses",
+    "useMarkdownLinks": false,
+    "newLinkFormat": "relative",
+    "alwaysUpdateLinks": true
+  }
+}

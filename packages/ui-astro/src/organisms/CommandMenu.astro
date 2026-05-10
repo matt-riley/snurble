@@ -1,12 +1,12 @@
 ---
-export interface CommandMenuItem {
+interface CommandMenuItem {
   label: string;
   value?: string;
   description?: string;
   disabled?: boolean;
 }
 
-export interface CommandMenuGroup {
+interface CommandMenuGroup {
   label?: string;
   items: CommandMenuItem[];
 }

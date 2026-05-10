@@ -1,5 +1,7 @@
 ---
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"a">, "class" | "href"> {
   href: string;
   variant?: "primary" | "secondary" | "danger";
   size?: "sm" | "md" | "lg";
@@ -15,6 +17,7 @@ const {
   external = false,
   selected = false,
   class: className,
+  ...rest
 } = Astro.props;
 ---
 
@@ -30,6 +33,7 @@ const {
     selected && "snurble-link-button--selected",
     className,
   ]}
+  {...rest}
 >
   <slot />
 </a>

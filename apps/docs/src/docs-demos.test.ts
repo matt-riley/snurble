@@ -256,7 +256,9 @@ describe.sequential("docs demos", () => {
         const response = await page.goto(
           `${docsUrl}/components/${entry.slug}/`
         );
-        await page.waitForLoadState("networkidle");
+        await page
+          .getByRole("heading", { level: 2, name: "Curated demo" })
+          .waitFor();
 
         const hasCuratedDemo =
           (await page
@@ -323,7 +325,9 @@ describe.sequential("docs demos", () => {
     const page = await browser.newPage();
 
     await page.goto(`${docsUrl}/components/popover/`);
-    await page.waitForLoadState("networkidle");
+    await page
+      .getByRole("heading", { level: 2, name: "Curated demo" })
+      .waitFor();
 
     await page.selectOption("[data-popover-position]", "left");
     await page.uncheck("[data-popover-title]");

@@ -1,10 +1,15 @@
 ---
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+import { toSpaceSeparatedIds } from "../internal/a11y";
+
+interface Props extends Omit<HTMLAttributes<"textarea">, "class" | "id" | "rows"> {
   id: string;
   placeholder?: string;
   disabled?: boolean;
   required?: boolean;
   rows?: number;
+  describedBy?: string | readonly string[];
   class?: string;
 }
 
@@ -14,8 +19,12 @@ const {
   disabled = false,
   required = false,
   rows = 4,
+  describedBy,
   class: className,
+  ...rest
 } = Astro.props;
+
+const ariaDescribedBy = toSpaceSeparatedIds(describedBy);
 ---
 
 <textarea
@@ -24,12 +33,13 @@ const {
   disabled={disabled}
   required={required}
   rows={rows}
-  aria-describedby={`${id}-description ${id}-error`}
+  aria-describedby={ariaDescribedBy}
   class:list={[
     "snurble-textarea",
     disabled && "snurble-textarea--disabled",
     className,
   ]}
+  {...rest}
 />
 
 <style>

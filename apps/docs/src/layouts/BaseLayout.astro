@@ -14,7 +14,7 @@ interface Props {
 const { title, description = "Snurble workspace baseline", llm } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} transitions>
   <Fragment slot="head">
     <link {...llm.alternateLink} />
     <slot name="head" />

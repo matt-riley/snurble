@@ -17,7 +17,7 @@
  * <button id="popover-trigger">Open help</button>
  */
 
-export interface Props {
+interface Props {
   /** Unique ID for the popover */
   id?: string;
   /** Whether popover is open by default */
@@ -35,7 +35,7 @@ export interface Props {
 }
 
 const {
-  id = `popover-${Math.random().toString(36).slice(2)}`,
+  id = `popover-${crypto.randomUUID()}`,
   open = false,
   triggerId,
   position = 'bottom',
@@ -50,6 +50,7 @@ const {
   class:list={[
     'snurble-popover',
     `snurble-popover-${position}`,
+    !triggerId && 'snurble-popover--static',
     className,
   ]}
   data-component="popover"
@@ -60,13 +61,11 @@ const {
   role="dialog"
   aria-modal="false"
   aria-labelledby={title ? `${id}-title` : undefined}
+  popover={triggerId ? "manual" : undefined}
 >
-  {/* Arrow pointing to trigger */}
   <div class="snurble-popover-arrow" aria-hidden="true" />
 
-  {/* Content box */}
   <div class="snurble-popover-box">
-    {/* Header if provided */}
     {title && (
       <div class="snurble-popover-header">
         <h3 id={`${id}-title`} class="snurble-popover-title">{title}</h3>
@@ -90,7 +89,6 @@ const {
       </div>
     )}
 
-    {/* Content */}
     <div class="snurble-popover-content">
       <slot />
     </div>
@@ -100,10 +98,49 @@ const {
 <style>
   .snurble-popover {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: var(--snurble-z-index-popover);
     opacity: 0;
     pointer-events: none;
     animation: snurble-popover-exit 150ms ease-out forwards;
+  }
+
+  .snurble-popover--static {
+    position: relative;
+    top: auto;
+    left: auto;
+  }
+
+  @supports (position-anchor: --snurble-anchor) {
+    .snurble-popover:not(.snurble-popover--static) {
+      position: absolute;
+      top: auto;
+      left: auto;
+      position-anchor: --snurble-anchor;
+    }
+
+    .snurble-popover-top:not(.snurble-popover--static) {
+      bottom: calc(anchor(top) + 0.75rem);
+      justify-self: anchor-center;
+    }
+
+    .snurble-popover-bottom:not(.snurble-popover--static) {
+      top: calc(anchor(bottom) + 0.75rem);
+      justify-self: anchor-center;
+    }
+
+    .snurble-popover-left:not(.snurble-popover--static) {
+      right: calc(anchor(left) + 0.75rem);
+      top: calc(anchor(center));
+      translate: 0 -50%;
+    }
+
+    .snurble-popover-right:not(.snurble-popover--static) {
+      left: calc(anchor(right) + 0.75rem);
+      top: calc(anchor(center));
+      translate: 0 -50%;
+    }
   }
 
   .snurble-popover[data-open='true'] {
@@ -125,7 +162,6 @@ const {
     border-style: solid;
   }
 
-  /* Arrow positioning by direction */
   .snurble-popover-top .snurble-popover-arrow {
     bottom: -6px;
     left: 50%;
@@ -249,6 +285,15 @@ const {
 </style>
 
 <script>
+  import {
+    applyAnchorPair,
+    attachFloatingAutoUpdate,
+    isOpen,
+    noopCleanup,
+    setOpen,
+    supportsPopoverApi,
+  } from "../internal/floating";
+
   const initPopover = (el: Element) => {
     if (!(el instanceof HTMLElement) || el.dataset.snurblePopoverBound === 'true') {
       return;
@@ -258,55 +303,70 @@ const {
     const closeButton = el.querySelector('[data-close-button]');
     const trigger = el.dataset.triggerId ? document.querySelector(`#${CSS.escape(el.dataset.triggerId)}`) : null;
     const closeOnOutside = el.dataset.closeOnOutside === 'true';
+    let detachAutoUpdate = noopCleanup;
+
+    if (!supportsPopoverApi(el)) {
+      el.hidden = el.dataset.open !== 'true';
+    }
+
+    if (trigger instanceof HTMLElement) {
+      applyAnchorPair(trigger, el, el.id || trigger.id || 'popover');
+    }
+
+    const updatePosition = () => {
+      detachAutoUpdate();
+      if (trigger instanceof HTMLElement) {
+        detachAutoUpdate = attachFloatingAutoUpdate(trigger, el, el.dataset.position ?? 'bottom', 12);
+      }
+    };
 
     const close = (focusTrigger = false) => {
-      el.dataset.open = 'false';
+      detachAutoUpdate();
+      setOpen(el, false);
       trigger?.setAttribute('aria-expanded', 'false');
-      if (focusTrigger) {
-        trigger?.focus();
+      if (focusTrigger && trigger instanceof HTMLElement) {
+        trigger.focus();
       }
     };
 
     const open = () => {
-      el.dataset.open = 'true';
+      updatePosition();
+      setOpen(el, true);
       trigger?.setAttribute('aria-expanded', 'true');
     };
 
     const toggle = () => {
-      if (el.dataset.open === 'true') {
+      if (isOpen(el)) {
         close();
       } else {
         open();
       }
     };
 
-    if (trigger) {
+    if (trigger instanceof HTMLElement) {
       trigger.setAttribute('aria-haspopup', 'dialog');
       trigger.setAttribute('aria-expanded', el.dataset.open === 'true' ? 'true' : 'false');
       trigger.setAttribute('aria-controls', el.id);
       trigger.addEventListener('click', toggle);
     }
 
-    // Close button
-    if (closeButton) {
+    if (closeButton instanceof HTMLButtonElement) {
       closeButton.addEventListener('click', () => close(true));
     }
 
-    // Click outside
     const handleClickOutside = (e: MouseEvent) => {
       if (
         closeOnOutside &&
-        el.dataset.open === 'true' &&
+        isOpen(el) &&
         !el.contains(e.target as Node) &&
-        !trigger?.contains(e.target as Node)
+        !(trigger instanceof HTMLElement && trigger.contains(e.target as Node))
       ) {
         close();
       }
     };
 
-    // Escape key
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && el.dataset.open === 'true') {
+      if (e.key === 'Escape' && isOpen(el)) {
         close(true);
       }
     };
@@ -314,17 +374,25 @@ const {
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
 
-    // Cleanup
-    return () => {
-      if (trigger) {
-        trigger.removeEventListener('click', toggle);
+    if (el.dataset.open === 'true') {
+      requestAnimationFrame(open);
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-open') {
+          if (el.dataset.open === 'true') {
+            open();
+          } else {
+            close();
+          }
+        }
       }
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
+    });
+
+    observer.observe(el, { attributes: true });
   };
 
-  // Initialize all popovers
   const initPopovers = () => {
     const popovers = document.querySelectorAll('[data-component="popover"]');
     for (const popover of popovers) {

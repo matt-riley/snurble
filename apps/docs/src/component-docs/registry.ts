@@ -39,7 +39,7 @@ export interface ComponentDocEntry
   readonly props?: readonly ComponentProp[];
 }
 
-export interface LlmHelperDocSeed {
+interface LlmHelperDocSeed {
   readonly name: "createMarkdownAlternateLink";
   readonly slug: "llm-helper";
 }
@@ -177,6 +177,34 @@ export const llmHelperDoc = {
   name: "createMarkdownAlternateLink",
   slug: "llm-helper",
 } as const satisfies LlmHelperDocSeed;
+
+const sharedActionButtonProps = [
+  {
+    name: "variant",
+    type: "'primary' | 'secondary' | 'danger'",
+    description: "The visual style of the button.",
+    default: "'primary'",
+  },
+  {
+    name: "size",
+    type: "'sm' | 'md' | 'lg'",
+    description: "The size of the button.",
+    default: "'md'",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    description: "Whether the button is disabled.",
+    default: "false",
+  },
+  {
+    name: "selected",
+    type: "boolean",
+    description: "Whether the button is in a selected/pressed state.",
+    default: "false",
+  },
+  { name: "class", type: "string", description: "Additional CSS classes." },
+] as const satisfies readonly ComponentProp[];
 
 type ComponentName = (typeof componentDocCatalog)[number]["name"];
 
@@ -960,33 +988,7 @@ const componentContentByName: Record<
     ],
     summary:
       "Render the primary shared action control for the highest-priority calls to action. The absolute workhorse of any UI.",
-    props: [
-      {
-        name: "variant",
-        type: "'primary' | 'secondary' | 'danger'",
-        description: "The visual style of the button.",
-        default: "'primary'",
-      },
-      {
-        name: "size",
-        type: "'sm' | 'md' | 'lg'",
-        description: "The size of the button.",
-        default: "'md'",
-      },
-      {
-        name: "disabled",
-        type: "boolean",
-        description: "Whether the button is disabled.",
-        default: "false",
-      },
-      {
-        name: "selected",
-        type: "boolean",
-        description: "Whether the button is in a selected/pressed state.",
-        default: "false",
-      },
-      { name: "class", type: "string", description: "Additional CSS classes." },
-    ],
+    props: sharedActionButtonProps,
   },
   Callout: {
     exampleCode: `<Callout title="Consumer-owned">Route metadata stays local.</Callout>`,
@@ -1271,31 +1273,7 @@ const componentContentByName: Record<
         description: "Accessible label for the button.",
         required: true,
       },
-      {
-        name: "variant",
-        type: "'primary' | 'secondary' | 'danger'",
-        description: "The visual style of the button.",
-        default: "'primary'",
-      },
-      {
-        name: "size",
-        type: "'sm' | 'md' | 'lg'",
-        description: "The size of the button.",
-        default: "'md'",
-      },
-      {
-        name: "disabled",
-        type: "boolean",
-        description: "Whether the button is disabled.",
-        default: "false",
-      },
-      {
-        name: "selected",
-        type: "boolean",
-        description: "Whether the button is in a selected/pressed state.",
-        default: "false",
-      },
-      { name: "class", type: "string", description: "Additional CSS classes." },
+      ...sharedActionButtonProps,
     ],
   },
   Input: {
@@ -1949,8 +1927,3 @@ export const llmHelperDocDetails = {
     "Build the link attributes for a markdown alternate so HTML pages can advertise text-first twins to LLM-oriented clients.",
   title: "LLM helper API",
 } as const;
-
-export const getComponentDocBySlug = (
-  slug: string
-): ComponentDocEntry | undefined =>
-  componentDocs.find((entry) => entry.slug === slug);

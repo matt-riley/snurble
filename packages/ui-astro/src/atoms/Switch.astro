@@ -1,21 +1,11 @@
 ---
-interface Props {
-  id: string;
-  label: string;
-  disabled?: boolean;
-  checked?: boolean;
-  required?: boolean;
-  class?: string;
-}
+import { getToggleControlProps } from '../internal/toggle-control';
+import type { ToggleControlProps } from '../internal/toggle-control';
 
-const {
-  id,
-  label,
-  disabled = false,
-  checked = false,
-  required = false,
-  class: className,
-} = Astro.props;
+type Props = ToggleControlProps;
+
+const { ariaDescribedBy, checked, className, disabled, id, label, required, rest } =
+  getToggleControlProps(Astro.props);
 ---
 
 <div class:list={["snurble-switch", className]}>
@@ -23,27 +13,18 @@ const {
     id={id}
     type="checkbox"
     role="switch"
-    aria-checked={checked}
     disabled={disabled}
     checked={checked}
     required={required}
+    aria-describedby={ariaDescribedBy}
     class="snurble-switch__input"
+    {...rest}
   />
   <label for={id} class="snurble-switch__label">
-    <span class="snurble-switch__toggle" />
+    <span class="snurble-switch__toggle" aria-hidden="true" />
     {label}
   </label>
 </div>
-
-<script>
-  const switchInputs = document.querySelectorAll(".snurble-switch__input");
-  for (const input of switchInputs) {
-    input.addEventListener("change", (e) => {
-      const target = e.target as HTMLInputElement;
-      target.setAttribute("aria-checked", target.checked.toString());
-    });
-  }
-</script>
 
 <style>
   .snurble-switch {
@@ -52,11 +33,19 @@ const {
   }
 
   .snurble-switch__input {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .snurble-switch__label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: var(--snurble-space-2);
     font-size: 0.875rem;
@@ -88,22 +77,29 @@ const {
     box-shadow: var(--snurble-shadow-sm);
   }
 
-  .snurble-switch__input:checked ~ .snurble-switch__label .snurble-switch__toggle {
+  .snurble-switch__input:checked + .snurble-switch__label .snurble-switch__toggle {
     background-color: var(--snurble-brand-primary);
   }
 
-  .snurble-switch__input:checked ~ .snurble-switch__label .snurble-switch__toggle::before {
+  .snurble-switch__input:checked + .snurble-switch__label .snurble-switch__toggle::before {
     transform: translateX(1rem);
   }
 
-  .snurble-switch__input:focus-visible ~ .snurble-switch__label {
+  .snurble-switch__input:focus-visible + .snurble-switch__label {
     outline: 2px solid var(--snurble-accent-success);
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
 
-  .snurble-switch__input:disabled ~ .snurble-switch__label {
+  .snurble-switch__input:disabled + .snurble-switch__label {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snurble-switch__toggle,
+    .snurble-switch__toggle::before {
+      transition: none;
+    }
   }
 </style>

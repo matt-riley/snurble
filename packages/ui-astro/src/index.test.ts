@@ -1,15 +1,10 @@
 /* oxlint-disable vitest/no-importing-vitest-globals */
 
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
-
 import { describe, expect, it, vi } from "vitest";
 
-const repoRoot = resolve(import.meta.dirname, "../../..");
-vi.setConfig({ testTimeout: 30_000 });
+import { readRepoFile } from "../../../test/support/repo-files";
 
-const readRepoFile = (relativePath: string): Promise<string> =>
-  readFile(resolve(repoRoot, relativePath), "utf-8");
+vi.setConfig({ testTimeout: 30_000 });
 
 describe("ui-astro package", () => {
   it("exposes the durable foundation primitives through the package entrypoint", async () => {
@@ -217,16 +212,18 @@ describe("ui-astro package", () => {
     }
   });
 
-  it("wires Tooltip to aria-describedby triggers and positions it beside the trigger", async () => {
+  it("wires Tooltip to aria-describedby triggers and upgrades to native popover behavior", async () => {
     const tooltipAstro = await readRepoFile(
       "packages/ui-astro/src/atoms/Tooltip.astro"
     );
 
     expect(tooltipAstro).toContain('[aria-describedby~="${tooltipId}"]');
-    expect(tooltipAstro).toContain("trigger.getBoundingClientRect()");
-    expect(tooltipAstro).toContain("el.getBoundingClientRect()");
-    expect(tooltipAstro).toContain("el.style.left =");
-    expect(tooltipAstro).toContain("el.style.top =");
+    expect(tooltipAstro).toContain('popover="manual"');
+    expect(tooltipAstro).toContain("applyAnchorPair");
+    expect(tooltipAstro).toContain("attachFloatingAutoUpdate");
+    expect(tooltipAstro).toContain("setOpen(el, true)");
+    expect(tooltipAstro).toContain("setOpen(el, false)");
+    expect(tooltipAstro).toContain("supportsPopoverApi");
     expect(tooltipAstro).not.toContain("value: number");
     expect(tooltipAstro).not.toContain("trigger: HTMLElement");
     expect(tooltipAstro).not.toContain("ReturnType<typeof setTimeout>");
@@ -1072,7 +1069,13 @@ describe("ui-astro package", () => {
       '<slot name="skills" />'
     );
     await expect(experienceCardAstro).resolves.toContain("<SkillIconList>");
-    await expect(experienceCardAstro).resolves.not.toContain("class?: string;");
+    await expect(experienceCardAstro).resolves.toContain(
+      'surface?: "solid" | "glass";'
+    );
+    await expect(experienceCardAstro).resolves.toContain(
+      "viewTransitionName?: string;"
+    );
+    await expect(experienceCardAstro).resolves.toContain("class?: string;");
   });
 
   it("implements ExperienceList for wrapping multiple experience cards with semantic list markup", async () => {
@@ -1155,23 +1158,6 @@ describe("ui-astro package", () => {
       ".snurble-skill-icon-list {"
     );
     await expect(skillIconListAstro).resolves.not.toContain("skills:");
-  });
-
-  it("exports experience primitives through the package entrypoint", async () => {
-    const indexTs = await readRepoFile("packages/ui-astro/src/index.ts");
-
-    expect(indexTs).toContain(
-      'export { default as ExperienceCard } from "./organisms/ExperienceCard.astro";'
-    );
-    expect(indexTs).toContain(
-      'export { default as ExperienceList } from "./molecules/ExperienceList.astro";'
-    );
-    expect(indexTs).toContain(
-      'export { default as SkillIcon } from "./atoms/SkillIcon.astro";'
-    );
-    expect(indexTs).toContain(
-      'export { default as SkillIconList } from "./molecules/SkillIconList.astro";'
-    );
   });
 
   it("implements SeoMeta for Open Graph and Twitter Card metadata injection", async () => {

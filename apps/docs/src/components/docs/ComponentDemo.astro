@@ -916,6 +916,7 @@ console.log(\`Publishing Snurble with the \${publishTag} dist-tag\`);`;
         const isActive = key === activeKey;
 
         entry.wrapper.hidden = !isActive;
+        entry.popover.hidden = !isActive;
         entry.popover.dataset.closeOnOutside = closeOnOutsideClick;
         entry.popover.dataset.open = isActive ? "true" : "false";
         setPositionClass(entry.popover, position);

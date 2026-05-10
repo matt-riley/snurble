@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --dir apps/docs dev",
-    "lint": "pnpm exec oxlint -c oxlint.lint.config.ts . && pnpm exec oxfmt --check . && node scripts/lint-tokens.js",
+    "lint": "pnpm exec oxlint -c oxlint.config.ts . && pnpm exec oxfmt --check . && node scripts/lint-tokens.js",
     "typecheck": "pnpm exec tsc --noEmit -p packages/ui-astro/tsconfig.json && pnpm --dir apps/docs typecheck",
     "test": "pnpm exec vitest run",
     "smoke": "bash scripts/smoke-test.sh",

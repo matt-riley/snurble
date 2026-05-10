@@ -1,6 +1,8 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
+import { toViewTransitionStyle } from "../internal/view-transitions";
+
 interface Props extends HTMLAttributes<"div"> {
   label: string;
   value: string | number;
@@ -8,9 +10,22 @@ interface Props extends HTMLAttributes<"div"> {
   trendValue?: string;
   icon?: string;
   href?: string;
+  surface?: "solid" | "glass";
+  viewTransitionName?: string;
 }
 
-const { label, value, trend, trendValue, icon, href, class: className, ...rest } = Astro.props;
+const {
+  label,
+  value,
+  trend,
+  trendValue,
+  icon,
+  href,
+  surface = "solid",
+  viewTransitionName,
+  class: className,
+  ...rest
+} = Astro.props;
 let trendColor = "var(--snurble-text-muted)";
 if (trend === "up") {
   trendColor = "var(--snurble-accent-success)";
@@ -27,12 +42,13 @@ if (trend === "up") {
   trendArrow = "→";
 }
 
-const cardClassName = ["stat-card", className];
+const cardClassName = ["stat-card", `stat-card--${surface}`, className];
+const surfaceStyle = toViewTransitionStyle(viewTransitionName);
 ---
 
 {href ? (
   <a href={href} class:list={cardClassName} {...rest}>
-    <div class="stat-card-surface">
+    <div class="stat-card-surface" style={surfaceStyle}>
       <div class="stat-card-header">
         {icon && <span class="stat-card-icon" aria-hidden="true" set:html={icon} />}
         <span class="stat-card-label">{label}</span>
@@ -50,7 +66,7 @@ const cardClassName = ["stat-card", className];
   </a>
 ) : (
   <div class:list={cardClassName} {...rest}>
-    <div class="stat-card-surface">
+    <div class="stat-card-surface" style={surfaceStyle}>
       <div class="stat-card-header">
         {icon && <span class="stat-card-icon" aria-hidden="true" set:html={icon} />}
         <span class="stat-card-label">{label}</span>
@@ -91,18 +107,23 @@ const cardClassName = ["stat-card", className];
     padding: var(--snurble-space-5);
     border: 1px solid var(--snurble-border);
     border-radius: var(--snurble-radius-2xl);
-    background:
-      linear-gradient(180deg, var(--snurble-highlight-subtle) 0%, transparent 100%),
-      linear-gradient(180deg, var(--snurble-surface-card) 0%, var(--snurble-surface) 100%);
+    background: var(--snurble-surface-card);
     box-shadow: var(--snurble-shadow-md);
-    backdrop-filter: blur(16px);
     transition:
       transform var(--snurble-transition-base),
       border-color var(--snurble-transition-base),
-      box-shadow var(--snurble-transition-base);
+      box-shadow var(--snurble-transition-base),
+      background var(--snurble-transition-base);
   }
 
-  .stat-card-surface::before {
+  .stat-card--glass .stat-card-surface {
+    background:
+      linear-gradient(180deg, var(--snurble-highlight-subtle) 0%, transparent 100%),
+      linear-gradient(180deg, var(--snurble-surface-card) 0%, var(--snurble-surface) 100%);
+    backdrop-filter: blur(16px);
+  }
+
+  .stat-card--glass .stat-card-surface::before {
     content: "";
     position: absolute;
     inset: -35% auto auto 55%;
@@ -214,7 +235,8 @@ const cardClassName = ["stat-card", className];
     .stat-card-surface {
       transition:
         border-color var(--snurble-transition-base),
-        box-shadow var(--snurble-transition-base);
+        box-shadow var(--snurble-transition-base),
+        background var(--snurble-transition-base);
       backdrop-filter: none;
     }
 

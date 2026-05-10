@@ -1,10 +1,13 @@
 ---
+import { toViewTransitionStyle } from "../internal/view-transitions";
+
 interface Props {
   as?: "article" | "section" | "div";
   variant?: "flat" | "bordered" | "elevated" | "glass";
   padding?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   interactive?: boolean;
   href?: string;
+  viewTransitionName?: string;
   class?: string;
 }
 
@@ -14,6 +17,7 @@ const {
   padding = 5,
   interactive = false,
   href,
+  viewTransitionName,
   class: className,
 } = Astro.props;
 const Tag = as;
@@ -23,7 +27,13 @@ const classes = [
   (interactive || href) && "snurble-card--interactive",
   className,
 ];
-const style = `--snurble-card-padding: var(--snurble-space-${padding});`;
+
+const style = [
+  `--snurble-card-padding: var(--snurble-space-${padding});`,
+  toViewTransitionStyle(viewTransitionName),
+]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 {href ? (

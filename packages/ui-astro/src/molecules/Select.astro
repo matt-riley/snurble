@@ -1,17 +1,23 @@
 ---
+import type { HTMLAttributes } from "astro/types";
+
+import { toSpaceSeparatedIds } from "../internal/a11y";
+
 interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
 }
 
-interface Props {
+interface Props extends Omit<HTMLAttributes<"select">, "class" | "id"> {
   id: string;
   options: SelectOption[];
   disabled?: boolean;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
+  describedBy?: string | readonly string[];
   class?: string;
 }
 
@@ -21,9 +27,15 @@ const {
   disabled = false,
   required = false,
   defaultValue,
+  value: controlledValue,
   placeholder,
+  describedBy,
   class: className,
+  ...rest
 } = Astro.props;
+
+const selectedValue = controlledValue ?? defaultValue;
+const ariaDescribedBy = toSpaceSeparatedIds(describedBy);
 ---
 
 <div class:list={["snurble-select-wrapper", className]}>
@@ -31,15 +43,26 @@ const {
     id={id}
     disabled={disabled}
     required={required}
-    aria-describedby={`${id}-description ${id}-error`}
+    aria-describedby={ariaDescribedBy}
     class:list={[
       "snurble-select",
       disabled && "snurble-select--disabled",
     ]}
+    {...rest}
   >
-    {placeholder && <option value="">{placeholder}</option>}
+    {
+      placeholder && (
+        <option value="" selected={selectedValue === undefined}>
+          {placeholder}
+        </option>
+      )
+    }
     {options.map((option) => (
-      <option value={option.value} disabled={option.disabled} selected={option.value === defaultValue}>
+      <option
+        value={option.value}
+        disabled={option.disabled}
+        selected={option.value === selectedValue}
+      >
         {option.label}
       </option>
     ))}
@@ -76,6 +99,12 @@ const {
     outline-offset: 2px;
   }
 
+  @supports (appearance: base-select) {
+    .snurble-select {
+      appearance: base-select;
+    }
+  }
+
   .snurble-select-chevron {
     position: absolute;
     right: 0.5rem;
@@ -103,7 +132,7 @@ const {
   .snurble-select:invalid:not(:placeholder-shown) {
     border-color: var(--snurble-accent-danger);
   }
-  
+
   .snurble-select:invalid:not(:placeholder-shown) + .snurble-select-chevron {
     color: var(--snurble-accent-danger);
   }

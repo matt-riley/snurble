@@ -10,7 +10,7 @@
  * <Tooltip id="tooltip-save" text="Save your changes" position="top" />
  */
 
-export interface Props {
+interface Props {
   id?: string;
   /** Tooltip text content */
   text: string;
@@ -22,7 +22,7 @@ export interface Props {
   class?: string;
 }
 
-const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 'top', delay = 300, class: className } = Astro.props;
+const { id = `tooltip-${crypto.randomUUID()}`, text, position = 'top', delay = 300, class: className } = Astro.props;
 ---
 
 <div
@@ -35,13 +35,12 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
   data-component="tooltip"
   data-position={position}
   data-delay={delay}
+  data-open="false"
   role="tooltip"
   aria-hidden="true"
+  popover="manual"
 >
-  {/* Arrow */}
   <div class="snurble-tooltip-arrow" aria-hidden="true" />
-
-  {/* Text */}
   <div class="snurble-tooltip-box">
     {text}
   </div>
@@ -50,10 +49,46 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
 <style>
   .snurble-tooltip {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: var(--snurble-z-index-tooltip);
     opacity: 0;
     pointer-events: none;
     animation: snurble-tooltip-exit 150ms ease-out forwards;
+  }
+
+  @supports (position-anchor: --snurble-anchor) {
+    .snurble-tooltip {
+      position: absolute;
+      top: auto;
+      left: auto;
+    }
+
+    .snurble-tooltip-top {
+      position-anchor: --snurble-anchor;
+      bottom: calc(anchor(top) + 0.5rem);
+      justify-self: anchor-center;
+    }
+
+    .snurble-tooltip-bottom {
+      position-anchor: --snurble-anchor;
+      top: calc(anchor(bottom) + 0.5rem);
+      justify-self: anchor-center;
+    }
+
+    .snurble-tooltip-left {
+      position-anchor: --snurble-anchor;
+      right: calc(anchor(left) + 0.5rem);
+      top: calc(anchor(center));
+      translate: 0 -50%;
+    }
+
+    .snurble-tooltip-right {
+      position-anchor: --snurble-anchor;
+      left: calc(anchor(right) + 0.5rem);
+      top: calc(anchor(center));
+      translate: 0 -50%;
+    }
   }
 
   .snurble-tooltip.show {
@@ -74,7 +109,6 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
     border-style: solid;
   }
 
-  /* Arrow positioning */
   .snurble-tooltip-top .snurble-tooltip-arrow {
     bottom: -4px;
     left: 50%;
@@ -141,46 +175,14 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
   }
 </style>
 
-<script define:vars={{ delay }}>
-  const tooltipOffset = 8;
-
-  const clamp = (value, min, max) =>
-    Math.min(Math.max(value, min), max);
-
-  const positionTooltip = (trigger, el) => {
-    const triggerRect = trigger.getBoundingClientRect();
-    const tooltipRect = el.getBoundingClientRect();
-    const tooltipPosition = el.dataset.position ?? 'top';
-
-    let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
-    let top = triggerRect.top - tooltipRect.height - tooltipOffset;
-
-    switch (tooltipPosition) {
-      case 'bottom': {
-        top = triggerRect.bottom + tooltipOffset;
-        break;
-      }
-      case 'left': {
-        left = triggerRect.left - tooltipRect.width - tooltipOffset;
-        top = triggerRect.top + triggerRect.height / 2 - tooltipRect.height / 2;
-        break;
-      }
-      case 'right': {
-        left = triggerRect.right + tooltipOffset;
-        top = triggerRect.top + triggerRect.height / 2 - tooltipRect.height / 2;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    const maxLeft = Math.max(window.innerWidth - tooltipRect.width - tooltipOffset, tooltipOffset);
-    const maxTop = Math.max(window.innerHeight - tooltipRect.height - tooltipOffset, tooltipOffset);
-
-    el.style.left = `${clamp(left, tooltipOffset, maxLeft)}px`;
-    el.style.top = `${clamp(top, tooltipOffset, maxTop)}px`;
-  };
+<script>
+  import {
+    applyAnchorPair,
+    attachFloatingAutoUpdate,
+    noopCleanup,
+    setOpen,
+    supportsPopoverApi,
+  } from "../internal/floating";
 
   const initTooltip = (el) => {
     if (!(el instanceof HTMLElement) || !el.id || el.dataset.snurbleTooltipBound === 'true') {
@@ -195,9 +197,17 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
     }
 
     let showTimeout;
+    let detachAutoUpdate = noopCleanup;
+
+    if (!supportsPopoverApi(el)) {
+      el.hidden = true;
+    }
+
+    applyAnchorPair(trigger, el, tooltipId);
 
     const updatePosition = () => {
-      positionTooltip(trigger, el);
+      detachAutoUpdate();
+      detachAutoUpdate = attachFloatingAutoUpdate(trigger, el, el.dataset.position ?? 'top', 8);
     };
 
     const show = () => {
@@ -205,38 +215,24 @@ const { id = `tooltip-${Math.random().toString(36).slice(2)}`, text, position = 
         updatePosition();
         el.setAttribute('aria-hidden', 'false');
         el.classList.add('show');
-      }, delay);
+        setOpen(el, true);
+      }, Number(el.dataset.delay ?? 300));
     };
 
     const hide = () => {
       if (showTimeout !== undefined) {
         clearTimeout(showTimeout);
       }
+      detachAutoUpdate();
       el.setAttribute('aria-hidden', 'true');
       el.classList.remove('show');
-    };
-
-    const handleViewportChange = () => {
-      if (el.classList.contains('show')) {
-        updatePosition();
-      }
+      setOpen(el, false);
     };
 
     trigger.addEventListener('mouseenter', show);
     trigger.addEventListener('mouseleave', hide);
     trigger.addEventListener('focus', show);
     trigger.addEventListener('blur', hide);
-    window.addEventListener('resize', handleViewportChange);
-    window.addEventListener('scroll', handleViewportChange, true);
-
-    return () => {
-      trigger.removeEventListener('mouseenter', show);
-      trigger.removeEventListener('mouseleave', hide);
-      trigger.removeEventListener('focus', show);
-      trigger.removeEventListener('blur', hide);
-      window.removeEventListener('resize', handleViewportChange);
-      window.removeEventListener('scroll', handleViewportChange, true);
-    };
   };
 
   const initTooltips = () => {

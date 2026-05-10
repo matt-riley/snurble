@@ -4,5 +4,6 @@
     "rootDir": "src",
     "strictNullChecks": true
   },
-  "include": ["src/index.ts", "src/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.browser.test.ts"]
 }

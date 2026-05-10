@@ -1,9 +1,5 @@
-export {
-  DOCS_SITE_URL,
-  defineDocsLlmPage,
-  type DocsLlmPage,
-} from "./define-page";
-export { docsLlmPages, getDocsLlmPageBySlug } from "./pages";
+export type { DocsLlmPage } from "./define-page";
+export { docsLlmPages } from "./pages";
 export {
   renderLlmsFull,
   renderLlmsTxt,

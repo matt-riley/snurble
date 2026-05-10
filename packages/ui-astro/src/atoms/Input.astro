@@ -1,11 +1,16 @@
 ---
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+import { toSpaceSeparatedIds } from "../internal/a11y";
+
+interface Props extends Omit<HTMLAttributes<"input">, "class" | "id" | "type"> {
   id: string;
   type?: string;
   placeholder?: string;
   disabled?: boolean;
   required?: boolean;
-  value?: string;
+  value?: string | number;
+  describedBy?: string | readonly string[];
   class?: string;
 }
 
@@ -16,8 +21,12 @@ const {
   disabled = false,
   required = false,
   value,
+  describedBy,
   class: className,
+  ...rest
 } = Astro.props;
+
+const ariaDescribedBy = toSpaceSeparatedIds(describedBy);
 ---
 
 <input
@@ -27,12 +36,13 @@ const {
   disabled={disabled}
   required={required}
   value={value}
-  aria-describedby={`${id}-description ${id}-error`}
+  aria-describedby={ariaDescribedBy}
   class:list={[
     "snurble-input",
     disabled && "snurble-input--disabled",
     className,
   ]}
+  {...rest}
 />
 
 <style>

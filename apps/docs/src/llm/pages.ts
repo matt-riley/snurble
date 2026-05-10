@@ -18,6 +18,3 @@ export const docsLlmPages = [
   migrationLlmPage,
   releaseReadinessLlmPage,
 ] as const satisfies readonly DocsLlmPage[];
-
-export const getDocsLlmPageBySlug = (slug: string): DocsLlmPage | undefined =>
-  docsLlmPages.find((page) => page.slug === slug);

@@ -1,22 +1,18 @@
 /* oxlint-disable vitest/no-importing-vitest-globals */
 
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { mkdtemp, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { promisify } from "node:util";
 
 import { describe, expect, it, vi } from "vitest";
 
+import { readRepoFile, readRepoJson } from "../../../test/support/repo-files";
+
 const execFileAsync = promisify(execFile);
 const repoRoot = resolve(import.meta.dirname, "../../..");
 vi.setConfig({ testTimeout: 30_000 });
-
-const readRepoFile = (relativePath: string): Promise<string> =>
-  readFile(resolve(repoRoot, relativePath), "utf-8");
-
-const readRepoJson = async <T>(relativePath: string): Promise<T> =>
-  JSON.parse(await readRepoFile(relativePath)) as T;
 
 const packPackage = async (packageDir: string): Promise<string[]> => {
   const packDestination = await mkdtemp(

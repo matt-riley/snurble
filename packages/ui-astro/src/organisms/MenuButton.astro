@@ -1,5 +1,5 @@
 ---
-export interface MenuButtonItem {
+interface MenuButtonItem {
   label: string;
   value?: string;
   href?: string;
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const {
-  id = `menu-button-${Math.random().toString(36).slice(2)}`,
+  id = `menu-button-${crypto.randomUUID()}`,
   label,
   items = [],
   variant = "secondary",
@@ -47,6 +47,8 @@ const menuId = `${id}-menu`;
     aria-haspopup="menu"
     aria-expanded="false"
     aria-controls={menuId}
+    popovertarget={menuId}
+    popovertargetaction="toggle"
     data-menu-trigger
   >
     <span>{label}</span>
@@ -54,7 +56,7 @@ const menuId = `${id}-menu`;
       <polyline points="6 9 12 15 18 9" />
     </svg>
   </button>
-  <div id={menuId} class="snurble-menu-button__menu" role="menu" aria-labelledby={id} data-menu hidden>
+  <div id={menuId} class="snurble-menu-button__menu" role="menu" aria-labelledby={id} data-menu popover="auto">
     {items.map((item) => (
       item.href ? (
         <a
@@ -177,6 +179,31 @@ const menuId = `${id}-menu`;
     box-shadow: var(--snurble-shadow-spatial-floating);
   }
 
+  @supports (position-anchor: --snurble-anchor) {
+    .snurble-menu-button__menu {
+      position: absolute;
+      position-anchor: --snurble-anchor;
+      inset-inline-start: auto;
+      top: auto;
+      left: anchor(left);
+      margin-top: var(--snurble-space-2);
+      min-width: max(12rem, anchor-size(width));
+    }
+
+    .snurble-menu-button--top .snurble-menu-button__menu {
+      bottom: calc(anchor(top) + var(--snurble-space-2));
+      margin-top: 0;
+    }
+
+    .snurble-menu-button--bottom .snurble-menu-button__menu {
+      top: calc(anchor(bottom) + var(--snurble-space-2));
+    }
+
+    .snurble-menu-button--align-end .snurble-menu-button__menu {
+      left: calc(anchor(right) - anchor-size(width));
+    }
+  }
+
   .snurble-menu-button--top .snurble-menu-button__menu {
     top: auto;
     bottom: calc(100% + var(--snurble-space-2));
@@ -231,6 +258,14 @@ const menuId = `${id}-menu`;
 </style>
 
 <script>
+  import {
+    applyAnchorPair,
+    attachFloatingAutoUpdate,
+    noopCleanup,
+    setOpen,
+    supportsPopoverApi,
+  } from "../internal/floating";
+
   const initMenuButton = (el: Element) => {
     if (!(el instanceof HTMLElement) || el.dataset.snurbleMenuButtonBound === "true") {
       return;
@@ -243,15 +278,33 @@ const menuId = `${id}-menu`;
       (item) => item.getAttribute("aria-disabled") !== "true" && !(item instanceof HTMLButtonElement && item.disabled)
     );
     let currentIndex = -1;
+    let detachAutoUpdate = noopCleanup;
 
     if (!(trigger instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) {
       return;
     }
 
-    const setOpen = (open: boolean, focusTrigger = false) => {
+    applyAnchorPair(trigger, menu, menu.id || trigger.id || 'menu-button');
+
+    const syncExpanded = (open: boolean) => {
       el.dataset.open = open ? "true" : "false";
       trigger.setAttribute("aria-expanded", open.toString());
-      menu.hidden = !open;
+      if (open) {
+        detachAutoUpdate();
+        detachAutoUpdate = attachFloatingAutoUpdate(
+          trigger,
+          menu,
+          el.classList.contains('snurble-menu-button--top') ? 'top' : 'bottom',
+          8
+        );
+      } else {
+        detachAutoUpdate();
+      }
+    };
+
+    const setMenuOpen = (open: boolean, focusTrigger = false) => {
+      setOpen(menu, open);
+      syncExpanded(open);
       if (focusTrigger) {
         trigger.focus();
       }
@@ -278,8 +331,17 @@ const menuId = `${id}-menu`;
 
     trigger.addEventListener("click", () => {
       const shouldOpen = el.dataset.open !== "true";
-      setOpen(shouldOpen);
+      if (!supportsPopoverApi(menu)) {
+        setMenuOpen(shouldOpen);
+      }
       if (shouldOpen) {
+        focusItem(0);
+      }
+    });
+
+    menu.addEventListener("toggle", () => {
+      syncExpanded(menu.matches(':popover-open'));
+      if (menu.matches(':popover-open')) {
         focusItem(0);
       }
     });
@@ -291,20 +353,20 @@ const menuId = `${id}-menu`;
 
       if (event.key === "Escape" && el.dataset.open === "true") {
         event.preventDefault();
-        setOpen(false, true);
+        setMenuOpen(false, true);
         return;
       }
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        setOpen(true);
+        setMenuOpen(true);
         focusItem(currentIndex + 1);
         return;
       }
 
       if (event.key === "ArrowUp") {
         event.preventDefault();
-        setOpen(true);
+        setMenuOpen(true);
         focusItem(currentIndex - 1);
         return;
       }
@@ -327,13 +389,13 @@ const menuId = `${id}-menu`;
           bubbles: true,
           detail: { value: (item as HTMLElement).dataset.value },
         }));
-        setOpen(false, true);
+        setMenuOpen(false, true);
       });
     }
 
     document.addEventListener("click", (event) => {
-      if (event.target instanceof Node && !el.contains(event.target)) {
-        setOpen(false);
+      if (event.target instanceof Node && !el.contains(event.target) && el.dataset.open === 'true') {
+        setMenuOpen(false);
       }
     });
   };

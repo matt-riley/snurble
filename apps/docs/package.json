@@ -13,7 +13,7 @@
     "@matt-riley/design-tokens": "workspace:*",
     "@matt-riley/ui-astro": "workspace:*",
     "@tailwindcss/vite": "4.2.4",
-    "astro": "6.4.6",
+    "astro": "6.4.8",
     "tailwindcss": "4.2.4"
   },
   "devDependencies": {
